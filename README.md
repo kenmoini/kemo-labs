@@ -1,38 +1,40 @@
 # Homelab 2026
 
-A single-host homelab running ~84 Docker containers and a 6-node Kubernetes cluster on Fedora with KVM + Docker Compose. Every service gets a static IP on a shared macvlan network and automated TLS certificates via an internal ACME CA.
+> This is an experiment to see if I can vibe code my way into refreshing my homelab workloads.  Prompts can be seen in [./.prompts/](./.prompts/)
+
+A single-host homelab running ~87 Docker containers and a 6-node Kubernetes cluster on Fedora with KVM + Docker Compose. Every service gets a static IP on a shared macvlan network and automated TLS certificates via an internal ACME CA.
 
 ## Architecture
 
 ```
 +-----------------------------------------------------------------+
 |  Fedora Host (128GB+ RAM, 32+ cores)                            |
-|                                                                  |
+|                                                                 |
 |  +-----------------------------------------------------------+  |
-|  |  Docker Engine                                             |  |
-|  |                                                            |  |
+|  |  Docker Engine                                            |  |
+|  |                                                           |  |
 |  |  Phase 0   [ PikaPKI (Root CA) ]                          |  |
 |  |  Phase 1   [ PowerDNS Auth/Recursor | Pi-hole | StepCA ]  |  |
-|  |  Phase 2   [ Traefik (LB) | Squid (Proxy) ]              |  |
+|  |  Phase 2   [ Traefik (LB) | Squid (Proxy) ]               |  |
 |  |  Phase 3   [ MariaDB | PostgreSQL | Valkey | MQTT | S3 ]  |  |
 |  |  Phase 4   [ Authentik | Vault ]                          |  |
 |  |  Phase 5   [ Grafana Alloy | Dozzle | Uptime | Scrutiny ] |  |
-|  |  Phase 6   [ Nexus | Kopia | Dropbox ]                   |  |
+|  |  Phase 6   [ Nexus | Kopia | Dropbox ]                    |  |
 |  |  Phase 7   [ GitLab | Netbox | Paperless NGX ]            |  |
 |  |  Phase 8   [ Renovate | Paperless AI ]                    |  |
-|  |  Phase 9   [ Mailcow | Shlink ]                           |  |
-|  |  Phase 10  [ Affine | Draw.io | Code Server | IT Tools ]  |  |
+|  |  Phase 9   [ Mailcow | Shlink | Ntfy ]                    |  |
+|  |  Phase 10  [ Affine | Draw.io | Code | WUD | Semaphore ]  |  |
 |  |  Phase 11  [ Home Assistant | Scrypted ]                  |  |
 |  |  Phase 12  [ Open WebUI + Ollama | n8n | Postiz ]         |  |
-|  |  Phase 13  [ Netboot.xyz | NUT | iPerf3 | SpeedTest ]    |  |
+|  |  Phase 13  [ Netboot.xyz | NUT | iPerf3 | SpeedTest ]     |  |
 |  +-----------------------------------------------------------+  |
-|                                                                  |
+|                                                                 |
 |  +-----------------------------------------------------------+  |
-|  |  Libvirt / KVM                                             |  |
-|  |  Phase 14  [ Talos CP x3 | Talos Worker x3 ]             |  |
+|  |  Libvirt / KVM                                            |  |
+|  |  Phase 14  [ Talos CP x3 | Talos Worker x3 ]              |  |
 |  +-----------------------------------------------------------+  |
-|                                                                  |
-|  br0 ──── 192.168.62.0/23 (macvlan) ──── LAN                   |
+|                                                                 |
+|  br0 ──── 192.168.62.0/23 (macvlan) ──── LAN                    |
 +-----------------------------------------------------------------+
 ```
 
@@ -75,12 +77,12 @@ After Phase 0 completes, copy the PikaPKI root CA certificate to your browser, h
 |-----------|----------|-----------|
 | `ai/` | AI and Workflows | Open WebUI + Ollama, n8n, Postiz |
 | `automation/` | Home Automation | Home Assistant, Scrypted |
-| `communication/` | Communication | Mailcow, Shlink |
+| `communication/` | Communication | Mailcow, Shlink, Ntfy |
 | `compute/` | Virtualization | Talos Kubernetes (KVM) |
 | `databases/` | Data Layer | MariaDB, PostgreSQL, Valkey, MQTT |
 | `development/` | Development Tools | GitLab, Renovate, Code Server, IT Tools |
 | `documentation/` | Docs and Knowledge | Netbox, Affine, Draw.io, Paperless NGX/AI |
-| `infrastructure/` | Core Infrastructure | DNS, Traefik, Squid, Boot Services, Homepage |
+| `infrastructure/` | Core Infrastructure | DNS, Traefik, Squid, Boot Services, Homepage, WUD, Semaphore |
 | `observability/` | Monitoring | Grafana Alloy, Dozzle, Uptime Kuma, Scrutiny |
 | `scripts/` | Automation | deploy.sh, setup-network.sh |
 | `security/` | Security | PikaPKI, StepCA, Authentik, Vault |
@@ -105,10 +107,12 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .11 | Squid (Outbound Proxy) |
 | .12 | Boot Services (Netboot/NUT/PeaNUT) |
 | .13 | Network Testing (iPerf3/SpeedTest) |
+| .9 | WUD (What's Up Docker) |
 | .14 | Homepage Dashboard |
-| .15 | Shared Databases |
+| .15-.19 | Shared Databases (MariaDB, PostgreSQL, Valkey, MQTT, phpMyAdmin) |
+| .25 | Semaphore (Ansible UI) |
 
-### Services (192.168.62.20 -- 192.168.62.81)
+### Services (192.168.62.20 -- 192.168.62.82)
 
 | IP | Service |
 |----|---------|
@@ -136,6 +140,7 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .72 | Postiz |
 | .80 | Mailcow |
 | .81 | Shlink |
+| .82 | Ntfy (Push Notifications) |
 
 ### Kubernetes (192.168.62.99 -- 192.168.62.112)
 
@@ -160,8 +165,8 @@ All IPs are on the 192.168.62.0/23 subnet. DHCP is served from .128/24 and above
 | 6 | Storage Services | Nexus, Kopia, Dropbox | Nexus pulls images, Kopia connects |
 | 7 | Core Apps | GitLab, Netbox, Paperless NGX | Login and basic operations work |
 | 8 | App Extensions | Renovate, Paperless AI | Scheduled runs configured |
-| 9 | Communication | Mailcow, Shlink | Email send/receive, short URLs work |
-| 10 | Docs and Tools | Affine, Draw.io, Code Server, IT Tools, Homepage | UIs accessible |
+| 9 | Communication | Mailcow, Shlink, Ntfy | Email send/receive, short URLs, notifications work |
+| 10 | Docs and Tools | Affine, Draw.io, Code Server, IT Tools, Homepage, WUD, Semaphore | UIs accessible |
 | 11 | Home Automation | Home Assistant, Scrypted | HA connected to MQTT |
 | 12 | AI and Workflows | Open WebUI, n8n, Postiz | Ollama responds, n8n workflows run |
 | 13 | Boot and Network | Netboot.xyz, NUT, iPerf3, SpeedTest | PXE boot menu loads |
@@ -214,6 +219,9 @@ All services are accessible via `*.lab.kemo.network`. Services behind Traefik re
 | Postiz | `https://postiz.lab.kemo.network` |
 | Mailcow | `https://mail.lab.kemo.network` |
 | Shlink | `https://shlink.lab.kemo.network` |
+| Ntfy | `https://ntfy.lab.kemo.network` |
+| WUD | `https://wud.lab.kemo.network` |
+| Semaphore | `https://semaphore.lab.kemo.network` |
 
 ## Managing Individual Stacks
 
@@ -251,7 +259,7 @@ All stacks share the external `homelab` macvlan network, so stopping one stack d
 
 ## Resource Notes
 
-Estimated peak usage for all Docker workloads is ~105 GB RAM. The Talos Kubernetes cluster adds up to 72 GB. Running everything simultaneously exceeds 128 GB. Recommendations:
+Estimated peak usage for all Docker workloads is ~106 GB RAM. The Talos Kubernetes cluster adds up to 72 GB. Running everything simultaneously exceeds 128 GB. Recommendations:
 
 - Start the Kubernetes cluster with fewer or smaller nodes (e.g., 3 CP at 4 GB + 2 workers at 8 GB = 28 GB).
 - Use smaller Ollama models or offload inference to a GPU.

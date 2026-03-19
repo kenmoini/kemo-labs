@@ -1,0 +1,38 @@
+# Ntfy server configuration
+# Documentation: https://docs.ntfy.sh/config/
+
+# Base URL - must match the externally accessible URL
+base-url: "https://ntfy.lab.kemo.network"
+
+# Listen address - container listens on port 80
+listen-http: ":80"
+
+# Behind reverse proxy (Traefik) - trust X-Forwarded-For headers
+behind-proxy: true
+
+# Message cache (SQLite)
+cache-file: "/var/cache/ntfy/cache.db"
+cache-duration: "12h"
+
+# Attachment settings
+attachment-cache-dir: "/var/lib/ntfy/attachments"
+attachment-total-size-limit: "1G"
+attachment-file-size-limit: "15M"
+attachment-expiry-duration: "12h"
+
+# Authentication
+# Set to "deny-all" to require auth for all topics, "read-write" to allow open access
+auth-file: "/var/lib/ntfy/user.db"
+auth-default-access: "deny-all"
+
+# Keepalive interval for long-polling and WebSocket connections
+keepalive-interval: "45s"
+
+# Rate limiting - generous for homelab use
+visitor-subscription-limit: 50
+visitor-request-limit-burst: 120
+visitor-request-limit-replenish: "5s"
+visitor-attachment-total-size-limit: "500M"
+
+# Web UI - enable the built-in web interface
+enable-web: true

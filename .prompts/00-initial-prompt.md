@@ -1,5 +1,7 @@
 # INPUT
 
+> [Commit e4216d3](https://github.com/kenmoini/kemo-labs/commit/e4216d36a82c99412e68b7fcf6c58d0312e89cde)
+
 I'm redeploying my homelab.  It's running on a single physical Fedora host and already has Libvirt/KVM for VM workloads and Docker for container workloads setup.  Both already have networks bridged in for static and DHCP IP allocation in the 192.168.62.0/23 range with the second half being the DHCP pool.  All workloads will use the DNS zone "lab.kemo.network".  I'm wanting to deploy the following workloads:
 
 - **PKI** - [PikaPKI](https://github.com/kenmoini/pika-pki)
@@ -32,8 +34,6 @@ I'm redeploying my homelab.  It's running on a single physical Fedora host and a
 - Use an agent team to create the deployment files, manifests, and scripts needed to deploy the ensemble.  Use Docker Compose whenever possible, VMs when needed. Talos Kubernetes is for other workloads not listed here.
 - Write the documentation to support the workloads.
 - Ask me any questions to clarify
-
----
 
 # OUTPUT
 

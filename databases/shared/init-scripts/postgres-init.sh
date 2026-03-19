@@ -76,6 +76,14 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
     GRANT ALL PRIVILEGES ON DATABASE affine TO affine;
     ALTER DATABASE affine OWNER TO affine;
 
+    -- =========================================================================
+    -- Semaphore (Ansible UI)
+    -- =========================================================================
+    CREATE DATABASE semaphore;
+    CREATE USER semaphore WITH PASSWORD '${PG_SEMAPHORE_PASSWORD}';
+    GRANT ALL PRIVILEGES ON DATABASE semaphore TO semaphore;
+    ALTER DATABASE semaphore OWNER TO semaphore;
+
 EOSQL
 
 # =============================================================================

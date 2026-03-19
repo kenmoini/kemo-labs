@@ -1,0 +1,42 @@
+services:
+  ntfy:
+    image: binwiederhier/ntfy:latest
+    container_name: ntfy
+    restart: unless-stopped
+    command: serve
+    environment:
+      - TZ=${TZ:-America/New_York}
+    volumes:
+      - ntfy-cache:/var/cache/ntfy
+      - ntfy-attachments:/var/lib/ntfy/attachments
+      - ntfy-auth:/var/lib/ntfy
+      - ./server.yml:/etc/ntfy/server.yml:ro
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.82
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ntfy.rule=Host(`ntfy.lab.kemo.network`)"
+      - "traefik.http.routers.ntfy.entrypoints=websecure"
+      - "traefik.http.routers.ntfy.tls.certresolver=stepca"
+      - "traefik.http.services.ntfy.loadbalancer.server.port=80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  ntfy-cache:
+  ntfy-attachments:
+  ntfy-auth:
+
+networks:
+  homelab:
+    external: true

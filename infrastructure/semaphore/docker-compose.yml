@@ -1,0 +1,41 @@
+services:
+  semaphore:
+    image: semaphoreui/semaphore
+    container_name: semaphore
+    restart: unless-stopped
+    environment:
+      - SEMAPHORE_DB_DIALECT=postgres
+      - SEMAPHORE_DB_HOST=192.168.62.16
+      - SEMAPHORE_DB_PORT=5432
+      - SEMAPHORE_DB_USER=${DB_USERNAME:-semaphore}
+      - SEMAPHORE_DB_PASS=${DB_PASSWORD}
+      - SEMAPHORE_DB=${DB_DATABASE:-semaphore}
+      - SEMAPHORE_ADMIN_NAME=${SEMAPHORE_ADMIN_NAME:-Admin}
+      - SEMAPHORE_ADMIN_EMAIL=${SEMAPHORE_ADMIN_EMAIL:-admin@lab.kemo.network}
+      - SEMAPHORE_ADMIN=${SEMAPHORE_ADMIN:-admin}
+      - SEMAPHORE_ADMIN_PASSWORD=${SEMAPHORE_ADMIN_PASSWORD}
+      - SEMAPHORE_ACCESS_KEY_ENCRYPTION=${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
+      - SEMAPHORE_LDAP_ACTIVATED=${SEMAPHORE_LDAP_ACTIVATED:-no}
+      - TZ=${TZ:-America/New_York}
+    volumes:
+      - ./data:/etc/semaphore
+      - ~/.ssh:/home/semaphore/.ssh:ro
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.25
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.semaphore.rule=Host(`semaphore.lab.kemo.network`)"
+      - "traefik.http.routers.semaphore.entrypoints=websecure"
+      - "traefik.http.routers.semaphore.tls.certresolver=stepca"
+      - "traefik.http.services.semaphore.loadbalancer.server.port=3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO /dev/null http://127.0.0.1:3000/api/ping || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+networks:
+  homelab:
+    external: true

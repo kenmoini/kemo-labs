@@ -131,9 +131,10 @@ case "${PHASE}" in
     ;;&
 
   9|all)
-    log "=== Phase 9: Communication ==="
+    log "=== Phase 9: Communication & Notifications ==="
     warn "Mailcow requires manual setup — run communication/mailcow/setup.sh"
     deploy_stack "communication/shlink"
+    deploy_stack "communication/ntfy"
     [ "${PHASE}" != "all" ] && exit 0
     ;;&
 
@@ -144,6 +145,8 @@ case "${PHASE}" in
     deploy_stack "development/code-server"
     deploy_stack "development/it-tools"
     deploy_stack "infrastructure/landing-page"
+    deploy_stack "infrastructure/wud"
+    deploy_stack "infrastructure/semaphore"
     [ "${PHASE}" != "all" ] && exit 0
     ;;&
 

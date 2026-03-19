@@ -30,7 +30,18 @@
 | 192.168.62.12 | Boot Services (Netboot/NUT/PeaNUT) | infrastructure/boot-services |
 | 192.168.62.13 | Network Testing (iPerf3/SpeedTest) | infrastructure/network-testing |
 | 192.168.62.14 | Homepage Dashboard | infrastructure/landing-page |
-| 192.168.62.15 | Shared Databases | databases/shared |
+| 192.168.62.15 | Shared Databases (MariaDB) | databases/shared |
+| 192.168.62.16 | Shared Databases (PostgreSQL) | databases/shared |
+| 192.168.62.17 | Shared Databases (Valkey) | databases/shared |
+| 192.168.62.18 | Shared Databases (Mosquitto) | databases/shared |
+| 192.168.62.19 | Shared Databases (phpMyAdmin) | databases/shared |
+
+### Infrastructure Tools (192.168.62.9, 192.168.62.25)
+
+| IP | Service | Category |
+|----|---------|----------|
+| 192.168.62.9 | WUD (What's Up Docker) | infrastructure/wud |
+| 192.168.62.25 | Semaphore (Ansible UI) | infrastructure/semaphore |
 
 ### Storage (192.168.62.20 - 192.168.62.23)
 
@@ -84,12 +95,13 @@
 | 192.168.62.71 | n8n | ai/n8n |
 | 192.168.62.72 | Postiz | ai/postiz |
 
-### Communication (192.168.62.80 - 192.168.62.81)
+### Communication (192.168.62.80 - 192.168.62.82)
 
 | IP | Service | Category |
 |----|---------|----------|
 | 192.168.62.80 | Mailcow | communication/mailcow |
 | 192.168.62.81 | Shlink | communication/shlink |
+| 192.168.62.82 | Ntfy (Push Notifications) | communication/ntfy |
 
 ### Kubernetes Cluster (192.168.62.99 - 192.168.62.112)
 
@@ -163,9 +175,10 @@ Phase 8 (Application Extensions - Depends on Phase 7):
   Paperless AI ─── Needs Paperless NGX + AI backend
   Databasus ─── Configured alongside databases but listed here for backup scheduling
 
-Phase 9 (Communication - Depends on DNS, Traefik):
+Phase 9 (Communication & Notifications - Depends on DNS, Traefik):
   Mailcow ─── Self-contained stack, needs DNS records (MX, SPF, DKIM)
   Shlink ─── Needs PostgreSQL
+  Ntfy ─── Push notification hub (receives from Uptime Kuma, Scrutiny, WUD, Grafana, HA)
 
 Phase 10 (Documentation & Tools - Depends on Traefik, optionally Databases):
   Affine ─── Needs PostgreSQL + Valkey + pgvector extension
@@ -173,6 +186,8 @@ Phase 10 (Documentation & Tools - Depends on Traefik, optionally Databases):
   Code Server
   IT Tools ─── Stateless
   Homepage Dashboard
+  WUD ─── Needs Docker socket + Ntfy for notifications
+  Semaphore ─── Needs PostgreSQL (Ansible UI)
 
 Phase 11 (Home Automation - Depends on MQTT):
   Home Assistant ─── Needs MQTT
@@ -268,13 +283,14 @@ Phase 14 (Kubernetes - Depends on DNS, PKI):
 | Renovate | development/renovate/ | 1 (scheduled) | 1-2 GB |
 | Paperless AI | documentation/paperless-ai/ | 1 | 512 MB |
 
-### Phase 9: Communication
+### Phase 9: Communication & Notifications
 | Workload | Dir | Containers | Est. RAM |
 |----------|-----|-----------|----------|
 | Mailcow | communication/mailcow/ | 18 | 6-10 GB |
 | Shlink | communication/shlink/ | 2 | 512 MB |
+| Ntfy | communication/ntfy/ | 1 | 64 MB |
 
-**Gate:** Mailcow sends/receives test email. Shlink creates short URL.
+**Gate:** Mailcow sends/receives test email. Shlink creates short URL. Ntfy receives test notification.
 
 ### Phase 10: Documentation & Tools
 | Workload | Dir | Containers | Est. RAM |
@@ -284,6 +300,8 @@ Phase 14 (Kubernetes - Depends on DNS, PKI):
 | Code Server | development/code-server/ | 1 | 512 MB |
 | IT Tools | development/it-tools/ | 1 | 64 MB |
 | Homepage | infrastructure/landing-page/ | 1 | 128 MB |
+| WUD | infrastructure/wud/ | 1 | 128 MB |
+| Semaphore | infrastructure/semaphore/ | 1 | 256 MB |
 
 ### Phase 11: Home Automation
 | Workload | Dir | Containers | Est. RAM |
@@ -316,7 +334,7 @@ Phase 14 (Kubernetes - Depends on DNS, PKI):
 ### Docker Workloads (estimated peak)
 | Category | Containers | RAM (peak) |
 |----------|-----------|-----------|
-| Infrastructure | 11 | ~2 GB |
+| Infrastructure | 13 | ~2.5 GB |
 | Security | 5 | ~4 GB |
 | Databases | 6 | ~6 GB |
 | Storage | 5 | ~7 GB |
@@ -325,9 +343,9 @@ Phase 14 (Kubernetes - Depends on DNS, PKI):
 | Documentation | 9 | ~10 GB |
 | Automation | 3 | ~6 GB |
 | AI | 8 | ~38 GB |
-| Communication | 20 | ~10 GB |
+| Communication | 21 | ~10.5 GB |
 | Boot/Network | 5 | ~0.5 GB |
-| **Docker Total** | **~84** | **~105 GB** |
+| **Docker Total** | **~87** | **~106 GB** |
 
 ### VM Workloads
 | Workload | VMs | RAM |
@@ -345,35 +363,18 @@ This exceeds 128 GB if everything runs simultaneously at peak. Recommendations:
 
 ## Suggested Additional Workloads
 
-### Strongly Recommended
-1. **Portainer** — Docker management UI, makes it easy to inspect/restart containers
+### Consider Adding
+1. **Portainer** — Docker management UI for inspecting/restarting containers
    - Category: `infrastructure/portainer/`
-   - IP: 192.168.62.9
    - Minimal resources: 128 MB RAM
 
-2. **Watchtower** or **Diun** — Container image update notifications
-   - Category: `infrastructure/watchtower/`
-   - Notifies when new versions are available (pairs with Renovate for Git-tracked compose files)
+2. **Vaultwarden** — Self-hosted Bitwarden password manager
+   - Category: `security/vaultwarden/`
 
-3. **Forgejo/Gitea** — Lightweight Git alternative to GitLab for lower resource usage
-   - Consider instead of GitLab if CI/CD pipelines aren't critical
-
-### Nice to Have
-4. **Ntfy** — Self-hosted push notifications (used by Uptime Kuma, Grafana, Scrutiny)
-   - Category: `communication/ntfy/`
-   - IP: 192.168.62.82
-
-5. **Gluetun** — VPN client container for selective traffic routing
+3. **Gluetun** — VPN client container for selective traffic routing
    - Category: `infrastructure/vpn/`
 
-6. **Semaphore** — Ansible UI for managing host configuration
-   - Category: `infrastructure/semaphore/`
-
-7. **Vaultwarden** — Self-hosted Bitwarden password manager
-   - Category: `security/vaultwarden/`
-   - IP: 192.168.62.9 (if not using Portainer)
-
-8. **Authelia** — Lightweight auth proxy (alternative: already have Authentik, but Authelia uses far less RAM)
+4. **Forgejo/Gitea** — Lightweight Git alternative if GitLab resource usage is too high
 
 ---
 

@@ -1,0 +1,35 @@
+services:
+  traefik:
+    image: traefik:v3.6
+    container_name: traefik
+    restart: unless-stopped
+    environment:
+      - LEGO_CA_CERTIFICATES=/etc/traefik/certs/root_ca.crt
+      - TZ=${TZ:-America/New_York}
+    volumes:
+      - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./config/dynamic/:/etc/traefik/dynamic/:ro
+      - ./data/acme.json:/etc/traefik/acme.json
+      - ./certs/root_ca.crt:/etc/traefik/certs/root_ca.crt:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.10
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.lab.kemo.network`)"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.traefik-dashboard.tls.certresolver=stepca"
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
+      - "traefik.http.routers.traefik-dashboard.middlewares=traefik-auth"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_AUTH}"
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  homelab:
+    external: true

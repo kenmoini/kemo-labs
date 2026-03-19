@@ -1,0 +1,46 @@
+- Infrastructure:
+    - Traefik:
+        icon: traefik.svg
+        href: https://traefik.lab.kemo.network
+        description: Reverse Proxy & Load Balancer
+        widget:
+          type: traefik
+          url: http://192.168.62.10:8080
+
+    - Pi-hole:
+        icon: pi-hole.svg
+        href: https://pihole.lab.kemo.network
+        description: DNS Ad Blocking
+        widget:
+          type: pihole
+          url: http://192.168.62.4
+          key: "{{HOMEPAGE_VAR_PIHOLE_API_KEY}}"
+
+    - PeaNUT:
+        icon: peanut.svg
+        href: https://peanut.lab.kemo.network
+        description: UPS Monitoring
+        widget:
+          type: peanut
+          url: http://192.168.62.12:8081
+
+    - Netboot.xyz:
+        icon: netboot-xyz.svg
+        href: https://netboot.lab.kemo.network
+        description: Network Boot Server
+
+- Network:
+    - OpenSpeedTest:
+        icon: openspeedtest.svg
+        href: https://speedtest.lab.kemo.network
+        description: Network Speed Test
+
+    - Squid Proxy:
+        icon: mdi-server-network
+        href: http://192.168.62.11:3128
+        description: Outbound HTTP Proxy
+
+    - PowerDNS:
+        icon: powerdns.svg
+        href: http://192.168.62.2:8081
+        description: Authoritative DNS

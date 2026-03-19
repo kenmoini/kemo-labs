@@ -1,0 +1,72 @@
+services:
+  pdns-auth:
+    image: powerdns/pdns-auth-49:latest
+    container_name: pdns-auth
+    restart: unless-stopped
+    volumes:
+      - ./pdns-auth/config/pdns.conf:/etc/powerdns/pdns.conf:ro
+      - ./pdns-auth/data/:/var/lib/powerdns/
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.2
+    healthcheck:
+      test: ["CMD-SHELL", "pdnsutil list-all-zones | grep -q lab.kemo.network || exit 0"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  pdns-recursor:
+    image: powerdns/pdns-recursor-51:latest
+    container_name: pdns-recursor
+    restart: unless-stopped
+    depends_on:
+      pdns-auth:
+        condition: service_started
+    volumes:
+      - ./pdns-recursor/config/recursor.conf:/etc/powerdns/recursor.conf:ro
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.3
+    healthcheck:
+      test: ["CMD-SHELL", "rec_control ping 2>/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    restart: unless-stopped
+    depends_on:
+      pdns-recursor:
+        condition: service_started
+    environment:
+      - TZ=${TZ:-America/New_York}
+      - FTLCONF_webserver_api_password=${PIHOLE_API_PASSWORD}
+      - FTLCONF_dns_listeningMode=all
+      - FTLCONF_dns_upstreams=192.168.62.3
+    volumes:
+      - ./pihole/etc-pihole/:/etc/pihole/
+    cap_add:
+      - NET_ADMIN
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.4
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.lab.kemo.network`)"
+      - "traefik.http.routers.pihole.entrypoints=websecure"
+      - "traefik.http.routers.pihole.tls.certresolver=stepca"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+    healthcheck:
+      test: ["CMD-SHELL", "dig +short +tries=1 +time=2 @127.0.0.1 pi.hole || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+networks:
+  homelab:
+    external: true

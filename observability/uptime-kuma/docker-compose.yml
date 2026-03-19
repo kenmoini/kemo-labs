@@ -1,0 +1,35 @@
+---
+networks:
+  homelab:
+    external: true
+
+volumes:
+  uptime-kuma-data:
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:${UPTIME_KUMA_TAG:-1.23.16}
+    container_name: uptime-kuma
+    restart: unless-stopped
+    environment:
+      - UPTIME_KUMA_PORT=3001
+      - UPTIME_KUMA_DISABLE_FRAME_SAMEORIGIN=${UPTIME_KUMA_DISABLE_FRAME_SAMEORIGIN:-true}
+    volumes:
+      - uptime-kuma-data:/app/data
+    networks:
+      homelab:
+        ipv4_address: ${STATIC_IP:-192.168.62.32}
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3001/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.uptime-kuma.rule=Host(`${UPTIME_KUMA_DOMAIN:-uptime.lab.kemo.network}`)"
+      - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
+      - "traefik.http.routers.uptime-kuma.tls=true"
+      - "traefik.http.routers.uptime-kuma.tls.certresolver=step-ca"
+      - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
+      - "traefik.docker.network=homelab"

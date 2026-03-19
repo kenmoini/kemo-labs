@@ -1,0 +1,40 @@
+---
+services:
+  vault:
+    image: hashicorp/vault:1.19
+    container_name: vault
+    restart: unless-stopped
+    env_file:
+      - .env
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - vault-data:/vault/data
+      - vault-logs:/vault/logs
+      - ./config:/vault/config:ro
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.7
+    command: vault server -config=/vault/config/vault.hcl
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vault.rule=Host(`vault.lab.kemo.network`)"
+      - "traefik.http.routers.vault.tls=true"
+      - "traefik.http.routers.vault.tls.certresolver=step-ca"
+      - "traefik.http.services.vault.loadbalancer.server.port=8200"
+    healthcheck:
+      test: ["CMD", "vault", "status", "-address=http://127.0.0.1:8200"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  vault-data:
+    name: vault-data
+  vault-logs:
+    name: vault-logs
+
+networks:
+  homelab:
+    external: true

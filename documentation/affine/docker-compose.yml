@@ -1,0 +1,66 @@
+services:
+  affine-migration:
+    image: ghcr.io/toeverything/affine:stable
+    container_name: affine-migration
+    restart: "no"
+    command: ["node", "./scripts/self-host-predeploy.js"]
+    environment:
+      - AFFINE_REVISION=stable
+      - DATABASE_URL=postgresql://${DB_USERNAME:-affine}:${DB_PASSWORD}@192.168.62.15:5432/${DB_DATABASE:-affine}
+      - REDIS_SERVER_HOST=192.168.62.15
+      - REDIS_SERVER_PORT=6379
+      - REDIS_SERVER_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_SERVER_DATABASE=2
+    volumes:
+      - affine-storage:/root/.affine/storage
+      - affine-config:/root/.affine/config
+
+  affine:
+    image: ghcr.io/toeverything/affine:stable
+    container_name: affine
+    restart: unless-stopped
+    environment:
+      - AFFINE_REVISION=stable
+      - PORT=3010
+      - AFFINE_SERVER_HTTPS=true
+      - AFFINE_SERVER_HOST=affine.lab.kemo.network
+      - AFFINE_SERVER_EXTERNAL_URL=https://affine.lab.kemo.network
+      - AFFINE_INDEXER_ENABLED=false
+      - DATABASE_URL=postgresql://${DB_USERNAME:-affine}:${DB_PASSWORD}@192.168.62.15:5432/${DB_DATABASE:-affine}
+      - REDIS_SERVER_HOST=192.168.62.15
+      - REDIS_SERVER_PORT=6379
+      - REDIS_SERVER_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_SERVER_DATABASE=2
+      - TZ=${TZ:-America/New_York}
+    volumes:
+      - affine-storage:/root/.affine/storage
+      - affine-config:/root/.affine/config
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.51
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.affine.rule=Host(`affine.lab.kemo.network`)"
+      - "traefik.http.routers.affine.entrypoints=websecure"
+      - "traefik.http.routers.affine.tls=true"
+      - "traefik.http.routers.affine.tls.certresolver=stepca"
+      - "traefik.http.services.affine.loadbalancer.server.port=3010"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3010/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    depends_on:
+      affine-migration:
+        condition: service_completed_successfully
+
+volumes:
+  affine-storage:
+    name: affine-storage
+  affine-config:
+    name: affine-config
+
+networks:
+  homelab:
+    external: true

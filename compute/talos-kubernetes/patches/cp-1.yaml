@@ -1,0 +1,23 @@
+# Talos machine config patch for talos-cp1
+# Control plane node 1 -- 192.168.62.100
+machine:
+  network:
+    hostname: talos-cp1
+    interfaces:
+      - interface: eth0
+        addresses:
+          - 192.168.62.100/23
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.62.1
+        vip:
+          ip: 192.168.62.99
+    nameservers:
+      - 192.168.62.2
+      - 192.168.62.3
+  time:
+    servers:
+      - 0.pool.ntp.org
+      - 1.pool.ntp.org
+  install:
+    disk: /dev/vda

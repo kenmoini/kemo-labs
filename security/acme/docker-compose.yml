@@ -1,0 +1,36 @@
+---
+services:
+  step-ca:
+    image: smallstep/step-ca:0.28.3
+    container_name: step-ca
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - step-data:/home/step
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.6
+    ports:
+      - "9000:9000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.step-ca.rule=Host(`acme.lab.kemo.network`)"
+      - "traefik.http.routers.step-ca.tls=true"
+      - "traefik.http.routers.step-ca.tls.certresolver=step-ca"
+      - "traefik.http.services.step-ca.loadbalancer.server.port=9000"
+      - "traefik.http.services.step-ca.loadbalancer.server.scheme=https"
+    healthcheck:
+      test: ["CMD", "step", "ca", "health", "--ca-url", "https://localhost:9000", "--root", "/home/step/certs/root_ca.crt"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  step-data:
+    name: step-data
+
+networks:
+  homelab:
+    external: true

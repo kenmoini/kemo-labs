@@ -1,0 +1,47 @@
+---
+networks:
+  homelab:
+    external: true
+
+volumes:
+  scrutiny-config:
+  scrutiny-influxdb:
+
+services:
+  scrutiny:
+    image: ghcr.io/analogj/scrutiny:${SCRUTINY_TAG:-v0.8.1-omnibus}
+    container_name: scrutiny
+    restart: unless-stopped
+    environment:
+      - COLLECTOR_CRON_SCHEDULE=${COLLECTOR_CRON_SCHEDULE:-0 */4 * * *}
+    cap_add:
+      - SYS_RAWIO
+      - SYS_ADMIN
+    volumes:
+      - scrutiny-config:/opt/scrutiny/config
+      - scrutiny-influxdb:/opt/scrutiny/influxdb
+      - /run/udev:/run/udev:ro
+    devices:
+      # Adjust device list to match your host disks.
+      # Run: lsblk or smartctl --scan to discover devices.
+      - /dev/sda:/dev/sda
+      #- /dev/sdb:/dev/sdb
+      #- /dev/nvme0n1:/dev/nvme0n1
+      #- /dev/nvme1n1:/dev/nvme1n1
+    networks:
+      homelab:
+        ipv4_address: ${STATIC_IP:-192.168.62.33}
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.scrutiny.rule=Host(`${SCRUTINY_DOMAIN:-scrutiny.lab.kemo.network}`)"
+      - "traefik.http.routers.scrutiny.entrypoints=websecure"
+      - "traefik.http.routers.scrutiny.tls=true"
+      - "traefik.http.routers.scrutiny.tls.certresolver=step-ca"
+      - "traefik.http.services.scrutiny.loadbalancer.server.port=8080"
+      - "traefik.docker.network=homelab"

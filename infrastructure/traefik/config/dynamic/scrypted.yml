@@ -1,0 +1,20 @@
+http:
+  routers:
+    scrypted:
+      rule: "Host(`scrypted.lab.kemo.network`)"
+      entryPoints:
+        - websecure
+      service: scrypted
+      tls:
+        certResolver: stepca
+
+  services:
+    scrypted:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.62.61:10443"
+        serversTransport: scrypted-transport
+
+  serversTransports:
+    scrypted-transport:
+      insecureSkipVerify: true

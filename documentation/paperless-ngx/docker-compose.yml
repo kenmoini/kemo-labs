@@ -1,0 +1,100 @@
+services:
+  paperless-ngx:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless-ngx
+    restart: unless-stopped
+    environment:
+      - PAPERLESS_URL=https://paperless.lab.kemo.network
+      - PAPERLESS_SECRET_KEY=${PAPERLESS_SECRET_KEY}
+      - PAPERLESS_TIME_ZONE=${TZ:-America/New_York}
+      - PAPERLESS_ADMIN_USER=${PAPERLESS_ADMIN_USER:-admin}
+      - PAPERLESS_ADMIN_PASSWORD=${PAPERLESS_ADMIN_PASSWORD}
+      - PAPERLESS_ADMIN_MAIL=${PAPERLESS_ADMIN_MAIL:-admin@lab.kemo.network}
+      - PAPERLESS_DBHOST=192.168.62.15
+      - PAPERLESS_DBPORT=5432
+      - PAPERLESS_DBNAME=${PAPERLESS_DBNAME:-paperless}
+      - PAPERLESS_DBUSER=${PAPERLESS_DBUSER:-paperless}
+      - PAPERLESS_DBPASS=${PAPERLESS_DBPASS}
+      - PAPERLESS_DBENGINE=postgresql
+      - PAPERLESS_REDIS=redis://${REDIS_PASSWORD:+:${REDIS_PASSWORD}@}192.168.62.15:6379/3
+      - PAPERLESS_OCR_LANGUAGE=eng
+      - PAPERLESS_OCR_MODE=skip
+      - PAPERLESS_OCR_OUTPUT_TYPE=pdfa
+      - PAPERLESS_CONSUMER_POLLING=60
+      - PAPERLESS_CONSUMER_RECURSIVE=true
+      - PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS=true
+      - PAPERLESS_TIKA_ENABLED=true
+      - PAPERLESS_TIKA_ENDPOINT=http://tika:9998
+      - PAPERLESS_TIKA_GOTENBERG_ENDPOINT=http://gotenberg:3000
+      - USERMAP_UID=${USERMAP_UID:-1000}
+      - USERMAP_GID=${USERMAP_GID:-1000}
+    volumes:
+      - paperless-data:/usr/src/paperless/data
+      - paperless-media:/usr/src/paperless/media
+      - paperless-consume:/usr/src/paperless/consume
+      - paperless-export:/usr/src/paperless/export
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.53
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.paperless.rule=Host(`paperless.lab.kemo.network`)"
+      - "traefik.http.routers.paperless.entrypoints=websecure"
+      - "traefik.http.routers.paperless.tls=true"
+      - "traefik.http.routers.paperless.tls.certresolver=stepca"
+      - "traefik.http.services.paperless.loadbalancer.server.port=8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    depends_on:
+      tika:
+        condition: service_healthy
+      gotenberg:
+        condition: service_healthy
+
+  tika:
+    image: ghcr.io/paperless-ngx/tika:latest
+    container_name: paperless-tika
+    restart: unless-stopped
+    networks:
+      homelab:
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9998/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  gotenberg:
+    image: docker.io/gotenberg/gotenberg:8
+    container_name: paperless-gotenberg
+    restart: unless-stopped
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+    networks:
+      homelab:
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  paperless-data:
+    name: paperless-data
+  paperless-media:
+    name: paperless-media
+  paperless-consume:
+    name: paperless-consume
+  paperless-export:
+    name: paperless-export
+
+networks:
+  homelab:
+    external: true

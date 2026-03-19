@@ -1,0 +1,131 @@
+// Grafana Alloy Configuration
+// Collects Docker container logs, host metrics, and accepts OTLP traces
+
+// ============================================================================
+// Docker Log Collection -> Loki
+// ============================================================================
+
+discovery.docker "containers" {
+  host = "unix:///var/run/docker.sock"
+}
+
+discovery.relabel "docker_logs" {
+  targets = discovery.docker.containers.targets
+
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    target_label  = "container"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_container_log_stream"]
+    target_label  = "stream"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_compose_project"]
+    target_label  = "compose_project"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_compose_service"]
+    target_label  = "compose_service"
+  }
+}
+
+loki.source.docker "docker_logs" {
+  host       = "unix:///var/run/docker.sock"
+  targets    = discovery.relabel.docker_logs.output
+  forward_to = [loki.write.default.receiver]
+}
+
+loki.write "default" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
+
+// ============================================================================
+// Prometheus Metrics Scraping -> Mimir
+// ============================================================================
+
+discovery.docker "metrics" {
+  host = "unix:///var/run/docker.sock"
+}
+
+discovery.relabel "docker_metrics" {
+  targets = discovery.docker.metrics.targets
+
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    target_label  = "container"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_compose_project"]
+    target_label  = "compose_project"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_compose_service"]
+    target_label  = "compose_service"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_port_private"]
+    regex         = "(9090|9100|8080|3000|3001|8086|12345)"
+    action        = "keep"
+  }
+}
+
+prometheus.scrape "docker_metrics" {
+  targets    = discovery.relabel.docker_metrics.output
+  forward_to = [prometheus.remote_write.mimir.receiver]
+
+  scrape_interval = "30s"
+  scrape_timeout  = "10s"
+}
+
+// Self-monitoring: scrape Alloy internal metrics
+prometheus.scrape "alloy_self" {
+  targets = [{
+    __address__ = "localhost:12345",
+  }]
+  forward_to = [prometheus.remote_write.mimir.receiver]
+
+  scrape_interval = "30s"
+}
+
+prometheus.remote_write "mimir" {
+  endpoint {
+    url = "http://mimir:9009/api/v1/push"
+  }
+}
+
+// ============================================================================
+// OTLP Receiver -> Tempo (traces) and Mimir (metrics)
+// ============================================================================
+
+otelcol.receiver.otlp "default" {
+  grpc {
+    endpoint = "0.0.0.0:4317"
+  }
+  http {
+    endpoint = "0.0.0.0:4318"
+  }
+
+  output {
+    traces  = [otelcol.exporter.otlphttp.tempo.input]
+    metrics = [otelcol.exporter.prometheus.mimir.input]
+  }
+}
+
+otelcol.exporter.otlphttp "tempo" {
+  client {
+    endpoint = "http://tempo:4318"
+  }
+}
+
+otelcol.exporter.prometheus "mimir" {
+  forward_to = [prometheus.remote_write.mimir.receiver]
+}

@@ -1,0 +1,94 @@
+services:
+  shlink:
+    image: shlinkio/shlink:5.0.1
+    container_name: shlink
+    restart: unless-stopped
+    environment:
+      - DEFAULT_DOMAIN=s.lab.kemo.network
+      - IS_HTTPS_ENABLED=true
+      - DB_DRIVER=postgres
+      - DB_HOST=192.168.62.15
+      - DB_PORT=5432
+      - DB_NAME=${SHLINK_DB_NAME:-shlink}
+      - DB_USER=${SHLINK_DB_USER:-shlink}
+      - DB_PASSWORD=${SHLINK_DB_PASSWORD}
+      - TZ=${TZ:-America/New_York}
+      - AUTO_RESOLVE_TITLES=true
+      - VALIDATE_URLS=true
+      - DEFAULT_SHORT_CODES_LENGTH=5
+      - REDIRECT_STATUS_CODE=302
+      - ANONYMIZE_REMOTE_ADDR=true
+      - TRACK_ORPHAN_VISITS=true
+      - DISABLE_TRACKING=false
+      - ROBOTS_ALLOW_ALL_SHORT_URLS=false
+      - DEFAULT_QR_CODE_SIZE=300
+      - DEFAULT_QR_CODE_FORMAT=png
+      - TASK_WORKER_NUM=4
+      - WEB_WORKER_NUM=8
+      - MEMORY_LIMIT=512M
+      # Optional: GeoLite2 for IP geolocation
+      # - GEOLITE_LICENSE_KEY=${GEOLITE_LICENSE_KEY}
+      # Optional: Redis caching via shared Valkey
+      # - REDIS_SERVERS=redis://192.168.62.15:6379
+    volumes:
+      - shlink-data:/etc/shlink/data
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.81
+    labels:
+      - "traefik.enable=true"
+      # Shlink API + redirect engine
+      - "traefik.http.routers.shlink.rule=Host(`s.lab.kemo.network`)"
+      - "traefik.http.routers.shlink.entrypoints=websecure"
+      - "traefik.http.routers.shlink.tls.certresolver=stepca"
+      - "traefik.http.services.shlink.loadbalancer.server.port=8080"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/rest/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  shlink-web:
+    image: shlinkio/shlink-web-client:4.7.0
+    container_name: shlink-web
+    restart: unless-stopped
+    depends_on:
+      shlink:
+        condition: service_healthy
+    environment:
+      - SHLINK_SERVER_URL=https://s.lab.kemo.network
+      - SHLINK_SERVER_API_KEY=${SHLINK_API_KEY:-}
+      - SHLINK_SERVER_NAME=Lab Shlink
+    networks:
+      homelab:
+    labels:
+      - "traefik.enable=true"
+      # Web client management UI
+      - "traefik.http.routers.shlink-web.rule=Host(`shlink.lab.kemo.network`)"
+      - "traefik.http.routers.shlink-web.entrypoints=websecure"
+      - "traefik.http.routers.shlink-web.tls.certresolver=stepca"
+      - "traefik.http.services.shlink-web.loadbalancer.server.port=8080"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  shlink-data:
+
+networks:
+  homelab:
+    external: true

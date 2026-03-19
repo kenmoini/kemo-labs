@@ -1,0 +1,42 @@
+services:
+  code-server:
+    image: codercom/code-server:4.99.4
+    container_name: code-server
+    restart: unless-stopped
+    environment:
+      - PASSWORD=${PASSWORD}
+      - SUDO_PASSWORD=${SUDO_PASSWORD}
+      - DEFAULT_WORKSPACE=/home/coder/workspace
+      - TZ=${TZ:-America/New_York}
+    volumes:
+      - code-server-config:/home/coder/.config
+      - code-server-workspace:/home/coder/workspace
+      - code-server-extensions:/home/coder/.local/share/code-server/extensions
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.42
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.code.rule=Host(`code.lab.kemo.network`)"
+      - "traefik.http.routers.code.entrypoints=websecure"
+      - "traefik.http.routers.code.tls=true"
+      - "traefik.http.routers.code.tls.certresolver=stepca"
+      - "traefik.http.services.code.loadbalancer.server.port=8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  code-server-config:
+    name: code-server-config
+  code-server-workspace:
+    name: code-server-workspace
+  code-server-extensions:
+    name: code-server-extensions
+
+networks:
+  homelab:
+    external: true

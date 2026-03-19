@@ -1,0 +1,40 @@
+services:
+  nexus:
+    image: sonatype/nexus3:3.78.0
+    container_name: nexus
+    restart: unless-stopped
+    environment:
+      INSTALL4J_ADD_VM_PARAMS: >-
+        -Xms2g -Xmx4g
+        -XX:MaxDirectMemorySize=2g
+        -Djava.util.prefs.userRoot=/nexus-data/javaprefs
+      NEXUS_SECURITY_RANDOMPASSWORD: "false"
+    volumes:
+      - ./data:/nexus-data
+    labels:
+      - "traefik.enable=true"
+      # Nexus Web UI
+      - "traefik.http.routers.nexus.rule=Host(`nexus.lab.kemo.network`)"
+      - "traefik.http.routers.nexus.entrypoints=websecure"
+      - "traefik.http.routers.nexus.tls=true"
+      - "traefik.http.routers.nexus.tls.certresolver=step-ca"
+      - "traefik.http.services.nexus.loadbalancer.server.port=8081"
+      # Docker Registry (group)
+      - "traefik.http.routers.registry.rule=Host(`registry.lab.kemo.network`)"
+      - "traefik.http.routers.registry.entrypoints=websecure"
+      - "traefik.http.routers.registry.tls=true"
+      - "traefik.http.routers.registry.tls.certresolver=step-ca"
+      - "traefik.http.services.registry.loadbalancer.server.port=8084"
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.21
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/service/rest/v1/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+networks:
+  homelab:
+    external: true

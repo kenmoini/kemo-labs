@@ -1,0 +1,89 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:v0.8.10
+    container_name: open-webui
+    restart: unless-stopped
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
+      - SCARF_NO_ANALYTICS=true
+      - DO_NOT_TRACK=true
+      - ANONYMIZED_TELEMETRY=false
+      - FORWARDED_ALLOW_IPS=*
+      # Uncomment to connect to a remote OpenAI-compatible API
+      # - OPENAI_API_BASE_URL=${OPENAI_API_BASE_URL}
+      # - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - open-webui-data:/app/backend/data
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.70
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.open-webui.rule=Host(`open-webui.lab.kemo.network`)"
+      - "traefik.http.routers.open-webui.entrypoints=websecure"
+      - "traefik.http.routers.open-webui.tls.certresolver=stepca"
+      - "traefik.http.services.open-webui.loadbalancer.server.port=8080"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  ollama:
+    image: ollama/ollama:0.18.2
+    container_name: ollama
+    restart: unless-stopped
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.73
+    # GPU passthrough - uncomment the appropriate section:
+    # --- NVIDIA GPU ---
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    # --- Intel/AMD GPU (VA-API) ---
+    devices:
+      - /dev/dri:/dev/dri
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ollama.rule=Host(`ollama.lab.kemo.network`)"
+      - "traefik.http.routers.ollama.entrypoints=websecure"
+      - "traefik.http.routers.ollama.tls.certresolver=stepca"
+      - "traefik.http.services.ollama.loadbalancer.server.port=11434"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:11434/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  open-webui-data:
+  ollama-data:
+
+networks:
+  homelab:
+    external: true

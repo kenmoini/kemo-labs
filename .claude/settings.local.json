@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.prompts/**)",
+      "Write(./.prompts/**)"
+    ],
+    "allow": [
+      "WebFetch(domain:doc.traefik.io)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:docs.pi-hole.net)",
+      "WebFetch(domain:netboot.xyz)",
+      "WebFetch(domain:openspeedtest.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:gethomepage.dev)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:kopia.io)",
+      "WebFetch(domain:hub.docker.com)",
+      "WebFetch(domain:docs.openwebui.com)",
+      "WebFetch(domain:docs.n8n.io)",
+      "WebFetch(domain:docs.mailcow.email)",
+      "WebFetch(domain:docs.postiz.com)",
+      "WebFetch(domain:shlink.io)",
+      "WebFetch(domain:docs.affine.pro)",
+      "WebFetch(domain:docs.paperless-ngx.com)",
+      "WebFetch(domain:www.home-assistant.io)",
+      "WebFetch(domain:registry.hub.docker.com)",
+      "WebFetch(domain:release-assets.githubusercontent.com)"
+    ]
+  }
+}

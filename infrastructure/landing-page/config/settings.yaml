@@ -1,0 +1,15 @@
+title: Homelab Dashboard
+description: lab.kemo.network
+
+theme: dark
+color: slate
+
+headerStyle: clean
+
+layout:
+  Infrastructure:
+    style: row
+    columns: 4
+  Network:
+    style: row
+    columns: 3

@@ -1,0 +1,54 @@
+services:
+  nginx-files:
+    image: nginx:1.27-alpine
+    container_name: nginx-files
+    restart: unless-stopped
+    volumes:
+      - ./data:/srv/files:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.files.rule=Host(`files.lab.kemo.network`)"
+      - "traefik.http.routers.files.entrypoints=websecure"
+      - "traefik.http.routers.files.tls=true"
+      - "traefik.http.routers.files.tls.certresolver=step-ca"
+      - "traefik.http.services.files.loadbalancer.server.port=80"
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.23
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  copyparty:
+    image: ghcr.io/9001/copyparty:latest
+    container_name: copyparty
+    restart: unless-stopped
+    command: >
+      --i 0.0.0.0 -p 3923
+      -a admin:${COPYPARTY_PASSWORD}:rwmd:/srv/files
+      --urlbase /
+    environment:
+      NO_THUMB: "0"
+    volumes:
+      - ./data:/srv/files
+      - ./copyparty-db:/var/lib/copyparty
+    user: "1000:1000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.upload.rule=Host(`upload.lab.kemo.network`)"
+      - "traefik.http.routers.upload.entrypoints=websecure"
+      - "traefik.http.routers.upload.tls=true"
+      - "traefik.http.routers.upload.tls.certresolver=step-ca"
+      - "traefik.http.services.upload.loadbalancer.server.port=3923"
+      # Allow large uploads
+      - "traefik.http.middlewares.upload-size.buffering.maxRequestBodyBytes=10737418240"
+      - "traefik.http.routers.upload.middlewares=upload-size"
+    networks:
+      homelab:
+
+networks:
+  homelab:
+    external: true

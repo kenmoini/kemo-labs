@@ -1,0 +1,39 @@
+api:
+  dashboard: true
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: stepca
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: homelab
+  file:
+    directory: "/etc/traefik/dynamic/"
+    watch: true
+
+certificatesResolvers:
+  stepca:
+    acme:
+      caServer: "https://stepca.lab.kemo.network:9000/acme/acme/directory"
+      email: "admin@lab.kemo.network"
+      storage: "/etc/traefik/acme.json"
+      tlsChallenge: {}
+
+log:
+  level: INFO
+
+accessLog: {}

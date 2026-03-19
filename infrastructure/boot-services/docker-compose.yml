@@ -1,0 +1,82 @@
+services:
+  netbootxyz:
+    image: ghcr.io/netbootxyz/netbootxyz:latest
+    container_name: netbootxyz
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-America/New_York}
+      - TFTPD_OPTS=--tftp-single-port
+    volumes:
+      - ./netbootxyz/config/:/config
+      - ./netbootxyz/assets/:/assets
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.12
+    labels:
+      - "traefik.enable=true"
+      # Netboot.xyz web config UI
+      - "traefik.http.routers.netboot.rule=Host(`netboot.lab.kemo.network`)"
+      - "traefik.http.routers.netboot.entrypoints=websecure"
+      - "traefik.http.routers.netboot.tls.certresolver=stepca"
+      - "traefik.http.services.netboot.loadbalancer.server.port=3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO /dev/null http://127.0.0.1:3000/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  nut:
+    image: ghcr.io/networkupstools/upsd:latest
+    container_name: nut
+    restart: unless-stopped
+    environment:
+      - UPS_NAME=${UPS_NAME:-homelab-ups}
+      - UPS_DRIVER=${UPS_DRIVER:-usbhid-ups}
+      - UPS_PORT=${UPS_PORT:-auto}
+      - API_USER=${NUT_API_USER:-admin}
+      - API_PASSWORD=${NUT_API_PASSWORD:-changeme}
+    volumes:
+      - ./nut/config/:/etc/nut/
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    networks:
+      homelab:
+    healthcheck:
+      test: ["CMD-SHELL", "upsc ${UPS_NAME:-homelab-ups}@localhost 2>/dev/null | grep -q ups.status || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  peanut:
+    image: brandawg93/peanut:latest
+    container_name: peanut
+    restart: unless-stopped
+    environment:
+      - NUT_HOST=192.168.62.12
+      - NUT_PORT=3493
+      - WEB_PORT=8081
+    depends_on:
+      nut:
+        condition: service_started
+    networks:
+      homelab:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.peanut.rule=Host(`peanut.lab.kemo.network`)"
+      - "traefik.http.routers.peanut.entrypoints=websecure"
+      - "traefik.http.routers.peanut.tls.certresolver=stepca"
+      - "traefik.http.services.peanut.loadbalancer.server.port=8081"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO /dev/null http://127.0.0.1:8081/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  homelab:
+    external: true

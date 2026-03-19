@@ -1,0 +1,121 @@
+services:
+  netbox:
+    image: docker.io/netboxcommunity/netbox:v4.5-4.0.2
+    container_name: netbox
+    restart: unless-stopped
+    environment:
+      - DB_HOST=192.168.62.15
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-netbox}
+      - DB_USER=${DB_USER:-netbox}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=192.168.62.15
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_DATABASE=0
+      - REDIS_SSL=false
+      - REDIS_CACHE_HOST=192.168.62.15
+      - REDIS_CACHE_PORT=6379
+      - REDIS_CACHE_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_CACHE_DATABASE=1
+      - REDIS_CACHE_SSL=false
+      - SECRET_KEY=${SECRET_KEY}
+      - CORS_ORIGIN_ALLOW_ALL=True
+      - GRAPHQL_ENABLED=true
+      - WEBHOOKS_ENABLED=true
+      - METRICS_ENABLED=true
+      - SKIP_SUPERUSER=${SKIP_SUPERUSER:-false}
+      - SUPERUSER_NAME=${SUPERUSER_NAME:-admin}
+      - SUPERUSER_EMAIL=${SUPERUSER_EMAIL:-admin@lab.kemo.network}
+      - SUPERUSER_PASSWORD=${SUPERUSER_PASSWORD}
+      - SUPERUSER_API_TOKEN=${SUPERUSER_API_TOKEN:-}
+      - TZ=${TZ:-America/New_York}
+    volumes:
+      - netbox-media-files:/opt/netbox/netbox/media
+      - netbox-reports-files:/opt/netbox/netbox/reports
+      - netbox-scripts-files:/opt/netbox/netbox/scripts
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.50
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.netbox.rule=Host(`netbox.lab.kemo.network`)"
+      - "traefik.http.routers.netbox.entrypoints=websecure"
+      - "traefik.http.routers.netbox.tls=true"
+      - "traefik.http.routers.netbox.tls.certresolver=stepca"
+      - "traefik.http.services.netbox.loadbalancer.server.port=8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/login/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+  netbox-worker:
+    image: docker.io/netboxcommunity/netbox:v4.5-4.0.2
+    container_name: netbox-worker
+    restart: unless-stopped
+    command: /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py rqworker
+    environment:
+      - DB_HOST=192.168.62.15
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-netbox}
+      - DB_USER=${DB_USER:-netbox}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=192.168.62.15
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_DATABASE=0
+      - REDIS_SSL=false
+      - REDIS_CACHE_HOST=192.168.62.15
+      - REDIS_CACHE_PORT=6379
+      - REDIS_CACHE_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_CACHE_DATABASE=1
+      - REDIS_CACHE_SSL=false
+      - SECRET_KEY=${SECRET_KEY}
+      - TZ=${TZ:-America/New_York}
+    volumes:
+      - netbox-media-files:/opt/netbox/netbox/media
+      - netbox-reports-files:/opt/netbox/netbox/reports
+      - netbox-scripts-files:/opt/netbox/netbox/scripts
+    networks:
+      homelab:
+    depends_on:
+      netbox:
+        condition: service_healthy
+
+  netbox-housekeeping:
+    image: docker.io/netboxcommunity/netbox:v4.5-4.0.2
+    container_name: netbox-housekeeping
+    restart: unless-stopped
+    command: /opt/netbox/housekeeping.sh
+    environment:
+      - DB_HOST=192.168.62.15
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-netbox}
+      - DB_USER=${DB_USER:-netbox}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=192.168.62.15
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_DATABASE=0
+      - REDIS_SSL=false
+      - SECRET_KEY=${SECRET_KEY}
+      - TZ=${TZ:-America/New_York}
+    networks:
+      homelab:
+    depends_on:
+      netbox:
+        condition: service_healthy
+
+volumes:
+  netbox-media-files:
+    name: netbox-media-files
+  netbox-reports-files:
+    name: netbox-reports-files
+  netbox-scripts-files:
+    name: netbox-scripts-files
+
+networks:
+  homelab:
+    external: true

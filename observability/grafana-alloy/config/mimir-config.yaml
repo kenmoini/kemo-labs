@@ -1,0 +1,61 @@
+---
+multitenancy_enabled: false
+
+server:
+  http_listen_port: 9009
+  grpc_listen_port: 9095
+  log_level: warn
+
+common:
+  storage:
+    backend: filesystem
+    filesystem:
+      dir: /data/mimir
+
+ingester:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+    replication_factor: 1
+
+store_gateway:
+  sharding_ring:
+    replication_factor: 1
+
+blocks_storage:
+  backend: filesystem
+  bucket_store:
+    sync_dir: /data/mimir-tsdb-sync
+  filesystem:
+    dir: /data/mimir-tsdb
+  tsdb:
+    dir: /data/mimir-tsdb-ingester
+    retention_period: 2160h
+
+compactor:
+  data_dir: /data/mimir-compactor
+  sharding_ring:
+    kvstore:
+      store: memberlist
+
+distributor:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+
+limits:
+  compactor_blocks_retention_period: 2160h
+  max_global_series_per_user: 0
+  max_global_series_per_metric: 0
+  ingestion_rate: 100000
+  ingestion_burst_size: 1000000
+
+ruler_storage:
+  backend: filesystem
+  filesystem:
+    dir: /data/mimir-rules
+
+activity_tracker:
+  filepath: /data/mimir-activity/activity.log

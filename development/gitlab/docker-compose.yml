@@ -1,0 +1,79 @@
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:17.10.2-ce.0
+    container_name: gitlab
+    restart: unless-stopped
+    hostname: gitlab.lab.kemo.network
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.lab.kemo.network'
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+
+        # Shared PostgreSQL
+        postgresql['enable'] = false
+        gitlab_rails['db_adapter'] = 'postgresql'
+        gitlab_rails['db_host'] = '192.168.62.15'
+        gitlab_rails['db_port'] = 5432
+        gitlab_rails['db_database'] = 'gitlab'
+        gitlab_rails['db_username'] = 'gitlab'
+        gitlab_rails['db_password'] = ENV['GITLAB_DB_PASSWORD']
+
+        # Shared Valkey (DB 5)
+        redis['enable'] = false
+        gitlab_rails['redis_host'] = '192.168.62.15'
+        gitlab_rails['redis_port'] = 6379
+        gitlab_rails['redis_database'] = 5
+
+        # Performance tuning
+        puma['worker_processes'] = 2
+        sidekiq['max_concurrency'] = 10
+
+        # SMTP via Mailcow
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = '192.168.62.80'
+        gitlab_rails['smtp_port'] = 587
+        gitlab_rails['smtp_domain'] = 'lab.kemo.network'
+
+        # SSO via Authentik
+        gitlab_rails['omniauth_enabled'] = true
+        gitlab_rails['omniauth_allow_single_sign_on'] = ['openid_connect']
+
+        # Disable bundled monitoring
+        prometheus_monitoring['enable'] = false
+        grafana['enable'] = false
+      GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
+      GITLAB_DB_PASSWORD: ${GITLAB_DB_PASSWORD}
+      TZ: ${TZ:-America/New_York}
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-data:/var/opt/gitlab
+      - gitlab-logs:/var/log/gitlab
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.40
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitlab.rule=Host(`gitlab.lab.kemo.network`)"
+      - "traefik.http.routers.gitlab.entrypoints=websecure"
+      - "traefik.http.routers.gitlab.tls=true"
+      - "traefik.http.routers.gitlab.tls.certresolver=stepca"
+      - "traefik.http.services.gitlab.loadbalancer.server.port=80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/-/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+      start_period: 300s
+
+volumes:
+  gitlab-config:
+    name: gitlab-config
+  gitlab-data:
+    name: gitlab-data
+  gitlab-logs:
+    name: gitlab-logs
+
+networks:
+  homelab:
+    external: true

@@ -1,0 +1,36 @@
+# Home Assistant Configuration
+# Documentation: https://www.home-assistant.io/docs/configuration/
+
+homeassistant:
+  name: Home
+  unit_system: imperial
+  time_zone: America/New_York
+  # Customize as needed:
+  # latitude: \!secret latitude
+  # longitude: \!secret longitude
+  # elevation: 0
+
+# Enable the frontend
+frontend:
+
+# Enable the HTTP integration and configure trusted proxies for Traefik
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.62.0/23
+
+# Text-to-speech
+tts:
+  - platform: google_translate
+
+# MQTT broker integration (shared Mosquitto at 192.168.62.15)
+mqtt:
+  broker: 192.168.62.15
+  port: 1883
+  # username: homeassistant
+  # password: \!secret mqtt_password
+
+# Automations, scripts, scenes
+automation: \!include automations.yaml
+script: \!include scripts.yaml
+scene: \!include scenes.yaml

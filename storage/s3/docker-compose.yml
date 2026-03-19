@@ -1,0 +1,37 @@
+services:
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: rustfs
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      RUSTFS_ROOT_USER: ${RUSTFS_ROOT_USER:-admin}
+      RUSTFS_ROOT_PASSWORD: ${RUSTFS_ROOT_PASSWORD}
+    volumes:
+      - ./data:/data
+    labels:
+      - "traefik.enable=true"
+      # S3 API
+      - "traefik.http.routers.s3-api.rule=Host(`s3.lab.kemo.network`)"
+      - "traefik.http.routers.s3-api.entrypoints=websecure"
+      - "traefik.http.routers.s3-api.tls=true"
+      - "traefik.http.routers.s3-api.tls.certresolver=step-ca"
+      - "traefik.http.services.s3-api.loadbalancer.server.port=9000"
+      # Console UI
+      - "traefik.http.routers.s3-console.rule=Host(`s3-console.lab.kemo.network`)"
+      - "traefik.http.routers.s3-console.entrypoints=websecure"
+      - "traefik.http.routers.s3-console.tls=true"
+      - "traefik.http.routers.s3-console.tls.certresolver=step-ca"
+      - "traefik.http.services.s3-console.loadbalancer.server.port=9001"
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.20
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  homelab:
+    external: true

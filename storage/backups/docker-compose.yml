@@ -1,0 +1,47 @@
+services:
+  kopia:
+    image: kopia/kopia:0.19
+    container_name: kopia
+    restart: unless-stopped
+    command: >
+      server start
+      --address=0.0.0.0:51515
+      --server-control-username=${KOPIA_SERVER_USER:-admin}
+      --server-control-password=${KOPIA_SERVER_PASSWORD}
+      --tls-generate-cert
+      --insecure
+    environment:
+      KOPIA_PASSWORD: ${KOPIA_REPOSITORY_PASSWORD}
+      AWS_ACCESS_KEY_ID: ${S3_ACCESS_KEY}
+      AWS_SECRET_ACCESS_KEY: ${S3_SECRET_KEY}
+      KOPIA_CHECK_FOR_UPDATES: "false"
+    volumes:
+      - ./config:/app/config
+      - ./cache:/app/cache
+      - ./logs:/app/logs
+      # Source directories to back up (read-only)
+      - /srv/databases:/sources/databases:ro
+      - /srv/gitlab:/sources/gitlab:ro
+      - /srv/paperless:/sources/paperless:ro
+      - /srv/vault:/sources/vault:ro
+      - /srv/authentik:/sources/authentik:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kopia.rule=Host(`backups.lab.kemo.network`)"
+      - "traefik.http.routers.kopia.entrypoints=websecure"
+      - "traefik.http.routers.kopia.tls=true"
+      - "traefik.http.routers.kopia.tls.certresolver=step-ca"
+      - "traefik.http.services.kopia.loadbalancer.server.port=51515"
+      - "traefik.http.services.kopia.loadbalancer.server.scheme=https"
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.22
+    healthcheck:
+      test: ["CMD", "curl", "-f", "--insecure", "https://localhost:51515"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  homelab:
+    external: true

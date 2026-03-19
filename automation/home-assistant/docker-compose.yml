@@ -1,0 +1,32 @@
+services:
+  home-assistant:
+    image: ghcr.io/home-assistant/home-assistant:2026.3.2
+    container_name: home-assistant
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - TZ=${TZ:-America/New_York}
+    volumes:
+      - ./config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    # Uncomment for Zigbee/Z-Wave USB sticks (if not using Zigbee2MQTT separately)
+    # devices:
+    #   - /dev/ttyUSB0:/dev/ttyUSB0
+    #   - /dev/ttyACM0:/dev/ttyACM0
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8123/manifest.json"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# NOTE: Home Assistant uses host networking for mDNS/SSDP/UPnP discovery.
+# The static IP 192.168.62.60 must be assigned at the host level.
+# Traefik routes to this service via file provider (not Docker labels).
+# See infrastructure/traefik/config/dynamic/home-assistant.yml

@@ -1,0 +1,64 @@
+services:
+  scrypted:
+    image: ghcr.io/koush/scrypted
+    container_name: scrypted
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION=Bearer ${WATCHTOWER_HTTP_API_TOKEN}
+      - SCRYPTED_WEBHOOK_UPDATE=http://localhost:10444/v1/update
+      # - SCRYPTED_NVR_VOLUME=/nvr
+    volumes:
+      - ./volume:/server/volume
+      # Uncomment for NVR recording storage (use a large dedicated disk)
+      # - /mnt/nvr:/nvr
+    devices:
+      - /dev/dri:/dev/dri
+      # Uncomment for USB devices (Coral TPU, etc.)
+      # - /dev/bus/usb:/dev/bus/usb
+    labels:
+      - "com.centurylinklabs.watchtower.scope=scrypted"
+    healthcheck:
+      test: ["CMD", "curl", "-sfk", "https://localhost:10443"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+  scrypted-watchtower:
+    image: nickfedor/watchtower
+    container_name: scrypted-watchtower
+    restart: unless-stopped
+    environment:
+      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_HTTP_API_TOKEN}
+      - WATCHTOWER_HTTP_API_UPDATE=true
+      - WATCHTOWER_SCOPE=scrypted
+      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "10444:8080"
+    command: --interval 3600 --cleanup --scope scrypted
+    labels:
+      - "com.centurylinklabs.watchtower.scope=scrypted"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+# NOTE: Scrypted uses host networking for ONVIF/mDNS camera discovery.
+# The static IP 192.168.62.61 must be assigned at the host level.
+# Traefik routes to this service via file provider (not Docker labels).
+# See infrastructure/traefik/config/dynamic/scrypted.yml

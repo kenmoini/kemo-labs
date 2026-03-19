@@ -1,0 +1,15 @@
+http:
+  routers:
+    home-assistant:
+      rule: "Host(`home-assistant.lab.kemo.network`)"
+      entryPoints:
+        - websecure
+      service: home-assistant
+      tls:
+        certResolver: stepca
+
+  services:
+    home-assistant:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.62.60:8123"

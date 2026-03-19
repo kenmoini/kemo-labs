@@ -1,0 +1,33 @@
+services:
+  renovate:
+    image: renovate/renovate:39-full
+    container_name: renovate
+    restart: "no"
+    environment:
+      - RENOVATE_PLATFORM=gitlab
+      - RENOVATE_ENDPOINT=https://gitlab.lab.kemo.network/api/v4
+      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
+      - RENOVATE_GIT_AUTHOR=Renovate Bot <renovate@lab.kemo.network>
+      - RENOVATE_AUTODISCOVER=${RENOVATE_AUTODISCOVER:-true}
+      - RENOVATE_AUTODISCOVER_FILTER=${RENOVATE_AUTODISCOVER_FILTER:-*/*}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/homelab-root.crt
+      - TZ=${TZ:-America/New_York}
+    volumes:
+      - ./config.js:/usr/src/app/config.js:ro
+      - renovate-cache:/tmp/renovate
+      - ./ca-certs/root-ca.crt:/usr/local/share/ca-certificates/homelab-root.crt:ro
+    networks:
+      homelab:
+        ipv4_address: 192.168.62.41
+
+# Schedule via host crontab or systemd timer:
+# */30 * * * * cd /path/to/development/renovate && docker compose run --rm renovate
+
+volumes:
+  renovate-cache:
+    name: renovate-cache
+
+networks:
+  homelab:
+    external: true

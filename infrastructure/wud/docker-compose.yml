@@ -14,7 +14,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data/store:/store
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.9
     labels:
       - "traefik.enable=true"
@@ -32,5 +32,5 @@ services:
       start_period: 15s
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

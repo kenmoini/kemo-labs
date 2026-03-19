@@ -2,7 +2,7 @@ services:
   renovate:
     image: renovate/renovate:39-full
     container_name: renovate
-    restart: "no"
+    restart: unless-stopped
     environment:
       - RENOVATE_PLATFORM=gitlab
       - RENOVATE_ENDPOINT=https://gitlab.lab.kemo.network/api/v4
@@ -18,7 +18,7 @@ services:
       - renovate-cache:/tmp/renovate
       - ./ca-certs/root-ca.crt:/usr/local/share/ca-certificates/homelab-root.crt:ro
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.41
 
 # Schedule via host crontab or systemd timer:
@@ -29,5 +29,5 @@ volumes:
     name: renovate-cache
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

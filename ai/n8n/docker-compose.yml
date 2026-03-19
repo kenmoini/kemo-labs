@@ -25,7 +25,7 @@ services:
     volumes:
       - n8n-data:/home/node/.n8n
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.71
     labels:
       - "traefik.enable=true"
@@ -49,5 +49,5 @@ volumes:
   n8n-data:
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

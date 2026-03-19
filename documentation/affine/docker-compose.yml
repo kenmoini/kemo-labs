@@ -2,7 +2,7 @@ services:
   affine-migration:
     image: ghcr.io/toeverything/affine:stable
     container_name: affine-migration
-    restart: "no"
+    restart: unless-stopped
     command: ["node", "./scripts/self-host-predeploy.js"]
     environment:
       - AFFINE_REVISION=stable
@@ -36,7 +36,7 @@ services:
       - affine-storage:/root/.affine/storage
       - affine-config:/root/.affine/config
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.51
     labels:
       - "traefik.enable=true"
@@ -62,5 +62,5 @@ volumes:
     name: affine-config
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

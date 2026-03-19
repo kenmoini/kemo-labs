@@ -24,7 +24,7 @@ services:
       - "traefik.http.routers.s3-console.tls.certresolver=step-ca"
       - "traefik.http.services.s3-console.loadbalancer.server.port=9001"
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.20
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
@@ -33,5 +33,5 @@ services:
       retries: 3
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

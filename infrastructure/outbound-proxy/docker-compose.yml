@@ -10,7 +10,7 @@ services:
       - ./data/cache/:/var/spool/squid/
       - ./data/logs/:/var/log/squid/
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.11
     healthcheck:
       test: ["CMD-SHELL", "squidclient -h 127.0.0.1 -p 3128 mgr:info 2>/dev/null | grep -q 'Squid Object Cache' || exit 1"]
@@ -20,5 +20,5 @@ services:
       start_period: 15s
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

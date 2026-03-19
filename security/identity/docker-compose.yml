@@ -11,7 +11,7 @@ services:
       - authentik-media:/media
       - authentik-templates:/templates
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.8
     labels:
       - "traefik.enable=true"
@@ -56,5 +56,5 @@ volumes:
     name: authentik-templates
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

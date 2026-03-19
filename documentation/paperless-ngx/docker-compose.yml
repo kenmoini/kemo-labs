@@ -34,7 +34,7 @@ services:
       - paperless-consume:/usr/src/paperless/consume
       - paperless-export:/usr/src/paperless/export
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.53
     labels:
       - "traefik.enable=true"
@@ -60,7 +60,7 @@ services:
     container_name: paperless-tika
     restart: unless-stopped
     networks:
-      homelab:
+      homelab-lab:
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9998/"]
       interval: 30s
@@ -77,7 +77,7 @@ services:
       - "--chromium-disable-javascript=true"
       - "--chromium-allow-list=file:///tmp/.*"
     networks:
-      homelab:
+      homelab-lab:
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
@@ -96,5 +96,5 @@ volumes:
     name: paperless-export
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

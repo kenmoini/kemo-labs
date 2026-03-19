@@ -21,7 +21,7 @@ services:
       - ./data:/etc/semaphore
       - ~/.ssh:/home/semaphore/.ssh:ro
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.25
     labels:
       - "traefik.enable=true"
@@ -37,5 +37,5 @@ services:
       start_period: 15s
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

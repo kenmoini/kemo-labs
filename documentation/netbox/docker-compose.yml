@@ -35,7 +35,7 @@ services:
       - netbox-reports-files:/opt/netbox/netbox/reports
       - netbox-scripts-files:/opt/netbox/netbox/scripts
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.50
     labels:
       - "traefik.enable=true"
@@ -79,7 +79,7 @@ services:
       - netbox-reports-files:/opt/netbox/netbox/reports
       - netbox-scripts-files:/opt/netbox/netbox/scripts
     networks:
-      homelab:
+      homelab-lab:
     depends_on:
       netbox:
         condition: service_healthy
@@ -103,7 +103,7 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - TZ=${TZ:-America/New_York}
     networks:
-      homelab:
+      homelab-lab:
     depends_on:
       netbox:
         condition: service_healthy
@@ -117,5 +117,5 @@ volumes:
     name: netbox-scripts-files
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

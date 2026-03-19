@@ -34,7 +34,7 @@ services:
       - "traefik.http.services.kopia.loadbalancer.server.port=51515"
       - "traefik.http.services.kopia.loadbalancer.server.scheme=https"
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.22
     healthcheck:
       test: ["CMD", "curl", "-f", "--insecure", "https://localhost:51515"]
@@ -43,5 +43,5 @@ services:
       retries: 3
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

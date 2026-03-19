@@ -12,7 +12,7 @@ services:
       - ./netbootxyz/config/:/config
       - ./netbootxyz/assets/:/assets
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.12
     labels:
       - "traefik.enable=true"
@@ -43,7 +43,7 @@ services:
     devices:
       - /dev/bus/usb:/dev/bus/usb
     networks:
-      homelab:
+      homelab-lab:
     healthcheck:
       test: ["CMD-SHELL", "upsc ${UPS_NAME:-homelab-ups}@localhost 2>/dev/null | grep -q ups.status || exit 1"]
       interval: 30s
@@ -63,7 +63,7 @@ services:
       nut:
         condition: service_started
     networks:
-      homelab:
+      homelab-lab:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.peanut.rule=Host(`peanut.lab.kemo.network`)"
@@ -78,5 +78,5 @@ services:
       start_period: 10s
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

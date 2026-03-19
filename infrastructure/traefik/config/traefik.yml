@@ -20,7 +20,7 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    network: homelab
+    network: homelab-lab
   file:
     directory: "/etc/traefik/dynamic/"
     watch: true

@@ -65,7 +65,7 @@ Only consumes resources when actively scanning repos.
 Run as a cron-scheduled container rather than long-running:
 ```yaml
 # Option 1: Docker restart policy with cron
-restart: "no"
+restart: unless-stopped
 # Trigger via host crontab or systemd timer:
 # */30 * * * * docker compose -f /path/to/docker-compose.yml run --rm renovate
 

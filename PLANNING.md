@@ -383,20 +383,22 @@ This exceeds 128 GB if everything runs simultaneously at peak. Recommendations:
 All Docker Compose stacks will connect to a shared macvlan or ipvlan network for static IP assignment:
 
 ```bash
-# Create once on the host before deploying any stack
-docker network create \
-  --driver macvlan \
-  --subnet=192.168.62.0/23 \
-  --gateway=192.168.62.1 \
-  --ip-range=192.168.62.0/24 \
-  -o parent=br0 \
-  homelab
+# Create all predefined networks (one per VLAN)
+./scripts/setup-network.sh --all
+
+# Or create the primary lab network individually
+./scripts/setup-network.sh \
+  --name homelab-lab \
+  --subnet 192.168.62.0/23 \
+  --gateway 192.168.62.1 \
+  --ip-range 192.168.62.0/24 \
+  --parent br0.62
 ```
 
 Each docker-compose.yml references this as an external network:
 ```yaml
 networks:
-  homelab:
+  homelab-lab:
     external: true
 ```
 

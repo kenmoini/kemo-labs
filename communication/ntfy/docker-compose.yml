@@ -12,7 +12,7 @@ services:
       - ntfy-auth:/var/lib/ntfy
       - ./server.yml:/etc/ntfy/server.yml:ro
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.82
     labels:
       - "traefik.enable=true"
@@ -38,5 +38,5 @@ volumes:
   ntfy-auth:
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

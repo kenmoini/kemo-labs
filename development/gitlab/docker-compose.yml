@@ -50,7 +50,7 @@ services:
       - gitlab-data:/var/opt/gitlab
       - gitlab-logs:/var/log/gitlab
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.40
     labels:
       - "traefik.enable=true"
@@ -75,5 +75,5 @@ volumes:
     name: gitlab-logs
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

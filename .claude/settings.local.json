@@ -2,7 +2,9 @@
   "permissions": {
     "deny": [
       "Read(./.prompts/**)",
-      "Write(./.prompts/**)"
+      "Write(./.prompts/**)",
+      "Read(./TODO.md)",
+      "Write(./TODO.md)"
     ],
     "allow": [
       "WebFetch(domain:doc.traefik.io)",

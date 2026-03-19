@@ -23,7 +23,7 @@ services:
     volumes:
       - paperless-ai-data:/app/data
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.54
     labels:
       - "traefik.enable=true"
@@ -48,5 +48,5 @@ volumes:
     name: paperless-ai-data
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

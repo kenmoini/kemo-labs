@@ -26,7 +26,7 @@ services:
       start_period: 30s
     networks:
       databases:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.15
 
   ##############################################################################
@@ -59,7 +59,7 @@ services:
       start_period: 30s
     networks:
       databases:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.16
 
   ##############################################################################
@@ -89,7 +89,7 @@ services:
       start_period: 10s
     networks:
       databases:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.17
 
   ##############################################################################
@@ -105,7 +105,7 @@ services:
       - mosquitto_log:/mosquitto/log
     networks:
       databases:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.18
 
   ##############################################################################
@@ -131,7 +131,7 @@ services:
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
     networks:
       databases:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.19
 
   ##############################################################################
@@ -179,5 +179,5 @@ volumes:
 networks:
   databases:
     driver: bridge
-  homelab:
+  homelab-lab:
     external: true

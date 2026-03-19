@@ -13,7 +13,7 @@ services:
       - vault-logs:/vault/logs
       - ./config:/vault/config:ro
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.7
     command: vault server -config=/vault/config/vault.hcl
     labels:
@@ -36,5 +36,5 @@ volumes:
     name: vault-logs
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

@@ -19,7 +19,7 @@ services:
     volumes:
       - open-webui-data:/app/backend/data
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.70
     labels:
       - "traefik.enable=true"
@@ -48,7 +48,7 @@ services:
     volumes:
       - ollama-data:/root/.ollama
     networks:
-      homelab:
+      homelab-lab:
         ipv4_address: 192.168.62.73
     # GPU passthrough - uncomment the appropriate section:
     # --- NVIDIA GPU ---
@@ -85,5 +85,5 @@ volumes:
   ollama-data:
 
 networks:
-  homelab:
+  homelab-lab:
     external: true

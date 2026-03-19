@@ -34,7 +34,10 @@ A single-host homelab running ~87 Docker containers and a 6-node Kubernetes clus
 |  |  Phase 14  [ Talos CP x3 | Talos Worker x3 ]              |  |
 |  +-----------------------------------------------------------+  |
 |                                                                 |
-|  br0 ──── 192.168.62.0/23 (macvlan) ──── LAN                    |
+|  br0 ──── 192.168.92.0/23 (bridge) ──── Access VLAN             |
+|  br0.62 ──── 192.168.62.0/23 (bridge) ──── Lab VLAN 62          |
+|  br0.70 ──── 192.168.70.0/24 (bridge) ──── Disconnected VLAN 70 |
+|  br0.86 ──── 192.168.86.0/24 (bridge) ──── Isolated VLAN 86     |
 +-----------------------------------------------------------------+
 ```
 
@@ -42,18 +45,45 @@ A single-host homelab running ~87 Docker containers and a 6-node Kubernetes clus
 
 ### Prerequisites
 
-- Fedora (latest) with Docker and Docker Compose installed
-- A network bridge interface (`br0`) on the 192.168.62.0/23 subnet
+- Fedora (44+) with Libvirtd, Docker, and Docker Compose installed
+- Network bridge interfaces configured for each VLAN (see [Networks](#networks) below)
 - 128GB+ RAM (see [Resource Notes](#resource-notes) for tuning)
 - This repository cloned to the host
 
-### 1. Create the shared Docker network
+### 1. Create the Docker networks
+
+Create all predefined macvlan networks at once:
 
 ```bash
-./scripts/setup-network.sh br0
+./scripts/setup-network.sh --all
 ```
 
-This creates a macvlan network named `homelab` on the 192.168.62.0/23 subnet. Run this once before deploying anything.
+This creates one Docker macvlan network per VLAN. To also enable host-to-container communication (macvlan shim interfaces):
+
+```bash
+./scripts/setup-network.sh --shims
+```
+
+To list predefined and existing networks:
+
+```bash
+./scripts/setup-network.sh --list
+```
+
+To create a single network interactively or via named parameters:
+
+```bash
+# Interactive
+./scripts/setup-network.sh
+
+# Named parameters
+./scripts/setup-network.sh \
+  --name homelab-lab \
+  --subnet 192.168.62.0/23 \
+  --gateway 192.168.62.1 \
+  --ip-range 192.168.62.0/24 \
+  --parent br0.62
+```
 
 ### 2. Deploy all stacks in order
 
@@ -70,6 +100,21 @@ The deploy script brings up each phase sequentially with health-check gates betw
 ### 3. Distribute the Root CA
 
 After Phase 0 completes, copy the PikaPKI root CA certificate to your browser, host trust store, and any devices that need to trust `*.lab.kemo.network`.
+
+## Networks
+
+The homelab uses multiple VLANs, each mapped to a Docker macvlan network via host bridge interfaces.
+
+| Docker Network | Subnet | Gateway | Parent | Purpose |
+|----------------|--------|---------|--------|---------|
+| `homelab-access` | 192.168.92.0/23 | 192.168.92.1 | `br0` | Access VLAN - management and uplinks |
+| `homelab-lab` | 192.168.62.0/23 | 192.168.62.1 | `br0.62` | Lab VLAN 62 - primary workload network |
+| `homelab-disconnected` | 192.168.70.0/24 | 192.168.70.1 | `br0.70` | Disconnected VLAN 70 - no upstream connectivity |
+| `homelab-isolated` | 192.168.86.0/24 | 192.168.86.1 | `br0.86` | Isolated VLAN 86 - restricted traffic |
+
+All homelab workloads run on `homelab-lab` (192.168.62.0/23) by default. The other networks are available for workloads that need network isolation (e.g., malware analysis, build sandboxes, testing).
+
+Host bridge interfaces (`br0`, `br0.62`, `br0.70`, `br0.86`) must exist before creating the Docker networks. Containers on macvlan networks cannot communicate with the host directly -- use the `--shims` flag to create shim interfaces if needed.
 
 ## Directory Structure
 
@@ -174,16 +219,21 @@ All IPs are on the 192.168.62.0/23 subnet. DHCP is served from .128/24 and above
 
 ## TLS Strategy
 
+The foundation of a good environment is proper Public Key Infrastructure.  PikaPKI handles the creation of Root/Intermediate/Signing CAs some of which are delegated to things like Squid and StepCA.
+
 ```
-PikaPKI Root CA (self-signed, long-lived)
-  +-- StepCA Intermediate CA (issued by PikaPKI, ACME-enabled)
+Kemo Labs Root CA (self-signed root, long-lived)
+  +-- Kemo Labs Intermediate CA (issued by PikaPKI, ACME-enabled)
+        +-- Kemo Labs Signing CA (for long-life/manual certificates)
+        +-- Kemo Labs Squid Proxy CA (for SSL MitM'ing)
+  +-- Kemo Labs StepCA Intermediate CA (issued by PikaPKI, ACME-enabled)
         +-- *.lab.kemo.network (auto-issued, 90-day rotation)
 ```
 
-1. **PikaPKI** generates and manages the root CA (Phase 0).
+1. **PikaPKI** generates and manages the CA chain (Phase 0).
 2. **StepCA** runs as an ACME server with an intermediate CA signed by PikaPKI (Phase 1).
 3. **Traefik** uses the ACME protocol to automatically request and renew certificates from StepCA for every routed service (Phase 2).
-4. The **PikaPKI root CA** must be distributed to all clients, containers, and Kubernetes nodes for trust.
+4. The **PikaPKI Root CA** must be distributed to all clients, containers, and Kubernetes nodes for trust.  [Read this for information on how to do that](https://kenmoini.com/post/2024/02/adding-trusted-root-certificate-authority/).
 
 ## Key URLs
 

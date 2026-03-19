@@ -56,8 +56,8 @@ wait_healthy() {
 }
 
 # Check prerequisites
-if ! docker network inspect homelab &>/dev/null; then
-  err "Docker network 'homelab' not found. Run scripts/setup-network.sh first."
+if ! docker network inspect homelab-lab &>/dev/null; then
+  err "Docker network 'homelab-lab' not found. Run scripts/setup-network.sh --all first."
   exit 1
 fi
 

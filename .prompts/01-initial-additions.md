@@ -1,5 +1,7 @@
 # INPUT
 
+> [Commit 3aa824f](https://github.com/kenmoini/kemo-labs/commit/3aa824f88bdf6f3fdd40d6a76fd0028d2cf2ecae)
+
 I like some of those suggestions - let's add WUD (getwud.github.io/wud/) since Watchtower is no longer maintained.  Let's also add Ntfy and Semaphore UI.
 
 - Use an agent team to review and research the list and create a Planing document in each workload's folder.

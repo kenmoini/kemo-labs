@@ -8,7 +8,7 @@ Scrypted is a smart home camera and device management platform focused on low-la
 - **Docker Installation:** https://docs.scrypted.app/install/linux-docker.html
 - **Source:** https://github.com/koush/scrypted
 
-## Docker Image
+## Container Image
 
 ```
 ghcr.io/koush/scrypted:latest
@@ -193,7 +193,7 @@ Scrypted's default Docker Compose disables Docker logging (`driver: "none"`) bec
 - Scrypted should be behind Traefik with TLS (StepCA ACME)
 - Scrypted has built-in authentication (configured during first setup)
 - Camera credentials are stored in Scrypted's encrypted database
-- The Docker socket is exposed to the Watchtower sidecar only (scoped)
+- The Podman socket is exposed to the Watchtower sidecar only (scoped)
 
 ### Avahi / mDNS Discovery
 
@@ -221,7 +221,7 @@ dns:
 5. Add cameras and configure plugins through the web UI
 6. Configure Home Assistant integration (HomeKit Bridge or HACS plugin)
 
-## Docker Compose Skeleton
+## Podman Compose Skeleton
 
 ```yaml
 services:

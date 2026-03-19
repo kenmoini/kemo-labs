@@ -4,7 +4,7 @@
 
 Homepage is a modern, self-hosted application dashboard that serves as the central landing page for the homelab. It provides a single-pane-of-glass view of all services, their status, and quick-access links. Homepage supports service widgets that can display real-time data from integrated services (Pi-hole stats, Traefik routes, UPS status via PeaNUT, etc.).
 
-## Docker Image
+## Container Image
 
 - **Image:** `ghcr.io/gethomepage/homepage:latest`
 - **Registry:** GitHub Container Registry (official)
@@ -78,7 +78,7 @@ The `./config/` directory contains YAML files that define the dashboard layout:
 
 - Static IP `192.168.62.14` on the homelab macvlan/ipvlan network.
 - Exposed through Traefik as `home.lab.kemo.network`.
-- Docker socket access (read-only) enables automatic discovery and status display of Docker containers.
+- Podman socket access (read-only) enables automatic discovery and status display of Docker containers.
 - Homepage needs network access to all services it monitors (for widget API calls).
 
 ## Traefik Integration
@@ -124,7 +124,7 @@ Homepage can display real-time data from other homelab services. Example `servic
 ## Special Considerations
 
 1. **HOMEPAGE_ALLOWED_HOSTS:** This is a required environment variable. It must include the hostname(s) used to access Homepage, including the Traefik subdomain.
-2. **Docker socket security:** Mounting the Docker socket gives Homepage read access to all container metadata. Consider using a Docker socket proxy for reduced attack surface.
+2. **Podman socket security:** Mounting the Podman socket gives Homepage read access to all container metadata. Consider using a Podman socket proxy for reduced attack surface.
 3. **Widget API keys:** Many service widgets require API keys. Use the `HOMEPAGE_VAR_*` / `HOMEPAGE_FILE_*` mechanism to inject these securely rather than hardcoding them in `services.yaml`.
 4. **Config hot-reload:** Homepage watches its config directory for changes and reloads automatically. No container restart needed when editing YAML files.
 5. **Theme and layout:** Homepage supports light/dark themes and multiple layout modes (columns, rows). Configure in `settings.yaml`.

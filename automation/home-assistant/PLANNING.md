@@ -8,7 +8,7 @@ Home Assistant is an open-source home automation platform that puts local contro
 - **Docker Installation:** https://www.home-assistant.io/installation/linux#docker-compose
 - **Source:** https://github.com/home-assistant/core
 
-## Docker Image
+## Container Image
 
 ```
 ghcr.io/home-assistant/home-assistant:2026.3.2
@@ -28,7 +28,7 @@ Home Assistant **requires host networking** for proper device discovery (mDNS, S
 | Static IP | `192.168.62.60` (configured on the host interface/macvlan, not in Docker) |
 | DNS Name | `home-assistant.lab.kemo.network` |
 
-Since host networking is used, the static IP `192.168.62.60` must be assigned at the host level (e.g., via a macvlan interface or a secondary IP on the bridge interface). Docker's `network_mode: host` shares the host's entire network stack.
+Since host networking is used, the static IP `192.168.62.60` must be assigned at the host level (e.g., via a macvlan interface or a secondary IP on the bridge interface). Podman's `network_mode: host` shares the host's entire network stack.
 
 ### Ports (Host Network)
 

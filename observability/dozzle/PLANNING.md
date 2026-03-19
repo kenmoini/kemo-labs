@@ -2,9 +2,9 @@
 
 ## Overview
 
-Dozzle is a lightweight, real-time log viewer for Docker containers. It provides a web-based UI to tail and search container logs without requiring any log storage backend. It connects directly to the Docker socket and streams logs in real time. Useful as a quick debugging tool alongside the full Grafana/Loki log pipeline.
+Dozzle is a lightweight, real-time log viewer for Docker containers. It provides a web-based UI to tail and search container logs without requiring any log storage backend. It connects directly to the Podman socket and streams logs in real time. Useful as a quick debugging tool alongside the full Grafana/Loki log pipeline.
 
-## Docker Images
+## Container Images
 
 | Component | Image | Tag |
 |-----------|-------|-----|
@@ -41,7 +41,7 @@ Requires a `users.yml` file mounted to `/data/users.yml` with bcrypt-hashed pass
 
 | Volume | Container Path | Purpose | Estimated Size |
 |--------|---------------|---------|----------------|
-| `/var/run/docker.sock` | `/var/run/docker.sock` | Docker socket (required, read-only) | bind mount |
+| `/var/run/docker.sock` | `/var/run/docker.sock` | Podman socket (required, read-only) | bind mount |
 | `./users.yml` | `/data/users.yml` | Optional: user authentication file | bind mount |
 
 Dozzle is stateless and stores no data on disk. All logs are streamed in real-time from Docker.
@@ -56,7 +56,7 @@ Dozzle is extremely lightweight. Memory usage scales slightly with the number of
 
 ## Dependencies
 
-- **Docker socket**: Read-only access to `/var/run/docker.sock` is mandatory.
+- **Podman socket**: Read-only access to `/var/run/docker.sock` is mandatory.
 - **Traefik** (infrastructure/traefik): Reverse proxy for HTTPS access.
 - **StepCA ACME**: TLS certificates via Traefik.
 - **DNS**: `dozzle.lab.kemo.network` A record pointing to 192.168.62.31.
@@ -81,7 +81,7 @@ traefik.http.services.dozzle.loadbalancer.server.port=8080
 ## Special Considerations
 
 ### Docker Socket Access
-Dozzle requires read-only access to the Docker socket. Mount as `/var/run/docker.sock:/var/run/docker.sock:ro`. This grants visibility into all containers on the host.
+Dozzle requires read-only access to the Podman socket. Mount as `/var/run/docker.sock:/var/run/docker.sock:ro`. This grants visibility into all containers on the host.
 
 ### No Persistent Storage
 Dozzle does not store logs. It streams directly from Docker's log driver. If you need persistent log storage and search, use the Grafana Alloy stack with Loki.

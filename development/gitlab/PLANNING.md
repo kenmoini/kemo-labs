@@ -4,7 +4,7 @@
 
 GitLab Community Edition provides self-hosted Git repository management, CI/CD pipelines, container registry, issue tracking, and project management. The heaviest single workload in the homelab.
 
-## Docker Image
+## Container Image
 
 - **Image:** `gitlab/gitlab-ce:17.10.2-ce.0`
 - **Tag policy:** Pin to specific release, update monthly

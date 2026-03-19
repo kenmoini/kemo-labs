@@ -4,7 +4,7 @@
 
 Squid serves as a forward (outbound) proxy for the homelab network, providing HTTP/HTTPS caching to reduce bandwidth usage and improve performance, as well as outbound traffic control and logging. Services and hosts on the network can be configured to route their outbound HTTP(S) traffic through this proxy. This is particularly useful for caching package downloads (RPMs, debs, container images) and controlling egress.
 
-## Docker Image
+## Container Image
 
 - **Image:** `ubuntu/squid:latest`
 - **Registry:** Docker Hub (Canonical/Ubuntu official)
@@ -105,4 +105,4 @@ Allocate **10 - 50 GB** of disk space for the cache depending on usage patterns.
 4. **ACLs for safety:** Restrict the proxy to the local network. Do not allow arbitrary external access.
 5. **Log rotation:** Squid logs can grow large. Configure logrotate or Squid's built-in log rotation (`logfile_rotate`).
 6. **DNS configuration:** Point Squid at Pi-hole (192.168.62.4) for DNS resolution so it benefits from local DNS and ad blocking.
-7. **No-proxy list:** Services that communicate locally (e.g., within the Docker network) should bypass the proxy. Set `no_proxy=localhost,127.0.0.1,.lab.kemo.network,192.168.62.0/23` in client configurations.
+7. **No-proxy list:** Services that communicate locally (e.g., within the Podman network) should bypass the proxy. Set `no_proxy=localhost,127.0.0.1,.lab.kemo.network,192.168.62.0/23` in client configurations.

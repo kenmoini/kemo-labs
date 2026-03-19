@@ -6,7 +6,7 @@ Semaphore UI is a modern, open-source alternative to Ansible AWX/Tower that prov
 
 Website: https://semaphoreui.com
 
-## Docker Image
+## Container Image
 
 - **Image:** `semaphoreui/semaphore`
 - **Registry:** Docker Hub (official)

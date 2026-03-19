@@ -4,7 +4,7 @@
 
 Code Server runs VS Code in the browser, providing a consistent development environment accessible from any device. Persists workspace, extensions, and settings across sessions.
 
-## Docker Image
+## Container Image
 
 - **Image:** `codercom/code-server:4.99.4`
 - **Tag policy:** Pin to patch version

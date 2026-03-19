@@ -4,7 +4,7 @@
 
 Kopia is a fast, encrypted backup tool with deduplication. It backs up homelab data (configs, databases, media) to the RustFS S3 object store. Provides a web UI for managing snapshots, policies, and restore operations.
 
-## Docker Image
+## Container Image
 
 - **Image:** `kopia/kopia:0.19`
 - **Tag policy:** Pin to minor version

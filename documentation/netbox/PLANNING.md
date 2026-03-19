@@ -4,7 +4,7 @@
 
 Netbox is a comprehensive network documentation and IP Address Management (IPAM) tool. It provides a centralized source of truth for network infrastructure including IP addresses, VLANs, racks, devices, cables, circuits, and more. In this homelab, Netbox will serve as the primary infrastructure documentation and IPAM system.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag |
 |---------|-------|-----|
@@ -118,7 +118,7 @@ Database storage is handled by the shared PostgreSQL instance.
 | Static IP | `192.168.62.50` |
 | DNS Zone | `lab.kemo.network` |
 | FQDN | `netbox.lab.kemo.network` |
-| Docker Network | `lab-network` (macvlan/bridge) |
+| Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
 ### Traefik Labels

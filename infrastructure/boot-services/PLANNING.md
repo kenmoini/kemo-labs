@@ -8,7 +8,7 @@ This stack provides network boot capabilities for PXE-booting machines on the ne
 2. **NUT (Network UPS Tools)** -- Monitors UPS hardware and provides status/alerts to other systems; enables graceful shutdowns on power loss
 3. **PeaNUT** -- Modern web UI for NUT, providing a dashboard to view UPS status, battery levels, and power metrics
 
-## Docker Images
+## Container Images
 
 | Service | Image | Notes |
 |---------|-------|-------|

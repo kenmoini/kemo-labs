@@ -4,7 +4,7 @@
 
 RustFS is a high-performance, S3-compatible object storage system built in Rust. It serves as the primary object storage backend for the homelab, providing S3-compatible APIs for backups (Kopia), general file storage, application data, and any workload that needs an S3 endpoint. Licensed under Apache 2.0.
 
-## Docker Image
+## Container Image
 
 - **Image:** `rustfs/rustfs:1.0.0-alpha.88`
 - **Alternative:** `rustfs/rustfs:latest`
@@ -58,7 +58,7 @@ RustFS is built in Rust and is lightweight compared to Java-based alternatives. 
 |------------|------|---------|
 | Traefik | Routing/TLS | Reverse proxy for HTTPS access to S3 API and console |
 | StepCA | TLS | ACME certificates via Traefik |
-| Docker network (macvlan) | Network | Static IP assignment |
+| Podman network (macvlan) | Network | Static IP assignment |
 
 No other storage workloads depend on this being up first, but Kopia (backups) requires this service as its S3 backend.
 

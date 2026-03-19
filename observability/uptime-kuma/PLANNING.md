@@ -4,7 +4,7 @@
 
 Uptime Kuma is a self-hosted monitoring tool that checks the availability of services via HTTP(S), TCP, DNS, ping, and other protocols. It provides a clean web UI with status pages, notifications (email, Slack, Discord, etc.), and historical uptime data. It will monitor all homelab services and external dependencies.
 
-## Docker Images
+## Container Images
 
 | Component | Image | Tag |
 |-----------|-------|-----|

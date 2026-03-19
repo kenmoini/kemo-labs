@@ -17,7 +17,7 @@ The stack includes:
 
 ---
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag | Notes |
 |---------|-------|-----|-------|

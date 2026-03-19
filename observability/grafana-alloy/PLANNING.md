@@ -6,7 +6,7 @@ Full Grafana observability stack providing metrics, logs, traces, and dashboards
 
 All components run in a single Docker Compose deployment on a dedicated static IP.
 
-## Docker Images
+## Container Images
 
 | Component | Image | Tag |
 |-----------|-------|-----|
@@ -82,7 +82,7 @@ Configured via `alloy-config.alloy` (River format) mounted into the container. K
 | `./config/mimir-config.yaml` | `/etc/mimir/mimir.yaml` | Mimir configuration | bind mount |
 | `./config/tempo-config.yaml` | `/etc/tempo/tempo.yaml` | Tempo configuration | bind mount |
 | `./config/alloy-config.alloy` | `/etc/alloy/config.alloy` | Alloy pipeline config | bind mount |
-| `/var/run/docker.sock` | `/var/run/docker.sock` | Docker socket for Alloy log/metric discovery | bind mount (read-only) |
+| `/var/run/docker.sock` | `/var/run/docker.sock` | Podman socket for Alloy log/metric discovery | bind mount (read-only) |
 | `./provisioning/datasources/` | `/etc/grafana/provisioning/datasources/` | Grafana datasource provisioning | bind mount |
 
 ## Resource Estimates
@@ -100,7 +100,7 @@ Configured via `alloy-config.alloy` (River format) mounted into the container. K
 
 - **Traefik** (infrastructure/traefik): Reverse proxy for HTTPS access to Grafana UI.
 - **StepCA ACME**: TLS certificates via Traefik integration.
-- **Docker socket**: Alloy needs read-only access to `/var/run/docker.sock` for container discovery, log collection, and Docker metrics.
+- **Podman socket**: Alloy needs read-only access to `/var/run/docker.sock` for container discovery, log collection, and Docker metrics.
 - **DNS**: `grafana.lab.kemo.network` A record pointing to 192.168.62.30.
 
 ## Network Configuration
@@ -126,7 +126,7 @@ traefik.http.services.grafana.loadbalancer.server.port=3000
 ## Special Considerations
 
 ### Alloy Docker Socket Access
-Alloy requires read-only access to the Docker socket (`/var/run/docker.sock`) to discover running containers and collect their logs and metrics. This is a privileged operation; mount as read-only (`:ro`).
+Alloy requires read-only access to the Podman socket (`/var/run/docker.sock`) to discover running containers and collect their logs and metrics. This is a privileged operation; mount as read-only (`:ro`).
 
 ### Alloy Configuration Format
 Alloy uses the "River" configuration language (`.alloy` files), not the older YAML-based Grafana Agent config. The config defines a pipeline of components: sources, processors, and exporters.

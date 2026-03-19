@@ -10,7 +10,7 @@ Shlink is a self-hosted URL shortener with a REST API interface. It provides sho
 - **Static IP:** 192.168.62.81
 - **DNS Zone:** lab.kemo.network
 
-## Docker Images
+## Container Images
 
 | Service | Image | Purpose |
 |---------|-------|---------|

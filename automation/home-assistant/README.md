@@ -36,13 +36,13 @@ http:
 | `https://home-assistant.lab.kemo.network` | Web UI (via Traefik file provider) |
 | `http://192.168.62.60:8123` | Direct access |
 
-**Static IP:** 192.168.62.60 (assigned at the host level, not Docker)
+**Static IP:** 192.168.62.60 (assigned at the host level, not Podman)
 
 ## Dependencies
 
 - **Shared MQTT (Mosquitto)** -- for Zigbee2MQTT, Tasmota, ESPHome device communication
 - **DNS** -- hostname resolution
-- **Traefik** -- routes via file provider (not Docker labels, since this uses host networking)
+- **Traefik** -- routes via file provider (not Container labels, since this uses host networking)
 
 Home Assistant uses **host networking** for mDNS/SSDP/UPnP device discovery. The static IP must be assigned on the host interface.
 

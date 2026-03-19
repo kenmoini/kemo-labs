@@ -40,7 +40,7 @@ Static configuration lives in `./config/traefik.yml`. Dynamic route definitions 
 
 - **DNS (PowerDNS)** -- wildcard `*.lab.kemo.network` must resolve to 192.168.62.10
 - **StepCA (ACME)** -- must be reachable for certificate issuance
-- **Docker socket** -- mounted read-only for container auto-discovery
+- **Podman socket** -- mounted read-only for container auto-discovery
 
 ## Maintenance
 

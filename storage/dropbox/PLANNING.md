@@ -4,7 +4,7 @@
 
 A dual-container file sharing solution: NGINX serves files for fast static downloads, while Copyparty provides a web-based file manager with upload, search, and media playback. Both mount the same data directory, giving two complementary interfaces to the same files.
 
-## Docker Images
+## Container Images
 
 | Container | Image | Purpose |
 |-----------|-------|---------|

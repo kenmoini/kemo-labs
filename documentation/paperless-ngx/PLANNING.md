@@ -4,7 +4,7 @@
 
 Paperless-NGX is a document management system that transforms physical documents into a searchable online archive. It performs OCR on uploaded documents, indexes their content, and provides a web interface for organizing, tagging, and searching documents. In this homelab, Paperless-NGX serves as the primary document management and archival system.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag |
 |---------|-------|-----|
@@ -138,7 +138,7 @@ OCR processing (Tesseract) is the primary resource consumer. During batch import
 | Static IP | `192.168.62.53` |
 | DNS Zone | `lab.kemo.network` |
 | FQDN | `paperless.lab.kemo.network` |
-| Docker Network | `lab-network` (macvlan/bridge) |
+| Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
 ### Traefik Labels

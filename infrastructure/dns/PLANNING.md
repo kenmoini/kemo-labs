@@ -8,7 +8,7 @@ The DNS stack provides authoritative name resolution for the `lab.kemo.network` 
 2. **PowerDNS Recursor** -- forwards `lab.kemo.network` queries to the Auth server, and all other queries to upstream public DNS resolvers
 3. **Pi-hole** -- provides DNS-level ad/tracker blocking using the Recursor as its upstream, and serves as the DNS server advertised to all clients on the network
 
-## Docker Images
+## Container Images
 
 | Service | Image | Notes |
 |---------|-------|-------|
@@ -140,7 +140,7 @@ api-key=<secret>
 
 ## Network Configuration
 
-- Each container gets a dedicated static IP on the `192.168.62.0/23` network using a macvlan or ipvlan Docker network.
+- Each container gets a dedicated static IP on the `192.168.62.0/23` network using a bridged Podman network.
 - Pi-hole is advertised as the DNS server to all DHCP clients on the network (set in the DHCP server / router config).
 - The query flow is: **Client -> Pi-hole (192.168.62.4) -> Recursor (192.168.62.3) -> Auth (192.168.62.2)** for `lab.kemo.network` queries, or **Client -> Pi-hole -> Recursor -> upstream** for external queries.
 - Pi-hole requires `cap_add: NET_ADMIN` in Docker.

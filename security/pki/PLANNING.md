@@ -19,7 +19,7 @@ PikaPKI itself is used on-demand (interactively) to:
 
 The Nginx sidecar runs continuously to serve CA certificates and CRLs at `http://pki.lab.kemo.network/`.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag |
 |---------|-------|-----|

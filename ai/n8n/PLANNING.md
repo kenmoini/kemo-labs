@@ -6,7 +6,7 @@ n8n is a workflow automation platform that allows building complex automations t
 
 **Purpose in this homelab:** Central automation hub for connecting services, processing webhooks, scheduling tasks, orchestrating AI workflows (connecting to Ollama/Open WebUI), monitoring alerts, and general home/lab automation.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag |
 |---------|-------|-----|
@@ -98,7 +98,7 @@ GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n;
 |---------|-------|
 | Static IP | `192.168.62.71` |
 | DNS Name | `n8n.lab.kemo.network` |
-| Docker Network | Shared macvlan/bridge with static IP assignment |
+| Container Network | Shared bridge to homelab-lab with static IP assignment |
 | Traefik Labels | Route `n8n.lab.kemo.network` to container port 5678 |
 
 ### Traefik Integration
@@ -111,7 +111,7 @@ GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n;
 
 - n8n needs network access to the shared PostgreSQL instance.
 - n8n may need access to other services on the lab network for automation (e.g., Ollama API at `192.168.62.70:11434`, Home Assistant, email servers, etc.).
-- Ensure the Docker network configuration allows n8n to reach other service IPs in the `192.168.62.0/23` range.
+- Ensure the Podman network configuration allows n8n to reach other service IPs in the `192.168.62.0/23` range.
 
 ## Special Considerations
 

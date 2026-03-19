@@ -6,7 +6,7 @@ Open WebUI is a self-hosted web interface for interacting with Large Language Mo
 
 **Purpose in this homelab:** Provide a unified LLM chat interface for the household, connecting to a local Ollama backend for private/offline inference and optionally to cloud APIs for larger models.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag |
 |---------|-------|-----|
@@ -24,7 +24,7 @@ Open WebUI is a self-hosted web interface for interacting with Large Language Mo
 | 11434 | TCP | Ollama | Ollama API server |
 
 - Traefik will reverse-proxy to Open WebUI on port 8080.
-- Ollama port 11434 only needs to be accessible from the Open WebUI container (and optionally from other services on the Docker network that need LLM inference).
+- Ollama port 11434 only needs to be accessible from the Open WebUI container (and optionally from other services on the Podman network that need LLM inference).
 
 ## Environment Variables
 
@@ -91,7 +91,7 @@ Ollama is configured primarily through its runtime environment and model pulls. 
 | Ollama | Co-deployed service | Runs alongside Open WebUI in the same compose stack |
 | Traefik | Reverse proxy | TLS termination via StepCA ACME |
 | StepCA | TLS certificates | ACME provider for Traefik |
-| Docker network | Networking | Shared bridge network for inter-service communication |
+| Podman network | Networking | Shared bridge network for inter-service communication |
 
 - Open WebUI does NOT require PostgreSQL -- it uses an internal SQLite database.
 - No shared database dependency; this stack is self-contained.
@@ -102,7 +102,7 @@ Ollama is configured primarily through its runtime environment and model pulls. 
 |---------|-------|
 | Static IP | `192.168.62.70` |
 | DNS Name | `open-webui.lab.kemo.network` |
-| Docker Network | Shared macvlan/bridge with static IP assignment |
+| Container Network | Shared macvlan/bridge with static IP assignment |
 | Traefik Labels | Route `open-webui.lab.kemo.network` to container port 8080 |
 
 ### Traefik Integration

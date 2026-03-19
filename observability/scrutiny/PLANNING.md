@@ -6,7 +6,7 @@ Scrutiny is a hard drive health dashboard and monitoring tool that collects S.M.
 
 Scrutiny has two deployment modes: an all-in-one "omnibus" container (web + collector) or separate web and collector containers. For a single-host homelab, the omnibus image is simplest.
 
-## Docker Images
+## Container Images
 
 | Component | Image | Tag |
 |-----------|-------|-----|

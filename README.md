@@ -2,7 +2,7 @@
 
 > This is an experiment to see if I can vibe code my way into refreshing my homelab workloads.  Prompts can be seen in [./.prompts/](./.prompts/)
 
-A single-host homelab running ~87 Docker containers and a 6-node Kubernetes cluster on Fedora with KVM + Docker Compose. Every service gets a static IP on a shared macvlan network and automated TLS certificates via an internal ACME CA.
+A single-host homelab running ~87 Podman containers and a 6-node Kubernetes cluster on Fedora with KVM + Podman Compose. Every service gets a static IP on a shared macvlan network and automated TLS certificates via an internal ACME CA.
 
 ## Architecture
 
@@ -11,7 +11,7 @@ A single-host homelab running ~87 Docker containers and a 6-node Kubernetes clus
 |  Fedora Host (128GB+ RAM, 32+ cores)                            |
 |                                                                 |
 |  +-----------------------------------------------------------+  |
-|  |  Docker Engine                                            |  |
+|  |  Podman                                                   |  |
 |  |                                                           |  |
 |  |  Phase 0   [ PikaPKI (Root CA) ]                          |  |
 |  |  Phase 1   [ PowerDNS Auth/Recursor | Pi-hole | StepCA ]  |  |
@@ -45,20 +45,20 @@ A single-host homelab running ~87 Docker containers and a 6-node Kubernetes clus
 
 ### Prerequisites
 
-- Fedora (44+) with Libvirtd, Docker, and Docker Compose installed
+- Fedora (44+) with Libvirtd, Podman, and Podman Compose installed
 - Network bridge interfaces configured for each VLAN (see [Networks](#networks) below)
 - 128GB+ RAM (see [Resource Notes](#resource-notes) for tuning)
 - This repository cloned to the host
 
-### 1. Create the Docker networks
+### 1. Create the Podman networks
 
-Create all predefined macvlan networks at once:
+Create all predefined bridged networks at once:
 
 ```bash
 ./scripts/setup-network.sh --all
 ```
 
-This creates one Docker macvlan network per VLAN. To also enable host-to-container communication (macvlan shim interfaces):
+This creates one Podman bridged network per VLAN. To also enable host-to-container communication (macvlan shim interfaces):
 
 ```bash
 ./scripts/setup-network.sh --shims
@@ -103,9 +103,9 @@ After Phase 0 completes, copy the PikaPKI root CA certificate to your browser, h
 
 ## Networks
 
-The homelab uses multiple VLANs, each mapped to a Docker macvlan network via host bridge interfaces.
+The homelab uses multiple VLANs, each mapped to a Libvirt/Podman bridge network via host bridge interfaces.
 
-| Docker Network | Subnet | Gateway | Parent | Purpose |
+| Network Name | Subnet | Gateway | Parent | Purpose |
 |----------------|--------|---------|--------|---------|
 | `homelab-access` | 192.168.92.0/23 | 192.168.92.1 | `br0` | Access VLAN - management and uplinks |
 | `homelab-lab` | 192.168.62.0/23 | 192.168.62.1 | `br0.62` | Lab VLAN 62 - primary workload network |
@@ -114,7 +114,7 @@ The homelab uses multiple VLANs, each mapped to a Docker macvlan network via hos
 
 All homelab workloads run on `homelab-lab` (192.168.62.0/23) by default. The other networks are available for workloads that need network isolation (e.g., malware analysis, build sandboxes, testing).
 
-Host bridge interfaces (`br0`, `br0.62`, `br0.70`, `br0.86`) must exist before creating the Docker networks. Containers on macvlan networks cannot communicate with the host directly -- use the `--shims` flag to create shim interfaces if needed.
+Host bridge interfaces (`br0`, `br0.62`, `br0.70`, `br0.86`) must exist before creating the Libvirt/Podman networks.
 
 ## Directory Structure
 
@@ -275,7 +275,7 @@ All services are accessible via `*.lab.kemo.network`. Services behind Traefik re
 
 ## Managing Individual Stacks
 
-Each workload is a self-contained Docker Compose project. Manage them individually from the repo root:
+Each workload is a self-contained Podman Compose project. Manage them individually from the repo root:
 
 ```bash
 # Start a single stack
@@ -309,7 +309,7 @@ All stacks share the external `homelab` macvlan network, so stopping one stack d
 
 ## Resource Notes
 
-Estimated peak usage for all Docker workloads is ~106 GB RAM. The Talos Kubernetes cluster adds up to 72 GB. Running everything simultaneously exceeds 128 GB. Recommendations:
+Estimated peak usage for all Podman workloads is ~106 GB RAM. The Talos Kubernetes cluster adds up to 72 GB. Running everything simultaneously exceeds 128 GB. Recommendations:
 
 - Start the Kubernetes cluster with fewer or smaller nodes (e.g., 3 CP at 4 GB + 2 workers at 8 GB = 28 GB).
 - Use smaller Ollama models or offload inference to a GPU.
@@ -318,7 +318,7 @@ Estimated peak usage for all Docker workloads is ~106 GB RAM. The Talos Kubernet
 
 ## Kubernetes
 
-The Talos Linux cluster (Phase 14) runs as KVM virtual machines managed by libvirt, separate from the Docker workloads. It is deployed last because it takes the longest to stabilize and has the heaviest resource footprint.
+The Talos Linux cluster (Phase 14) runs as KVM virtual machines managed by libvirt, separate from the Podman workloads. It is deployed last because it takes the longest to stabilize and has the heaviest resource footprint.
 
 Configuration lives in `compute/talos-kubernetes/`. The cluster uses its own IP range (192.168.62.99-112) with a shared VIP at .99 for the control plane.
 

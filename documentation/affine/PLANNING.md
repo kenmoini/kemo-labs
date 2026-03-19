@@ -4,7 +4,7 @@
 
 AFFiNE is an open-source knowledge base and wiki platform that combines docs, whiteboards, and database-like tables in a single workspace. It supports real-time collaboration, markdown editing, and a block-based editor similar to Notion. In this homelab, AFFiNE will serve as the primary knowledge management and documentation platform.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag |
 |---------|-------|-----|
@@ -108,7 +108,7 @@ AFFiNE requires the `pgvector` PostgreSQL extension for vector search functional
 | Static IP | `192.168.62.51` |
 | DNS Zone | `lab.kemo.network` |
 | FQDN | `affine.lab.kemo.network` |
-| Docker Network | `lab-network` (macvlan/bridge) |
+| Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
 ### Traefik Labels

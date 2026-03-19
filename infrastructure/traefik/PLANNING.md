@@ -4,7 +4,7 @@
 
 Traefik serves as the central ingress point for all homelab services, providing load balancing, reverse proxying, and automatic TLS certificate management. It routes traffic to all other services via `*.lab.kemo.network` subdomains. Traefik uses both the Docker provider (for automatic service discovery of co-located containers) and the file provider (for routing to services on other hosts or with custom configurations).
 
-## Docker Image
+## Container Image
 
 - **Image:** `traefik:v3.6`
 - **Registry:** Docker Hub (official)
@@ -33,7 +33,7 @@ Key settings:
   - `web` on `:80` -- HTTP, with a redirect-to-HTTPS scheme middleware
   - `websecure` on `:443` -- HTTPS, with TLS and the ACME certificate resolver
 - **Providers:**
-  - `docker` -- watches the Docker socket for container labels; `exposedByDefault: false` to require explicit opt-in
+  - `docker` -- watches the Podman socket for container labels; `exposedByDefault: false` to require explicit opt-in
   - `file` -- watches `/etc/traefik/dynamic/` for YAML route definitions
 - **Certificate Resolvers:**
   - `stepca` -- ACME resolver pointing to the internal StepCA server
@@ -103,17 +103,17 @@ For services not discoverable via Docker labels (e.g., VMs, external hosts), pla
 |------------|--------|
 | StepCA | ACME certificate issuance (must be reachable at its CA server URL) |
 | DNS (PowerDNS) | Wildcard `*.lab.kemo.network` must resolve to 192.168.62.10 |
-| Docker socket | Required for Docker provider auto-discovery |
+| Podman socket | Required for Docker provider auto-discovery |
 
 ## Network Configuration
 
-- Attach to a Docker network with a static IP of `192.168.62.10` using a macvlan or ipvlan network, or use host networking with the IP bound on the host.
-- All other Docker services that want to be discovered must share a common Docker network with Traefik (e.g., `traefik-net`).
+- Attach to a Podman network with a static IP of `192.168.62.10` using a bridge network, or use host networking with the IP bound on the host.
+- All other Podman services that want to be discovered must share a common Podman network with Traefik (e.g., `traefik-net`).
 - Wildcard DNS record `*.lab.kemo.network -> 192.168.62.10` must exist in the PowerDNS authoritative zone.
 
 ## Special Considerations
 
-1. **Docker socket security:** Mount the Docker socket read-only (`:ro`). Consider using a Docker socket proxy (e.g., `tecnativa/docker-socket-proxy`) for reduced attack surface.
+1. **Podman socket security:** Mount the Podman socket read-only (`:ro`). Consider using a Podman socket proxy (e.g., `tecnativa/docker-socket-proxy`) for reduced attack surface.
 2. **ACME storage backup:** Back up `acme.json` regularly. Certificate loss means re-issuance from StepCA.
 3. **HTTP-to-HTTPS redirect:** Configure a global redirect middleware on the `web` entrypoint so all HTTP traffic is upgraded to HTTPS.
 4. **Trusted IPs / Proxy Protocol:** If fronted by another proxy or firewall, configure `forwardedHeaders.trustedIPs` to preserve real client IPs.

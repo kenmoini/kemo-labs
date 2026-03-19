@@ -46,7 +46,7 @@ Add labels to individual containers to control WUD behavior:
 
 ## Dependencies
 
-- **Docker socket** -- mounted read-only for container inspection
+- **Podman socket** -- mounted read-only for container inspection
 - **Traefik** -- reverse proxy with TLS via StepCA
 - **DNS** -- `wud.lab.kemo.network` must resolve to Traefik (192.168.62.10)
 - **Ntfy** (192.168.62.82) -- notification delivery target

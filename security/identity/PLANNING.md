@@ -4,7 +4,7 @@
 
 Authentik is a self-hosted identity provider offering LDAP, OIDC/OAuth2, SAML, and SCIM. It serves as the central authentication and authorization hub for all homelab services that support SSO. Provides user management, group-based access control, multi-factor authentication, and social login.
 
-## Docker Images
+## Container Images
 
 | Container | Image | Purpose |
 |-----------|-------|---------|

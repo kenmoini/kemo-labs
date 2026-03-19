@@ -6,7 +6,7 @@ Postiz is an open-source social media management and scheduling platform. It all
 
 **Purpose in this homelab:** Centralized social media management tool for scheduling and publishing content across multiple platforms, with AI-assisted content creation powered by the local Ollama/OpenAI API integration.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag |
 |---------|-------|-----|
@@ -169,7 +169,7 @@ Temporal requires its own dedicated PostgreSQL instance. This is separate from t
 |---------|-------|
 | Static IP | `192.168.62.72` |
 | DNS Name | `postiz.lab.kemo.network` |
-| Docker Network | Shared macvlan/bridge with static IP assignment |
+| Container Network | Shared macvlan/bridge with static IP assignment |
 | Traefik Labels | Route `postiz.lab.kemo.network` to container port 5000 |
 
 ### Traefik Integration

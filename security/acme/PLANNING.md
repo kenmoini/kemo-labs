@@ -4,7 +4,7 @@
 
 Smallstep's `step-ca` provides an internal ACME server for automated TLS certificate issuance. Traefik will request certificates from StepCA via the ACME protocol for all `*.lab.kemo.network` services. StepCA uses an intermediate CA certificate issued by PikaPKI (the root of trust).
 
-## Docker Image
+## Container Image
 
 - **Image:** `smallstep/step-ca:0.28.3`
 - **Tag policy:** Pin to minor version, update quarterly

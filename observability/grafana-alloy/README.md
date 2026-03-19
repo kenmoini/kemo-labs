@@ -45,7 +45,7 @@ Backend services (Loki, Mimir, Tempo) are configured via YAML files in `./config
 ## Dependencies
 
 - **Traefik** -- reverse proxy for Grafana HTTPS access
-- **Docker socket** -- Alloy needs read-only access for container discovery and log collection
+- **Podman socket** -- Alloy needs read-only access for container discovery and log collection
 
 ## Maintenance
 

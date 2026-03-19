@@ -4,7 +4,7 @@
 
 Paperless-AI is an AI-powered extension for Paperless-NGX that brings automatic document classification, smart tagging, and semantic search. It uses LLM providers (OpenAI, Ollama, or other OpenAI-compatible APIs) to analyze document content and automatically assign titles, tags, document types, and correspondents. It also includes a RAG-based chat interface for natural language document queries.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag |
 |---------|-------|-----|
@@ -143,7 +143,7 @@ Paperless-AI (192.168.62.54)
 | Static IP | `192.168.62.54` |
 | DNS Zone | `lab.kemo.network` |
 | FQDN | `paperless-ai.lab.kemo.network` |
-| Docker Network | `lab-network` (macvlan/bridge) |
+| Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
 ### Traefik Labels
@@ -176,6 +176,6 @@ labels:
 
 8. **System Prompt Customization**: The default system prompt works well for general documents. For specialized use cases (e.g., medical records, legal documents), customize the `SYSTEM_PROMPT` to extract domain-specific metadata.
 
-9. **Paperless-NGX API URL**: Use the internal Docker network URL (`http://192.168.62.53:8000/api`) or the Traefik URL (`https://paperless.lab.kemo.network/api`). The internal URL avoids TLS overhead but requires network connectivity between containers.
+9. **Paperless-NGX API URL**: Use the internal Podman network URL (`http://192.168.62.53:8000/api`) or the Traefik URL (`https://paperless.lab.kemo.network/api`). The internal URL avoids TLS overhead but requires network connectivity between containers.
 
 10. **No Authentication Built-in**: Paperless-AI does not have its own authentication system. Protect the web UI using Traefik middleware (forward auth with Keycloak/Authentik) or restrict access via network policy.

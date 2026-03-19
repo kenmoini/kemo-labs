@@ -4,7 +4,7 @@
 
 Draw.io (diagrams.net) is an open-source diagramming application for creating flowcharts, network diagrams, UML diagrams, architecture diagrams, and more. It runs entirely in the browser with optional server-side export capabilities. In this homelab, Draw.io provides a self-hosted diagramming tool with no external cloud dependencies.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Tag |
 |---------|-------|-----|
@@ -91,7 +91,7 @@ Draw.io has **no database or cache dependencies**. It is entirely self-contained
 | Static IP | `192.168.62.52` |
 | DNS Zone | `lab.kemo.network` |
 | FQDN | `drawio.lab.kemo.network` |
-| Docker Network | `lab-network` (macvlan/bridge) |
+| Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
 ### Traefik Labels

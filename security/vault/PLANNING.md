@@ -4,7 +4,7 @@
 
 HashiCorp Vault provides centralized secrets management, encryption as a service, and identity-based access for the homelab. Stores API keys, database credentials, TLS certificates, and other sensitive data with audit logging and fine-grained access control.
 
-## Docker Image
+## Container Image
 
 - **Image:** `hashicorp/vault:1.19`
 - **Tag policy:** Pin to minor version

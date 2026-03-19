@@ -4,7 +4,7 @@
 
 WUD monitors running Docker containers for available image updates by comparing local image tags against remote registry tags. It provides a web UI dashboard showing update status and can send notifications when updates are detected. WUD supports semver-aware tag comparison, digest tracking for mutable tags (e.g., `latest`), and per-container label-based configuration.
 
-## Docker Image
+## Container Image
 
 - **Image:** `getwud/wud`
 - **Registry:** Docker Hub
@@ -33,7 +33,7 @@ WUD monitors running Docker containers for available image updates by comparing 
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
-| `WUD_WATCHER_LOCAL_SOCKET` | Docker socket path | `/var/run/docker.sock` |
+| `WUD_WATCHER_LOCAL_SOCKET` | Podman socket path | `/var/run/docker.sock` |
 | `WUD_WATCHER_LOCAL_CRON` | Check schedule (cron expression) | `0 * * * *` (every hour) |
 | `WUD_WATCHER_LOCAL_WATCHBYDEFAULT` | Monitor all containers by default | `true` |
 | `WUD_WATCHER_LOCAL_WATCHALL` | Monitor all containers regardless of status | `false` |
@@ -65,7 +65,7 @@ WUD monitors running Docker containers for available image updates by comparing 
 
 | Host Path | Container Path | Purpose |
 |-----------|---------------|---------|
-| `/var/run/docker.sock` | `/var/run/docker.sock` (read-only) | Docker socket for container inspection |
+| `/var/run/docker.sock` | `/var/run/docker.sock` (read-only) | Podman socket for container inspection |
 | `./data/store` | `/store` | Persistent state (tracked image versions, update history) |
 
 ## Resource Estimates
@@ -80,7 +80,7 @@ WUD monitors running Docker containers for available image updates by comparing 
 
 | Dependency | Reason |
 |------------|--------|
-| Docker socket | Required to enumerate and inspect containers |
+| Podman socket | Required to enumerate and inspect containers |
 | Traefik | Reverse proxy and TLS termination for the web UI |
 | DNS (PowerDNS) | `wud.lab.kemo.network` must resolve to 192.168.62.10 (Traefik) |
 | Ntfy (192.168.62.82) | Push notification target for update alerts |
@@ -93,7 +93,7 @@ WUD monitors running Docker containers for available image updates by comparing 
 
 ## Special Considerations
 
-1. **Docker socket security:** Mount the Docker socket read-only (`:ro`). WUD only reads container metadata and does not start/stop containers unless an auto-update trigger is configured.
+1. **Podman socket security:** Mount the Podman socket read-only (`:ro`). WUD only reads container metadata and does not start/stop containers unless an auto-update trigger is configured.
 2. **Registry rate limits:** WUD queries Docker Hub and other registries to check for updates. The default hourly cron is reasonable, but digest watching increases API calls significantly. Consider adjusting the cron schedule or disabling digest watching for Hub-hosted images to avoid rate limits.
 3. **Per-container labels:** Fine-tune monitoring with labels on each container: `wud.watch=true/false`, `wud.tag.include=<regex>`, `wud.tag.exclude=<regex>`, `wud.watch.digest=true/false`.
 4. **Secret management:** WUD supports `__FILE` suffix on any env var to read secrets from mounted files instead of inline values.

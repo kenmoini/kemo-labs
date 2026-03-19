@@ -4,7 +4,7 @@
 
 Renovate automatically creates merge requests in GitLab when dependencies have updates available. Runs as a scheduled container (not a long-running service) that scans configured repositories on each run.
 
-## Docker Image
+## Container Image
 
 - **Image:** `renovate/renovate:39-full`
 - **Tag policy:** Pin to major version with `-full` suffix (includes all language managers)

@@ -10,7 +10,7 @@ Ntfy (pronounced "notify") is a simple HTTP-based pub-sub notification service. 
 - **Static IP:** 192.168.62.82
 - **DNS Zone:** lab.kemo.network
 
-## Docker Image
+## Container Image
 
 | Service | Image | Purpose |
 |---------|-------|---------|

@@ -4,7 +4,7 @@
 
 IT Tools is a collection of handy developer utilities accessible via a web interface: encoders/decoders, converters, generators, network tools, and more. Fully client-side — no backend processing, completely stateless.
 
-## Docker Image
+## Container Image
 
 - **Image:** `corentinth/it-tools:latest`
 - **Tag policy:** Latest is fine (stateless app, no data at risk)

@@ -4,7 +4,7 @@
 
 - **OS:** Fedora (latest)
 - **Virtualization:** Libvirt/KVM (for Talos Kubernetes VMs)
-- **Containers:** Docker + Docker Compose (for everything else)
+- **Containers:** Podman + Podman Compose (for everything else)
 - **Network:** 192.168.62.0/23 (bridged), static IPs from .0/24, DHCP from .128/24+
 - **DNS Zone:** lab.kemo.network
 - **Resources:** 128GB+ RAM, 32+ cores
@@ -186,7 +186,7 @@ Phase 10 (Documentation & Tools - Depends on Traefik, optionally Databases):
   Code Server
   IT Tools ─── Stateless
   Homepage Dashboard
-  WUD ─── Needs Docker socket + Ntfy for notifications
+  WUD ─── Needs Podman socket + Ntfy for notifications
   Semaphore ─── Needs PostgreSQL (Ansible UI)
 
 Phase 11 (Home Automation - Depends on MQTT):
@@ -266,7 +266,7 @@ Phase 14 (Kubernetes - Depends on DNS, PKI):
 | Kopia | storage/backups/ | 1 | 256 MB |
 | Dropbox | storage/dropbox/ | 2 | 256 MB |
 
-**Gate:** Nexus Docker proxy pulls images. Kopia connects to RustFS.
+**Gate:** Nexus Container proxy pulls images. Kopia connects to RustFS.
 
 ### Phase 7: Core Applications
 | Workload | Dir | Containers | Est. RAM |
@@ -331,7 +331,7 @@ Phase 14 (Kubernetes - Depends on DNS, PKI):
 
 ## Resource Summary
 
-### Docker Workloads (estimated peak)
+### Podman Workloads (estimated peak)
 | Category | Containers | RAM (peak) |
 |----------|-----------|-----------|
 | Infrastructure | 13 | ~2.5 GB |
@@ -345,7 +345,7 @@ Phase 14 (Kubernetes - Depends on DNS, PKI):
 | AI | 8 | ~38 GB |
 | Communication | 21 | ~10.5 GB |
 | Boot/Network | 5 | ~0.5 GB |
-| **Docker Total** | **~87** | **~106 GB** |
+| **Podman Total** | **~87** | **~106 GB** |
 
 ### VM Workloads
 | Workload | VMs | RAM |
@@ -378,9 +378,9 @@ This exceeds 128 GB if everything runs simultaneously at peak. Recommendations:
 
 ---
 
-## Shared Docker Network
+## Shared Podman Network
 
-All Docker Compose stacks will connect to a shared macvlan or ipvlan network for static IP assignment:
+All Podman Compose stacks will connect to a shared macvlan or ipvlan network for static IP assignment:
 
 ```bash
 # Create all predefined networks (one per VLAN)
@@ -452,7 +452,7 @@ PikaPKI Root CA (self-signed, long-lived)
 ```
 
 Distribute PikaPKI root CA to:
-- All Docker containers (via mounted CA bundle)
+- All Podman containers (via mounted CA bundle)
 - Traefik (LEGO_CA_CERTIFICATES)
 - Host OS trust store
 - Browsers/devices on the network

@@ -7,7 +7,7 @@ This stack provides network performance testing tools for the homelab:
 1. **iPerf3** -- Industry-standard network bandwidth measurement tool. Runs as a server that clients connect to for throughput testing between hosts.
 2. **OpenSpeedTest** -- Self-hosted HTML5 speed test (similar to speedtest.net) accessible via a web browser. Uses only static HTML/CSS/JS with a web server backend, requiring no plugins or client-side software.
 
-## Docker Images
+## Container Images
 
 | Service | Image | Notes |
 |---------|-------|-------|

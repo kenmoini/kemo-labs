@@ -1,6 +1,6 @@
 # Dozzle - Real-time Docker Log Viewer
 
-Dozzle is a lightweight, real-time log viewer for Docker containers. It streams logs directly from the Docker socket in the browser with no storage backend required. Useful as a quick debugging tool alongside the full Grafana/Loki log pipeline.
+Dozzle is a lightweight, real-time log viewer for Docker containers. It streams logs directly from the Podman socket in the browser with no storage backend required. Useful as a quick debugging tool alongside the full Grafana/Loki log pipeline.
 
 ## Quick Start
 
@@ -31,7 +31,7 @@ Optional authentication: mount a `users.yml` file with bcrypt-hashed passwords a
 
 ## Dependencies
 
-- **Docker socket** -- read-only access required (mounted as `/var/run/docker.sock`)
+- **Podman socket** -- read-only access required (mounted as `/var/run/docker.sock`)
 - **Traefik** -- reverse proxy for HTTPS access
 
 ## Maintenance

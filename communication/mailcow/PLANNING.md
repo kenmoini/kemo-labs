@@ -20,7 +20,7 @@ Mailcow is opinionated and ships its own `docker-compose.yml`. It is designed to
 
 The wrapper compose or deployment script in this project should orchestrate calling mailcow's native tooling rather than redefining its services.
 
-## Docker Images (Bundled by Mailcow)
+## Container Images (Bundled by Mailcow)
 
 All images are pulled automatically by Mailcow's compose file. Current versions from the master branch:
 
@@ -41,7 +41,7 @@ All images are pulled automatically by Mailcow's compose file. Current versions 
 | acme | `ghcr.io/mailcow/acme:1.97` | Let's Encrypt certificate management |
 | netfilter | `ghcr.io/mailcow/netfilter:1.64` | Fail2ban-like IP blocking |
 | watchdog | `ghcr.io/mailcow/watchdog:2.11` | Health monitoring and auto-restart |
-| dockerapi | `ghcr.io/mailcow/dockerapi:2.12` | Docker socket API for management |
+| dockerapi | `ghcr.io/mailcow/dockerapi:2.12` | Podman socket API for management |
 | olefy | `ghcr.io/mailcow/olefy:1.15` | Office document macro scanning |
 | ofelia | `mcuadros/ofelia:latest` | Cron job scheduler |
 

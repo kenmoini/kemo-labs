@@ -4,7 +4,7 @@
 
 Sonatype Nexus Repository Manager serves as a universal proxy and hosted registry for Docker images, npm packages, Maven artifacts, and more. Acts as a pull-through cache to reduce bandwidth and improve reliability, and as a private registry for internally built images.
 
-## Docker Image
+## Container Image
 
 - **Image:** `sonatype/nexus3:3.78.0`
 - **Tag policy:** Pin to minor version

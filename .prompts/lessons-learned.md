@@ -1,5 +1,6 @@
 # Lessons Learned
 
+- Start in Plan mode, have it spin up subagents to research each tecnology, creating ADRs
 - Give the initial prompt a bit more of your own plan
   - Details about networks (names, namely - and bridge types, VLANs, domains, etc so I don't have to go back and move things around)
   - If any workloads should be included in a single Compose file (eg Pihole/PowerDNS so PDNS can wait for PiHole to start).  Claude did this already but I'm surprised more than expectant.

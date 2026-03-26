@@ -54,7 +54,7 @@ EOF
 dnf update -y
 
 # Install needed packages
-dnf install -y nano git wget curl bind-utils bash-completion net-tools jq yq \
+dnf install -y nano git wget curl bind-utils bash-completion net-tools jq yq dnf-automatic \
   python3 python3-pip python3-argcomplete python3-pip-wheel python3-wheel python3-devel \
   cockpit pcp python3-pcp \
   podman container-tools cockpit-podman pcp-pmda-podman podman-compose \

@@ -4,6 +4,15 @@
 
 A single-host homelab running ~87 Podman containers and a 6-node Kubernetes cluster on Fedora with KVM + Podman Compose. Every service gets a static IP on a shared macvlan network and automated TLS certificates via an internal ACME CA.
 
+## Infrastructure
+
+Everything here is meant to be run on a single Fedora host, however in my lab I run a few different hosts:
+
+- **Tardis** - An MS-02 Ultra, the primary host for my lab stack
+- **Raichu** - An MSI EdgeXpert (DGX Spark) that runs my local LLMs
+- **Rocinante** - An MS-01 ESXi host for testing vSphere things
+- **Galactica** - An MS-A2 that runs Single Node OpenShift
+
 ## Architecture
 
 ```

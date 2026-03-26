@@ -14,10 +14,13 @@ export DOMAIN="kemo.labs"
 export CONTAINER_WORK_DIR="/opt/workdir/caas"
 export VM_WORK_DIR="/opt/workdir/vm"
 
-
 # ==================================================================
 # Networking
 # ==================================================================
+# Set hostname
+hostnamectl set-hostname ${HOSTNAME} --static
+hostnamectl set-hostname ${HOSTNAME} --transient
+
 # Disable IPv6
 cat > /etc/sysctl.d/99-disable-ipv6.conf <<EOF
 net.ipv6.conf.all.disable_ipv6 = 1
@@ -84,9 +87,68 @@ echo '# no one' > /etc/cockpit/disallowed-users
 # ==================================================================
 # Podman Setup
 # ==================================================================
+# Create Podman container store
+mkdir -p ${CONTAINER_WORK_DIR}
 # Create Podman Network Directory
 mkdir -p /etc/containers/networks/
+
+for net in $(yq eval -o=j host-info.yaml | jq -cr '.networks[]'); do
+  name=$(echo $net | jq -r '.name' -)
+  physicalDevice=$(echo $net | jq -r '.physicalDevice' -)
+  subnet=$(echo $net | jq -r '.subnet' -)
+  cidr=$(echo $net | jq -r '.cidr' -)
+  gateway=$(echo $net | jq -r '.gateway' -)
+
+  if [ ! -f /etc/containers/networks/${name}.json ]; then
+    cat > /etc/containers/networks/${name}.json << EOF
+{
+  "name": "${name}",
+  "driver": "bridge",
+  "id": "$(tr -dc a-f0-9 </dev/urandom | head -c 64; echo)",
+  "network_interface": "${physicalDevice}",
+  "subnets": [{
+    "subnet": "${subnet}/${cidr}",
+    "gateway": "${gateway}"
+  }],
+  "ipv6_enabled": false,
+  "internal": false,
+  "dns_enabled": false,
+  "ipam_options": {
+    "driver": "host-local"
+  }
+}
+EOF
+  fi
+done
 
 # ==================================================================
 # Libvirt/KVM Setup
 # ==================================================================
+mkdir -p ${VM_WORK_DIR}
+
+for net in $(yq eval -o=j host-info.yaml | jq -cr '.networks[]'); do
+  name=$(echo $net | jq -r '.name' -)
+  physicalDevice=$(echo $net | jq -r '.physicalDevice' -)
+
+  if virsh net-list --all | grep -q "${name}"; then
+    echo "Network ${name} already exists"
+  else
+    cat > /tmp/libvirt-bridge-${name}.xml <<EOF
+<network>
+  <name>${name}</name>
+  <forward mode="bridge"/>
+  <bridge name="${physicalDevice}"/>
+</network>
+EOF
+    virsh net-define /tmp/libvirt-bridge-${name}.xml
+    virsh net-start ${name}
+    virsh net-autostart ${name}
+  fi
+
+  if virsh net-list --all | grep -q "default"; then
+    echo "Removing the default network..."
+    virsh net-destroy default
+    virsh net-undefine default
+  fi
+
+done

@@ -24,13 +24,13 @@ docker compose up -d
 | `DATABASE_URL` | Full PostgreSQL connection string |
 | `REDIS_SERVER_HOST` | Valkey host (`192.168.62.15`) |
 | `REDIS_SERVER_DATABASE` | Valkey DB index (`2`) |
-| `AFFINE_SERVER_EXTERNAL_URL` | Public URL (`https://affine.lab.kemo.network`) |
+| `AFFINE_SERVER_EXTERNAL_URL` | Public URL (`https://affine.lab.kemo.dev`) |
 
 ## Access
 
 | URL | Purpose |
 |-----|---------|
-| `https://affine.lab.kemo.network` | AFFiNE workspace |
+| `https://affine.lab.kemo.dev` | AFFiNE workspace |
 
 **Static IP:** 192.168.62.51
 

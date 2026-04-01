@@ -12,7 +12,7 @@ Kopia is a fast, encrypted backup tool with deduplication. It backs up homelab d
 ## Static IP & DNS
 
 - **IP:** 192.168.62.22
-- **DNS:** `backups.lab.kemo.network`
+- **DNS:** `backups.lab.kemo.dev`
 
 ## Required Ports
 
@@ -62,7 +62,7 @@ CPU/RAM spike during compression and deduplication of large backups.
 | Dependency | Type | Details |
 |------------|------|---------|
 | RustFS (S3) | **Required** | S3 backend for storing backup snapshots |
-| DNS | Recommended | `backups.lab.kemo.network` |
+| DNS | Recommended | `backups.lab.kemo.dev` |
 
 ## Network Configuration
 
@@ -108,7 +108,7 @@ All backups are encrypted at rest with the repository password. **Back up the re
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.kopia.rule=Host(`backups.lab.kemo.network`)"
+  - "traefik.http.routers.kopia.rule=Host(`backups.lab.kemo.dev`)"
   - "traefik.http.routers.kopia.tls=true"
   - "traefik.http.routers.kopia.tls.certresolver=step-ca"
   - "traefik.http.services.kopia.loadbalancer.server.port=51515"

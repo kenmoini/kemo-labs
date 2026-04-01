@@ -6,7 +6,7 @@
 - **Virtualization:** Libvirt/KVM (for Talos Kubernetes VMs)
 - **Containers:** Podman + Podman Compose (for everything else)
 - **Network:** 192.168.62.0/23 (bridged), static IPs from .0/24, DHCP from .128/24+
-- **DNS Zone:** lab.kemo.network
+- **DNS Zone:** lab.kemo.dev
 - **Resources:** 128GB+ RAM, 32+ cores
 - **TLS Strategy:** PikaPKI root CA → StepCA intermediate → ACME auto-certs via Traefik
 
@@ -223,7 +223,7 @@ Phase 14 (Kubernetes - Depends on DNS, PKI):
 | DNS Stack | infrastructure/dns/ | 3 | 512 MB |
 | StepCA | security/acme/ | 1 | 256 MB |
 
-**Gate:** `dig lab.kemo.network @192.168.62.2` resolves. StepCA ACME endpoint responds.
+**Gate:** `dig lab.kemo.dev @192.168.62.2` resolves. StepCA ACME endpoint responds.
 
 ### Phase 2: Networking
 | Workload | Dir | Containers | Est. RAM |
@@ -409,36 +409,36 @@ networks:
 All services need A records in PowerDNS Auth. A wildcard approach simplifies this:
 
 ```
-*.lab.kemo.network.  A  192.168.62.10  (Traefik)
+*.lab.kemo.dev.  A  192.168.62.10  (Traefik)
 ```
 
 Services with direct access (not behind Traefik) need explicit records:
 ```
-dns-auth.lab.kemo.network.     A  192.168.62.2
-dns-recursor.lab.kemo.network. A  192.168.62.3
-pihole.lab.kemo.network.       A  192.168.62.4
-pki.lab.kemo.network.          A  192.168.62.5
-acme.lab.kemo.network.         A  192.168.62.6
-vault.lab.kemo.network.        A  192.168.62.7
-auth.lab.kemo.network.         A  192.168.62.8
-db.lab.kemo.network.           A  192.168.62.15
-s3.lab.kemo.network.           A  192.168.62.20
-gitlab.lab.kemo.network.       A  192.168.62.40  (for SSH access)
-mail.lab.kemo.network.         A  192.168.62.80
-ha.lab.kemo.network.           A  192.168.62.60  (host network)
-scrypted.lab.kemo.network.     A  192.168.62.61  (host network)
+dns-auth.lab.kemo.dev.     A  192.168.62.2
+dns-recursor.lab.kemo.dev. A  192.168.62.3
+pihole.lab.kemo.dev.       A  192.168.62.4
+pki.lab.kemo.dev.          A  192.168.62.5
+acme.lab.kemo.dev.         A  192.168.62.6
+vault.lab.kemo.dev.        A  192.168.62.7
+auth.lab.kemo.dev.         A  192.168.62.8
+db.lab.kemo.dev.           A  192.168.62.15
+s3.lab.kemo.dev.           A  192.168.62.20
+gitlab.lab.kemo.dev.       A  192.168.62.40  (for SSH access)
+mail.lab.kemo.dev.         A  192.168.62.80
+ha.lab.kemo.dev.           A  192.168.62.60  (host network)
+scrypted.lab.kemo.dev.     A  192.168.62.61  (host network)
 
 ; Kubernetes
-talos-vip.lab.kemo.network.    A  192.168.62.99
-talos-cp-1.lab.kemo.network.   A  192.168.62.100
-talos-cp-2.lab.kemo.network.   A  192.168.62.101
-talos-cp-3.lab.kemo.network.   A  192.168.62.102
-talos-w-1.lab.kemo.network.    A  192.168.62.110
-talos-w-2.lab.kemo.network.    A  192.168.62.111
-talos-w-3.lab.kemo.network.    A  192.168.62.112
+talos-vip.lab.kemo.dev.    A  192.168.62.99
+talos-cp-1.lab.kemo.dev.   A  192.168.62.100
+talos-cp-2.lab.kemo.dev.   A  192.168.62.101
+talos-cp-3.lab.kemo.dev.   A  192.168.62.102
+talos-w-1.lab.kemo.dev.    A  192.168.62.110
+talos-w-2.lab.kemo.dev.    A  192.168.62.111
+talos-w-3.lab.kemo.dev.    A  192.168.62.112
 
 ; Mail
-mail.lab.kemo.network.         MX 10 mail.lab.kemo.network.
+mail.lab.kemo.dev.         MX 10 mail.lab.kemo.dev.
 ```
 
 ---
@@ -448,7 +448,7 @@ mail.lab.kemo.network.         MX 10 mail.lab.kemo.network.
 ```
 PikaPKI Root CA (self-signed, long-lived)
   └── StepCA Intermediate CA (issued by PikaPKI)
-        └── *.lab.kemo.network (auto-issued via ACME, 90-day rotation)
+        └── *.lab.kemo.dev (auto-issued via ACME, 90-day rotation)
 ```
 
 Distribute PikaPKI root CA to:

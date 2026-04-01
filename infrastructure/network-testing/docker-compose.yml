@@ -24,7 +24,7 @@ services:
       homelab-lab:
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.speedtest.rule=Host(`speedtest.lab.kemo.network`)"
+      - "traefik.http.routers.speedtest.rule=Host(`speedtest.lab.kemo.dev`)"
       - "traefik.http.routers.speedtest.entrypoints=websecure"
       - "traefik.http.routers.speedtest.tls.certresolver=stepca"
       - "traefik.http.services.speedtest.loadbalancer.server.port=3000"

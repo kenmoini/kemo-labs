@@ -13,7 +13,7 @@ cp .env.example .env
 docker compose up -d
 
 # Complete initial setup wizard at:
-# https://paperless-ai.lab.kemo.network
+# https://paperless-ai.lab.kemo.dev
 # Then restart container to build RAG index
 ```
 
@@ -33,7 +33,7 @@ docker compose up -d
 
 | URL | Purpose |
 |-----|---------|
-| `https://paperless-ai.lab.kemo.network` | Configuration UI and RAG chat |
+| `https://paperless-ai.lab.kemo.dev` | Configuration UI and RAG chat |
 
 **Static IP:** 192.168.62.54
 

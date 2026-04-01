@@ -1,7 +1,7 @@
 - Infrastructure:
     - Traefik:
         icon: traefik.svg
-        href: https://traefik.lab.kemo.network
+        href: https://traefik.lab.kemo.dev
         description: Reverse Proxy & Load Balancer
         widget:
           type: traefik
@@ -9,7 +9,7 @@
 
     - Pi-hole:
         icon: pi-hole.svg
-        href: https://pihole.lab.kemo.network
+        href: https://pihole.lab.kemo.dev
         description: DNS Ad Blocking
         widget:
           type: pihole
@@ -18,7 +18,7 @@
 
     - PeaNUT:
         icon: peanut.svg
-        href: https://peanut.lab.kemo.network
+        href: https://peanut.lab.kemo.dev
         description: UPS Monitoring
         widget:
           type: peanut
@@ -26,13 +26,13 @@
 
     - Netboot.xyz:
         icon: netboot-xyz.svg
-        href: https://netboot.lab.kemo.network
+        href: https://netboot.lab.kemo.dev
         description: Network Boot Server
 
 - Network:
     - OpenSpeedTest:
         icon: openspeedtest.svg
-        href: https://speedtest.lab.kemo.network
+        href: https://speedtest.lab.kemo.dev
         description: Network Speed Test
 
     - Squid Proxy:

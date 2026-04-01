@@ -33,7 +33,7 @@ Scrypted **requires host networking** for camera discovery (ONVIF, mDNS) and low
 |---|---|
 | Network Mode | `host` |
 | Static IP | `192.168.62.61` (configured on the host interface/macvlan, not in Docker) |
-| DNS Name | `scrypted.lab.kemo.network` |
+| DNS Name | `scrypted.lab.kemo.dev` |
 
 Since host networking is used, the static IP `192.168.62.61` must be assigned at the host level (e.g., via a macvlan interface or a secondary IP on the bridge interface).
 
@@ -54,7 +54,7 @@ With `network_mode: host`, all ports are directly on the host. Key ports:
 Route Traefik to the Scrypted web UI via the static IP:
 
 ```
-URL: https://scrypted.lab.kemo.network
+URL: https://scrypted.lab.kemo.dev
 Backend: https://192.168.62.61:10443 (or http://192.168.62.61:11080)
 ```
 

@@ -12,7 +12,7 @@ cp .env.example .env
 docker compose up -d
 
 # First user to register becomes the admin
-# Access at: https://open-webui.lab.kemo.network
+# Access at: https://open-webui.lab.kemo.dev
 
 # Pull a model
 docker exec ollama ollama pull llama3.1:8b
@@ -31,8 +31,8 @@ docker exec ollama ollama pull llama3.1:8b
 
 | URL | Purpose |
 |-----|---------|
-| `https://open-webui.lab.kemo.network` | Chat interface |
-| `https://ollama.lab.kemo.network` | Ollama API (for other services) |
+| `https://open-webui.lab.kemo.dev` | Chat interface |
+| `https://ollama.lab.kemo.dev` | Ollama API (for other services) |
 
 **Open WebUI Static IP:** 192.168.62.70 | **Ollama Static IP:** 192.168.62.73
 

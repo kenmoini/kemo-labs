@@ -67,21 +67,21 @@ No other storage workloads depend on this being up first, but Kopia (backups) re
 | Setting | Value |
 |---------|-------|
 | Static IP | `192.168.62.20` |
-| DNS (S3 API) | `s3.lab.kemo.network` |
-| DNS (Console) | `s3-console.lab.kemo.network` |
+| DNS (S3 API) | `s3.lab.kemo.dev` |
+| DNS (Console) | `s3-console.lab.kemo.dev` |
 | Network | macvlan on 192.168.62.0/23 |
 
 ### Traefik Labels
 
-- Route `s3.lab.kemo.network` to port 9000 (S3 API)
-- Route `s3-console.lab.kemo.network` to port 9001 (Web UI)
+- Route `s3.lab.kemo.dev` to port 9000 (S3 API)
+- Route `s3-console.lab.kemo.dev` to port 9001 (Web UI)
 - TLS via StepCA ACME resolver
 
 ## Special Considerations
 
 1. **UID mapping:** The container uses UID 10001. All mounted host directories must be chowned to 10001:10001 before the first run or the container will fail with permission denied errors.
 
-2. **S3 path-style vs virtual-hosted:** RustFS supports both. For homelab use, path-style (`s3.lab.kemo.network/bucket/key`) is simpler and avoids wildcard DNS requirements.
+2. **S3 path-style vs virtual-hosted:** RustFS supports both. For homelab use, path-style (`s3.lab.kemo.dev/bucket/key`) is simpler and avoids wildcard DNS requirements.
 
 3. **Bucket lifecycle:** Create dedicated buckets for each consumer (e.g., `kopia-backups`, `app-data`, `media`) to keep data organized and enable per-bucket policies.
 
@@ -89,6 +89,6 @@ No other storage workloads depend on this being up first, but Kopia (backups) re
 
 5. **Client compatibility:** RustFS is S3-compatible. Use standard S3 clients (aws-cli, mc, s3cmd, any S3 SDK) to interact with it. The `mc` (MinIO Client) or `aws` CLI can be used for bucket creation and management.
 
-6. **TLS for S3 API:** When Kopia and other internal services connect, they will use `https://s3.lab.kemo.network` via Traefik. Ensure internal clients trust the StepCA root CA.
+6. **TLS for S3 API:** When Kopia and other internal services connect, they will use `https://s3.lab.kemo.dev` via Traefik. Ensure internal clients trust the StepCA root CA.
 
 7. **Alpha status:** RustFS is currently at 1.0.0-alpha. Monitor releases and test upgrades carefully. Data format stability is not yet guaranteed across major versions.

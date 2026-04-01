@@ -12,7 +12,7 @@ GitLab Community Edition provides self-hosted Git repository management, CI/CD p
 ## Static IP & DNS
 
 - **IP:** 192.168.62.40
-- **DNS:** `gitlab.lab.kemo.network`
+- **DNS:** `gitlab.lab.kemo.dev`
 
 ## Required Ports
 
@@ -28,7 +28,7 @@ GitLab Community Edition provides self-hosted Git repository management, CI/CD p
 GitLab uses `GITLAB_OMNIBUS_CONFIG` for inline Ruby configuration:
 
 ```ruby
-external_url 'https://gitlab.lab.kemo.network'
+external_url 'https://gitlab.lab.kemo.dev'
 nginx['listen_port'] = 80
 nginx['listen_https'] = false  # TLS terminated by Traefik
 
@@ -51,7 +51,7 @@ gitlab_rails['redis_database'] = 5
 gitlab_rails['smtp_enable'] = true
 gitlab_rails['smtp_address'] = '192.168.62.80'
 gitlab_rails['smtp_port'] = 587
-gitlab_rails['smtp_domain'] = 'lab.kemo.network'
+gitlab_rails['smtp_domain'] = 'lab.kemo.dev'
 
 # LDAP/OIDC via Authentik
 gitlab_rails['omniauth_enabled'] = true
@@ -92,7 +92,7 @@ gitaly['configuration'] = { concurrency: [{ rpc: '/gitaly.SmartHTTPService/PostR
 |------------|------|---------|
 | Shared PostgreSQL | **Required** | `gitlab` database with extensions: `pg_trgm`, `btree_gist` |
 | Shared Valkey | **Required** | DB 5 for caching, Sidekiq queues |
-| DNS | **Required** | `gitlab.lab.kemo.network` |
+| DNS | **Required** | `gitlab.lab.kemo.dev` |
 | Traefik | Recommended | TLS termination |
 | Authentik | Optional | SSO via OIDC |
 | Mailcow | Optional | SMTP for notifications |
@@ -141,7 +141,7 @@ Using DB 5 (after Authentik on DB 4).
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.gitlab.rule=Host(`gitlab.lab.kemo.network`)"
+  - "traefik.http.routers.gitlab.rule=Host(`gitlab.lab.kemo.dev`)"
   - "traefik.http.routers.gitlab.tls=true"
   - "traefik.http.routers.gitlab.tls.certresolver=step-ca"
   - "traefik.http.services.gitlab.loadbalancer.server.port=80"

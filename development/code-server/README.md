@@ -25,13 +25,13 @@ docker compose up -d
 
 | URL | Purpose |
 |-----|---------|
-| `https://code.lab.kemo.network` | VS Code in the browser |
+| `https://code.lab.kemo.dev` | VS Code in the browser |
 
 **Static IP:** 192.168.62.42
 
 ## Dependencies
 
-- **DNS** -- `code.lab.kemo.network`
+- **DNS** -- `code.lab.kemo.dev`
 - **Traefik** -- reverse proxy with WebSocket support (required for terminal and editor)
 - **Authentik** (optional) -- SSO protection via forward auth
 

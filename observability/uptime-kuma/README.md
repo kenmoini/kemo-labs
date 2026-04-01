@@ -8,7 +8,7 @@ Uptime Kuma is a self-hosted monitoring tool that checks service availability vi
 docker compose up -d
 
 # Complete initial setup at:
-# https://uptime.lab.kemo.network
+# https://uptime.lab.kemo.dev
 # Create an admin account on first access (cannot be pre-seeded)
 ```
 
@@ -25,7 +25,7 @@ Most configuration is done through the web UI after first launch. Mount the Step
 
 | URL | Purpose |
 |-----|---------|
-| `https://uptime.lab.kemo.network` | Monitoring dashboard and status pages |
+| `https://uptime.lab.kemo.dev` | Monitoring dashboard and status pages |
 
 **Static IP:** 192.168.62.32
 

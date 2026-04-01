@@ -125,7 +125,7 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.lab.kemo.network`)"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.lab.kemo.dev`)"
       - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
       - "traefik.http.routers.phpmyadmin.tls.certresolver=stepca"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"

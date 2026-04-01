@@ -27,8 +27,8 @@ docker compose up -d
 
 | URL | Purpose |
 |-----|---------|
-| `https://s3.lab.kemo.network` | S3 API endpoint |
-| `https://s3-console.lab.kemo.network` | Web management console |
+| `https://s3.lab.kemo.dev` | S3 API endpoint |
+| `https://s3-console.lab.kemo.dev` | Web management console |
 
 **Static IP:** 192.168.62.20
 
@@ -46,7 +46,7 @@ Kopia (backups) depends on this service as its S3 backend.
 docker compose logs -f rustfs
 
 # Create a bucket using any S3 client
-aws --endpoint-url https://s3.lab.kemo.network s3 mb s3://my-bucket
+aws --endpoint-url https://s3.lab.kemo.dev s3 mb s3://my-bucket
 
 # Check health
 curl -f http://localhost:9000/minio/health/live

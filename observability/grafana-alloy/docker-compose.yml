@@ -17,8 +17,8 @@ services:
     container_name: grafana
     restart: unless-stopped
     environment:
-      - GF_SERVER_ROOT_URL=https://${GRAFANA_DOMAIN:-grafana.lab.kemo.network}
-      - GF_SERVER_DOMAIN=${GRAFANA_DOMAIN:-grafana.lab.kemo.network}
+      - GF_SERVER_ROOT_URL=https://${GRAFANA_DOMAIN:-grafana.lab.kemo.dev}
+      - GF_SERVER_DOMAIN=${GRAFANA_DOMAIN:-grafana.lab.kemo.dev}
       - GF_SECURITY_ADMIN_USER=${GF_ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD:?GF_ADMIN_PASSWORD must be set}
       - GF_USERS_ALLOW_SIGN_UP=false
@@ -46,7 +46,7 @@ services:
       start_period: 30s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grafana.rule=Host(`${GRAFANA_DOMAIN:-grafana.lab.kemo.network}`)"
+      - "traefik.http.routers.grafana.rule=Host(`${GRAFANA_DOMAIN:-grafana.lab.kemo.dev}`)"
       - "traefik.http.routers.grafana.entrypoints=websecure"
       - "traefik.http.routers.grafana.tls=true"
       - "traefik.http.routers.grafana.tls.certresolver=step-ca"

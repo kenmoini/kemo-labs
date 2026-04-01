@@ -17,7 +17,7 @@ PikaPKI itself is used on-demand (interactively) to:
 - Rotate CRLs
 - Generate and copy public bundles
 
-The Nginx sidecar runs continuously to serve CA certificates and CRLs at `http://pki.lab.kemo.network/`.
+The Nginx sidecar runs continuously to serve CA certificates and CRLs at `http://pki.lab.kemo.dev/`.
 
 ## Container Images
 
@@ -48,7 +48,7 @@ The Nginx sidecar runs continuously to serve CA certificates and CRLs at `http:/
 | `PIKA_PKI_DEFAULT_STATE` | `North Carolina` | Default state |
 | `PIKA_PKI_DEFAULT_LOCALITY` | `Raleigh` | Default locality |
 | `PIKA_PKI_DEFAULT_EMAIL` | `ken@kenmoini.com` | Default contact email |
-| `PIKA_PKI_DEFAULT_CA_URI_BASE` | `http://pki.lab.kemo.network` | Base URI for CRL distribution points and CA cert hosting |
+| `PIKA_PKI_DEFAULT_CA_URI_BASE` | `http://pki.lab.kemo.dev` | Base URI for CRL distribution points and CA cert hosting |
 | `TERM` | `xterm-256color` | Already set in image; needed for TUI rendering |
 
 ### Nginx Container
@@ -76,8 +76,8 @@ No special environment variables required. Configuration is via a mounted `defau
 ## Network Configuration
 
 - **Static IP:** `192.168.62.5`
-- **DNS record:** `pki.lab.kemo.network` -> `192.168.62.5`
-- **Traefik:** Route `pki.lab.kemo.network` to the Nginx container on port 80. TLS is optional for this endpoint since it serves public CA certs and CRLs (public data), but HTTPS is recommended for integrity.
+- **DNS record:** `pki.lab.kemo.dev` -> `192.168.62.5`
+- **Traefik:** Route `pki.lab.kemo.dev` to the Nginx container on port 80. TLS is optional for this endpoint since it serves public CA certs and CRLs (public data), but HTTPS is recommended for integrity.
 - **macvlan/ipvlan network:** The Nginx container should be attached to the Docker macvlan network with the static IP. The PikaPKI interactive container can share this network or use the default bridge.
 
 ## Dependencies
@@ -126,7 +126,7 @@ Enable directory listing so browsers can browse available certs/CRLs:
 ```nginx
 server {
     listen 80;
-    server_name pki.lab.kemo.network;
+    server_name pki.lab.kemo.dev;
     location / {
         root /usr/share/nginx/html;
         autoindex on;

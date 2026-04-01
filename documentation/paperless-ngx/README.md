@@ -32,7 +32,7 @@ docker compose up -d
 
 | URL | Purpose |
 |-----|---------|
-| `https://paperless.lab.kemo.network` | Web UI and REST API |
+| `https://paperless.lab.kemo.dev` | Web UI and REST API |
 
 **Static IP:** 192.168.62.53
 

@@ -3,7 +3,7 @@
   "crt": "/home/step/certs/intermediate_ca.crt",
   "key": "/home/step/secrets/intermediate_ca_key",
   "address": ":9000",
-  "dnsNames": ["acme.lab.kemo.network", "192.168.62.6"],
+  "dnsNames": ["acme.lab.kemo.dev", "192.168.62.6"],
   "logger": { "format": "text" },
   "db": { "type": "badgerv2", "dataSource": "/home/step/db" },
   "authority": {

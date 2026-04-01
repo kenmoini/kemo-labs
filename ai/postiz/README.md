@@ -33,7 +33,7 @@ docker compose up -d
 
 | URL | Purpose |
 |-----|---------|
-| `https://postiz.lab.kemo.network` | Social media management UI |
+| `https://postiz.lab.kemo.dev` | Social media management UI |
 
 **Static IP:** 192.168.62.72
 
@@ -64,4 +64,4 @@ docker compose pull && docker compose up -d
 # Set DISABLE_REGISTRATION=true after creating initial admin
 ```
 
-Social media OAuth callbacks must point to `https://postiz.lab.kemo.network/api/auth/<platform>/callback`. For AI content generation, point to the local Ollama instance or OpenAI-compatible API.
+Social media OAuth callbacks must point to `https://postiz.lab.kemo.dev/api/auth/<platform>/callback`. For AI content generation, point to the local Ollama instance or OpenAI-compatible API.

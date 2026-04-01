@@ -37,7 +37,7 @@ Init scripts in `./init-scripts/` run on first boot to create databases and user
 | `192.168.62.16:5432` | PostgreSQL |
 | `192.168.62.17:6379` | Valkey (Redis-compatible) |
 | `192.168.62.18:1883` | Mosquitto MQTT |
-| `https://phpmyadmin.lab.kemo.network` | phpMyAdmin web UI |
+| `https://phpmyadmin.lab.kemo.dev` | phpMyAdmin web UI |
 
 ## Dependencies
 

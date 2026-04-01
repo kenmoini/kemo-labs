@@ -55,21 +55,21 @@ Resource usage scales with the number of monitors and check frequency. For a hom
 
 - **Traefik** (infrastructure/traefik): Reverse proxy for HTTPS access.
 - **StepCA ACME**: TLS certificates via Traefik.
-- **DNS**: `uptime.lab.kemo.network` A record pointing to 192.168.62.32.
+- **DNS**: `uptime.lab.kemo.dev` A record pointing to 192.168.62.32.
 - **StepCA root certificate** (optional): If monitoring internal HTTPS services signed by StepCA, mount the root CA cert and set `NODE_EXTRA_CA_CERTS` so Uptime Kuma trusts them.
 
 ## Network Configuration
 
 - **Static IP:** `192.168.62.32`
 - **Network:** Bridged macvlan or equivalent on `192.168.62.0/23`
-- Exposed via Traefik with TLS at `https://uptime.lab.kemo.network`
+- Exposed via Traefik with TLS at `https://uptime.lab.kemo.dev`
 - Needs outbound network access to reach monitored services (both internal LAN and external internet)
 
 ### Traefik Labels
 
 ```
 traefik.enable=true
-traefik.http.routers.uptime-kuma.rule=Host(`uptime.lab.kemo.network`)
+traefik.http.routers.uptime-kuma.rule=Host(`uptime.lab.kemo.dev`)
 traefik.http.routers.uptime-kuma.entrypoints=websecure
 traefik.http.routers.uptime-kuma.tls=true
 traefik.http.routers.uptime-kuma.tls.certresolver=step-ca
@@ -88,7 +88,7 @@ Uptime Kuma requires creating an admin account on first access via the web UI. T
 Configure notification channels (email, Discord, Slack, webhook, etc.) after first login. Uptime Kuma supports 90+ notification providers. Consider setting up at least one push notification channel for critical service alerts.
 
 ### Status Pages
-Uptime Kuma can serve public status pages showing the health of selected monitors. These can be exposed via a separate subdomain if desired (e.g., `status.lab.kemo.network`).
+Uptime Kuma can serve public status pages showing the health of selected monitors. These can be exposed via a separate subdomain if desired (e.g., `status.lab.kemo.dev`).
 
 ### SQLite Considerations
 Uptime Kuma uses SQLite exclusively (no external database option). This is fine for homelab scale but means:

@@ -2,7 +2,7 @@
 # Documentation: https://docs.ntfy.sh/config/
 
 # Base URL - must match the externally accessible URL
-base-url: "https://ntfy.lab.kemo.network"
+base-url: "https://ntfy.lab.kemo.dev"
 
 # Listen address - container listens on port 80
 listen-http: ":80"

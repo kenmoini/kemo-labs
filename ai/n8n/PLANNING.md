@@ -34,10 +34,10 @@ n8n is a workflow automation platform that allows building complex automations t
 | `DB_POSTGRESDB_DATABASE` | Database name | `n8n` |
 | `DB_POSTGRESDB_USER` | Database user | `n8n` |
 | `DB_POSTGRESDB_PASSWORD` | Database password | (secret) |
-| `N8N_HOST` | Hostname for n8n | `n8n.lab.kemo.network` |
+| `N8N_HOST` | Hostname for n8n | `n8n.lab.kemo.dev` |
 | `N8N_PORT` | Port n8n listens on | `5678` |
 | `N8N_PROTOCOL` | Protocol for generated URLs | `https` |
-| `WEBHOOK_URL` | External webhook URL | `https://n8n.lab.kemo.network/` |
+| `WEBHOOK_URL` | External webhook URL | `https://n8n.lab.kemo.dev/` |
 | `N8N_ENCRYPTION_KEY` | Key for encrypting credentials stored in DB | (generated secret) |
 | `N8N_USER_FOLDER` | User data folder inside container | `/home/node/.n8n` |
 | `N8N_DIAGNOSTICS_ENABLED` | Disable telemetry | `false` |
@@ -97,9 +97,9 @@ GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n;
 | Setting | Value |
 |---------|-------|
 | Static IP | `192.168.62.71` |
-| DNS Name | `n8n.lab.kemo.network` |
+| DNS Name | `n8n.lab.kemo.dev` |
 | Container Network | Shared bridge to homelab-lab with static IP assignment |
-| Traefik Labels | Route `n8n.lab.kemo.network` to container port 5678 |
+| Traefik Labels | Route `n8n.lab.kemo.dev` to container port 5678 |
 
 ### Traefik Integration
 
@@ -123,7 +123,7 @@ GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n;
 ### Webhook Security
 
 - n8n exposes webhooks on its main port. Traefik handles TLS but consider additional webhook authentication at the n8n workflow level.
-- Set `WEBHOOK_URL` to `https://n8n.lab.kemo.network/` so generated webhook URLs are correct.
+- Set `WEBHOOK_URL` to `https://n8n.lab.kemo.dev/` so generated webhook URLs are correct.
 
 ### Execution Data Retention
 

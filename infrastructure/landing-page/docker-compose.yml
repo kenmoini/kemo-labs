@@ -4,7 +4,7 @@ services:
     container_name: homepage
     restart: unless-stopped
     environment:
-      - HOMEPAGE_ALLOWED_HOSTS=home.lab.kemo.network,192.168.62.14:3000
+      - HOMEPAGE_ALLOWED_HOSTS=home.lab.kemo.dev,192.168.62.14:3000
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
       - TZ=${TZ:-America/New_York}
@@ -18,7 +18,7 @@ services:
         ipv4_address: 192.168.62.14
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.homepage.rule=Host(`home.lab.kemo.network`)"
+      - "traefik.http.routers.homepage.rule=Host(`home.lab.kemo.dev`)"
       - "traefik.http.routers.homepage.entrypoints=websecure"
       - "traefik.http.routers.homepage.tls.certresolver=stepca"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"

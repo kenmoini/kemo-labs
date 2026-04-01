@@ -18,7 +18,7 @@ Single container runs the web server, consumer (file watcher), task queue worker
 |------|----------|---------|
 | 8000 | TCP | HTTP web UI and REST API |
 
-Traefik will proxy `paperless.lab.kemo.network` to port 8000 with TLS via StepCA ACME.
+Traefik will proxy `paperless.lab.kemo.dev` to port 8000 with TLS via StepCA ACME.
 
 ## Environment Variables
 
@@ -26,12 +26,12 @@ Traefik will proxy `paperless.lab.kemo.network` to port 8000 with TLS via StepCA
 
 | Variable | Description | Example Value |
 |----------|-------------|---------------|
-| `PAPERLESS_URL` | Public-facing URL | `https://paperless.lab.kemo.network` |
+| `PAPERLESS_URL` | Public-facing URL | `https://paperless.lab.kemo.dev` |
 | `PAPERLESS_SECRET_KEY` | Django secret key | (generate long random string) |
 | `PAPERLESS_TIME_ZONE` | Container timezone | `America/New_York` |
 | `PAPERLESS_ADMIN_USER` | Initial superuser name | `admin` |
 | `PAPERLESS_ADMIN_PASSWORD` | Initial superuser password | (set on first run) |
-| `PAPERLESS_ADMIN_MAIL` | Initial superuser email | `admin@lab.kemo.network` |
+| `PAPERLESS_ADMIN_MAIL` | Initial superuser email | `admin@lab.kemo.dev` |
 
 ### Database Configuration (Shared PostgreSQL)
 
@@ -117,7 +117,7 @@ OCR processing (Tesseract) is the primary resource consumer. During batch import
 |---------|---------|---------|
 | Shared PostgreSQL | Primary database | Database: `paperless`, User: `paperless`. PostgreSQL 13+ required. |
 | Shared Valkey | Task queue (Celery broker) and result backend | Uses DB index 3. Redis/Valkey 6+ required. |
-| Traefik | Reverse proxy + TLS | Routes `paperless.lab.kemo.network` with StepCA ACME certificate |
+| Traefik | Reverse proxy + TLS | Routes `paperless.lab.kemo.dev` with StepCA ACME certificate |
 
 ### Optional Companion Services
 
@@ -136,8 +136,8 @@ OCR processing (Tesseract) is the primary resource consumer. During batch import
 | Setting | Value |
 |---------|-------|
 | Static IP | `192.168.62.53` |
-| DNS Zone | `lab.kemo.network` |
-| FQDN | `paperless.lab.kemo.network` |
+| DNS Zone | `lab.kemo.dev` |
+| FQDN | `paperless.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
@@ -146,7 +146,7 @@ OCR processing (Tesseract) is the primary resource consumer. During batch import
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.paperless.rule=Host(`paperless.lab.kemo.network`)"
+  - "traefik.http.routers.paperless.rule=Host(`paperless.lab.kemo.dev`)"
   - "traefik.http.routers.paperless.entrypoints=websecure"
   - "traefik.http.routers.paperless.tls=true"
   - "traefik.http.routers.paperless.tls.certresolver=step-ca"
@@ -167,7 +167,7 @@ labels:
 
 6. **Backup Strategy**: Use the built-in `document_exporter` management command to create full backups to the export directory. Back up both the PostgreSQL `paperless` database and the media volume. The export directory contains a portable backup format.
 
-7. **PAPERLESS_URL**: Must be set to the externally accessible URL (`https://paperless.lab.kemo.network`) for correct link generation in emails, API responses, and the web UI.
+7. **PAPERLESS_URL**: Must be set to the externally accessible URL (`https://paperless.lab.kemo.dev`) for correct link generation in emails, API responses, and the web UI.
 
 8. **PDF/A Archival**: The default OCR output type `pdfa` creates PDF/A compliant documents for long-term archival. This is the recommended setting.
 

@@ -28,9 +28,9 @@ Only port 8080 is needed when running behind Traefik for TLS termination.
 | Variable | Description | Default | Recommended |
 |----------|-------------|---------|-------------|
 | `LETS_ENCRYPT_ENABLED` | Enable Let's Encrypt | `false` | `false` (Traefik handles TLS) |
-| `PUBLIC_DNS` | DNS name for certificate CN | `draw.example.com` | `drawio.lab.kemo.network` |
+| `PUBLIC_DNS` | DNS name for certificate CN | `draw.example.com` | `drawio.lab.kemo.dev` |
 | `DRAWIO_SELF_CONTAINED` | Run without external dependencies | (unset) | `1` |
-| `DRAWIO_BASE_URL` | Base URL for the application | (auto) | `https://drawio.lab.kemo.network` |
+| `DRAWIO_BASE_URL` | Base URL for the application | (auto) | `https://drawio.lab.kemo.dev` |
 
 ### Optional DRAWIO_* Configuration Variables
 
@@ -75,7 +75,7 @@ The `-m1g` memory limit is recommended by the upstream documentation.
 
 | Service | Purpose | Details |
 |---------|---------|---------|
-| Traefik | Reverse proxy + TLS | Routes `drawio.lab.kemo.network` with StepCA ACME certificate |
+| Traefik | Reverse proxy + TLS | Routes `drawio.lab.kemo.dev` with StepCA ACME certificate |
 
 Draw.io has **no database or cache dependencies**. It is entirely self-contained.
 
@@ -89,8 +89,8 @@ Draw.io has **no database or cache dependencies**. It is entirely self-contained
 | Setting | Value |
 |---------|-------|
 | Static IP | `192.168.62.52` |
-| DNS Zone | `lab.kemo.network` |
-| FQDN | `drawio.lab.kemo.network` |
+| DNS Zone | `lab.kemo.dev` |
+| FQDN | `drawio.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
@@ -99,7 +99,7 @@ Draw.io has **no database or cache dependencies**. It is entirely self-contained
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.drawio.rule=Host(`drawio.lab.kemo.network`)"
+  - "traefik.http.routers.drawio.rule=Host(`drawio.lab.kemo.dev`)"
   - "traefik.http.routers.drawio.entrypoints=websecure"
   - "traefik.http.routers.drawio.tls=true"
   - "traefik.http.routers.drawio.tls.certresolver=step-ca"

@@ -82,13 +82,13 @@ WUD monitors running Docker containers for available image updates by comparing 
 |------------|--------|
 | Podman socket | Required to enumerate and inspect containers |
 | Traefik | Reverse proxy and TLS termination for the web UI |
-| DNS (PowerDNS) | `wud.lab.kemo.network` must resolve to 192.168.62.10 (Traefik) |
+| DNS (PowerDNS) | `wud.lab.kemo.dev` must resolve to 192.168.62.10 (Traefik) |
 | Ntfy (192.168.62.82) | Push notification target for update alerts |
 
 ## Network Configuration
 
 - Attach to the external `homelab` macvlan network with static IP `192.168.62.9`.
-- Traefik routes `wud.lab.kemo.network` to port 3000 via Docker label discovery.
+- Traefik routes `wud.lab.kemo.dev` to port 3000 via Docker label discovery.
 - WUD does not need to expose ports directly; Traefik handles ingress.
 
 ## Special Considerations

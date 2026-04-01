@@ -33,7 +33,7 @@ http:
 
 | URL | Purpose |
 |-----|---------|
-| `https://home-assistant.lab.kemo.network` | Web UI (via Traefik file provider) |
+| `https://home-assistant.lab.kemo.dev` | Web UI (via Traefik file provider) |
 | `http://192.168.62.60:8123` | Direct access |
 
 **Static IP:** 192.168.62.60 (assigned at the host level, not Podman)

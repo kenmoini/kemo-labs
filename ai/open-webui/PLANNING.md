@@ -101,15 +101,15 @@ Ollama is configured primarily through its runtime environment and model pulls. 
 | Setting | Value |
 |---------|-------|
 | Static IP | `192.168.62.70` |
-| DNS Name | `open-webui.lab.kemo.network` |
+| DNS Name | `open-webui.lab.kemo.dev` |
 | Container Network | Shared macvlan/bridge with static IP assignment |
-| Traefik Labels | Route `open-webui.lab.kemo.network` to container port 8080 |
+| Traefik Labels | Route `open-webui.lab.kemo.dev` to container port 8080 |
 
 ### Traefik Integration
 
 - HTTPS entrypoint with TLS certificate from StepCA ACME.
 - Traefik labels on the Open WebUI container for automatic service discovery.
-- Ollama does NOT need to be exposed through Traefik (internal-only), unless other services outside this compose stack need direct Ollama API access, in which case expose `ollama.lab.kemo.network` on port 11434.
+- Ollama does NOT need to be exposed through Traefik (internal-only), unless other services outside this compose stack need direct Ollama API access, in which case expose `ollama.lab.kemo.dev` on port 11434.
 
 ## Special Considerations
 

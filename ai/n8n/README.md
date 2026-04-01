@@ -22,7 +22,7 @@ docker compose up -d
 |----------|---------|
 | `DB_POSTGRESDB_PASSWORD` | PostgreSQL password |
 | `N8N_ENCRYPTION_KEY` | Encrypts stored credentials (MUST be backed up) |
-| `WEBHOOK_URL` | External webhook URL (`https://n8n.lab.kemo.network/`) |
+| `WEBHOOK_URL` | External webhook URL (`https://n8n.lab.kemo.dev/`) |
 | `N8N_AI_ENABLED` | Enable built-in AI features (default: `true`) |
 | `EXECUTIONS_DATA_MAX_AGE` | Execution data retention in hours (default: `168`) |
 | `GENERIC_TIMEZONE` | Timezone for scheduled workflows |
@@ -31,7 +31,7 @@ docker compose up -d
 
 | URL | Purpose |
 |-----|---------|
-| `https://n8n.lab.kemo.network` | Workflow editor and webhook receiver |
+| `https://n8n.lab.kemo.dev` | Workflow editor and webhook receiver |
 
 **Static IP:** 192.168.62.71
 

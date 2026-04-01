@@ -1,6 +1,6 @@
 # StepCA - ACME Certificate Server
 
-Smallstep's step-ca provides an internal ACME server for automated TLS certificate issuance. Traefik requests certificates from StepCA via the ACME protocol for all `*.lab.kemo.network` services. Uses an intermediate CA certificate issued by PikaPKI.
+Smallstep's step-ca provides an internal ACME server for automated TLS certificate issuance. Traefik requests certificates from StepCA via the ACME protocol for all `*.lab.kemo.dev` services. Uses an intermediate CA certificate issued by PikaPKI.
 
 ## Quick Start
 
@@ -30,15 +30,15 @@ After init, customize `./data/config/ca.json` for certificate duration, allowed 
 
 | URL | Purpose |
 |-----|---------|
-| `https://acme.lab.kemo.network:9000` | CA server and ACME endpoint |
-| ACME directory: `https://acme.lab.kemo.network:9000/acme/acme/directory` | |
+| `https://acme.lab.kemo.dev:9000` | CA server and ACME endpoint |
+| ACME directory: `https://acme.lab.kemo.dev:9000/acme/acme/directory` | |
 
 **Static IP:** 192.168.62.6
 
 ## Dependencies
 
 - **PikaPKI** -- intermediate CA cert and key must be issued before StepCA can start
-- **DNS** -- recommended for `acme.lab.kemo.network` resolution
+- **DNS** -- recommended for `acme.lab.kemo.dev` resolution
 
 ## Maintenance
 

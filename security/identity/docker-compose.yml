@@ -15,7 +15,7 @@ services:
         ipv4_address: 192.168.62.8
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.authentik.rule=Host(`auth.lab.kemo.network`)"
+      - "traefik.http.routers.authentik.rule=Host(`auth.lab.kemo.dev`)"
       - "traefik.http.routers.authentik.tls=true"
       - "traefik.http.routers.authentik.tls.certresolver=step-ca"
       - "traefik.http.services.authentik.loadbalancer.server.port=9000"

@@ -8,7 +8,7 @@ Ntfy (pronounced "notify") is a simple HTTP-based pub-sub notification service. 
 - **Documentation:** https://docs.ntfy.sh/
 - **Docker Hub:** https://hub.docker.com/r/binwiederhier/ntfy
 - **Static IP:** 192.168.62.82
-- **DNS Zone:** lab.kemo.network
+- **DNS Zone:** lab.kemo.dev
 
 ## Container Image
 
@@ -65,7 +65,7 @@ Ntfy is one of the lightest services in the lab. On a 128GB+ host, resource usag
 
 - **Traefik:** TLS termination and routing
 - **StepCA:** TLS certificates via Traefik ACME integration
-- **DNS:** A record for `ntfy.lab.kemo.network`
+- **DNS:** A record for `ntfy.lab.kemo.dev`
 
 No database dependency -- ntfy uses an embedded SQLite cache.
 
@@ -104,7 +104,7 @@ services:
         ipv4_address: 192.168.62.82
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ntfy.rule=Host(`ntfy.lab.kemo.network`)"
+      - "traefik.http.routers.ntfy.rule=Host(`ntfy.lab.kemo.dev`)"
       - "traefik.http.routers.ntfy.entrypoints=websecure"
       - "traefik.http.routers.ntfy.tls.certresolver=stepca"
       - "traefik.http.services.ntfy.loadbalancer.server.port=80"
@@ -113,7 +113,7 @@ services:
 ### Static IP
 
 ```
-ntfy.lab.kemo.network.    IN A    192.168.62.82
+ntfy.lab.kemo.dev.    IN A    192.168.62.82
 ```
 
 ## Special Considerations
@@ -129,17 +129,17 @@ docker exec ntfy ntfy access admin '*' rw
 
 ### 2. Mobile App
 
-The ntfy Android app (available on F-Droid and Play Store) and iOS app can connect to the self-hosted instance by entering `https://ntfy.lab.kemo.network` as the server URL.
+The ntfy Android app (available on F-Droid and Play Store) and iOS app can connect to the self-hosted instance by entering `https://ntfy.lab.kemo.dev` as the server URL.
 
 ### 3. Publishing Notifications
 
 ```bash
 # Simple notification
-curl -d "Disk /dev/sda health warning" https://ntfy.lab.kemo.network/disks
+curl -d "Disk /dev/sda health warning" https://ntfy.lab.kemo.dev/disks
 
 # With title and priority
 curl -H "Title: Server Down" -H "Priority: urgent" \
-  -d "web-server is unreachable" https://ntfy.lab.kemo.network/uptime
+  -d "web-server is unreachable" https://ntfy.lab.kemo.dev/uptime
 ```
 
 ### 4. Cache Duration
@@ -160,5 +160,5 @@ Default attachment settings allow up to 15MB per file. Adjust in `server.yml` if
 
 Ntfy exposes a health endpoint:
 ```
-GET https://ntfy.lab.kemo.network/v1/health
+GET https://ntfy.lab.kemo.dev/v1/health
 ```

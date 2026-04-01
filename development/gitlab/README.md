@@ -30,7 +30,7 @@ GitLab is configured via `GITLAB_OMNIBUS_CONFIG` in docker-compose.yml (inline R
 
 | URL | Purpose |
 |-----|---------|
-| `https://gitlab.lab.kemo.network` | Web UI |
+| `https://gitlab.lab.kemo.dev` | Web UI |
 | `192.168.62.40:22` | SSH for Git operations (direct, not proxied) |
 
 **Static IP:** 192.168.62.40
@@ -39,7 +39,7 @@ GitLab is configured via `GITLAB_OMNIBUS_CONFIG` in docker-compose.yml (inline R
 
 - **Shared PostgreSQL** -- `gitlab` database with `pg_trgm` and `btree_gist` extensions
 - **Shared Valkey** -- DB 5 for caching and Sidekiq queues
-- **DNS** -- `gitlab.lab.kemo.network`
+- **DNS** -- `gitlab.lab.kemo.dev`
 - **Authentik** (optional) -- SSO via OIDC
 - **Mailcow** (optional) -- SMTP notifications
 

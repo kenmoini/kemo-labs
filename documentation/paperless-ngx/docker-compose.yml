@@ -4,12 +4,12 @@ services:
     container_name: paperless-ngx
     restart: unless-stopped
     environment:
-      - PAPERLESS_URL=https://paperless.lab.kemo.network
+      - PAPERLESS_URL=https://paperless.lab.kemo.dev
       - PAPERLESS_SECRET_KEY=${PAPERLESS_SECRET_KEY}
       - PAPERLESS_TIME_ZONE=${TZ:-America/New_York}
       - PAPERLESS_ADMIN_USER=${PAPERLESS_ADMIN_USER:-admin}
       - PAPERLESS_ADMIN_PASSWORD=${PAPERLESS_ADMIN_PASSWORD}
-      - PAPERLESS_ADMIN_MAIL=${PAPERLESS_ADMIN_MAIL:-admin@lab.kemo.network}
+      - PAPERLESS_ADMIN_MAIL=${PAPERLESS_ADMIN_MAIL:-admin@lab.kemo.dev}
       - PAPERLESS_DBHOST=192.168.62.15
       - PAPERLESS_DBPORT=5432
       - PAPERLESS_DBNAME=${PAPERLESS_DBNAME:-paperless}
@@ -38,7 +38,7 @@ services:
         ipv4_address: 192.168.62.53
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.paperless.rule=Host(`paperless.lab.kemo.network`)"
+      - "traefik.http.routers.paperless.rule=Host(`paperless.lab.kemo.dev`)"
       - "traefik.http.routers.paperless.entrypoints=websecure"
       - "traefik.http.routers.paperless.tls=true"
       - "traefik.http.routers.paperless.tls.certresolver=stepca"

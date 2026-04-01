@@ -110,7 +110,7 @@ No persistent storage required (stateless web UI).
 
 | Dependency | Reason |
 |------------|--------|
-| DNS | Hostname resolution for `netboot.lab.kemo.network`, `peanut.lab.kemo.network` |
+| DNS | Hostname resolution for `netboot.lab.kemo.dev`, `peanut.lab.kemo.dev` |
 | Traefik | Reverse proxy for web UIs |
 | DHCP server | Must configure `next-server` and `boot-file-name` pointing to 192.168.62.12 for PXE |
 
@@ -118,7 +118,7 @@ No persistent storage required (stateless web UI).
 
 - Static IP `192.168.62.12` on the homelab macvlan/ipvlan network.
 - TFTP (port 69/udp) must be directly accessible from PXE-booting clients; this cannot be reverse-proxied through Traefik.
-- Web UIs (netboot.xyz webapp, PeaNUT) are exposed through Traefik as `netboot.lab.kemo.network` and `peanut.lab.kemo.network`.
+- Web UIs (netboot.xyz webapp, PeaNUT) are exposed through Traefik as `netboot.lab.kemo.dev` and `peanut.lab.kemo.dev`.
 - The DHCP server on the network must be configured with PXE options:
   - `next-server`: `192.168.62.12`
   - `boot-file-name`: `netboot.xyz.kpxe` (BIOS) or `netboot.xyz.efi` (UEFI)

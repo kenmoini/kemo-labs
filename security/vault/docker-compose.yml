@@ -18,7 +18,7 @@ services:
     command: vault server -config=/vault/config/vault.hcl
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.vault.rule=Host(`vault.lab.kemo.network`)"
+      - "traefik.http.routers.vault.rule=Host(`vault.lab.kemo.dev`)"
       - "traefik.http.routers.vault.tls=true"
       - "traefik.http.routers.vault.tls.certresolver=step-ca"
       - "traefik.http.services.vault.loadbalancer.server.port=8200"

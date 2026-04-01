@@ -12,7 +12,7 @@ IT Tools is a collection of handy developer utilities accessible via a web inter
 ## Static IP & DNS
 
 - **IP:** 192.168.62.43
-- **DNS:** `tools.lab.kemo.network`
+- **DNS:** `tools.lab.kemo.dev`
 
 ## Required Ports
 
@@ -41,7 +41,7 @@ Extremely lightweight — it's just an NGINX container serving static files.
 
 | Dependency | Type | Details |
 |------------|------|---------|
-| DNS | Recommended | `tools.lab.kemo.network` |
+| DNS | Recommended | `tools.lab.kemo.dev` |
 | Traefik | Recommended | TLS termination |
 
 ## Network Configuration
@@ -71,7 +71,7 @@ Consider protecting with Authentik forward auth if you don't want it publicly ac
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.it-tools.rule=Host(`tools.lab.kemo.network`)"
+  - "traefik.http.routers.it-tools.rule=Host(`tools.lab.kemo.dev`)"
   - "traefik.http.routers.it-tools.tls=true"
   - "traefik.http.routers.it-tools.tls.certresolver=step-ca"
   - "traefik.http.services.it-tools.loadbalancer.server.port=80"

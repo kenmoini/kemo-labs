@@ -26,7 +26,7 @@ Home Assistant **requires host networking** for proper device discovery (mDNS, S
 |---|---|
 | Network Mode | `host` |
 | Static IP | `192.168.62.60` (configured on the host interface/macvlan, not in Docker) |
-| DNS Name | `home-assistant.lab.kemo.network` |
+| DNS Name | `home-assistant.lab.kemo.dev` |
 
 Since host networking is used, the static IP `192.168.62.60` must be assigned at the host level (e.g., via a macvlan interface or a secondary IP on the bridge interface). Podman's `network_mode: host` shares the host's entire network stack.
 
@@ -47,7 +47,7 @@ When using `network_mode: host`, all ports are exposed directly on the host. Key
 Since Home Assistant runs on host networking with a static IP, Traefik should route to it via the static IP:
 
 ```
-URL: https://home-assistant.lab.kemo.network
+URL: https://home-assistant.lab.kemo.dev
 Backend: http://192.168.62.60:8123
 ```
 

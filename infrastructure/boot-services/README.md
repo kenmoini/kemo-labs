@@ -30,8 +30,8 @@ NUT requires configuration files in `./nut/config/` (`ups.conf`, `upsd.conf`, `u
 
 | URL | Purpose |
 |-----|---------|
-| `https://netboot.lab.kemo.network` | Netboot.xyz web configuration UI |
-| `https://peanut.lab.kemo.network` | PeaNUT UPS monitoring dashboard |
+| `https://netboot.lab.kemo.dev` | Netboot.xyz web configuration UI |
+| `https://peanut.lab.kemo.dev` | PeaNUT UPS monitoring dashboard |
 | `192.168.62.12:69/udp` | TFTP for PXE boot (direct, not proxied) |
 
 ## Dependencies

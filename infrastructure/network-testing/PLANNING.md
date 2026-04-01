@@ -73,14 +73,14 @@ No persistent storage required. The image contains all static assets.
 
 | Dependency | Reason |
 |------------|--------|
-| DNS | Hostname resolution for `speedtest.lab.kemo.network` |
+| DNS | Hostname resolution for `speedtest.lab.kemo.dev` |
 | Traefik | Reverse proxy for OpenSpeedTest web UI |
 
 ## Network Configuration
 
 - Static IP `192.168.62.13` on the homelab macvlan/ipvlan network.
 - iPerf3 (port 5201) must be directly accessible from test clients; it cannot be reverse-proxied.
-- OpenSpeedTest web UI is exposed through Traefik as `speedtest.lab.kemo.network`.
+- OpenSpeedTest web UI is exposed through Traefik as `speedtest.lab.kemo.dev`.
 - For accurate speed test results, the container should have direct network access without NAT overhead if possible.
 
 ## Traefik Integration
@@ -90,7 +90,7 @@ OpenSpeedTest through Traefik requires increasing the maximum request body size 
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.speedtest.rule=Host(`speedtest.lab.kemo.network`)"
+  - "traefik.http.routers.speedtest.rule=Host(`speedtest.lab.kemo.dev`)"
   - "traefik.http.routers.speedtest.entrypoints=websecure"
   - "traefik.http.routers.speedtest.tls.certresolver=stepca"
   - "traefik.http.services.speedtest.loadbalancer.server.port=3000"

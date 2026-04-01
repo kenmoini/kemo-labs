@@ -12,7 +12,7 @@ HashiCorp Vault provides centralized secrets management, encryption as a service
 ## Static IP & DNS
 
 - **IP:** 192.168.62.7
-- **DNS:** `vault.lab.kemo.network`
+- **DNS:** `vault.lab.kemo.dev`
 
 ## Required Ports
 
@@ -26,7 +26,7 @@ HashiCorp Vault provides centralized secrets management, encryption as a service
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `VAULT_ADDR` | Vault address (internal) | `http://0.0.0.0:8200` |
-| `VAULT_API_ADDR` | External API address | `https://vault.lab.kemo.network` |
+| `VAULT_API_ADDR` | External API address | `https://vault.lab.kemo.dev` |
 | `VAULT_LOG_LEVEL` | Log verbosity | `info` |
 | `SKIP_SETCAP` | Skip mlock setcap (Docker) | `true` |
 
@@ -51,7 +51,7 @@ HashiCorp Vault provides centralized secrets management, encryption as a service
 | Dependency | Type | Details |
 |------------|------|---------|
 | PikaPKI / StepCA | Recommended | TLS certificate for Vault API |
-| DNS | Recommended | `vault.lab.kemo.network` resolution |
+| DNS | Recommended | `vault.lab.kemo.dev` resolution |
 
 ## Vault Configuration (vault.hcl)
 
@@ -70,8 +70,8 @@ listener "tcp" {
   tls_key_file  = "/vault/tls/tls.key"
 }
 
-api_addr = "https://vault.lab.kemo.network:8200"
-cluster_addr = "https://vault.lab.kemo.network:8201"
+api_addr = "https://vault.lab.kemo.dev:8200"
+cluster_addr = "https://vault.lab.kemo.dev:8201"
 ```
 
 ## Network Configuration
@@ -115,7 +115,7 @@ Enable file audit backend to `/vault/logs/audit.log` for compliance and debuggin
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.vault.rule=Host(`vault.lab.kemo.network`)"
+  - "traefik.http.routers.vault.rule=Host(`vault.lab.kemo.dev`)"
   - "traefik.http.routers.vault.tls=true"
   - "traefik.http.routers.vault.tls.certresolver=step-ca"
   - "traefik.http.services.vault.loadbalancer.server.port=8200"

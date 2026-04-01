@@ -12,7 +12,7 @@ Sonatype Nexus Repository Manager serves as a universal proxy and hosted registr
 ## Static IP & DNS
 
 - **IP:** 192.168.62.21
-- **DNS:** `nexus.lab.kemo.network`, `registry.lab.kemo.network` (Docker registry)
+- **DNS:** `nexus.lab.kemo.dev`, `registry.lab.kemo.dev` (Docker registry)
 
 ## Required Ports
 
@@ -60,8 +60,8 @@ Nexus is JVM-based and memory-hungry. Allocate at least 2 GB heap via `INSTALL4J
 - macvlan/ipvlan with static IP 192.168.62.21
 - Multiple ports for different repository types
 - Traefik routes by hostname to different ports:
-  - `nexus.lab.kemo.network` → 8081 (Web UI)
-  - `registry.lab.kemo.network` → 8084 (Docker group)
+  - `nexus.lab.kemo.dev` → 8081 (Web UI)
+  - `registry.lab.kemo.dev` → 8084 (Docker group)
 
 ## Special Considerations
 
@@ -76,7 +76,7 @@ Configure via Web UI after first boot:
 Configure Docker daemon on all hosts to use Nexus as mirror:
 ```json
 {
-  "registry-mirrors": ["https://registry.lab.kemo.network"],
+  "registry-mirrors": ["https://registry.lab.kemo.dev"],
   "insecure-registries": []
 }
 ```
@@ -103,12 +103,12 @@ Configure blob store cleanup tasks to prevent unbounded storage growth:
 labels:
   - "traefik.enable=true"
   # Web UI
-  - "traefik.http.routers.nexus.rule=Host(`nexus.lab.kemo.network`)"
+  - "traefik.http.routers.nexus.rule=Host(`nexus.lab.kemo.dev`)"
   - "traefik.http.routers.nexus.tls=true"
   - "traefik.http.routers.nexus.tls.certresolver=step-ca"
   - "traefik.http.services.nexus.loadbalancer.server.port=8081"
   # Docker registry
-  - "traefik.http.routers.registry.rule=Host(`registry.lab.kemo.network`)"
+  - "traefik.http.routers.registry.rule=Host(`registry.lab.kemo.dev`)"
   - "traefik.http.routers.registry.tls=true"
   - "traefik.http.routers.registry.tls.certresolver=step-ca"
   - "traefik.http.services.registry.loadbalancer.server.port=8084"

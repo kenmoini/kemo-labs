@@ -23,7 +23,7 @@ Homepage is a modern, self-hosted application dashboard that serves as the centr
 
 | Variable | Purpose | Example |
 |----------|---------|---------|
-| `HOMEPAGE_ALLOWED_HOSTS` | Required: allowed Host headers | `home.lab.kemo.network,192.168.62.14:3000` |
+| `HOMEPAGE_ALLOWED_HOSTS` | Required: allowed Host headers | `home.lab.kemo.dev,192.168.62.14:3000` |
 | `PUID` | User ID for file permissions | `1000` |
 | `PGID` | Group ID for file permissions | `1000` |
 | `TZ` | Timezone | `America/New_York` |
@@ -70,14 +70,14 @@ The `./config/` directory contains YAML files that define the dashboard layout:
 
 | Dependency | Reason |
 |------------|--------|
-| DNS | Hostname resolution for `home.lab.kemo.network` |
+| DNS | Hostname resolution for `home.lab.kemo.dev` |
 | Traefik | Reverse proxy for the web UI |
 | All other services | Homepage displays status widgets for configured services |
 
 ## Network Configuration
 
 - Static IP `192.168.62.14` on the homelab macvlan/ipvlan network.
-- Exposed through Traefik as `home.lab.kemo.network`.
+- Exposed through Traefik as `home.lab.kemo.dev`.
 - Podman socket access (read-only) enables automatic discovery and status display of Docker containers.
 - Homepage needs network access to all services it monitors (for widget API calls).
 
@@ -86,7 +86,7 @@ The `./config/` directory contains YAML files that define the dashboard layout:
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.homepage.rule=Host(`home.lab.kemo.network`)"
+  - "traefik.http.routers.homepage.rule=Host(`home.lab.kemo.dev`)"
   - "traefik.http.routers.homepage.entrypoints=websecure"
   - "traefik.http.routers.homepage.tls.certresolver=stepca"
   - "traefik.http.services.homepage.loadbalancer.server.port=3000"
@@ -100,14 +100,14 @@ Homepage can display real-time data from other homelab services. Example `servic
 - Infrastructure:
     - Traefik:
         icon: traefik.svg
-        href: https://traefik.lab.kemo.network
+        href: https://traefik.lab.kemo.dev
         widget:
           type: traefik
           url: http://192.168.62.10:8080
 
     - Pi-hole:
         icon: pi-hole.svg
-        href: https://pihole.lab.kemo.network
+        href: https://pihole.lab.kemo.dev
         widget:
           type: pihole
           url: http://192.168.62.4
@@ -115,7 +115,7 @@ Homepage can display real-time data from other homelab services. Example `servic
 
     - PeaNUT:
         icon: peanut.svg
-        href: https://peanut.lab.kemo.network
+        href: https://peanut.lab.kemo.dev
         widget:
           type: peanut
           url: http://192.168.62.12:8081

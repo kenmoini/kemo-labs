@@ -43,8 +43,8 @@ Internal-only ports (container-to-container, no host binding needed):
 
 | Variable | Value | Description |
 |----------|-------|-------------|
-| `GF_SERVER_ROOT_URL` | `https://grafana.lab.kemo.network` | Public URL |
-| `GF_SERVER_DOMAIN` | `grafana.lab.kemo.network` | Server domain |
+| `GF_SERVER_ROOT_URL` | `https://grafana.lab.kemo.dev` | Public URL |
+| `GF_SERVER_DOMAIN` | `grafana.lab.kemo.dev` | Server domain |
 | `GF_SECURITY_ADMIN_USER` | `admin` | Admin username |
 | `GF_SECURITY_ADMIN_PASSWORD` | (secret) | Admin password, set via `.env` file |
 | `GF_USERS_ALLOW_SIGN_UP` | `false` | Disable public signup |
@@ -101,13 +101,13 @@ Configured via `alloy-config.alloy` (River format) mounted into the container. K
 - **Traefik** (infrastructure/traefik): Reverse proxy for HTTPS access to Grafana UI.
 - **StepCA ACME**: TLS certificates via Traefik integration.
 - **Podman socket**: Alloy needs read-only access to `/var/run/docker.sock` for container discovery, log collection, and Docker metrics.
-- **DNS**: `grafana.lab.kemo.network` A record pointing to 192.168.62.30.
+- **DNS**: `grafana.lab.kemo.dev` A record pointing to 192.168.62.30.
 
 ## Network Configuration
 
 - **Static IP:** `192.168.62.30`
 - **Network:** Bridged macvlan or equivalent on `192.168.62.0/23`
-- Grafana exposed via Traefik with TLS at `https://grafana.lab.kemo.network`
+- Grafana exposed via Traefik with TLS at `https://grafana.lab.kemo.dev`
 - Alloy OTLP endpoints (4317/4318) exposed on the static IP for other workloads to send telemetry
 - Loki (3100), Mimir (9009), Tempo (3200) endpoints exposed on the static IP for direct push from external sources
 - Internal Docker network for inter-service communication
@@ -116,7 +116,7 @@ Configured via `alloy-config.alloy` (River format) mounted into the container. K
 
 ```
 traefik.enable=true
-traefik.http.routers.grafana.rule=Host(`grafana.lab.kemo.network`)
+traefik.http.routers.grafana.rule=Host(`grafana.lab.kemo.dev`)
 traefik.http.routers.grafana.entrypoints=websecure
 traefik.http.routers.grafana.tls=true
 traefik.http.routers.grafana.tls.certresolver=step-ca

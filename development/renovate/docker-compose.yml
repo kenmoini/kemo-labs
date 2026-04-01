@@ -5,9 +5,9 @@ services:
     restart: unless-stopped
     environment:
       - RENOVATE_PLATFORM=gitlab
-      - RENOVATE_ENDPOINT=https://gitlab.lab.kemo.network/api/v4
+      - RENOVATE_ENDPOINT=https://gitlab.lab.kemo.dev/api/v4
       - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-      - RENOVATE_GIT_AUTHOR=Renovate Bot <renovate@lab.kemo.network>
+      - RENOVATE_GIT_AUTHOR=Renovate Bot <renovate@lab.kemo.dev>
       - RENOVATE_AUTODISCOVER=${RENOVATE_AUTODISCOVER:-true}
       - RENOVATE_AUTODISCOVER_FILTER=${RENOVATE_AUTODISCOVER_FILTER:-*/*}
       - LOG_LEVEL=${LOG_LEVEL:-info}

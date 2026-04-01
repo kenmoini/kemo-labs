@@ -26,7 +26,7 @@ Edit the `devices:` section in docker-compose.yml to match your host disks (e.g.
 
 | URL | Purpose |
 |-----|---------|
-| `https://scrutiny.lab.kemo.network` | Disk health dashboard |
+| `https://scrutiny.lab.kemo.dev` | Disk health dashboard |
 
 **Static IP:** 192.168.62.33
 

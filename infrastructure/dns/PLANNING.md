@@ -2,10 +2,10 @@
 
 ## Overview
 
-The DNS stack provides authoritative name resolution for the `lab.kemo.network` zone, recursive resolution for all other domains, and network-wide ad blocking. The three components work in a chain:
+The DNS stack provides authoritative name resolution for the `lab.kemo.dev` zone, recursive resolution for all other domains, and network-wide ad blocking. The three components work in a chain:
 
-1. **PowerDNS Authoritative** -- serves the `lab.kemo.network` zone with all internal records
-2. **PowerDNS Recursor** -- forwards `lab.kemo.network` queries to the Auth server, and all other queries to upstream public DNS resolvers
+1. **PowerDNS Authoritative** -- serves the `lab.kemo.dev` zone with all internal records
+2. **PowerDNS Recursor** -- forwards `lab.kemo.dev` queries to the Auth server, and all other queries to upstream public DNS resolvers
 3. **Pi-hole** -- provides DNS-level ad/tracker blocking using the Recursor as its upstream, and serves as the DNS server advertised to all clients on the network
 
 ## Container Images
@@ -82,7 +82,7 @@ Configuration via mounted `recursor.conf`:
 ```
 local-address=0.0.0.0
 local-port=53
-forward-zones=lab.kemo.network=192.168.62.2
+forward-zones=lab.kemo.dev=192.168.62.2
 forward-zones-recurse=.=1.1.1.1;1.0.0.1;8.8.8.8;8.8.4.4
 allow-from=192.168.62.0/23,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12
 webserver=yes
@@ -142,21 +142,21 @@ api-key=<secret>
 
 - Each container gets a dedicated static IP on the `192.168.62.0/23` network using a bridged Podman network.
 - Pi-hole is advertised as the DNS server to all DHCP clients on the network (set in the DHCP server / router config).
-- The query flow is: **Client -> Pi-hole (192.168.62.4) -> Recursor (192.168.62.3) -> Auth (192.168.62.2)** for `lab.kemo.network` queries, or **Client -> Pi-hole -> Recursor -> upstream** for external queries.
+- The query flow is: **Client -> Pi-hole (192.168.62.4) -> Recursor (192.168.62.3) -> Auth (192.168.62.2)** for `lab.kemo.dev` queries, or **Client -> Pi-hole -> Recursor -> upstream** for external queries.
 - Pi-hole requires `cap_add: NET_ADMIN` in Docker.
 
-## DNS Zone Records (lab.kemo.network)
+## DNS Zone Records (lab.kemo.dev)
 
 The PowerDNS Authoritative server must be pre-populated with at minimum:
 
 | Record | Type | Value | Notes |
 |--------|------|-------|-------|
-| `lab.kemo.network` | SOA | `ns1.lab.kemo.network admin.lab.kemo.network ...` | Zone SOA |
-| `lab.kemo.network` | NS | `ns1.lab.kemo.network` | Nameserver |
-| `ns1.lab.kemo.network` | A | `192.168.62.2` | Auth server |
-| `*.lab.kemo.network` | A | `192.168.62.10` | Wildcard pointing to Traefik |
-| `pihole.lab.kemo.network` | A | `192.168.62.4` | Direct access to Pi-hole |
-| `traefik.lab.kemo.network` | A | `192.168.62.10` | Traefik dashboard |
+| `lab.kemo.dev` | SOA | `ns1.lab.kemo.dev admin.lab.kemo.dev ...` | Zone SOA |
+| `lab.kemo.dev` | NS | `ns1.lab.kemo.dev` | Nameserver |
+| `ns1.lab.kemo.dev` | A | `192.168.62.2` | Auth server |
+| `*.lab.kemo.dev` | A | `192.168.62.10` | Wildcard pointing to Traefik |
+| `pihole.lab.kemo.dev` | A | `192.168.62.4` | Direct access to Pi-hole |
+| `traefik.lab.kemo.dev` | A | `192.168.62.10` | Traefik dashboard |
 
 Additional A records should be added for each service with a dedicated IP that is accessed directly (not through Traefik).
 

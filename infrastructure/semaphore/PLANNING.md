@@ -32,7 +32,7 @@ Website: https://semaphoreui.com
 | `SEMAPHORE_DB_PASS` | Database password | `changeme` |
 | `SEMAPHORE_DB` | Database name | `semaphore` |
 | `SEMAPHORE_ADMIN_NAME` | Admin display name | `Admin` |
-| `SEMAPHORE_ADMIN_EMAIL` | Admin email | `admin@lab.kemo.network` |
+| `SEMAPHORE_ADMIN_EMAIL` | Admin email | `admin@lab.kemo.dev` |
 | `SEMAPHORE_ADMIN` | Admin username | `admin` |
 | `SEMAPHORE_ADMIN_PASSWORD` | Admin password | `changeme` |
 | `SEMAPHORE_ACCESS_KEY_ENCRYPTION` | Encryption key for stored credentials | (random 32+ char string) |
@@ -60,13 +60,13 @@ Website: https://semaphoreui.com
 | Dependency | Reason |
 |------------|--------|
 | Shared PostgreSQL (192.168.62.16) | Database backend -- requires `semaphore` database and user |
-| DNS | Hostname resolution for `semaphore.lab.kemo.network` |
+| DNS | Hostname resolution for `semaphore.lab.kemo.dev` |
 | Traefik | Reverse proxy with TLS termination |
 
 ## Network Configuration
 
 - Static IP `192.168.62.25` on the homelab macvlan network.
-- Exposed through Traefik as `semaphore.lab.kemo.network`.
+- Exposed through Traefik as `semaphore.lab.kemo.dev`.
 - Requires outbound network access to Git repositories and target hosts for Ansible.
 
 ## Traefik Integration
@@ -74,7 +74,7 @@ Website: https://semaphoreui.com
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.semaphore.rule=Host(`semaphore.lab.kemo.network`)"
+  - "traefik.http.routers.semaphore.rule=Host(`semaphore.lab.kemo.dev`)"
   - "traefik.http.routers.semaphore.entrypoints=websecure"
   - "traefik.http.routers.semaphore.tls.certresolver=stepca"
   - "traefik.http.services.semaphore.loadbalancer.server.port=3000"

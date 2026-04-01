@@ -25,7 +25,7 @@ Optional authentication: mount a `users.yml` file with bcrypt-hashed passwords a
 
 | URL | Purpose |
 |-----|---------|
-| `https://dozzle.lab.kemo.network` | Real-time log viewer |
+| `https://dozzle.lab.kemo.dev` | Real-time log viewer |
 
 **Static IP:** 192.168.62.31
 

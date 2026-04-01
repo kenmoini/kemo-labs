@@ -33,14 +33,14 @@ SSH keys from the host `~/.ssh/` directory are mounted read-only into the contai
 
 | URL | Purpose |
 |-----|---------|
-| `https://semaphore.lab.kemo.network` | Semaphore web UI |
+| `https://semaphore.lab.kemo.dev` | Semaphore web UI |
 
 **Static IP:** 192.168.62.25
 
 ## Dependencies
 
 - **Shared PostgreSQL** (192.168.62.16) -- the `semaphore` database and user must exist before first launch
-- **DNS** -- hostname resolution for `semaphore.lab.kemo.network`
+- **DNS** -- hostname resolution for `semaphore.lab.kemo.dev`
 - **Traefik** -- reverse proxy with TLS via StepCA ACME
 
 ### PostgreSQL Setup

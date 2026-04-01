@@ -19,7 +19,7 @@ The worker runs `rqworker` for background task processing (webhooks, reports, sc
 |------|----------|---------|
 | 8080 | TCP | HTTP web UI and REST/GraphQL API |
 
-Traefik will proxy `netbox.lab.kemo.network` to port 8080 with TLS via StepCA ACME.
+Traefik will proxy `netbox.lab.kemo.dev` to port 8080 with TLS via StepCA ACME.
 
 ## Environment Variables
 
@@ -51,7 +51,7 @@ Traefik will proxy `netbox.lab.kemo.network` to port 8080 with TLS via StepCA AC
 | `MEDIA_ROOT` | Media file storage path | `/opt/netbox/netbox/media` |
 | `SKIP_SUPERUSER` | Skip superuser creation on init | `false` (create on first run) |
 | `SUPERUSER_NAME` | Initial admin username | `admin` |
-| `SUPERUSER_EMAIL` | Initial admin email | `admin@lab.kemo.network` |
+| `SUPERUSER_EMAIL` | Initial admin email | `admin@lab.kemo.dev` |
 | `SUPERUSER_PASSWORD` | Initial admin password | (set on first run) |
 | `GRANIAN_WORKERS` | Number of ASGI workers | `4` |
 | `GRANIAN_BACKPRESSURE` | Worker backpressure limit | `4` |
@@ -74,7 +74,7 @@ Traefik will proxy `netbox.lab.kemo.network` to port 8080 with TLS via StepCA AC
 |----------|-------------|---------|
 | `EMAIL_SERVER` | SMTP server | `localhost` |
 | `EMAIL_PORT` | SMTP port | `25` |
-| `EMAIL_FROM` | Sender address | `netbox@lab.kemo.network` |
+| `EMAIL_FROM` | Sender address | `netbox@lab.kemo.dev` |
 | `EMAIL_USE_TLS` | Use STARTTLS | `false` |
 | `EMAIL_USE_SSL` | Use implicit TLS | `false` |
 
@@ -104,7 +104,7 @@ Database storage is handled by the shared PostgreSQL instance.
 |---------|---------|---------|
 | Shared PostgreSQL | Primary database | Database: `netbox`, User: `netbox`. Requires PostgreSQL 13+. |
 | Shared Valkey | Task queue + caching | Uses DB index 0 for tasks, DB index 1 for cache. Requires Redis/Valkey 6+. |
-| Traefik | Reverse proxy + TLS | Routes `netbox.lab.kemo.network` with StepCA ACME certificate |
+| Traefik | Reverse proxy + TLS | Routes `netbox.lab.kemo.dev` with StepCA ACME certificate |
 
 ### Optional Integrations
 
@@ -116,8 +116,8 @@ Database storage is handled by the shared PostgreSQL instance.
 | Setting | Value |
 |---------|-------|
 | Static IP | `192.168.62.50` |
-| DNS Zone | `lab.kemo.network` |
-| FQDN | `netbox.lab.kemo.network` |
+| DNS Zone | `lab.kemo.dev` |
+| FQDN | `netbox.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
@@ -126,7 +126,7 @@ Database storage is handled by the shared PostgreSQL instance.
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.netbox.rule=Host(`netbox.lab.kemo.network`)"
+  - "traefik.http.routers.netbox.rule=Host(`netbox.lab.kemo.dev`)"
   - "traefik.http.routers.netbox.entrypoints=websecure"
   - "traefik.http.routers.netbox.tls=true"
   - "traefik.http.routers.netbox.tls.certresolver=step-ca"

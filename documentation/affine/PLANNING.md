@@ -21,7 +21,7 @@ The migration container runs `node ./scripts/self-host-predeploy.js` and exits a
 |------|----------|---------|
 | 3010 | TCP | HTTP web UI and API |
 
-Traefik will proxy `affine.lab.kemo.network` to port 3010 with TLS via StepCA ACME.
+Traefik will proxy `affine.lab.kemo.dev` to port 3010 with TLS via StepCA ACME.
 
 ## Environment Variables
 
@@ -32,8 +32,8 @@ Traefik will proxy `affine.lab.kemo.network` to port 3010 with TLS via StepCA AC
 | `AFFINE_REVISION` | Release channel | `stable` |
 | `PORT` | Server listen port | `3010` |
 | `AFFINE_SERVER_HTTPS` | Whether external access is HTTPS | `true` |
-| `AFFINE_SERVER_HOST` | Public hostname | `affine.lab.kemo.network` |
-| `AFFINE_SERVER_EXTERNAL_URL` | Full external URL (alternative to host+https) | `https://affine.lab.kemo.network` |
+| `AFFINE_SERVER_HOST` | Public hostname | `affine.lab.kemo.dev` |
+| `AFFINE_SERVER_EXTERNAL_URL` | Full external URL (alternative to host+https) | `https://affine.lab.kemo.dev` |
 | `AFFINE_INDEXER_ENABLED` | Enable search indexer | `false` (can enable later) |
 
 ### Database Configuration
@@ -87,7 +87,7 @@ Database storage is handled by the shared PostgreSQL instance (with pgvector).
 |---------|---------|---------|
 | Shared PostgreSQL | Primary database | Database: `affine`, User: `affine`. **Requires pgvector extension.** PostgreSQL 16+ recommended. |
 | Shared Valkey | Caching and pub/sub | Uses a dedicated DB index (e.g., 2) to avoid collision. |
-| Traefik | Reverse proxy + TLS | Routes `affine.lab.kemo.network` with StepCA ACME certificate |
+| Traefik | Reverse proxy + TLS | Routes `affine.lab.kemo.dev` with StepCA ACME certificate |
 
 ### Critical Note: pgvector Requirement
 
@@ -106,8 +106,8 @@ AFFiNE requires the `pgvector` PostgreSQL extension for vector search functional
 | Setting | Value |
 |---------|-------|
 | Static IP | `192.168.62.51` |
-| DNS Zone | `lab.kemo.network` |
-| FQDN | `affine.lab.kemo.network` |
+| DNS Zone | `lab.kemo.dev` |
+| FQDN | `affine.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
@@ -116,7 +116,7 @@ AFFiNE requires the `pgvector` PostgreSQL extension for vector search functional
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.affine.rule=Host(`affine.lab.kemo.network`)"
+  - "traefik.http.routers.affine.rule=Host(`affine.lab.kemo.dev`)"
   - "traefik.http.routers.affine.entrypoints=websecure"
   - "traefik.http.routers.affine.tls=true"
   - "traefik.http.routers.affine.tls.certresolver=step-ca"
@@ -131,7 +131,7 @@ labels:
 
 3. **Data Persistence Warning**: Per AFFiNE docs, most `.env` values (especially database credentials and locations) should not be changed after initial data has been written. Changing them may corrupt or orphan data.
 
-4. **AFFINE_SERVER_EXTERNAL_URL**: Must be set correctly for WebSocket connections and link generation. Since Traefik handles TLS, set this to `https://affine.lab.kemo.network`.
+4. **AFFINE_SERVER_EXTERNAL_URL**: Must be set correctly for WebSocket connections and link generation. Since Traefik handles TLS, set this to `https://affine.lab.kemo.dev`.
 
 5. **Container User**: AFFiNE runs as root inside the container by default (writes to `/root/.affine/`). Volume permissions should accommodate this.
 

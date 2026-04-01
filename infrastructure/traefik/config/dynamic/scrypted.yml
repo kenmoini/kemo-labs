@@ -1,7 +1,7 @@
 http:
   routers:
     scrypted:
-      rule: "Host(`scrypted.lab.kemo.network`)"
+      rule: "Host(`scrypted.lab.kemo.dev`)"
       entryPoints:
         - websecure
       service: scrypted

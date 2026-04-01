@@ -14,7 +14,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUTPUT_DIR="${SCRIPT_DIR}/_out"
 CLUSTER_NAME="homelab"
-CLUSTER_ENDPOINT="https://talos-api.lab.kemo.network:6443"
+CLUSTER_ENDPOINT="https://talos-api.lab.kemo.dev:6443"
 
 # Pod and Service CIDRs
 POD_CIDR="10.244.0.0/16"

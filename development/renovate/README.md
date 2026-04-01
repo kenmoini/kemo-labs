@@ -25,7 +25,7 @@ docker compose run --rm renovate
 | Variable | Purpose |
 |----------|---------|
 | `RENOVATE_TOKEN` | GitLab personal access token (scopes: api, read/write_repository) |
-| `RENOVATE_ENDPOINT` | GitLab API URL (`https://gitlab.lab.kemo.network/api/v4`) |
+| `RENOVATE_ENDPOINT` | GitLab API URL (`https://gitlab.lab.kemo.dev/api/v4`) |
 | `RENOVATE_AUTODISCOVER` | Auto-discover all repos (default: `true`) |
 | `LOG_LEVEL` | Logging verbosity (default: `info`) |
 | `NODE_EXTRA_CA_CERTS` | Path to root CA cert for internal TLS trust |
@@ -37,7 +37,7 @@ Renovate has no web UI. It creates merge requests directly in GitLab.
 ## Dependencies
 
 - **GitLab** -- must be running and accessible
-- **DNS** -- must resolve `gitlab.lab.kemo.network`
+- **DNS** -- must resolve `gitlab.lab.kemo.dev`
 
 ## Maintenance
 

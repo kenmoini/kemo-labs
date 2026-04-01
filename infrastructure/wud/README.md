@@ -40,7 +40,7 @@ Add labels to individual containers to control WUD behavior:
 
 | URL | Purpose |
 |-----|---------|
-| `https://wud.lab.kemo.network` | WUD web dashboard |
+| `https://wud.lab.kemo.dev` | WUD web dashboard |
 
 **Static IP:** 192.168.62.9
 
@@ -48,7 +48,7 @@ Add labels to individual containers to control WUD behavior:
 
 - **Podman socket** -- mounted read-only for container inspection
 - **Traefik** -- reverse proxy with TLS via StepCA
-- **DNS** -- `wud.lab.kemo.network` must resolve to Traefik (192.168.62.10)
+- **DNS** -- `wud.lab.kemo.dev` must resolve to Traefik (192.168.62.10)
 - **Ntfy** (192.168.62.82) -- notification delivery target
 
 ## Maintenance

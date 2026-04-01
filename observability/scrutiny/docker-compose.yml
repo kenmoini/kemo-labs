@@ -39,7 +39,7 @@ services:
       start_period: 60s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.scrutiny.rule=Host(`${SCRUTINY_DOMAIN:-scrutiny.lab.kemo.network}`)"
+      - "traefik.http.routers.scrutiny.rule=Host(`${SCRUTINY_DOMAIN:-scrutiny.lab.kemo.dev}`)"
       - "traefik.http.routers.scrutiny.entrypoints=websecure"
       - "traefik.http.routers.scrutiny.tls=true"
       - "traefik.http.routers.scrutiny.tls.certresolver=step-ca"

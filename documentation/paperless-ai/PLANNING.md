@@ -18,7 +18,7 @@ Single container running a Node.js application with an embedded RAG service.
 |------|----------|---------|
 | 3000 | TCP | HTTP web UI (configuration, manual processing, RAG chat) |
 
-Traefik will proxy `paperless-ai.lab.kemo.network` to port 3000 with TLS via StepCA ACME.
+Traefik will proxy `paperless-ai.lab.kemo.dev` to port 3000 with TLS via StepCA ACME.
 
 ## Environment Variables
 
@@ -35,7 +35,7 @@ Traefik will proxy `paperless-ai.lab.kemo.network` to port 3000 with TLS via Ste
 
 | Variable | Description | Example Value |
 |----------|-------------|---------------|
-| `PAPERLESS_API_URL` | Paperless-NGX API endpoint | `https://paperless.lab.kemo.network/api` |
+| `PAPERLESS_API_URL` | Paperless-NGX API endpoint | `https://paperless.lab.kemo.dev/api` |
 | `PAPERLESS_API_TOKEN` | API token from Paperless-NGX | (generate in Paperless-NGX admin) |
 | `PAPERLESS_USERNAME` | Paperless-NGX username (for some operations) | `admin` |
 
@@ -49,7 +49,7 @@ Traefik will proxy `paperless-ai.lab.kemo.network` to port 3000 with TLS via Ste
 
 | Variable | Description | Example Value |
 |----------|-------------|---------------|
-| `OLLAMA_API_URL` | Ollama API endpoint | `http://ollama.lab.kemo.network:11434` |
+| `OLLAMA_API_URL` | Ollama API endpoint | `http://ollama.lab.kemo.dev:11434` |
 | `OLLAMA_MODEL` | Model to use | `llama3.2`, `mistral`, `phi-3`, `gemma-2` |
 
 #### For OpenAI:
@@ -63,7 +63,7 @@ Traefik will proxy `paperless-ai.lab.kemo.network` to port 3000 with TLS via Ste
 
 | Variable | Description | Example Value |
 |----------|-------------|---------------|
-| `CUSTOM_BASE_URL` | API base URL | `http://open-webui.lab.kemo.network/v1` |
+| `CUSTOM_BASE_URL` | API base URL | `http://open-webui.lab.kemo.dev/v1` |
 | `CUSTOM_API_KEY` | API key | (your API key) |
 | `CUSTOM_MODEL` | Model name | `deepseek-chat` |
 
@@ -120,7 +120,7 @@ If using Ollama locally, the LLM inference resource cost is borne by the Ollama 
 |---------|---------|---------|
 | Paperless-NGX | Source document system | Must be running and accessible via API at `192.168.62.53`. Requires a valid API token. |
 | AI Provider | LLM inference | One of: Ollama (local), OpenAI (cloud), or any OpenAI-compatible API (Open WebUI, vLLM, etc.) |
-| Traefik | Reverse proxy + TLS | Routes `paperless-ai.lab.kemo.network` with StepCA ACME certificate |
+| Traefik | Reverse proxy + TLS | Routes `paperless-ai.lab.kemo.dev` with StepCA ACME certificate |
 
 ### No Database Dependencies
 
@@ -141,8 +141,8 @@ Paperless-AI (192.168.62.54)
 | Setting | Value |
 |---------|-------|
 | Static IP | `192.168.62.54` |
-| DNS Zone | `lab.kemo.network` |
-| FQDN | `paperless-ai.lab.kemo.network` |
+| DNS Zone | `lab.kemo.dev` |
+| FQDN | `paperless-ai.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
 | Subnet | `192.168.62.0/23` |
 
@@ -151,7 +151,7 @@ Paperless-AI (192.168.62.54)
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.paperless-ai.rule=Host(`paperless-ai.lab.kemo.network`)"
+  - "traefik.http.routers.paperless-ai.rule=Host(`paperless-ai.lab.kemo.dev`)"
   - "traefik.http.routers.paperless-ai.entrypoints=websecure"
   - "traefik.http.routers.paperless-ai.tls=true"
   - "traefik.http.routers.paperless-ai.tls.certresolver=step-ca"
@@ -176,6 +176,6 @@ labels:
 
 8. **System Prompt Customization**: The default system prompt works well for general documents. For specialized use cases (e.g., medical records, legal documents), customize the `SYSTEM_PROMPT` to extract domain-specific metadata.
 
-9. **Paperless-NGX API URL**: Use the internal Podman network URL (`http://192.168.62.53:8000/api`) or the Traefik URL (`https://paperless.lab.kemo.network/api`). The internal URL avoids TLS overhead but requires network connectivity between containers.
+9. **Paperless-NGX API URL**: Use the internal Podman network URL (`http://192.168.62.53:8000/api`) or the Traefik URL (`https://paperless.lab.kemo.dev/api`). The internal URL avoids TLS overhead but requires network connectivity between containers.
 
 10. **No Authentication Built-in**: Paperless-AI does not have its own authentication system. Protect the web UI using Traefik middleware (forward auth with Keycloak/Authentik) or restrict access via network policy.

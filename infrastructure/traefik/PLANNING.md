@@ -2,7 +2,7 @@
 
 ## Overview
 
-Traefik serves as the central ingress point for all homelab services, providing load balancing, reverse proxying, and automatic TLS certificate management. It routes traffic to all other services via `*.lab.kemo.network` subdomains. Traefik uses both the Docker provider (for automatic service discovery of co-located containers) and the file provider (for routing to services on other hosts or with custom configurations).
+Traefik serves as the central ingress point for all homelab services, providing load balancing, reverse proxying, and automatic TLS certificate management. It routes traffic to all other services via `*.lab.kemo.dev` subdomains. Traefik uses both the Docker provider (for automatic service discovery of co-located containers) and the file provider (for routing to services on other hosts or with custom configurations).
 
 ## Container Image
 
@@ -46,8 +46,8 @@ Key settings:
 certificatesResolvers:
   stepca:
     acme:
-      caServer: "https://stepca.lab.kemo.network:9000/acme/acme/directory"
-      email: "admin@lab.kemo.network"
+      caServer: "https://stepca.lab.kemo.dev:9000/acme/acme/directory"
+      email: "admin@lab.kemo.dev"
       storage: "/etc/traefik/acme.json"
       tlsChallenge: {}
 ```
@@ -61,7 +61,7 @@ Services on the same Docker host can be auto-discovered. Each service's `docker-
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.<service>.rule=Host(`<service>.lab.kemo.network`)"
+  - "traefik.http.routers.<service>.rule=Host(`<service>.lab.kemo.dev`)"
   - "traefik.http.routers.<service>.entrypoints=websecure"
   - "traefik.http.routers.<service>.tls.certresolver=stepca"
 ```
@@ -102,14 +102,14 @@ For services not discoverable via Docker labels (e.g., VMs, external hosts), pla
 | Dependency | Reason |
 |------------|--------|
 | StepCA | ACME certificate issuance (must be reachable at its CA server URL) |
-| DNS (PowerDNS) | Wildcard `*.lab.kemo.network` must resolve to 192.168.62.10 |
+| DNS (PowerDNS) | Wildcard `*.lab.kemo.dev` must resolve to 192.168.62.10 |
 | Podman socket | Required for Docker provider auto-discovery |
 
 ## Network Configuration
 
 - Attach to a Podman network with a static IP of `192.168.62.10` using a bridge network, or use host networking with the IP bound on the host.
 - All other Podman services that want to be discovered must share a common Podman network with Traefik (e.g., `traefik-net`).
-- Wildcard DNS record `*.lab.kemo.network -> 192.168.62.10` must exist in the PowerDNS authoritative zone.
+- Wildcard DNS record `*.lab.kemo.dev -> 192.168.62.10` must exist in the PowerDNS authoritative zone.
 
 ## Special Considerations
 

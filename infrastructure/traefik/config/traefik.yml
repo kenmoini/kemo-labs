@@ -28,8 +28,8 @@ providers:
 certificatesResolvers:
   stepca:
     acme:
-      caServer: "https://stepca.lab.kemo.network:9000/acme/acme/directory"
-      email: "admin@lab.kemo.network"
+      caServer: "https://stepca.lab.kemo.dev:9000/acme/acme/directory"
+      email: "admin@lab.kemo.dev"
       storage: "/etc/traefik/acme.json"
       tlsChallenge: {}
 

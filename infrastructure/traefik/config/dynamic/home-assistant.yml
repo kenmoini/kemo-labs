@@ -1,7 +1,7 @@
 http:
   routers:
     home-assistant:
-      rule: "Host(`home-assistant.lab.kemo.network`)"
+      rule: "Host(`home-assistant.lab.kemo.dev`)"
       entryPoints:
         - websecure
       service: home-assistant

@@ -61,7 +61,7 @@ connect_timeout 30 seconds
 read_timeout 60 seconds
 
 # Visible hostname
-visible_hostname proxy.lab.kemo.network
+visible_hostname proxy.lab.kemo.dev
 ```
 
 ## Storage / Volume Requirements
@@ -95,7 +95,7 @@ Allocate **10 - 50 GB** of disk space for the cache depending on usage patterns.
 - Static IP `192.168.62.11` on the homelab macvlan/ipvlan network.
 - Clients use this proxy by setting `http_proxy=http://192.168.62.11:3128` and `https_proxy=http://192.168.62.11:3128` in their environment.
 - Docker containers can be configured to use this proxy via daemon-level proxy settings or per-container environment variables.
-- Traefik subdomain: `proxy.lab.kemo.network` (for Squid cache manager web interface if enabled).
+- Traefik subdomain: `proxy.lab.kemo.dev` (for Squid cache manager web interface if enabled).
 
 ## Special Considerations
 
@@ -105,4 +105,4 @@ Allocate **10 - 50 GB** of disk space for the cache depending on usage patterns.
 4. **ACLs for safety:** Restrict the proxy to the local network. Do not allow arbitrary external access.
 5. **Log rotation:** Squid logs can grow large. Configure logrotate or Squid's built-in log rotation (`logfile_rotate`).
 6. **DNS configuration:** Point Squid at Pi-hole (192.168.62.4) for DNS resolution so it benefits from local DNS and ad blocking.
-7. **No-proxy list:** Services that communicate locally (e.g., within the Podman network) should bypass the proxy. Set `no_proxy=localhost,127.0.0.1,.lab.kemo.network,192.168.62.0/23` in client configurations.
+7. **No-proxy list:** Services that communicate locally (e.g., within the Podman network) should bypass the proxy. Set `no_proxy=localhost,127.0.0.1,.lab.kemo.dev,192.168.62.0/23` in client configurations.

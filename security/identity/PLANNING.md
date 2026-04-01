@@ -16,7 +16,7 @@ Authentik is a self-hosted identity provider offering LDAP, OIDC/OAuth2, SAML, a
 ## Static IP & DNS
 
 - **IP:** 192.168.62.8
-- **DNS:** `auth.lab.kemo.network`
+- **DNS:** `auth.lab.kemo.dev`
 
 ## Required Ports
 
@@ -44,7 +44,7 @@ Authentik is a self-hosted identity provider offering LDAP, OIDC/OAuth2, SAML, a
 | `AUTHENTIK_LOG_LEVEL` | Log level | `info` |
 | `AUTHENTIK_EMAIL__HOST` | SMTP host (Mailcow) | `192.168.62.80` |
 | `AUTHENTIK_EMAIL__PORT` | SMTP port | `587` |
-| `AUTHENTIK_EMAIL__FROM` | Sender address | `auth@lab.kemo.network` |
+| `AUTHENTIK_EMAIL__FROM` | Sender address | `auth@lab.kemo.dev` |
 
 ## Storage / Volumes
 
@@ -67,7 +67,7 @@ Authentik is a self-hosted identity provider offering LDAP, OIDC/OAuth2, SAML, a
 |------------|------|---------|
 | Shared PostgreSQL | **Required** | `authentik` database on 192.168.62.15 |
 | Shared Valkey | **Required** | DB 4 for caching, sessions, task queue |
-| DNS | Recommended | `auth.lab.kemo.network` |
+| DNS | Recommended | `auth.lab.kemo.dev` |
 | Mailcow (SMTP) | Optional | For email notifications, password resets |
 
 ## Network Configuration
@@ -80,7 +80,7 @@ Authentik is a self-hosted identity provider offering LDAP, OIDC/OAuth2, SAML, a
 ## Special Considerations
 
 ### Initial Setup
-1. First boot: navigate to `https://auth.lab.kemo.network/if/flow/initial-setup/`
+1. First boot: navigate to `https://auth.lab.kemo.dev/if/flow/initial-setup/`
 2. Create the initial admin (akadmin) account
 3. Configure tenants, flows, and providers
 
@@ -121,7 +121,7 @@ CREATE DATABASE authentik OWNER authentik;
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.authentik.rule=Host(`auth.lab.kemo.network`)"
+  - "traefik.http.routers.authentik.rule=Host(`auth.lab.kemo.dev`)"
   - "traefik.http.routers.authentik.tls=true"
   - "traefik.http.routers.authentik.tls.certresolver=step-ca"
   - "traefik.http.services.authentik.loadbalancer.server.port=9000"

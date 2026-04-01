@@ -28,8 +28,8 @@ Repositories are configured via the web UI after first boot. Set up Docker Hoste
 
 | URL | Purpose |
 |-----|---------|
-| `https://nexus.lab.kemo.network` | Nexus Web UI and API |
-| `https://registry.lab.kemo.network` | Docker registry (group, combines hosted + proxy) |
+| `https://nexus.lab.kemo.dev` | Nexus Web UI and API |
+| `https://registry.lab.kemo.dev` | Docker registry (group, combines hosted + proxy) |
 
 **Static IP:** 192.168.62.21
 
@@ -50,7 +50,7 @@ docker compose pull && docker compose up -d
 
 # Configure Docker daemon to use Nexus as mirror:
 # Add to /etc/docker/daemon.json:
-# {"registry-mirrors": ["https://registry.lab.kemo.network"]}
+# {"registry-mirrors": ["https://registry.lab.kemo.dev"]}
 
 # Set up cleanup policies in the web UI to prevent unbounded cache growth
 ```

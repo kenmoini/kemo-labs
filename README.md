@@ -108,7 +108,7 @@ The deploy script brings up each phase sequentially with health-check gates betw
 
 ### 3. Distribute the Root CA
 
-After Phase 0 completes, copy the PikaPKI root CA certificate to your browser, host trust store, and any devices that need to trust `*.lab.kemo.network`.
+After Phase 0 completes, copy the PikaPKI root CA certificate to your browser, host trust store, and any devices that need to trust `*.lab.kemo.dev`.
 
 ## Networks
 
@@ -236,7 +236,7 @@ Kemo Labs Root CA (self-signed root, long-lived)
         +-- Kemo Labs Signing CA (for long-life/manual certificates)
         +-- Kemo Labs Squid Proxy CA (for SSL MitM'ing)
   +-- Kemo Labs StepCA Intermediate CA (issued by PikaPKI, ACME-enabled)
-        +-- *.lab.kemo.network (auto-issued, 90-day rotation)
+        +-- *.lab.kemo.dev (auto-issued, 90-day rotation)
 ```
 
 1. **PikaPKI** generates and manages the CA chain (Phase 0).
@@ -246,41 +246,41 @@ Kemo Labs Root CA (self-signed root, long-lived)
 
 ## Key URLs
 
-All services are accessible via `*.lab.kemo.network`. Services behind Traefik resolve via a wildcard DNS record pointing to 192.168.62.10.
+All services are accessible via `*.lab.kemo.dev`. Services behind Traefik resolve via a wildcard DNS record pointing to 192.168.62.10.
 
 | Service | URL |
 |---------|-----|
-| Traefik Dashboard | `https://traefik.lab.kemo.network` |
-| Pi-hole | `https://pihole.lab.kemo.network` |
-| PikaPKI | `https://pki.lab.kemo.network` |
-| StepCA | `https://acme.lab.kemo.network` |
-| Vault | `https://vault.lab.kemo.network` |
-| Authentik | `https://auth.lab.kemo.network` |
-| Grafana | `https://grafana.lab.kemo.network` |
-| Dozzle | `https://dozzle.lab.kemo.network` |
-| Uptime Kuma | `https://uptime.lab.kemo.network` |
-| Scrutiny | `https://scrutiny.lab.kemo.network` |
-| RustFS (S3) | `https://s3.lab.kemo.network` |
-| Nexus | `https://nexus.lab.kemo.network` |
-| Kopia | `https://kopia.lab.kemo.network` |
-| GitLab | `https://gitlab.lab.kemo.network` |
-| Netbox | `https://netbox.lab.kemo.network` |
-| Paperless NGX | `https://paperless.lab.kemo.network` |
-| Affine | `https://affine.lab.kemo.network` |
-| Draw.io | `https://drawio.lab.kemo.network` |
-| Code Server | `https://code.lab.kemo.network` |
-| IT Tools | `https://it-tools.lab.kemo.network` |
-| Homepage | `https://home.lab.kemo.network` |
-| Home Assistant | `https://ha.lab.kemo.network` |
-| Scrypted | `https://scrypted.lab.kemo.network` |
-| Open WebUI | `https://ai.lab.kemo.network` |
-| n8n | `https://n8n.lab.kemo.network` |
-| Postiz | `https://postiz.lab.kemo.network` |
-| Mailcow | `https://mail.lab.kemo.network` |
-| Shlink | `https://shlink.lab.kemo.network` |
-| Ntfy | `https://ntfy.lab.kemo.network` |
-| WUD | `https://wud.lab.kemo.network` |
-| Semaphore | `https://semaphore.lab.kemo.network` |
+| Traefik Dashboard | `https://traefik.lab.kemo.dev` |
+| Pi-hole | `https://pihole.lab.kemo.dev` |
+| PikaPKI | `https://pki.lab.kemo.dev` |
+| StepCA | `https://acme.lab.kemo.dev` |
+| Vault | `https://vault.lab.kemo.dev` |
+| Authentik | `https://auth.lab.kemo.dev` |
+| Grafana | `https://grafana.lab.kemo.dev` |
+| Dozzle | `https://dozzle.lab.kemo.dev` |
+| Uptime Kuma | `https://uptime.lab.kemo.dev` |
+| Scrutiny | `https://scrutiny.lab.kemo.dev` |
+| RustFS (S3) | `https://s3.lab.kemo.dev` |
+| Nexus | `https://nexus.lab.kemo.dev` |
+| Kopia | `https://kopia.lab.kemo.dev` |
+| GitLab | `https://gitlab.lab.kemo.dev` |
+| Netbox | `https://netbox.lab.kemo.dev` |
+| Paperless NGX | `https://paperless.lab.kemo.dev` |
+| Affine | `https://affine.lab.kemo.dev` |
+| Draw.io | `https://drawio.lab.kemo.dev` |
+| Code Server | `https://code.lab.kemo.dev` |
+| IT Tools | `https://it-tools.lab.kemo.dev` |
+| Homepage | `https://home.lab.kemo.dev` |
+| Home Assistant | `https://ha.lab.kemo.dev` |
+| Scrypted | `https://scrypted.lab.kemo.dev` |
+| Open WebUI | `https://ai.lab.kemo.dev` |
+| n8n | `https://n8n.lab.kemo.dev` |
+| Postiz | `https://postiz.lab.kemo.dev` |
+| Mailcow | `https://mail.lab.kemo.dev` |
+| Shlink | `https://shlink.lab.kemo.dev` |
+| Ntfy | `https://ntfy.lab.kemo.dev` |
+| WUD | `https://wud.lab.kemo.dev` |
+| Semaphore | `https://semaphore.lab.kemo.dev` |
 
 ## Managing Individual Stacks
 

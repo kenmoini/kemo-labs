@@ -40,7 +40,7 @@ Source directories to back up are mounted read-only in docker-compose.yml.
 
 | URL | Purpose |
 |-----|---------|
-| `https://backups.lab.kemo.network` | Kopia web UI |
+| `https://backups.lab.kemo.dev` | Kopia web UI |
 
 **Static IP:** 192.168.62.22
 

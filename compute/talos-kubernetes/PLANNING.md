@@ -35,18 +35,18 @@ All nodes are bridged onto the existing 192.168.62.0/23 lab network. Static IPs 
 
 | Node | Hostname | FQDN | IP Address | MAC Address |
 |------|----------|------|------------|-------------|
-| CP1 | talos-cp1 | talos-cp1.lab.kemo.network | 192.168.62.100 | 52:54:00:62:01:00 |
-| CP2 | talos-cp2 | talos-cp2.lab.kemo.network | 192.168.62.101 | 52:54:00:62:01:01 |
-| CP3 | talos-cp3 | talos-cp3.lab.kemo.network | 192.168.62.102 | 52:54:00:62:01:02 |
-| W1 | talos-w1 | talos-w1.lab.kemo.network | 192.168.62.110 | 52:54:00:62:01:10 |
-| W2 | talos-w2 | talos-w2.lab.kemo.network | 192.168.62.111 | 52:54:00:62:01:11 |
-| W3 | talos-w3 | talos-w3.lab.kemo.network | 192.168.62.112 | 52:54:00:62:01:12 |
+| CP1 | talos-cp1 | talos-cp1.lab.kemo.dev | 192.168.62.100 | 52:54:00:62:01:00 |
+| CP2 | talos-cp2 | talos-cp2.lab.kemo.dev | 192.168.62.101 | 52:54:00:62:01:01 |
+| CP3 | talos-cp3 | talos-cp3.lab.kemo.dev | 192.168.62.102 | 52:54:00:62:01:02 |
+| W1 | talos-w1 | talos-w1.lab.kemo.dev | 192.168.62.110 | 52:54:00:62:01:10 |
+| W2 | talos-w2 | talos-w2.lab.kemo.dev | 192.168.62.111 | 52:54:00:62:01:11 |
+| W3 | talos-w3 | talos-w3.lab.kemo.dev | 192.168.62.112 | 52:54:00:62:01:12 |
 
 ### Control Plane VIP
 
 | Purpose | FQDN | IP Address |
 |---------|------|------------|
-| Kubernetes API VIP | talos-api.lab.kemo.network | 192.168.62.99 |
+| Kubernetes API VIP | talos-api.lab.kemo.dev | 192.168.62.99 |
 
 The VIP floats between control plane nodes using Talos's built-in VIP support. No external load balancer is needed.
 
@@ -306,23 +306,23 @@ The worker nodes each have a dedicated 100 GB data disk (`/dev/vdb`) specificall
 
 ### DNS Records Required
 
-The following DNS records must exist in the `lab.kemo.network` zone before or at deployment time:
+The following DNS records must exist in the `lab.kemo.dev` zone before or at deployment time:
 
 | Record | Type | Value |
 |--------|------|-------|
-| talos-cp1.lab.kemo.network | A | 192.168.62.100 |
-| talos-cp2.lab.kemo.network | A | 192.168.62.101 |
-| talos-cp3.lab.kemo.network | A | 192.168.62.102 |
-| talos-w1.lab.kemo.network | A | 192.168.62.110 |
-| talos-w2.lab.kemo.network | A | 192.168.62.111 |
-| talos-w3.lab.kemo.network | A | 192.168.62.112 |
-| talos-api.lab.kemo.network | A | 192.168.62.99 |
+| talos-cp1.lab.kemo.dev | A | 192.168.62.100 |
+| talos-cp2.lab.kemo.dev | A | 192.168.62.101 |
+| talos-cp3.lab.kemo.dev | A | 192.168.62.102 |
+| talos-w1.lab.kemo.dev | A | 192.168.62.110 |
+| talos-w2.lab.kemo.dev | A | 192.168.62.111 |
+| talos-w3.lab.kemo.dev | A | 192.168.62.112 |
+| talos-api.lab.kemo.dev | A | 192.168.62.99 |
 
 A wildcard record for ingress is also useful:
 
 | Record | Type | Value |
 |--------|------|-------|
-| *.apps.lab.kemo.network | A | 192.168.62.99 (or a dedicated ingress VIP) |
+| *.apps.lab.kemo.dev | A | 192.168.62.99 (or a dedicated ingress VIP) |
 
 ### Host Prerequisites
 

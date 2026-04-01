@@ -12,7 +12,7 @@ Code Server runs VS Code in the browser, providing a consistent development envi
 ## Static IP & DNS
 
 - **IP:** 192.168.62.42
-- **DNS:** `code.lab.kemo.network`
+- **DNS:** `code.lab.kemo.dev`
 
 ## Required Ports
 
@@ -52,7 +52,7 @@ Depends on extensions loaded and language servers running.
 
 | Dependency | Type | Details |
 |------------|------|---------|
-| DNS | Recommended | `code.lab.kemo.network` |
+| DNS | Recommended | `code.lab.kemo.dev` |
 | Traefik | Recommended | TLS + WebSocket support |
 | Authentik | Optional | SSO protection via forward auth |
 
@@ -93,7 +93,7 @@ RUN sudo apt-get update && sudo apt-get install -y \
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.code.rule=Host(`code.lab.kemo.network`)"
+  - "traefik.http.routers.code.rule=Host(`code.lab.kemo.dev`)"
   - "traefik.http.routers.code.tls=true"
   - "traefik.http.routers.code.tls.certresolver=step-ca"
   - "traefik.http.services.code.loadbalancer.server.port=8080"

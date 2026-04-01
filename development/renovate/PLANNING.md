@@ -12,7 +12,7 @@ Renovate automatically creates merge requests in GitLab when dependencies have u
 ## Static IP & DNS
 
 - **IP:** 192.168.62.41 (only needed if running as persistent service)
-- **DNS:** `renovate.lab.kemo.network` (optional, for logs UI)
+- **DNS:** `renovate.lab.kemo.dev` (optional, for logs UI)
 
 ## Required Ports
 
@@ -23,9 +23,9 @@ None — Renovate is a batch job, not a web service. Optionally expose a web das
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `RENOVATE_PLATFORM` | Platform type | `gitlab` |
-| `RENOVATE_ENDPOINT` | GitLab API URL | `https://gitlab.lab.kemo.network/api/v4` |
+| `RENOVATE_ENDPOINT` | GitLab API URL | `https://gitlab.lab.kemo.dev/api/v4` |
 | `RENOVATE_TOKEN` | GitLab personal access token | (secret) |
-| `RENOVATE_GIT_AUTHOR` | Git commit author | `Renovate Bot <renovate@lab.kemo.network>` |
+| `RENOVATE_GIT_AUTHOR` | Git commit author | `Renovate Bot <renovate@lab.kemo.dev>` |
 | `RENOVATE_AUTODISCOVER` | Auto-discover all repos | `true` |
 | `RENOVATE_AUTODISCOVER_FILTER` | Filter repos | `*/*` |
 | `LOG_LEVEL` | Logging verbosity | `info` |
@@ -51,7 +51,7 @@ Only consumes resources when actively scanning repos.
 | Dependency | Type | Details |
 |------------|------|---------|
 | GitLab | **Required** | Platform to scan and create MRs |
-| DNS | Recommended | Must resolve `gitlab.lab.kemo.network` |
+| DNS | Recommended | Must resolve `gitlab.lab.kemo.dev` |
 
 ## Network Configuration
 
@@ -76,15 +76,15 @@ restart: unless-stopped
 ```javascript
 module.exports = {
   platform: 'gitlab',
-  endpoint: 'https://gitlab.lab.kemo.network/api/v4',
-  gitAuthor: 'Renovate Bot <renovate@lab.kemo.network>',
+  endpoint: 'https://gitlab.lab.kemo.dev/api/v4',
+  gitAuthor: 'Renovate Bot <renovate@lab.kemo.dev>',
   autodiscover: true,
   autodiscoverFilter: ['*/*'],
   onboarding: true,
   // Trust internal CA
   hostRules: [
     {
-      matchHost: 'gitlab.lab.kemo.network',
+      matchHost: 'gitlab.lab.kemo.dev',
       insecureRegistry: false,
     },
   ],

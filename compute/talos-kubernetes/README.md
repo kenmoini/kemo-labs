@@ -37,7 +37,7 @@ Node inventory:
 | talos-w2 | 192.168.62.111 | Worker | 6 | 16 GB |
 | talos-w3 | 192.168.62.112 | Worker | 6 | 16 GB |
 
-**API VIP:** 192.168.62.99 (`talos-api.lab.kemo.network`)
+**API VIP:** 192.168.62.99 (`talos-api.lab.kemo.dev`)
 
 Per-node patches are in `./patches/` for static IP, hostname, and VIP configuration.
 

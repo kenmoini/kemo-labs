@@ -14,7 +14,7 @@ A dual-container file sharing solution: NGINX serves files for fast static downl
 ## Static IP & DNS
 
 - **IP:** 192.168.62.23
-- **DNS:** `files.lab.kemo.network` (NGINX), `upload.lab.kemo.network` (Copyparty)
+- **DNS:** `files.lab.kemo.dev` (NGINX), `upload.lab.kemo.dev` (Copyparty)
 
 ## Required Ports
 
@@ -45,7 +45,7 @@ Copyparty is primarily configured via command-line arguments rather than env var
 ```nginx
 server {
     listen 80;
-    server_name files.lab.kemo.network;
+    server_name files.lab.kemo.dev;
     root /srv/files;
     autoindex on;
     autoindex_exact_size off;
@@ -77,8 +77,8 @@ server {
 - macvlan/ipvlan with static IP 192.168.62.23
 - Both containers share the same IP via the same compose network
 - Traefik routes by hostname:
-  - `files.lab.kemo.network` → NGINX port 80
-  - `upload.lab.kemo.network` → Copyparty port 3923
+  - `files.lab.kemo.dev` → NGINX port 80
+  - `upload.lab.kemo.dev` → Copyparty port 3923
 
 ## Special Considerations
 
@@ -115,12 +115,12 @@ Configure Traefik to allow large uploads for Copyparty:
 ```yaml
 labels:
   # NGINX (downloads)
-  - "traefik.http.routers.files.rule=Host(`files.lab.kemo.network`)"
+  - "traefik.http.routers.files.rule=Host(`files.lab.kemo.dev`)"
   - "traefik.http.routers.files.tls=true"
   - "traefik.http.routers.files.tls.certresolver=step-ca"
   - "traefik.http.services.files.loadbalancer.server.port=80"
   # Copyparty (uploads/management)
-  - "traefik.http.routers.upload.rule=Host(`upload.lab.kemo.network`)"
+  - "traefik.http.routers.upload.rule=Host(`upload.lab.kemo.dev`)"
   - "traefik.http.routers.upload.tls=true"
   - "traefik.http.routers.upload.tls.certresolver=step-ca"
   - "traefik.http.services.upload.loadbalancer.server.port=3923"

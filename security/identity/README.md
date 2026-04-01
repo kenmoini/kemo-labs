@@ -16,7 +16,7 @@ cp .env.example .env
 docker compose up -d
 
 # Complete initial setup at:
-# https://auth.lab.kemo.network/if/flow/initial-setup/
+# https://auth.lab.kemo.dev/if/flow/initial-setup/
 ```
 
 ## Configuration
@@ -34,7 +34,7 @@ docker compose up -d
 
 | URL | Purpose |
 |-----|---------|
-| `https://auth.lab.kemo.network` | Web UI, admin panel, and auth flows |
+| `https://auth.lab.kemo.dev` | Web UI, admin panel, and auth flows |
 | `192.168.62.8:389` | LDAP (if embedded outpost enabled) |
 | `192.168.62.8:636` | LDAPS |
 
@@ -44,7 +44,7 @@ docker compose up -d
 
 - **Shared PostgreSQL** -- `authentik` database on 192.168.62.15
 - **Shared Valkey** -- DB 4 for caching, sessions, and task queue
-- **DNS** -- `auth.lab.kemo.network`
+- **DNS** -- `auth.lab.kemo.dev`
 - **Mailcow** (optional) -- SMTP for email notifications and password resets
 
 ## Maintenance

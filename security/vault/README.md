@@ -38,14 +38,14 @@ Vault configuration is in `./config/vault.hcl` using Raft integrated storage.
 
 | URL | Purpose |
 |-----|---------|
-| `https://vault.lab.kemo.network` | Web UI and API |
+| `https://vault.lab.kemo.dev` | Web UI and API |
 
 **Static IP:** 192.168.62.7
 
 ## Dependencies
 
 - **PikaPKI / StepCA** -- recommended for TLS certificates
-- **DNS** -- recommended for `vault.lab.kemo.network` resolution
+- **DNS** -- recommended for `vault.lab.kemo.dev` resolution
 
 ## Maintenance
 

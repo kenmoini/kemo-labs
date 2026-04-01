@@ -30,8 +30,8 @@ Nginx configuration is in `./nginx.conf`. Copyparty is configured via command-li
 
 | URL | Purpose |
 |-----|---------|
-| `https://files.lab.kemo.network` | Nginx file browser (downloads) |
-| `https://upload.lab.kemo.network` | Copyparty file manager (uploads, search, media) |
+| `https://files.lab.kemo.dev` | Nginx file browser (downloads) |
+| `https://upload.lab.kemo.dev` | Copyparty file manager (uploads, search, media) |
 
 **Static IP:** 192.168.62.23
 

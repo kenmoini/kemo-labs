@@ -44,7 +44,7 @@ All services bind to the static IP `192.168.62.15` to avoid port conflicts with 
 | phpMyAdmin | 80 | `192.168.62.15:8080` | TCP (fronted by Traefik) |
 | Databasus | 8000 | `192.168.62.15:8000` | TCP (web UI, optional) |
 
-Traefik will reverse-proxy phpMyAdmin at `https://phpmyadmin.lab.kemo.network` with StepCA ACME TLS.
+Traefik will reverse-proxy phpMyAdmin at `https://phpmyadmin.lab.kemo.dev` with StepCA ACME TLS.
 
 ---
 
@@ -242,12 +242,12 @@ Internal service names (`mariadb`, `postgresql`, `valkey`, `mosquitto`) resolve 
 
 | Record | Value |
 |--------|-------|
-| `db.lab.kemo.network` | `192.168.62.15` |
-| `mariadb.lab.kemo.network` | CNAME to `db.lab.kemo.network` |
-| `postgresql.lab.kemo.network` | CNAME to `db.lab.kemo.network` |
-| `valkey.lab.kemo.network` | CNAME to `db.lab.kemo.network` |
-| `mqtt.lab.kemo.network` | CNAME to `db.lab.kemo.network` |
-| `phpmyadmin.lab.kemo.network` | CNAME to `db.lab.kemo.network` (Traefik) |
+| `db.lab.kemo.dev` | `192.168.62.15` |
+| `mariadb.lab.kemo.dev` | CNAME to `db.lab.kemo.dev` |
+| `postgresql.lab.kemo.dev` | CNAME to `db.lab.kemo.dev` |
+| `valkey.lab.kemo.dev` | CNAME to `db.lab.kemo.dev` |
+| `mqtt.lab.kemo.dev` | CNAME to `db.lab.kemo.dev` |
+| `phpmyadmin.lab.kemo.dev` | CNAME to `db.lab.kemo.dev` (Traefik) |
 
 Downstream services should connect using the CNAME hostnames so that if individual databases are ever split out to separate hosts, only DNS needs to change.
 
@@ -436,7 +436,7 @@ phpMyAdmin will be fronted by Traefik for HTTPS via StepCA ACME:
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.lab.kemo.network`)"
+  - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.lab.kemo.dev`)"
   - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
   - "traefik.http.routers.phpmyadmin.tls.certresolver=stepca"
   - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"

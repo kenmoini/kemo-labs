@@ -2,7 +2,7 @@
 
 ## Overview
 
-Smallstep's `step-ca` provides an internal ACME server for automated TLS certificate issuance. Traefik will request certificates from StepCA via the ACME protocol for all `*.lab.kemo.network` services. StepCA uses an intermediate CA certificate issued by PikaPKI (the root of trust).
+Smallstep's `step-ca` provides an internal ACME server for automated TLS certificate issuance. Traefik will request certificates from StepCA via the ACME protocol for all `*.lab.kemo.dev` services. StepCA uses an intermediate CA certificate issued by PikaPKI (the root of trust).
 
 ## Container Image
 
@@ -12,7 +12,7 @@ Smallstep's `step-ca` provides an internal ACME server for automated TLS certifi
 ## Static IP & DNS
 
 - **IP:** 192.168.62.6
-- **DNS:** `acme.lab.kemo.network`
+- **DNS:** `acme.lab.kemo.dev`
 
 ## Required Ports
 
@@ -25,7 +25,7 @@ Smallstep's `step-ca` provides an internal ACME server for automated TLS certifi
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `DOCKER_STEPCA_INIT_NAME` | CA name | `Homelab CA` |
-| `DOCKER_STEPCA_INIT_DNS_NAMES` | DNS SANs for the CA | `acme.lab.kemo.network,192.168.62.6` |
+| `DOCKER_STEPCA_INIT_DNS_NAMES` | DNS SANs for the CA | `acme.lab.kemo.dev,192.168.62.6` |
 | `DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT` | Enable remote management | `true` |
 | `DOCKER_STEPCA_INIT_ACME` | Enable ACME provisioner | `true` |
 | `DOCKER_STEPCA_INIT_PASSWORD` | CA password (for init only) | (secret) |
@@ -54,7 +54,7 @@ The `step` directory contains:
 | Dependency | Type | Details |
 |------------|------|---------|
 | PikaPKI | **Required (bootstrap)** | Intermediate CA cert + key must be issued by PikaPKI before StepCA starts |
-| DNS | Recommended | For `acme.lab.kemo.network` resolution |
+| DNS | Recommended | For `acme.lab.kemo.dev` resolution |
 
 ## Network Configuration
 
@@ -75,13 +75,13 @@ The `step` directory contains:
 After initial bootstrap, customize `ca.json`:
 - Set ACME provisioner with appropriate certificate duration (e.g., 90 days)
 - Configure certificate renewal window
-- Set allowed SANs to `*.lab.kemo.network` and the IP range
+- Set allowed SANs to `*.lab.kemo.dev` and the IP range
 - Enable the admin provisioner for management via `step` CLI
 
 ### Traefik Integration
 Traefik needs:
 - `LEGO_CA_CERTIFICATES` pointing to PikaPKI root CA cert (for trusting StepCA)
-- ACME `caServer` set to `https://acme.lab.kemo.network:9000/acme/acme/directory`
+- ACME `caServer` set to `https://acme.lab.kemo.dev:9000/acme/acme/directory`
 - Certificate resolver configured with `tlsChallenge` or `httpChallenge`
 
 ### Certificate Chain of Trust
@@ -97,7 +97,7 @@ StepCA itself can be behind Traefik for the web UI, but the ACME endpoint should
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.step-ca.rule=Host(`acme.lab.kemo.network`)"
+  - "traefik.http.routers.step-ca.rule=Host(`acme.lab.kemo.dev`)"
   - "traefik.http.routers.step-ca.tls=true"
   - "traefik.http.routers.step-ca.tls.certresolver=step-ca"
   - "traefik.http.services.step-ca.loadbalancer.server.port=9000"

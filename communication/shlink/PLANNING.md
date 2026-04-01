@@ -8,7 +8,7 @@ Shlink is a self-hosted URL shortener with a REST API interface. It provides sho
 - **Documentation:** https://shlink.io/documentation/
 - **Docker Hub:** https://hub.docker.com/r/shlinkio/shlink
 - **Static IP:** 192.168.62.81
-- **DNS Zone:** lab.kemo.network
+- **DNS Zone:** lab.kemo.dev
 
 ## Container Images
 
@@ -32,12 +32,12 @@ Both services should sit behind Traefik for TLS termination.
 
 ```bash
 # Short domain configuration
-DEFAULT_DOMAIN=s.lab.kemo.network
+DEFAULT_DOMAIN=s.lab.kemo.dev
 IS_HTTPS_ENABLED=true
 
 # Database - using shared PostgreSQL
 DB_DRIVER=postgres
-DB_HOST=postgres.lab.kemo.network
+DB_HOST=postgres.lab.kemo.dev
 DB_PORT=5432
 DB_NAME=shlink
 DB_USER=shlink
@@ -72,7 +72,7 @@ TASK_WORKER_NUM=4
 WEB_WORKER_NUM=8
 
 # Redis for caching (optional, improves performance)
-# REDIS_SERVERS=redis://redis.lab.kemo.network:6379
+# REDIS_SERVERS=redis://redis.lab.kemo.dev:6379
 
 # Robots.txt behavior - disallow indexing of short URLs
 ROBOTS_ALLOW_ALL_SHORT_URLS=false
@@ -90,11 +90,11 @@ MEMORY_LIMIT=512M
 ```bash
 # The web client is a static SPA that connects to Shlink's API
 # Configuration is done in the browser UI by adding a server:
-#   Server URL: https://s.lab.kemo.network
+#   Server URL: https://s.lab.kemo.dev
 #   API Key: <generated-api-key>
 
 # Optional: Pre-configure servers via environment variable
-SHLINK_SERVER_URL=https://s.lab.kemo.network
+SHLINK_SERVER_URL=https://s.lab.kemo.dev
 SHLINK_SERVER_API_KEY=<api-key>
 SHLINK_SERVER_NAME="Lab Shlink"
 ```
@@ -153,7 +153,7 @@ services:
       - backend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.shlink.rule=Host(`s.lab.kemo.network`)"
+      - "traefik.http.routers.shlink.rule=Host(`s.lab.kemo.dev`)"
       - "traefik.http.routers.shlink.entrypoints=websecure"
       - "traefik.http.routers.shlink.tls=true"
       - "traefik.http.routers.shlink.tls.certresolver=stepca"
@@ -168,13 +168,13 @@ services:
     container_name: shlink-web
     restart: unless-stopped
     environment:
-      SHLINK_SERVER_URL: "https://s.lab.kemo.network"
+      SHLINK_SERVER_URL: "https://s.lab.kemo.dev"
       SHLINK_SERVER_NAME: "Lab Shlink"
     networks:
       - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.shlink-web.rule=Host(`shlink.lab.kemo.network`)"
+      - "traefik.http.routers.shlink-web.rule=Host(`shlink.lab.kemo.dev`)"
       - "traefik.http.routers.shlink-web.entrypoints=websecure"
       - "traefik.http.routers.shlink-web.tls=true"
       - "traefik.http.routers.shlink-web.tls.certresolver=stepca"
@@ -204,13 +204,13 @@ services:
 
 ```
 ; Short URL domain - points to Traefik LB or dedicated IP
-s.lab.kemo.network.             IN A     192.168.62.81
+s.lab.kemo.dev.             IN A     192.168.62.81
 
 ; Web client management UI
-shlink.lab.kemo.network.        IN A     192.168.62.81
+shlink.lab.kemo.dev.        IN A     192.168.62.81
 ```
 
-The short URL domain (`s.lab.kemo.network`) should be as short as possible. Consider using a shorter domain if available for external use.
+The short URL domain (`s.lab.kemo.dev`) should be as short as possible. Consider using a shorter domain if available for external use.
 
 ## Special Considerations
 
@@ -246,7 +246,7 @@ Without this, visits are still tracked but without geographic information.
 
 ### 4. Short Domain Strategy
 
-- Use `s.lab.kemo.network` for internal/lab short URLs
+- Use `s.lab.kemo.dev` for internal/lab short URLs
 - For external/public use, consider registering a short domain (e.g., `kemo.sh`) and adding it as an additional domain in Shlink
 - Multiple domains can be configured with `DEFAULT_DOMAIN` and additional domains via the API
 
@@ -255,7 +255,7 @@ Without this, visits are still tracked but without geographic information.
 If a shared Redis instance is available, connecting Shlink to it improves performance for high-traffic short URLs by caching redirects:
 
 ```bash
-REDIS_SERVERS=redis://:password@redis.lab.kemo.network:6379
+REDIS_SERVERS=redis://:password@redis.lab.kemo.dev:6379
 ```
 
 ### 6. URL Validation
@@ -287,7 +287,7 @@ POST /rest/v3/webhooks
 
 Shlink exposes a health endpoint:
 ```
-GET https://s.lab.kemo.network/rest/health
+GET https://s.lab.kemo.dev/rest/health
 ```
 
 Use this for Traefik health checks and monitoring.

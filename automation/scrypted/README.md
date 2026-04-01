@@ -31,7 +31,7 @@ Most configuration is done through the web UI: adding cameras, configuring plugi
 
 | URL | Purpose |
 |-----|---------|
-| `https://scrypted.lab.kemo.network` | Web UI (via Traefik file provider) |
+| `https://scrypted.lab.kemo.dev` | Web UI (via Traefik file provider) |
 | `https://192.168.62.61:10443` | Direct access (self-signed cert) |
 
 **Static IP:** 192.168.62.61 (assigned at the host level, not Docker)

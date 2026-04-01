@@ -37,9 +37,9 @@ Postiz is an open-source social media management and scheduling platform. It all
 
 | Variable | Description | Example Value |
 |----------|-------------|---------------|
-| `MAIN_URL` | Public-facing URL | `https://postiz.lab.kemo.network` |
-| `FRONTEND_URL` | Public-facing frontend URL | `https://postiz.lab.kemo.network` |
-| `NEXT_PUBLIC_BACKEND_URL` | Public API URL | `https://postiz.lab.kemo.network/api` |
+| `MAIN_URL` | Public-facing URL | `https://postiz.lab.kemo.dev` |
+| `FRONTEND_URL` | Public-facing frontend URL | `https://postiz.lab.kemo.dev` |
+| `NEXT_PUBLIC_BACKEND_URL` | Public API URL | `https://postiz.lab.kemo.dev/api` |
 | `BACKEND_INTERNAL_URL` | Internal backend URL | `http://localhost:3000` |
 | `JWT_SECRET` | JWT signing secret | (generated secret, long random string) |
 | `DATABASE_URL` | PostgreSQL connection string | `postgresql://postiz:<password>@shared-postgres:5432/postiz` |
@@ -84,10 +84,10 @@ Postiz is an open-source social media management and scheduling platform. It all
 | Variable | Description | Example Value |
 |----------|-------------|---------------|
 | `POSTIZ_GENERIC_OAUTH` | Enable generic OAuth | `true` |
-| `POSTIZ_OAUTH_URL` | OAuth provider base URL | `https://auth.lab.kemo.network` |
-| `POSTIZ_OAUTH_AUTH_URL` | Authorization endpoint | `https://auth.lab.kemo.network/application/o/authorize` |
-| `POSTIZ_OAUTH_TOKEN_URL` | Token endpoint | `https://auth.lab.kemo.network/application/o/token` |
-| `POSTIZ_OAUTH_USERINFO_URL` | UserInfo endpoint | `https://auth.lab.kemo.network/application/o/userinfo` |
+| `POSTIZ_OAUTH_URL` | OAuth provider base URL | `https://auth.lab.kemo.dev` |
+| `POSTIZ_OAUTH_AUTH_URL` | Authorization endpoint | `https://auth.lab.kemo.dev/application/o/authorize` |
+| `POSTIZ_OAUTH_TOKEN_URL` | Token endpoint | `https://auth.lab.kemo.dev/application/o/token` |
+| `POSTIZ_OAUTH_USERINFO_URL` | UserInfo endpoint | `https://auth.lab.kemo.dev/application/o/userinfo` |
 | `POSTIZ_OAUTH_CLIENT_ID` | OAuth client ID | (from identity provider) |
 | `POSTIZ_OAUTH_CLIENT_SECRET` | OAuth client secret | (secret) |
 
@@ -168,9 +168,9 @@ Temporal requires its own dedicated PostgreSQL instance. This is separate from t
 | Setting | Value |
 |---------|-------|
 | Static IP | `192.168.62.72` |
-| DNS Name | `postiz.lab.kemo.network` |
+| DNS Name | `postiz.lab.kemo.dev` |
 | Container Network | Shared macvlan/bridge with static IP assignment |
-| Traefik Labels | Route `postiz.lab.kemo.network` to container port 5000 |
+| Traefik Labels | Route `postiz.lab.kemo.dev` to container port 5000 |
 
 ### Traefik Integration
 
@@ -194,7 +194,7 @@ Additionally, the compose stack needs access to the shared database network to r
 Postiz depends on Temporal for reliable background job execution (scheduling posts, processing media, etc.). The Temporal stack adds significant complexity:
 
 - 4 additional containers (Temporal server, Temporal PostgreSQL, Elasticsearch, optionally Temporal UI and admin tools).
-- Temporal UI (port 8080) is optional but useful for debugging workflow issues. Consider exposing it through Traefik at `temporal.lab.kemo.network` for admin access.
+- Temporal UI (port 8080) is optional but useful for debugging workflow issues. Consider exposing it through Traefik at `temporal.lab.kemo.dev` for admin access.
 - Temporal admin-tools container is optional and only needed for maintenance/debugging.
 
 ### Dynamic Config for Temporal
@@ -215,7 +215,7 @@ system.forceSearchAttributesCacheRefreshOnRead:
 
 Most social media platform integrations require OAuth callback URLs. These must point to the public HTTPS URL:
 
-- Callback URL pattern: `https://postiz.lab.kemo.network/api/auth/<platform>/callback`
+- Callback URL pattern: `https://postiz.lab.kemo.dev/api/auth/<platform>/callback`
 - Each platform's developer portal must have this callback URL registered.
 - This means the Postiz instance must be reachable from the internet for OAuth flows (or use a tunnel/proxy for initial setup).
 

@@ -22,12 +22,12 @@ No persistent storage is needed for either service.
 
 | Address | Purpose |
 |---------|---------|
-| `https://speedtest.lab.kemo.network` | OpenSpeedTest web UI (via Traefik) |
+| `https://speedtest.lab.kemo.dev` | OpenSpeedTest web UI (via Traefik) |
 | `192.168.62.13:5201` | iPerf3 server (connect with `iperf3 -c 192.168.62.13`) |
 
 ## Dependencies
 
-- **DNS** -- hostname resolution for `speedtest.lab.kemo.network`
+- **DNS** -- hostname resolution for `speedtest.lab.kemo.dev`
 - **Traefik** -- reverse proxy for OpenSpeedTest web UI
 
 ## Maintenance

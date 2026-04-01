@@ -14,13 +14,13 @@ services:
     labels:
       - "traefik.enable=true"
       # Nexus Web UI
-      - "traefik.http.routers.nexus.rule=Host(`nexus.lab.kemo.network`)"
+      - "traefik.http.routers.nexus.rule=Host(`nexus.lab.kemo.dev`)"
       - "traefik.http.routers.nexus.entrypoints=websecure"
       - "traefik.http.routers.nexus.tls=true"
       - "traefik.http.routers.nexus.tls.certresolver=step-ca"
       - "traefik.http.services.nexus.loadbalancer.server.port=8081"
       # Docker Registry (group)
-      - "traefik.http.routers.registry.rule=Host(`registry.lab.kemo.network`)"
+      - "traefik.http.routers.registry.rule=Host(`registry.lab.kemo.dev`)"
       - "traefik.http.routers.registry.entrypoints=websecure"
       - "traefik.http.routers.registry.tls=true"
       - "traefik.http.routers.registry.tls.certresolver=step-ca"

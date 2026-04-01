@@ -11,7 +11,7 @@ cd mailcow-dockerized
 
 # Generate configuration
 ./generate_config.sh
-# Set MAILCOW_HOSTNAME=mail.lab.kemo.network
+# Set MAILCOW_HOSTNAME=mail.lab.kemo.dev
 
 # Edit mailcow.conf:
 #   SKIP_LETS_ENCRYPT=y
@@ -32,7 +32,7 @@ Mailcow uses `mailcow.conf` (not a standard `.env` file). Key settings:
 
 | Setting | Purpose |
 |---------|---------|
-| `MAILCOW_HOSTNAME` | FQDN of the mail server (`mail.lab.kemo.network`) |
+| `MAILCOW_HOSTNAME` | FQDN of the mail server (`mail.lab.kemo.dev`) |
 | `SKIP_LETS_ENCRYPT` | Set to `y` (use StepCA instead) |
 | `HTTP_BIND` / `HTTPS_BIND` | Bind to static IP `192.168.62.80` |
 | `SKIP_CLAMD` | Set to `n` (enable antivirus with 128 GB+ RAM) |
@@ -41,7 +41,7 @@ Mailcow uses `mailcow.conf` (not a standard `.env` file). Key settings:
 
 | URL | Purpose |
 |-----|---------|
-| `https://mail.lab.kemo.network` | Admin UI and SOGo webmail |
+| `https://mail.lab.kemo.dev` | Admin UI and SOGo webmail |
 | `192.168.62.80:25/465/587` | SMTP |
 | `192.168.62.80:143/993` | IMAP |
 

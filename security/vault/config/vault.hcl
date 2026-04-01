@@ -11,7 +11,7 @@ listener "tcp" {
   tls_disable   = 1
 }
 
-api_addr     = "https://vault.lab.kemo.network"
-cluster_addr = "https://vault.lab.kemo.network:8201"
+api_addr     = "https://vault.lab.kemo.dev"
+cluster_addr = "https://vault.lab.kemo.dev:8201"
 
 log_level = "info"

@@ -22,7 +22,7 @@ docker exec shlink shlink api-key:generate
 
 | Variable | Purpose |
 |----------|---------|
-| `DEFAULT_DOMAIN` | Short URL domain (`s.lab.kemo.network`) |
+| `DEFAULT_DOMAIN` | Short URL domain (`s.lab.kemo.dev`) |
 | `SHLINK_DB_PASSWORD` | PostgreSQL password |
 | `SHLINK_API_KEY` | API key for the web client (generated after first start) |
 | `GEOLITE_LICENSE_KEY` | Optional MaxMind key for IP geolocation analytics |
@@ -32,8 +32,8 @@ docker exec shlink shlink api-key:generate
 
 | URL | Purpose |
 |-----|---------|
-| `https://s.lab.kemo.network` | Short URL redirects and API |
-| `https://shlink.lab.kemo.network` | Web management UI |
+| `https://s.lab.kemo.dev` | Short URL redirects and API |
+| `https://shlink.lab.kemo.dev` | Web management UI |
 
 **Static IP:** 192.168.62.81
 
@@ -59,7 +59,7 @@ docker exec shlink shlink api-key:generate
 docker exec shlink shlink short-url:import csv < urls.csv
 
 # Health check
-curl https://s.lab.kemo.network/rest/health
+curl https://s.lab.kemo.dev/rest/health
 
 # Back up: PostgreSQL 'shlink' database (all data is in the DB)
 ```

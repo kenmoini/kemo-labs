@@ -28,7 +28,7 @@ Configuration is managed via `server.yml`, not environment variables.
 
 | Setting | File | Purpose |
 |---------|------|---------|
-| `base-url` | `server.yml` | External URL (`https://ntfy.lab.kemo.network`) |
+| `base-url` | `server.yml` | External URL (`https://ntfy.lab.kemo.dev`) |
 | `auth-default-access` | `server.yml` | Default topic access (`deny-all` or `read-write`) |
 | `cache-duration` | `server.yml` | How long messages are retained (default: `12h`) |
 | `attachment-file-size-limit` | `server.yml` | Max attachment size (default: `15M`) |
@@ -38,7 +38,7 @@ Configuration is managed via `server.yml`, not environment variables.
 
 | URL | Purpose |
 |-----|---------|
-| `https://ntfy.lab.kemo.network` | Web UI and API endpoint |
+| `https://ntfy.lab.kemo.dev` | Web UI and API endpoint |
 
 **Static IP:** 192.168.62.82
 
@@ -48,11 +48,11 @@ Services in the lab publish notifications to ntfy topics using HTTP POST/PUT:
 
 ```bash
 # Uptime Kuma - configure ntfy as a notification provider
-# Server URL: https://ntfy.lab.kemo.network
+# Server URL: https://ntfy.lab.kemo.dev
 # Topic: uptime
 
 # Grafana - add ntfy as a contact point (webhook type)
-# URL: https://ntfy.lab.kemo.network/grafana
+# URL: https://ntfy.lab.kemo.dev/grafana
 
 # Scrutiny - configure ntfy notifications for disk alerts
 # Topic: disks
@@ -69,13 +69,13 @@ curl -u publisher:PASSWORD \
   -H "Priority: default" \
   -H "Tags: test" \
   -d "This is a test message from the lab" \
-  https://ntfy.lab.kemo.network/test
+  https://ntfy.lab.kemo.dev/test
 ```
 
 ## Mobile App
 
 Install the ntfy app (Android via F-Droid/Play Store, iOS via App Store) and add
-the self-hosted server: `https://ntfy.lab.kemo.network`. Log in with your user
+the self-hosted server: `https://ntfy.lab.kemo.dev`. Log in with your user
 credentials, then subscribe to topics.
 
 ## Dependencies
@@ -105,7 +105,7 @@ docker exec ntfy ntfy access USERNAME TOPIC rw
 docker exec ntfy ntfy user change-pass USERNAME
 
 # Health check
-curl https://ntfy.lab.kemo.network/v1/health
+curl https://ntfy.lab.kemo.dev/v1/health
 
 # Back up auth database (if using authentication)
 docker cp ntfy:/var/lib/ntfy/user.db ./user.db.bak

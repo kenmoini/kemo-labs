@@ -23,9 +23,9 @@ Everything here is meant to be run on a single Fedora host, however in my lab I 
 |  |  Podman                                                   |  |
 |  |                                                           |  |
 |  |  Phase 0   [ PikaPKI (Root CA) ]                          |  |
-|  |  Phase 1   [ PowerDNS Auth/Recursor | Pi-hole | StepCA ]  |  |
+|  |  Phase 1   [ MariaDB | PostgreSQL | Valkey | MQTT | S3 ]  |  |
 |  |  Phase 2   [ Traefik (LB) | Squid (Proxy) ]               |  |
-|  |  Phase 3   [ MariaDB | PostgreSQL | Valkey | MQTT | S3 ]  |  |
+|  |  Phase 3   [ PowerDNS Auth/Recursor | Pi-hole | StepCA ]  |  |
 |  |  Phase 4   [ Authentik | Vault ]                          |  |
 |  |  Phase 5   [ Grafana Alloy | Dozzle | Uptime | Scrutiny ] |  |
 |  |  Phase 6   [ Nexus | Kopia | Dropbox ]                    |  |
@@ -43,10 +43,14 @@ Everything here is meant to be run on a single Fedora host, however in my lab I 
 |  |  Phase 14  [ Talos CP x3 | Talos Worker x3 ]              |  |
 |  +-----------------------------------------------------------+  |
 |                                                                 |
-|  br0 ──── 192.168.92.0/23 (bridge) ──── Access VLAN             |
-|  br0.62 ──── 192.168.62.0/23 (bridge) ──── Lab VLAN 62          |
-|  br0.70 ──── 192.168.70.0/24 (bridge) ──── Disconnected VLAN 70 |
-|  br0.86 ──── 192.168.86.0/24 (bridge) ──── Isolated VLAN 86     |
+|  bridge0 ─── 192.168.92.0/23 (bridge) ─── Access VLAN (home)    |
+|  bridge42 ─── 192.168.42.0/23 (bridge) ─── Lab VLAN 42          |
+|  bridge60 ─── 192.168.60.0/23 (bridge) ─── K8s/OCP VLAN 60      |
+|  bridge62 ─── 192.168.62.0/23 (bridge) ─── Scratch Lab VLAN 62  |
+|  bridge66 ─── 192.168.66.0/24 (bridge) ─── DB VLAN 66           |
+|  bridge70 ─── 192.168.70.0/23 (bridge) ─── Disconnected VLAN 70 |
+|  bridge86 ─── 192.168.86.0/24 (bridge) ─── Isolated VLAN 86     |
+|  bridge420 ─── PUBLIC_SUBNET/28 (bridge) ─── WAN IPs, no DHCP   |
 +-----------------------------------------------------------------+
 ```
 
@@ -54,45 +58,22 @@ Everything here is meant to be run on a single Fedora host, however in my lab I 
 
 ### Prerequisites
 
-- Fedora (44+) with Libvirtd, Podman, and Podman Compose installed
+- Fedora (43+)
 - Network bridge interfaces configured for each VLAN (see [Networks](#networks) below)
+- Storage devices created and mounted (RAID 1 for Containers/VMs)
 - 128GB+ RAM (see [Resource Notes](#resource-notes) for tuning)
 - This repository cloned to the host
 
-### 1. Create the Podman networks
+### 1. Setup the host system
 
-Create all predefined bridged networks at once:
-
-```bash
-./scripts/setup-network.sh --all
-```
-
-This creates one Podman bridged network per VLAN. To also enable host-to-container communication (macvlan shim interfaces):
-
-```bash
-./scripts/setup-network.sh --shims
-```
-
-To list predefined and existing networks:
-
-```bash
-./scripts/setup-network.sh --list
-```
-
-To create a single network interactively or via named parameters:
-
-```bash
-# Interactive
-./scripts/setup-network.sh
-
-# Named parameters
-./scripts/setup-network.sh \
-  --name homelab-lab \
-  --subnet 192.168.62.0/23 \
-  --gateway 192.168.62.1 \
-  --ip-range 192.168.62.0/24 \
-  --parent br0.62
-```
+1. Install Fedora Server.
+2. Create the networks listed in [Networks](#networks)
+3. Create the RAID 1 storage device for workload data
+4. Create the LVM filesystems for container and VM workloads, mount to target paths
+5. Install git `dnf install git -y`
+6. Clone down this repo `git clone https://github.com/kenmoini/kemo-labs.git`
+7. Run `./scripts/setup-host.sh`
+8. Reboot for good measure
 
 ### 2. Deploy all stacks in order
 
@@ -110,20 +91,26 @@ The deploy script brings up each phase sequentially with health-check gates betw
 
 After Phase 0 completes, copy the PikaPKI root CA certificate to your browser, host trust store, and any devices that need to trust `*.lab.kemo.dev`.
 
+---
+
 ## Networks
 
 The homelab uses multiple VLANs, each mapped to a Libvirt/Podman bridge network via host bridge interfaces.
 
 | Network Name | Subnet | Gateway | Parent | Purpose |
 |----------------|--------|---------|--------|---------|
-| `homelab-access` | 192.168.92.0/23 | 192.168.92.1 | `br0` | Access VLAN - management and uplinks |
-| `homelab-lab` | 192.168.62.0/23 | 192.168.62.1 | `br0.62` | Lab VLAN 62 - primary workload network |
-| `homelab-disconnected` | 192.168.70.0/24 | 192.168.70.1 | `br0.70` | Disconnected VLAN 70 - no upstream connectivity |
-| `homelab-isolated` | 192.168.86.0/24 | 192.168.86.1 | `br0.86` | Isolated VLAN 86 - restricted traffic |
+| `home-access` | 192.168.92.0/23 | 192.168.92.1 | `bridge0` | Access VLAN - home things, not used by lab |
+| `homelab-lab` | 192.168.42.0/23 | 192.168.42.1 | `bridge42` | Lab VLAN 42 - primary lab workload network |
+| `homelab-k8s` | 192.168.60.0/23 | 192.168.60.1 | `bridge60` | K8s/OCP VLAN 60 - Kubernetes/OpenShift network |
+| `homelab-sandbox` | 192.168.62.0/23 | 192.168.62.1 | `bridge62` | Lab VLAN 62 - Sandbox lab workload network |
+| `homelab-db` | 192.168.66.0/24 | 192.168.66.1 | `bridge66` | DB VLAN 66 - Database workload network |
+| `homelab-disconnected` | 192.168.70.0/23 | 192.168.70.1 | `bridge70` | Disconnected VLAN 70 - no Internet connectivity |
+| `homelab-isolated` | 192.168.86.0/24 | 192.168.86.1 | `bridge86` | Isolated VLAN 86 - no DHCP and no access to other VLANs |
+| `public-subnet` | 76.195.90.174/28 | 76.195.90.174 | `bridge420` | Public Subnet VLAN 420 - External IPs |
 
-All homelab workloads run on `homelab-lab` (192.168.62.0/23) by default. The other networks are available for workloads that need network isolation (e.g., malware analysis, build sandboxes, testing).
+All homelab workloads run on `homelab-lab` (192.168.42.0/23) by default. The other networks are available for workloads that need network isolation (e.g., malware analysis, build sandboxes, testing).
 
-Host bridge interfaces (`br0`, `br0.62`, `br0.70`, `br0.86`) must exist before creating the Libvirt/Podman networks.
+Host bridge interfaces (`bridge0`, `bridge42`, `bridge60`, `bridge62`, `bridge66`, `bridge70`, `bridge86`, `bridge420`) must exist before creating the Libvirt/Podman networks.
 
 ## Directory Structure
 

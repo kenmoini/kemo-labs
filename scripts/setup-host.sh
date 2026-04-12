@@ -9,7 +9,7 @@
 # - Change variables below
 
 export HOSTNAME="tardis"
-export DOMAIN="kemo.labs"
+export DOMAIN="lab.kemo.dev"
 
 export CONTAINER_WORK_DIR="/opt/workdir/caas"
 export VM_WORK_DIR="/opt/workdir/vm"
@@ -38,6 +38,7 @@ net.bridge.bridge-nf-call-ip6tables=0
 net.bridge.bridge-nf-call-iptables=0
 net.bridge.bridge-nf-call-arptables=0
 EOF
+sysctl -p
 
 # ==================================================================
 # Package Management
@@ -58,9 +59,9 @@ dnf update -y
 
 # Install needed packages
 dnf install -y nano git wget curl bind-utils bash-completion net-tools jq yq dnf-automatic \
-  python3 python3-pip python3-argcomplete python3-pip-wheel python3-wheel python3-devel \
+  python3 python3-pip python3-argcomplete python3-wheel python3-wheel python3-devel \
   cockpit pcp python3-pcp \
-  podman container-tools cockpit-podman pcp-pmda-podman podman-compose \
+  podman cockpit-podman pcp-pmda-podman podman-compose \
   virt-install virt-top cockpit-machines libvirt libguestfs-tools \
   kopia \
   make gcc patch zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel xz-devel libuuid-devel gdbm-libs libnsl2
@@ -126,6 +127,12 @@ done
 # ==================================================================
 mkdir -p ${VM_WORK_DIR}
 
+if virsh net-list --all | grep -q "default"; then
+  echo "Removing the default network..."
+  virsh net-destroy default
+  virsh net-undefine default
+fi
+
 for net in $(yq eval -o=j host-info.yaml | jq -cr '.networks[]'); do
   name=$(echo $net | jq -r '.name' -)
   physicalDevice=$(echo $net | jq -r '.physicalDevice' -)
@@ -143,12 +150,6 @@ EOF
     virsh net-define /tmp/libvirt-bridge-${name}.xml
     virsh net-start ${name}
     virsh net-autostart ${name}
-  fi
-
-  if virsh net-list --all | grep -q "default"; then
-    echo "Removing the default network..."
-    virsh net-destroy default
-    virsh net-undefine default
   fi
 
 done

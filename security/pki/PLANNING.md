@@ -30,7 +30,7 @@ The Nginx sidecar runs continuously to serve CA certificates and CRLs at `http:/
 
 | Port | Protocol | Purpose |
 |------|----------|---------|
-| 80 | TCP | Nginx serving public bundles (CA certs, CRLs) |
+| 8001 | TCP | Nginx serving public bundles (CA certs, CRLs) |
 | 443 | TCP | Optional -- Traefik-terminated HTTPS for public bundles |
 
 **Note:** PikaPKI itself exposes no network ports. It is an interactive TUI container run with `docker compose run` or `docker exec -it`.
@@ -48,7 +48,7 @@ The Nginx sidecar runs continuously to serve CA certificates and CRLs at `http:/
 | `PIKA_PKI_DEFAULT_STATE` | `North Carolina` | Default state |
 | `PIKA_PKI_DEFAULT_LOCALITY` | `Raleigh` | Default locality |
 | `PIKA_PKI_DEFAULT_EMAIL` | `ken@kenmoini.com` | Default contact email |
-| `PIKA_PKI_DEFAULT_CA_URI_BASE` | `http://pki.lab.kemo.dev` | Base URI for CRL distribution points and CA cert hosting |
+| `PIKA_PKI_DEFAULT_CA_URI_BASE` | `http://pki.lab.kemo.dev/public` | Base URI for CRL distribution points and CA cert hosting |
 | `TERM` | `xterm-256color` | Already set in image; needed for TUI rendering |
 
 ### Nginx Container
@@ -59,9 +59,9 @@ No special environment variables required. Configuration is via a mounted `defau
 
 | Volume | Container Path | Purpose | Size Estimate |
 |--------|---------------|---------|---------------|
-| `pki-data` | `/data` (PikaPKI) | PKI workspace: Root CA keys, intermediate certs, CRLs, all PKI state | 100 MB |
-| `pki-data` (subpath `/.pika-pki/public_bundles`) | `/usr/share/nginx/html` (Nginx, read-only) | Public bundles served by Nginx | Shared with above |
-| `pki-nginx-conf` | `/etc/nginx/conf.d/default.conf` (Nginx) | Nginx config with directory listing enabled | Bind mount of local file |
+| `/opt/workdir/caas/pika-pki/data` | `/data` (PikaPKI) | PKI workspace: Root CA keys, intermediate certs, CRLs, all PKI state | 100 MB |
+| `/opt/workdir/caas/pika-pki/data` (subpath `/.pika-pki/public_bundles`) | `/usr/share/nginx/html` (Nginx, read-only) | Public bundles served by Nginx | Shared with above |
+| `./nginx/default.conf` | `/etc/nginx/conf.d/default.conf` (Nginx) | Nginx config with directory listing enabled | Bind mount of local file |
 
 **Backup priority: CRITICAL** -- The PKI workspace contains Root CA private keys. Loss means total PKI rebuild. Encrypt backups at rest.
 
@@ -125,7 +125,7 @@ The Root CA certificate must be distributed to:
 Enable directory listing so browsers can browse available certs/CRLs:
 ```nginx
 server {
-    listen 80;
+    listen 8001;
     server_name pki.lab.kemo.dev;
     location / {
         root /usr/share/nginx/html;

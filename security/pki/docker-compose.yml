@@ -8,7 +8,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /opt/workdir/caas/pika-pki/data:/data
+      - /opt/workdir/caas/pika-pki/data:/data:Z
     profiles:
       - interactive
     restart: unless-stopped

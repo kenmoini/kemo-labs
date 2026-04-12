@@ -2,21 +2,17 @@
 services:
 
   ##############################################################################
-  # MariaDB 11.7
+  # MariaDB 11.4 (MySQL-compatible)
+  # https://docs.linuxserver.io/images/docker-mariadb/
   ##############################################################################
   mariadb:
-    image: docker.io/library/mariadb:11.7
+    image: quay.io/linuxserver.io/mariadb:11.4.9
     container_name: shared-mariadb
     restart: unless-stopped
-    environment:
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      MARIADB_DATABASE: default_db
-      MARIADB_USER: ${MARIADB_USER}
-      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
-      MARIADB_GITLAB_PASSWORD: ${MARIADB_GITLAB_PASSWORD}
-      MARIADB_MAILCOW_PASSWORD: ${MARIADB_MAILCOW_PASSWORD}
+    env_file:
+      - .env
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - /opt/workdir/caas/databases/shared/mariadb_data:/var/lib/mysql
       - ./init-scripts/mariadb-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
@@ -25,9 +21,8 @@ services:
       retries: 5
       start_period: 30s
     networks:
-      databases:
-      homelab-lab:
-        ipv4_address: 192.168.62.15
+      bridge66:
+        ipv4_address: 192.168.66.15
 
   ##############################################################################
   # PostgreSQL 17 (pgvector image for vector extension support)
@@ -36,6 +31,8 @@ services:
     image: docker.io/pgvector/pgvector:pg17
     container_name: shared-postgresql
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -58,9 +55,8 @@ services:
       retries: 5
       start_period: 30s
     networks:
-      databases:
-      homelab-lab:
-        ipv4_address: 192.168.62.16
+      bridge66:
+        ipv4_address: 192.168.66.16
 
   ##############################################################################
   # Valkey 8 (Redis-compatible)
@@ -79,6 +75,8 @@ services:
       - 1gb
       - --maxmemory-policy
       - allkeys-lru
+    env_file:
+      - .env
     volumes:
       - valkey_data:/data
     healthcheck:
@@ -88,9 +86,8 @@ services:
       retries: 5
       start_period: 10s
     networks:
-      databases:
-      homelab-lab:
-        ipv4_address: 192.168.62.17
+      bridge66:
+        ipv4_address: 192.168.66.17
 
   ##############################################################################
   # Eclipse Mosquitto (MQTT broker)
@@ -99,22 +96,26 @@ services:
     image: docker.io/library/eclipse-mosquitto:2
     container_name: shared-mosquitto
     restart: unless-stopped
+    env_file:
+      - .env
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
       - mosquitto_data:/mosquitto/data
       - mosquitto_log:/mosquitto/log
     networks:
-      databases:
-      homelab-lab:
-        ipv4_address: 192.168.62.18
+      bridge66:
+        ipv4_address: 192.168.66.18
 
   ##############################################################################
-  # phpMyAdmin (MariaDB web UI, fronted by Traefik)
+  # phpMyAdmin 5.2.3 (MariaDB web UI, fronted by Traefik)
+  # https://docs.linuxserver.io/images/docker-phpmyadmin/
   ##############################################################################
   phpmyadmin:
-    image: docker.io/phpmyadmin/phpmyadmin:latest
+    image: quay.io/linuxserver.io/phpmyadmin@sha256:239f1fa322cee7d3aa1271b0c6732f5ca71c52c372cd5dc4d10bd684e7fb352a
     container_name: shared-phpmyadmin
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       PMA_HOST: mariadb
       PMA_PORT: 3306
@@ -130,9 +131,8 @@ services:
       - "traefik.http.routers.phpmyadmin.tls.certresolver=stepca"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
     networks:
-      databases:
-      homelab-lab:
-        ipv4_address: 192.168.62.19
+      bridge66:
+        ipv4_address: 192.168.66.19
 
   ##############################################################################
   # Databasus (automated database backups)
@@ -141,6 +141,8 @@ services:
     image: ghcr.io/databasus/databasus:latest
     container_name: shared-databasus
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       DATABASUS_CRON_SCHEDULE: ${DATABASUS_CRON_SCHEDULE:-0 2 * * *}
       DATABASUS_RETENTION_DAYS: ${DATABASUS_RETENTION_DAYS:-30}
@@ -148,7 +150,7 @@ services:
       DATABASUS_MARIADB_HOST: mariadb
       DATABASUS_MARIADB_PORT: 3306
       DATABASUS_MARIADB_USER: root
-      DATABASUS_MARIADB_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      DATABASUS_MARIADB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       DATABASUS_PGSQL_HOST: postgresql
       DATABASUS_PGSQL_PORT: 5432
       DATABASUS_PGSQL_USER: ${POSTGRES_USER:-postgres}

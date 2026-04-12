@@ -20,3 +20,25 @@ fi
 if [ -d "${CONTAINER_WORK_DIR}/pika-pki/data/.pika-pki/public_bundles" ]; then
   chmod -R 755 ${CONTAINER_WORK_DIR}/pika-pki/data/.pika-pki/public_bundles
 fi
+
+# Shared Databases
+mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mariadb_data
+mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/postgres_data
+mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/redis_data
+mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_data
+mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_log
+if [ -d "${CONTAINER_WORK_DIR}/databases/shared/mariadb_data" ]; then
+  chown -R 999:999 ${CONTAINER_WORK_DIR}/databases/shared/mariadb_data
+fi
+if [ -d "${CONTAINER_WORK_DIR}/databases/shared/postgres_data" ]; then
+  chown -R 26:26 ${CONTAINER_WORK_DIR}/databases/shared/postgres_data
+fi
+if [ -d "${CONTAINER_WORK_DIR}/databases/shared/redis_data" ]; then
+  chown -R 1001:1001 ${CONTAINER_WORK_DIR}/databases/shared/redis_data
+fi
+if [ -d "${CONTAINER_WORK_DIR}/databases/shared/mosquitto_data" ]; then
+  chown -R 1883:1883 ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_data
+fi
+if [ -d "${CONTAINER_WORK_DIR}/databases/shared/mosquitto_log" ]; then
+  chown -R 1883:1883 ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_log
+fi

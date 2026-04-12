@@ -66,6 +66,15 @@ dnf install -y nano git wget curl bind-utils bash-completion net-tools jq yq dnf
   kopia \
   make gcc patch zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel xz-devel libuuid-devel gdbm-libs libnsl2
 
+# Setup DNF Automatic updates
+cat > /etc/dnf/automatic.conf <<EOF
+[commands]
+apply_updates=True
+download_updates=True
+upgrade_type=security
+reboot=when-needed
+EOF
+
 # Install pyenv
 curl -fsSL https://pyenv.run | bash
 echo 'export PYENV_ROOT="$HOME/.pyenv"' > /etc/profile.d/pyenv
@@ -81,6 +90,7 @@ systemctl enable --now podman.socket
 systemctl enable --now podman.service
 systemctl enable --now pmlogger.service
 systemctl enable --now libvirtd
+systemctl enable --now dnf-automatic.timer
 
 # Enable root login to cockpit
 echo '# no one' > /etc/cockpit/disallowed-users

@@ -8,8 +8,15 @@
 export CONTAINER_WORK_DIR="/opt/workdir/caas"
 export VM_WORK_DIR="/opt/workdir/vm"
 
+# ==================================================================
 # Create directories for CaaS services
+# ==================================================================
+
+# Pika PKI
 mkdir -p ${CONTAINER_WORK_DIR}/pika-pki/data
+if [ -d "${CONTAINER_WORK_DIR}/pika-pki/data" ]; then
+  chown -R 1001:1001 ${CONTAINER_WORK_DIR}/pika-pki/data
+fi
 if [ -d "${CONTAINER_WORK_DIR}/pika-pki/data/.pika-pki/public_bundles" ]; then
   chmod -R 755 ${CONTAINER_WORK_DIR}/pika-pki/data/.pika-pki/public_bundles
 fi

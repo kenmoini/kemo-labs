@@ -8,4 +8,4 @@
 cd "$(dirname "$0")"
 
 # Activate the interactive profile for the PKI services
-podman compose --profile interactive run pika-pki
+podman compose --profile interactive run --rm pika-pki

@@ -18,8 +18,8 @@ services:
     container_name: pki-nginx
     restart: unless-stopped
     volumes:
-      - /opt/workdir/caas/pika-pki/data:/data:ro
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - /opt/workdir/caas/pika-pki/data:/data:ro,Z
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:Z
     networks:
       bridge42:
         ipv4_address: 192.168.42.5

@@ -133,7 +133,7 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 
 ## IP Allocation
 
-### Core Infrastructure (192.168.62.2 -- 192.168.62.15)
+### Core Infrastructure (192.168.42.2 -- 192.168.42.15)
 
 | IP | Service |
 |----|---------|
@@ -153,7 +153,7 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .15-.19 | Shared Databases (MariaDB, PostgreSQL, Valkey, MQTT, phpMyAdmin) |
 | .25 | Semaphore (Ansible UI) |
 
-### Services (192.168.62.20 -- 192.168.62.82)
+### Services (192.168.42.20 -- 192.168.42.82)
 
 | IP | Service |
 |----|---------|
@@ -183,7 +183,7 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .81 | Shlink |
 | .82 | Ntfy (Push Notifications) |
 
-### Kubernetes (192.168.62.99 -- 192.168.62.112)
+### Kubernetes (192.168.60.99 -- 192.168.60.112)
 
 | IP | Node |
 |----|------|
@@ -191,16 +191,16 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .100-.102 | talos-cp-1 through talos-cp-3 |
 | .110-.112 | talos-w-1 through talos-w-3 |
 
-All IPs are on the 192.168.62.0/23 subnet. DHCP is served from .128/24 and above.
+All Kubernetes/OpenShift IPs are on the 192.168.60.0/23 subnet. DHCP is served from 192.168.61.11 and above.
 
 ## Deployment Phases
 
 | Phase | Name | Key Workloads | Gate |
 |-------|------|---------------|------|
 | 0 | Foundation | PikaPKI | Root CA and intermediate cert issued |
-| 1 | Core Infrastructure | DNS Stack, StepCA | DNS resolves, ACME endpoint responds |
+| 1 | Data Layer | Shared DBs, RustFS | All DB engines healthy, S3 works |
 | 2 | Networking | Traefik, Squid | Traefik dashboard up, test cert issued |
-| 3 | Data Layer | Shared DBs, RustFS | All DB engines healthy, S3 works |
+| 3 | Core Infrastructure | DNS Stack, StepCA | DNS resolves, ACME endpoint responds |
 | 4 | Identity and Secrets | Authentik, Vault | Auth setup done, Vault unsealed |
 | 5 | Observability | Grafana, Dozzle, Uptime Kuma, Scrutiny | Grafana loads, Dozzle shows logs |
 | 6 | Storage Services | Nexus, Kopia, Dropbox | Nexus pulls images, Kopia connects |

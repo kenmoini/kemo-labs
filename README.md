@@ -150,8 +150,18 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .13 | Network Testing (iPerf3/SpeedTest) |
 | .9 | WUD (What's Up Docker) |
 | .14 | Homepage Dashboard |
-| .15-.19 in bridge66 | Shared Databases (MariaDB, PostgreSQL, Valkey, MQTT, phpMyAdmin) |
 | .25 | Semaphore (Ansible UI) |
+
+### Database Services (192.168.66.15 -- 192.168.66.20)
+
+| IP | Service |
+|----|---------|
+| .15 | MariaDB |
+| .16 | PostgreSQL |
+| .17 | Valkey |
+| .18 | MQTT |
+| .19 | PHPMyAdmin |
+| .20 | Databasus |
 
 ### Services (192.168.42.20 -- 192.168.42.82)
 

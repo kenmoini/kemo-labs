@@ -24,21 +24,25 @@ fi
 # Shared Databases
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mariadb_data
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/postgres_data
-mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/redis_data
+mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/valkey_data
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_data
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_log
+mkdir -p ${CONTAINER_WORK_DIR}/databases/backups
 if [ -d "${CONTAINER_WORK_DIR}/databases/shared/mariadb_data" ]; then
-  chown -R 999:999 ${CONTAINER_WORK_DIR}/databases/shared/mariadb_data
+  chown -R 911:911 ${CONTAINER_WORK_DIR}/databases/shared/mariadb_data
 fi
 if [ -d "${CONTAINER_WORK_DIR}/databases/shared/postgres_data" ]; then
-  chown -R 26:26 ${CONTAINER_WORK_DIR}/databases/shared/postgres_data
+  chown -R 999:999 ${CONTAINER_WORK_DIR}/databases/shared/postgres_data
 fi
-if [ -d "${CONTAINER_WORK_DIR}/databases/shared/redis_data" ]; then
-  chown -R 1001:1001 ${CONTAINER_WORK_DIR}/databases/shared/redis_data
+if [ -d "${CONTAINER_WORK_DIR}/databases/shared/valkey_data" ]; then
+  chown -R 999:999 ${CONTAINER_WORK_DIR}/databases/shared/valkey_data
 fi
 if [ -d "${CONTAINER_WORK_DIR}/databases/shared/mosquitto_data" ]; then
   chown -R 1883:1883 ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_data
 fi
 if [ -d "${CONTAINER_WORK_DIR}/databases/shared/mosquitto_log" ]; then
   chown -R 1883:1883 ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_log
+fi
+if [ -d "${CONTAINER_WORK_DIR}/databases/backups" ]; then
+  chown -R 999:999 ${CONTAINER_WORK_DIR}/databases/backups
 fi

@@ -12,8 +12,8 @@ services:
     env_file:
       - .env
     volumes:
-      - /opt/workdir/caas/databases/shared/mariadb_data:/var/lib/mysql
-      - ./init-scripts/mariadb-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro
+      - /opt/workdir/caas/databases/shared/mariadb_data:/var/lib/mysql:Z
+      - ./init-scripts/mariadb-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -46,8 +46,8 @@ services:
       PG_SHLINK_PASSWORD: ${PG_SHLINK_PASSWORD}
       PG_AFFINE_PASSWORD: ${PG_AFFINE_PASSWORD}
     volumes:
-      - postgresql_data:/var/lib/postgresql/data
-      - ./init-scripts/postgres-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro
+      - /opt/workdir/caas/databases/shared/postgresql_data:/var/lib/postgresql/data:Z
+      - ./init-scripts/postgres-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
       interval: 10s
@@ -59,10 +59,10 @@ services:
         ipv4_address: 192.168.66.16
 
   ##############################################################################
-  # Valkey 8 (Redis-compatible)
+  # Valkey 9 (Redis-compatible)
   ##############################################################################
   valkey:
-    image: docker.io/valkey/valkey:8
+    image: docker.io/valkey/valkey:9.0.3
     container_name: shared-valkey
     restart: unless-stopped
     command:
@@ -78,7 +78,7 @@ services:
     env_file:
       - .env
     volumes:
-      - valkey_data:/data
+      - /opt/workdir/caas/databases/shared/valkey_data:/data:Z
     healthcheck:
       test: ["CMD", "valkey-cli", "-a", "${VALKEY_PASSWORD}", "ping"]
       interval: 10s
@@ -99,9 +99,9 @@ services:
     env_file:
       - .env
     volumes:
-      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
-      - mosquitto_data:/mosquitto/data
-      - mosquitto_log:/mosquitto/log
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro,Z
+      - /opt/workdir/caas/databases/shared/mosquitto_data:/mosquitto/data:Z
+      - /opt/workdir/caas/databases/shared/mosquitto_log:/mosquitto/log:Z
     networks:
       bridge66:
         ipv4_address: 192.168.66.18
@@ -138,7 +138,7 @@ services:
   # Databasus (automated database backups)
   ##############################################################################
   databasus:
-    image: ghcr.io/databasus/databasus:latest
+    image: docker.io/databasus/databasus:v3.32.1
     container_name: shared-databasus
     restart: unless-stopped
     env_file:
@@ -156,7 +156,7 @@ services:
       DATABASUS_PGSQL_USER: ${POSTGRES_USER:-postgres}
       DATABASUS_PGSQL_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - /srv/backups/databases:/backups
+      - /opt/workdir/caas/databases/backups:/backups:Z
     depends_on:
       mariadb:
         condition: service_healthy
@@ -164,22 +164,12 @@ services:
         condition: service_healthy
     networks:
       databases:
-
-##############################################################################
-# Volumes
-##############################################################################
-volumes:
-  mariadb_data:
-  postgresql_data:
-  valkey_data:
-  mosquitto_data:
-  mosquitto_log:
+        ipv4_address: 192.168.66.20
 
 ##############################################################################
 # Networks
 ##############################################################################
 networks:
-  databases:
-    driver: bridge
-  homelab-lab:
+  # Database bridge
+  bridge66:
     external: true

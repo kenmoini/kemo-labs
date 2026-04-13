@@ -163,7 +163,7 @@ services:
       postgresql:
         condition: service_healthy
     networks:
-      databases:
+      bridge66:
         ipv4_address: 192.168.66.20
 
 ##############################################################################

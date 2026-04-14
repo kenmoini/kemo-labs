@@ -21,6 +21,7 @@ services:
       - /opt/workdir/caas/pika-pki/data:/data:ro,Z
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:Z
     networks:
+      traefik-proxy:
       bridge42:
         ipv4_address: 192.168.42.5
     labels:
@@ -38,4 +39,6 @@ services:
 
 networks:
   bridge42:
+    external: true
+  traefik-proxy:
     external: true

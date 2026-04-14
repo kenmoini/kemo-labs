@@ -103,6 +103,8 @@ mkdir -p ${CONTAINER_WORK_DIR}
 # Create Podman Network Directory
 mkdir -p /etc/containers/networks/
 
+# podman network create --subnet 192.168.50.0/23 traefik-proxy
+
 for net in $(yq eval -o=j host-info.yaml | jq -cr '.networks[]'); do
   name=$(echo $net | jq -r '.name' -)
   physicalDevice=$(echo $net | jq -r '.physicalDevice' -)

@@ -131,6 +131,11 @@ services:
       - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
       - "traefik.http.routers.phpmyadmin.tls.certresolver=stepca"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
+      - "homepage.group=Databases"
+      - "homepage.name=phpMyAdmin"
+      - "homepage.icon=phpmyadmin.png"
+      - "homepage.description='MariaDB web UI"
+      - "homepage.href=https://phpmyadmin.lab.kemo.dev"
     networks:
       bridge66:
         ipv4_address: 192.168.66.19
@@ -156,6 +161,17 @@ services:
       DATABASUS_PGSQL_PORT: 5432
       DATABASUS_PGSQL_USER: ${POSTGRES_USER:-postgres}
       DATABASUS_PGSQL_PASSWORD: ${POSTGRES_PASSWORD}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.databasus.rule=Host(`databasus.lab.kemo.dev`)"
+      - "traefik.http.routers.databasus.entrypoints=websecure"
+      - "traefik.http.routers.databasus.tls.certresolver=stepca"
+      - "traefik.http.services.databasus.loadbalancer.server.port=4005"
+      - "homepage.group=Databases"
+      - "homepage.name=Databasus"
+      - "homepage.icon=databasus.png"
+      - "homepage.description='Automated database backups'"
+      - "homepage.href=https://databasus.lab.kemo.dev"
     volumes:
       - /opt/workdir/caas/databases/backups:/backups:Z
     depends_on:
@@ -166,6 +182,35 @@ services:
     networks:
       bridge66:
         ipv4_address: 192.168.66.20
+
+  ##############################################################################
+  # Adminer 5.4.2 (Database web UI, fronted by Traefik)
+  ##############################################################################
+  adminer:
+    image: docker.io/library/adminer@sha256:3a1582df310cf49a3c9cad2882496eed4596563f8d33250703f8b26e538cef7d
+    container_name: shared-adminer
+    restart: unless-stopped
+    environment:
+      ADMINER_DESIGN: win98
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.rule=Host(`adminer.lab.kemo.dev`)"
+      - "traefik.http.routers.adminer.entrypoints=websecure"
+      - "traefik.http.routers.adminer.tls.certresolver=stepca"
+      - "traefik.http.services.adminer.loadbalancer.server.port=8080"
+      - "homepage.group=Databases"
+      - "homepage.name=Adminer"
+      - "homepage.icon=adminer.png"
+      - "homepage.description='Web UI for DBs cause I am noob'"
+      - "homepage.href=https://adminer.lab.kemo.dev"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      postgresql:
+        condition: service_healthy
+    networks:
+      bridge66:
+        ipv4_address: 192.168.66.21
 
 ##############################################################################
 # Networks

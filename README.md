@@ -152,7 +152,7 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .14 | Homepage Dashboard |
 | .25 | Semaphore (Ansible UI) |
 
-### Database Services (192.168.66.15 -- 192.168.66.20)
+### Database Services (192.168.66.15 -- 192.168.66.21)
 
 | IP | Service |
 |----|---------|
@@ -162,6 +162,7 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .18 | MQTT |
 | .19 | PHPMyAdmin |
 | .20 | Databasus |
+| .21 | Adminer |
 
 ### Services (192.168.42.20 -- 192.168.42.82)
 

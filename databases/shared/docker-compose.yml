@@ -136,6 +136,12 @@ services:
       - "homepage.icon=phpmyadmin.png"
       - "homepage.description='MariaDB web UI"
       - "homepage.href=https://phpmyadmin.lab.kemo.dev"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     networks:
       traefik-proxy:
       bridge66:
@@ -181,6 +187,12 @@ services:
         condition: service_healthy
       postgresql:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:4005/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     networks:
       traefik-proxy:
       bridge66:
@@ -211,6 +223,12 @@ services:
         condition: service_healthy
       postgresql:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     networks:
       traefik-proxy:
       bridge66:

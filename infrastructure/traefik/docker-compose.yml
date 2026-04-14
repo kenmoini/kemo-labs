@@ -4,7 +4,7 @@ services:
     container_name: traefik
     restart: unless-stopped
     environment:
-      - LEGO_CA_CERTIFICATES=/etc/traefik/certs/root_ca.crt
+      #- LEGO_CA_CERTIFICATES=/etc/traefik/certs/root_ca.crt
       - TZ=${TZ:-America/New_York}
     volumes:
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
@@ -13,8 +13,9 @@ services:
       - ./certs/root_ca.crt:/etc/traefik/certs/root_ca.crt:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.10
+      traefik-proxy:
+      bridge42:
+        ipv4_address: 192.168.42.10
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.lab.kemo.dev`)"
@@ -31,5 +32,7 @@ services:
       start_period: 10s
 
 networks:
-  homelab-lab:
+  traefik-proxy:
+    external: true
+  bridge42:
     external: true

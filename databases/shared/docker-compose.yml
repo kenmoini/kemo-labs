@@ -13,7 +13,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /opt/workdir/caas/databases/shared/mariadb_data:/var/lib/mysql:Z
+      - /opt/workdir/caas/databases/shared/mariadb_data:/config:Z
       - ./init-scripts/mariadb-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
       - ./init-scripts/mariadb-healthcheck.sh:/usr/local/bin/healthcheck.sh:ro,Z
       - ./init-scripts/echo-test.sh:/custom-services.d/echo-test.sh:ro,Z

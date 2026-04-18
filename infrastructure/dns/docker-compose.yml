@@ -7,7 +7,7 @@ services:
       - ./pdns-auth/config/pdns.conf:/etc/pdns/pdns.conf:ro
     networks:
       traefik-proxy:
-      homelab-lab:
+      bridge42:
         ipv4_address: 192.168.42.2
     labels:
       - "traefik.enable=true"
@@ -52,7 +52,8 @@ services:
       - "homepage.description='PowerDNS Recursor at 192.168.42.3'"
       - "homepage.href=https://pdns-recursor.lab.kemo.dev"
     networks:
-      homelab-lab:
+      traefik-proxy:
+      bridge42:
         ipv4_address: 192.168.42.3
     healthcheck:
       test: ["CMD-SHELL", "rec_control ping 2>/dev/null || exit 1"]
@@ -84,7 +85,8 @@ services:
       - "homepage.description='PowerDNS Admin web interface'"
       - "homepage.href=https://pdnsadmin.lab.kemo.dev"
     networks:
-      homelab-lab:
+      traefik-proxy:
+      bridge42:
         ipv4_address: 192.168.42.15
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:8000/api/servers || exit 1"]
@@ -110,7 +112,7 @@ services:
       - net.ipv4.ip_unprivileged_port_start=53
     networks:
       traefik-proxy:
-      homelab-lab:
+      bridge42:
         ipv4_address: 192.168.42.4
     labels:
       - "traefik.enable=true"
@@ -131,7 +133,7 @@ services:
       start_period: 30s
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true
   traefik-proxy:
     external: true

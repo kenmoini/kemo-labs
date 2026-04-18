@@ -1,3 +1,4 @@
 #!/usr/bin/with-contenv bash
 
 echo "Hello from the MariaDB init script!"
+exit 0

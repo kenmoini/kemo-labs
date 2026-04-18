@@ -12,6 +12,7 @@ export VM_WORK_DIR="/opt/workdir/vm"
 # Create directories for CaaS services
 # ==================================================================
 
+# ==================================================================
 # Pika PKI
 mkdir -p ${CONTAINER_WORK_DIR}/pika-pki/data
 if [ -d "${CONTAINER_WORK_DIR}/pika-pki/data" ]; then
@@ -21,6 +22,7 @@ if [ -d "${CONTAINER_WORK_DIR}/pika-pki/data/.pika-pki/public_bundles" ]; then
   chmod -R 755 ${CONTAINER_WORK_DIR}/pika-pki/data/.pika-pki/public_bundles
 fi
 
+# ==================================================================
 # Shared Databases
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mariadb_data
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/postgres_data
@@ -46,4 +48,11 @@ if [ -d "${CONTAINER_WORK_DIR}/databases/shared/mosquitto_log" ]; then
 fi
 if [ -d "${CONTAINER_WORK_DIR}/databases/backups" ]; then
   chown -R 999:999 ${CONTAINER_WORK_DIR}/databases/backups
+fi
+
+# ==================================================================
+# DNS Services
+mkdir -p ${CONTAINER_WORK_DIR}/dns/pihole/etc-pihole
+if [ -d "${CONTAINER_WORK_DIR}/dns/pihole/etc-pihole" ]; then
+  chown -R 0:1000 ${CONTAINER_WORK_DIR}/dns/pihole/etc-pihole
 fi

@@ -21,7 +21,7 @@ services:
       - "homepage.description='PowerDNS Authoritative Server'"
       - "homepage.href=https://pdns-auth.lab.kemo.dev"
     healthcheck:
-      test: ["CMD-SHELL", "curl", "-f", "http://localhost:8081"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8081"]
       interval: 30s
       timeout: 5s
       retries: 3

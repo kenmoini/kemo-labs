@@ -1,16 +1,18 @@
-#!/bin/bash
-set -e
+#!/usr/bin/with-contenv bash
 
-# =============================================================================
-# MariaDB Init Script
-# =============================================================================
-# Creates databases and users for all downstream services.
-# Runs only on first boot (when the data volume is empty).
-#
-# Uses shell env vars for password injection (unlike .sql files).
-# =============================================================================
+echo "==============================================================="
+echo "Bootstrapping MariaDB container with needed databases..."
+echo "==============================================================="
 
-mysql <<-EOSQL
+while ! mariadb -e '\q' >/dev/null 2>&1; do
+  echo "===== Waiting for MariaDB to be ready..."
+  sleep 5
+done
+
+echo "===== MariaDB is initialized. Creating databases..."
+
+# Create databases and users for all downstream services
+mariadb <<-EOSQL
 
     -- PowerDNS Authoritative database
     CREATE DATABASE IF NOT EXISTS powerdns_auth
@@ -44,3 +46,6 @@ mysql <<-EOSQL
 EOSQL
 
 echo "===== MariaDB init complete: powerdns_auth, gitlab, and mailcow databases and users created ====="
+
+# Go to sleep
+sleep infinity

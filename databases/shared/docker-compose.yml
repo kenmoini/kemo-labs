@@ -15,6 +15,11 @@ services:
       - /opt/workdir/caas/databases/shared/mariadb_data:/var/lib/mysql:Z
       - ./init-scripts/mariadb-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
       - ./init-scripts/mariadb-healthcheck.sh:/usr/local/bin/healthcheck.sh:ro,Z
+    labels:
+      - "homepage.group=Databases"
+      - "homepage.name=MariaDB"
+      - "homepage.icon=mariadb.png"
+      - "homepage.description='MariaDB database at 192.168.66.15:3306'"
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -46,6 +51,11 @@ services:
       PG_POSTIZ_PASSWORD: ${PG_POSTIZ_PASSWORD}
       PG_SHLINK_PASSWORD: ${PG_SHLINK_PASSWORD}
       PG_AFFINE_PASSWORD: ${PG_AFFINE_PASSWORD}
+    labels:
+      - "homepage.group=Databases"
+      - "homepage.name=PostgreSQL"
+      - "homepage.icon=postgresql.png"
+      - "homepage.description='PostgreSQL database at 192.168.66.16:5432'"
     volumes:
       - /opt/workdir/caas/databases/shared/postgresql_data:/var/lib/postgresql/data:Z
       - ./init-scripts/postgres-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
@@ -80,6 +90,11 @@ services:
       - .env
     volumes:
       - /opt/workdir/caas/databases/shared/valkey_data:/data:Z
+    labels:
+      - "homepage.group=Databases"
+      - "homepage.name=Valkey"
+      - "homepage.icon=valkey.png"
+      - "homepage.description='Redis-compatible database at 192.168.66.17:6379'"
     healthcheck:
       test: ["CMD", "valkey-cli", "-a", "${VALKEY_PASSWORD}", "ping"]
       interval: 10s
@@ -106,6 +121,11 @@ services:
     networks:
       bridge66:
         ipv4_address: 192.168.66.18
+    labels:
+      - "homepage.group=Databases"
+      - "homepage.name=Mosquitto"
+      - "homepage.icon=mosquitto.png"
+      - "homepage.description='MQTT broker at 192.168.66.18:1883'"
     healthcheck:
       test: ["CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
       interval: 30s

@@ -63,7 +63,7 @@ services:
       start_period: 10s
 
   pdns-admin:
-    image: ghcr.io/kenmoini/powerdns-admin:2861e6c4fc151b14b841a125e6f2081ebe4272bd
+    image: ghcr.io/kenmoini/powerdns-admin:807cc03
     container_name: pdns-admin
     restart: unless-stopped
     depends_on:
@@ -72,7 +72,7 @@ services:
       pdns-recursor:
         condition: service_started
     volumes:
-      - /opt/workdir/caas/pdns-admin/data:/data:Z
+      - /opt/workdir/caas/dns/pdns-admin/data:/data:Z
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pdnsadmin.rule=Host(`pdnsadmin.lab.kemo.dev`)"
@@ -105,7 +105,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /opt/workdir/caas/dns/pihole/etc-pihole/:/etc/pihole/
+      - /opt/workdir/caas/dns/pihole/etc-pihole/:/etc/pihole/:Z
     cap_add:
       - NET_BIND_SERVICE
     sysctls:

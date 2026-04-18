@@ -4,7 +4,7 @@ services:
     container_name: pdns-auth
     restart: unless-stopped
     volumes:
-      - ./pdns-auth/config/pdns.conf:/etc/pdns/pdns.conf:ro
+      - ./pdns-auth/config/:/etc/pdns/:ro
     networks:
       traefik-proxy:
       bridge42:

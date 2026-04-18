@@ -78,7 +78,7 @@ services:
       - "traefik.http.routers.pdnsadmin.rule=Host(`pdnsadmin.lab.kemo.dev`)"
       - "traefik.http.routers.pdnsadmin.entrypoints=websecure"
       - "traefik.http.routers.pdnsadmin.tls.certresolver=stepca"
-      - "traefik.http.services.pdnsadmin.loadbalancer.server.port=80"
+      - "traefik.http.services.pdnsadmin.loadbalancer.server.port=8080"
       - "homepage.group=DNS"
       - "homepage.name=PowerDNS Admin"
       - "homepage.icon=powerdns.png"
@@ -89,7 +89,7 @@ services:
       bridge42:
         ipv4_address: 192.168.42.15
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/servers || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/servers || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3

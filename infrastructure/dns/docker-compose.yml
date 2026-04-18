@@ -34,8 +34,23 @@ services:
     depends_on:
       pdns-auth:
         condition: service_started
+    cap_add:
+      - NET_BIND_SERVICE
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=53
     volumes:
       - ./pdns-recursor/config/recursor.conf:/etc/pdns-recursor/recursor.conf:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pdns-recursor.rule=Host(`pdns-recursor.lab.kemo.dev`)"
+      - "traefik.http.routers.pdns-recursor.entrypoints=websecure"
+      - "traefik.http.routers.pdns-recursor.tls.certresolver=stepca"
+      - "traefik.http.services.pdns-recursor.loadbalancer.server.port=8082"
+      - "homepage.group=DNS"
+      - "homepage.name=PowerDNS Recursor"
+      - "homepage.icon=powerdns.png"
+      - "homepage.description='PowerDNS Recursor at 192.168.42.3'"
+      - "homepage.href=https://pdns-recursor.lab.kemo.dev"
     networks:
       homelab-lab:
         ipv4_address: 192.168.42.3
@@ -53,13 +68,26 @@ services:
     depends_on:
       pdns-auth:
         condition: service_started
+      pdns-recursor:
+        condition: service_started
     volumes:
       - /opt/workdir/caas/pdns-admin/data:/data:Z
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pdnsadmin.rule=Host(`pdnsadmin.lab.kemo.dev`)"
+      - "traefik.http.routers.pdnsadmin.entrypoints=websecure"
+      - "traefik.http.routers.pdnsadmin.tls.certresolver=stepca"
+      - "traefik.http.services.pdnsadmin.loadbalancer.server.port=80"
+      - "homepage.group=DNS"
+      - "homepage.name=PowerDNS Admin"
+      - "homepage.icon=powerdns.png"
+      - "homepage.description='PowerDNS Admin web interface'"
+      - "homepage.href=https://pdnsadmin.lab.kemo.dev"
     networks:
       homelab-lab:
-        ipv4_address: 192.168.42.3
+        ipv4_address: 192.168.42.15
     healthcheck:
-      test: ["CMD-SHELL", "rec_control ping 2>/dev/null || exit 1"]
+      test: ["CMD-SHELL", "curl", "-f", "http://localhost:8000/api/servers || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -72,15 +100,12 @@ services:
     depends_on:
       pdns-recursor:
         condition: service_started
-    environment:
-      - TZ=${TZ:-America/New_York}
-      - FTLCONF_webserver_api_password=${PIHOLE_API_PASSWORD}
-      - FTLCONF_dns_listeningMode=all
-      - FTLCONF_dns_upstreams=192.168.42.3
-    volumes:
-      - ./pihole/etc-pihole/:/etc/pihole/
-    cap_add:
-      - NET_ADMIN
+    env_file:
+      - .env
+    # volumes:
+    #   - ./pihole/etc-pihole/:/etc/pihole/
+    # cap_add:
+    #   - NET_ADMIN
     networks:
       traefik-proxy:
       homelab-lab:

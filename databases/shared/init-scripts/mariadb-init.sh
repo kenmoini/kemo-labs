@@ -43,4 +43,4 @@ mysql <<-EOSQL
 
 EOSQL
 
-echo "=== MariaDB init complete: powerdns_auth, gitlab, and mailcow databases and users created ==="
+echo "===== MariaDB init complete: powerdns_auth, gitlab, and mailcow databases and users created ====="

@@ -33,7 +33,7 @@ services:
     restart: unless-stopped
     depends_on:
       pdns-auth:
-        condition: service_started
+        condition: service_healthy
     cap_add:
       - NET_BIND_SERVICE
     sysctls:
@@ -68,9 +68,9 @@ services:
     restart: unless-stopped
     depends_on:
       pdns-auth:
-        condition: service_started
+        condition: service_healthy
       pdns-recursor:
-        condition: service_started
+        condition: service_healthy
     volumes:
       - /opt/workdir/caas/dns/pdns-admin/data:/data:Z
     labels:
@@ -99,9 +99,6 @@ services:
     image: docker.io/pihole/pihole@sha256:300cc8f9e966b00440358aafef21f91b32dfe8887e8bd9a6193ed1c4328655d4
     container_name: pihole
     restart: unless-stopped
-    depends_on:
-      pdns-recursor:
-        condition: service_started
     env_file:
       - .env
     volumes:

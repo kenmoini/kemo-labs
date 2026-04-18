@@ -89,7 +89,7 @@ services:
       bridge42:
         ipv4_address: 192.168.42.15
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/servers || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/ping || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3

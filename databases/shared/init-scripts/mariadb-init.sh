@@ -10,7 +10,7 @@ set -e
 # Uses shell env vars for password injection (unlike .sql files).
 # =============================================================================
 
-mysql -u root -p"${MYSQL_ROOT_PASSWORD}" <<-EOSQL
+mysql <<-EOSQL
 
     -- PowerDNS Authoritative database
     CREATE DATABASE IF NOT EXISTS powerdns_auth

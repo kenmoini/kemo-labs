@@ -28,7 +28,7 @@ services:
       start_period: 15s
 
   pdns-recursor:
-    image: quay.io/kenmoini/pdns-recursor:4ba2c66
+    image: quay.io/kenmoini/pdns-recursor:ae856c5
     container_name: pdns-recursor
     restart: unless-stopped
     depends_on:

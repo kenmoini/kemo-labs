@@ -4,8 +4,7 @@ services:
     container_name: pdns-auth
     restart: unless-stopped
     volumes:
-      - ./pdns-auth/config/pdns.conf:/etc/powerdns/pdns.conf:ro
-      - ./pdns-auth/data/:/var/lib/powerdns/
+      - ./pdns-auth/config/pdns.conf:/etc/pdns/pdns.conf:ro
     networks:
       traefik-proxy:
       homelab-lab:
@@ -15,14 +14,14 @@ services:
       - "traefik.http.routers.pdns-auth.rule=Host(`pdns-auth.lab.kemo.dev`)"
       - "traefik.http.routers.pdns-auth.entrypoints=websecure"
       - "traefik.http.routers.pdns-auth.tls.certresolver=stepca"
-      - "traefik.http.services.pdns-auth.loadbalancer.server.port=80"
+      - "traefik.http.services.pdns-auth.loadbalancer.server.port=8081"
       - "homepage.group=DNS"
       - "homepage.name=PowerDNS Auth"
       - "homepage.icon=powerdns.png"
       - "homepage.description='PowerDNS Authoritative Server'"
       - "homepage.href=https://pdns-auth.lab.kemo.dev"
     healthcheck:
-      test: ["CMD-SHELL", "pdnsutil list-all-zones | grep -q lab.kemo.dev || exit 0"]
+      test: ["CMD-SHELL", "curl", "-f", "http://localhost:8081"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -36,7 +35,26 @@ services:
       pdns-auth:
         condition: service_started
     volumes:
-      - ./pdns-recursor/config/recursor.conf:/etc/powerdns/recursor.conf:ro
+      - ./pdns-recursor/config/recursor.conf:/etc/pdns-recursor/recursor.conf:ro
+    networks:
+      homelab-lab:
+        ipv4_address: 192.168.42.3
+    healthcheck:
+      test: ["CMD-SHELL", "rec_control ping 2>/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  pdns-admin:
+    image: ghcr.io/kenmoini/powerdns-admin:2861e6c4fc151b14b841a125e6f2081ebe4272bd
+    container_name: pdns-admin
+    restart: unless-stopped
+    depends_on:
+      pdns-auth:
+        condition: service_started
+    volumes:
+      - /opt/workdir/caas/pdns-admin/data:/data:Z
     networks:
       homelab-lab:
         ipv4_address: 192.168.42.3

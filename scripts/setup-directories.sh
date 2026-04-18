@@ -25,7 +25,7 @@ fi
 # ==================================================================
 # Shared Databases
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mariadb_data
-mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/postgres_data
+mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/postgresql_data
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/valkey_data
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_data
 mkdir -p ${CONTAINER_WORK_DIR}/databases/shared/mosquitto_log
@@ -34,8 +34,8 @@ mkdir -p ${CONTAINER_WORK_DIR}/databases/backups
 if [ -d "${CONTAINER_WORK_DIR}/databases/shared/mariadb_data" ]; then
   chown -R 911:911 ${CONTAINER_WORK_DIR}/databases/shared/mariadb_data
 fi
-if [ -d "${CONTAINER_WORK_DIR}/databases/shared/postgres_data" ]; then
-  chown -R 999:999 ${CONTAINER_WORK_DIR}/databases/shared/postgres_data
+if [ -d "${CONTAINER_WORK_DIR}/databases/shared/postgresql_data" ]; then
+  chown -R 999:999 ${CONTAINER_WORK_DIR}/databases/shared/postgresql_data
 fi
 if [ -d "${CONTAINER_WORK_DIR}/databases/shared/valkey_data" ]; then
   chown -R 999:999 ${CONTAINER_WORK_DIR}/databases/shared/valkey_data

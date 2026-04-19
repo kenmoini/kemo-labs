@@ -300,3 +300,4 @@ volumes:
 networks:
   bridge42:
     external: true
+  default:

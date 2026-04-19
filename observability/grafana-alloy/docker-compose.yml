@@ -218,3 +218,7 @@ volumes:
   tempo_storage: {}
   pyroscope_storage: {}
   alloy_storage: {}
+
+networks:
+  bridge42:
+    external: true

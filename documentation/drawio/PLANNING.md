@@ -102,7 +102,7 @@ labels:
   - "traefik.http.routers.drawio.rule=Host(`drawio.lab.kemo.dev`)"
   - "traefik.http.routers.drawio.entrypoints=websecure"
   - "traefik.http.routers.drawio.tls=true"
-  - "traefik.http.routers.drawio.tls.certresolver=step-ca"
+  - "traefik.http.routers.drawio.tls.certresolver=stepca"
   - "traefik.http.services.drawio.loadbalancer.server.port=8080"
 ```
 

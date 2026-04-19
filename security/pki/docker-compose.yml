@@ -28,7 +28,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.pki.rule=Host(`pki.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pki.tls=true"
-      - "traefik.http.routers.pki.tls.certresolver=step-ca"
+      - "traefik.http.routers.pki.tls.certresolver=stepca"
       - "traefik.http.services.pki.loadbalancer.server.port=8001"
       - "homepage.group=PKI"
       - "homepage.name=Public Trust Store"

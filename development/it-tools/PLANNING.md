@@ -73,6 +73,6 @@ labels:
   - "traefik.enable=true"
   - "traefik.http.routers.it-tools.rule=Host(`tools.lab.kemo.dev`)"
   - "traefik.http.routers.it-tools.tls=true"
-  - "traefik.http.routers.it-tools.tls.certresolver=step-ca"
+  - "traefik.http.routers.it-tools.tls.certresolver=stepca"
   - "traefik.http.services.it-tools.loadbalancer.server.port=80"
 ```

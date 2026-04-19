@@ -143,6 +143,6 @@ labels:
   - "traefik.enable=true"
   - "traefik.http.routers.gitlab.rule=Host(`gitlab.lab.kemo.dev`)"
   - "traefik.http.routers.gitlab.tls=true"
-  - "traefik.http.routers.gitlab.tls.certresolver=step-ca"
+  - "traefik.http.routers.gitlab.tls.certresolver=stepca"
   - "traefik.http.services.gitlab.loadbalancer.server.port=80"
 ```

@@ -15,13 +15,13 @@ services:
       - "traefik.http.routers.s3-api.rule=Host(`s3.lab.kemo.dev`)"
       - "traefik.http.routers.s3-api.entrypoints=websecure"
       - "traefik.http.routers.s3-api.tls=true"
-      - "traefik.http.routers.s3-api.tls.certresolver=step-ca"
+      - "traefik.http.routers.s3-api.tls.certresolver=stepca"
       - "traefik.http.services.s3-api.loadbalancer.server.port=9000"
       # Console UI
       - "traefik.http.routers.s3-console.rule=Host(`s3-console.lab.kemo.dev`)"
       - "traefik.http.routers.s3-console.entrypoints=websecure"
       - "traefik.http.routers.s3-console.tls=true"
-      - "traefik.http.routers.s3-console.tls.certresolver=step-ca"
+      - "traefik.http.routers.s3-console.tls.certresolver=stepca"
       - "traefik.http.services.s3-console.loadbalancer.server.port=9001"
     networks:
       bridge42:

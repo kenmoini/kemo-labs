@@ -11,7 +11,7 @@ services:
       - "traefik.http.routers.files.rule=Host(`files.lab.kemo.dev`)"
       - "traefik.http.routers.files.entrypoints=websecure"
       - "traefik.http.routers.files.tls=true"
-      - "traefik.http.routers.files.tls.certresolver=step-ca"
+      - "traefik.http.routers.files.tls.certresolver=stepca"
       - "traefik.http.services.files.loadbalancer.server.port=80"
     networks:
       bridge42:
@@ -41,7 +41,7 @@ services:
       - "traefik.http.routers.upload.rule=Host(`upload.lab.kemo.dev`)"
       - "traefik.http.routers.upload.entrypoints=websecure"
       - "traefik.http.routers.upload.tls=true"
-      - "traefik.http.routers.upload.tls.certresolver=step-ca"
+      - "traefik.http.routers.upload.tls.certresolver=stepca"
       - "traefik.http.services.upload.loadbalancer.server.port=3923"
       # Allow large uploads
       - "traefik.http.middlewares.upload-size.buffering.maxRequestBodyBytes=10737418240"

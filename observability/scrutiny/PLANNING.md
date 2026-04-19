@@ -76,7 +76,7 @@ traefik.enable=true
 traefik.http.routers.scrutiny.rule=Host(`scrutiny.lab.kemo.dev`)
 traefik.http.routers.scrutiny.entrypoints=websecure
 traefik.http.routers.scrutiny.tls=true
-traefik.http.routers.scrutiny.tls.certresolver=step-ca
+traefik.http.routers.scrutiny.tls.certresolver=stepca
 traefik.http.services.scrutiny.loadbalancer.server.port=8080
 ```
 

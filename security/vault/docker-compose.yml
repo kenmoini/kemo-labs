@@ -20,7 +20,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.vault.rule=Host(`vault.lab.kemo.dev`)"
       - "traefik.http.routers.vault.tls=true"
-      - "traefik.http.routers.vault.tls.certresolver=step-ca"
+      - "traefik.http.routers.vault.tls.certresolver=stepca"
       - "traefik.http.services.vault.loadbalancer.server.port=8200"
     healthcheck:
       test: ["CMD", "vault", "status", "-address=http://127.0.0.1:8200"]

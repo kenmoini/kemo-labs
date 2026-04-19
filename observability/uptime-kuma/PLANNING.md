@@ -72,7 +72,7 @@ traefik.enable=true
 traefik.http.routers.uptime-kuma.rule=Host(`uptime.lab.kemo.dev`)
 traefik.http.routers.uptime-kuma.entrypoints=websecure
 traefik.http.routers.uptime-kuma.tls=true
-traefik.http.routers.uptime-kuma.tls.certresolver=step-ca
+traefik.http.routers.uptime-kuma.tls.certresolver=stepca
 traefik.http.services.uptime-kuma.loadbalancer.server.port=3001
 ```
 

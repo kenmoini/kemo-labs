@@ -95,6 +95,6 @@ labels:
   - "traefik.enable=true"
   - "traefik.http.routers.code.rule=Host(`code.lab.kemo.dev`)"
   - "traefik.http.routers.code.tls=true"
-  - "traefik.http.routers.code.tls.certresolver=step-ca"
+  - "traefik.http.routers.code.tls.certresolver=stepca"
   - "traefik.http.services.code.loadbalancer.server.port=8080"
 ```

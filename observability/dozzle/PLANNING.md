@@ -74,7 +74,7 @@ traefik.enable=true
 traefik.http.routers.dozzle.rule=Host(`dozzle.lab.kemo.dev`)
 traefik.http.routers.dozzle.entrypoints=websecure
 traefik.http.routers.dozzle.tls=true
-traefik.http.routers.dozzle.tls.certresolver=step-ca
+traefik.http.routers.dozzle.tls.certresolver=stepca
 traefik.http.services.dozzle.loadbalancer.server.port=8080
 ```
 

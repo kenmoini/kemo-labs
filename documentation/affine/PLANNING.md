@@ -119,7 +119,7 @@ labels:
   - "traefik.http.routers.affine.rule=Host(`affine.lab.kemo.dev`)"
   - "traefik.http.routers.affine.entrypoints=websecure"
   - "traefik.http.routers.affine.tls=true"
-  - "traefik.http.routers.affine.tls.certresolver=step-ca"
+  - "traefik.http.routers.affine.tls.certresolver=stepca"
   - "traefik.http.services.affine.loadbalancer.server.port=3010"
 ```
 

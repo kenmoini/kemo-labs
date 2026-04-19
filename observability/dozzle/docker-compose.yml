@@ -14,7 +14,7 @@ services:
       - DOZZLE_NO_ANALYTICS=true
       - DOZZLE_ENABLE_ACTIONS=${DOZZLE_ENABLE_ACTIONS:-false}
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/podman/podman.sock:/var/run/docker.sock:ro
     networks:
       bridge42:
         ipv4_address: ${STATIC_IP:-192.168.42.31}
@@ -26,9 +26,13 @@ services:
       start_period: 10s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dozzle.rule=Host(`${DOZZLE_DOMAIN:-dozzle.lab.kemo.dev}`)"
+      - "traefik.http.routers.dozzle.rule=Host(`${DOZZLE_DOMAIN:-dozzle.apps.lab.kemo.dev}`)"
       - "traefik.http.routers.dozzle.entrypoints=websecure"
       - "traefik.http.routers.dozzle.tls=true"
-      - "traefik.http.routers.dozzle.tls.certresolver=step-ca"
+      - "traefik.http.routers.dozzle.tls.certresolver=stepca"
       - "traefik.http.services.dozzle.loadbalancer.server.port=8080"
-      - "traefik.docker.network=homelab-lab"
+      - "homepage.group=Observability"
+      - "homepage.name=Dozzle"
+      - "homepage.icon=dozzle.png"
+      - "homepage.description='Real-time log viewer for Docker containers'"
+      - "homepage.href=https://dozzle.apps.lab.kemo.dev"

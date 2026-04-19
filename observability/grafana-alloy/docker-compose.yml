@@ -46,12 +46,16 @@ services:
       start_period: 30s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grafana.rule=Host(`${GRAFANA_DOMAIN:-grafana.lab.kemo.dev}`)"
+      - "traefik.http.routers.grafana.rule=Host(`${GRAFANA_DOMAIN:-grafana.apps.lab.kemo.dev}`)"
       - "traefik.http.routers.grafana.entrypoints=websecure"
       - "traefik.http.routers.grafana.tls=true"
-      - "traefik.http.routers.grafana.tls.certresolver=step-ca"
+      - "traefik.http.routers.grafana.tls.certresolver=stepca"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
-      - "traefik.docker.network=homelab"
+      - "homepage.group=Observability"
+      - "homepage.name=Grafana"
+      - "homepage.icon=grafana.png"
+      - "homepage.description=Grafana dashboard"
+      - "homepage.href=https://grafana.apps.lab.kemo.dev"
 
   loki:
     image: grafana/loki:${LOKI_TAG:-3.5.0}

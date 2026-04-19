@@ -99,7 +99,7 @@ labels:
   - "traefik.enable=true"
   - "traefik.http.routers.step-ca.rule=Host(`acme.lab.kemo.dev`)"
   - "traefik.http.routers.step-ca.tls=true"
-  - "traefik.http.routers.step-ca.tls.certresolver=step-ca"
+  - "traefik.http.routers.step-ca.tls.certresolver=stepca"
   - "traefik.http.services.step-ca.loadbalancer.server.port=9000"
   - "traefik.http.services.step-ca.loadbalancer.server.scheme=https"
 ```

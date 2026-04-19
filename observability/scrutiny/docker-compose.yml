@@ -39,9 +39,13 @@ services:
       start_period: 60s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.scrutiny.rule=Host(`${SCRUTINY_DOMAIN:-scrutiny.lab.kemo.dev}`)"
+      - "traefik.http.routers.scrutiny.rule=Host(`${SCRUTINY_DOMAIN:-scrutiny.apps.lab.kemo.dev}`)"
       - "traefik.http.routers.scrutiny.entrypoints=websecure"
       - "traefik.http.routers.scrutiny.tls=true"
-      - "traefik.http.routers.scrutiny.tls.certresolver=step-ca"
+      - "traefik.http.routers.scrutiny.tls.certresolver=stepca"
       - "traefik.http.services.scrutiny.loadbalancer.server.port=8080"
-      - "traefik.docker.network=homelab"
+      - "homepage.group=Observability"
+      - "homepage.name=Scrutiny"
+      - "homepage.icon=scrutiny.png"
+      - "homepage.description='Self-hosted disk monitoring tool'"
+      - "homepage.href=https://scrutiny.apps.lab.kemo.dev"

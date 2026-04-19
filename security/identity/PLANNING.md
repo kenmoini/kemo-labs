@@ -123,7 +123,7 @@ labels:
   - "traefik.enable=true"
   - "traefik.http.routers.authentik.rule=Host(`auth.lab.kemo.dev`)"
   - "traefik.http.routers.authentik.tls=true"
-  - "traefik.http.routers.authentik.tls.certresolver=step-ca"
+  - "traefik.http.routers.authentik.tls.certresolver=stepca"
   - "traefik.http.services.authentik.loadbalancer.server.port=9000"
 ```
 

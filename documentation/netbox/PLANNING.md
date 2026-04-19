@@ -129,7 +129,7 @@ labels:
   - "traefik.http.routers.netbox.rule=Host(`netbox.lab.kemo.dev`)"
   - "traefik.http.routers.netbox.entrypoints=websecure"
   - "traefik.http.routers.netbox.tls=true"
-  - "traefik.http.routers.netbox.tls.certresolver=step-ca"
+  - "traefik.http.routers.netbox.tls.certresolver=stepca"
   - "traefik.http.services.netbox.loadbalancer.server.port=8080"
 ```
 

@@ -117,6 +117,6 @@ labels:
   - "traefik.enable=true"
   - "traefik.http.routers.vault.rule=Host(`vault.lab.kemo.dev`)"
   - "traefik.http.routers.vault.tls=true"
-  - "traefik.http.routers.vault.tls.certresolver=step-ca"
+  - "traefik.http.routers.vault.tls.certresolver=stepca"
   - "traefik.http.services.vault.loadbalancer.server.port=8200"
 ```

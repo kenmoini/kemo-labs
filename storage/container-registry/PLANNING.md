@@ -105,11 +105,11 @@ labels:
   # Web UI
   - "traefik.http.routers.nexus.rule=Host(`nexus.lab.kemo.dev`)"
   - "traefik.http.routers.nexus.tls=true"
-  - "traefik.http.routers.nexus.tls.certresolver=step-ca"
+  - "traefik.http.routers.nexus.tls.certresolver=stepca"
   - "traefik.http.services.nexus.loadbalancer.server.port=8081"
   # Docker registry
   - "traefik.http.routers.registry.rule=Host(`registry.lab.kemo.dev`)"
   - "traefik.http.routers.registry.tls=true"
-  - "traefik.http.routers.registry.tls.certresolver=step-ca"
+  - "traefik.http.routers.registry.tls.certresolver=stepca"
   - "traefik.http.services.registry.loadbalancer.server.port=8084"
 ```

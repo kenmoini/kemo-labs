@@ -117,11 +117,11 @@ labels:
   # NGINX (downloads)
   - "traefik.http.routers.files.rule=Host(`files.lab.kemo.dev`)"
   - "traefik.http.routers.files.tls=true"
-  - "traefik.http.routers.files.tls.certresolver=step-ca"
+  - "traefik.http.routers.files.tls.certresolver=stepca"
   - "traefik.http.services.files.loadbalancer.server.port=80"
   # Copyparty (uploads/management)
   - "traefik.http.routers.upload.rule=Host(`upload.lab.kemo.dev`)"
   - "traefik.http.routers.upload.tls=true"
-  - "traefik.http.routers.upload.tls.certresolver=step-ca"
+  - "traefik.http.routers.upload.tls.certresolver=stepca"
   - "traefik.http.services.upload.loadbalancer.server.port=3923"
 ```

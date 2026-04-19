@@ -27,9 +27,13 @@ services:
       start_period: 30s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.uptime-kuma.rule=Host(`${UPTIME_KUMA_DOMAIN:-uptime.lab.kemo.dev}`)"
+      - "traefik.http.routers.uptime-kuma.rule=Host(`${UPTIME_KUMA_DOMAIN:-uptime.apps.lab.kemo.dev}`)"
       - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
       - "traefik.http.routers.uptime-kuma.tls=true"
-      - "traefik.http.routers.uptime-kuma.tls.certresolver=step-ca"
+      - "traefik.http.routers.uptime-kuma.tls.certresolver=stepca"
       - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
-      - "traefik.docker.network=homelab"
+      - "homepage.group=Observability"
+      - "homepage.name=Uptime Kuma"
+      - "homepage.icon=uptime-kuma.png"
+      - "homepage.description='Self-hosted monitoring tool'"
+      - "homepage.href=https://uptime.apps.lab.kemo.dev"

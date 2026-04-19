@@ -17,7 +17,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.authentik.rule=Host(`auth.lab.kemo.dev`)"
       - "traefik.http.routers.authentik.tls=true"
-      - "traefik.http.routers.authentik.tls.certresolver=step-ca"
+      - "traefik.http.routers.authentik.tls.certresolver=stepca"
       - "traefik.http.services.authentik.loadbalancer.server.port=9000"
       # Forward auth middleware for protecting other services
       - "traefik.http.middlewares.authentik.forwardauth.address=http://192.168.42.8:9000/outpost.goauthentik.io/auth/traefik"

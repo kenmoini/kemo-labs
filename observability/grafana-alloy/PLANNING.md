@@ -119,7 +119,7 @@ traefik.enable=true
 traefik.http.routers.grafana.rule=Host(`grafana.lab.kemo.dev`)
 traefik.http.routers.grafana.entrypoints=websecure
 traefik.http.routers.grafana.tls=true
-traefik.http.routers.grafana.tls.certresolver=step-ca
+traefik.http.routers.grafana.tls.certresolver=stepca
 traefik.http.services.grafana.loadbalancer.server.port=3000
 ```
 

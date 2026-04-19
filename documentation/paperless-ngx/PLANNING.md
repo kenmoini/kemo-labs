@@ -149,7 +149,7 @@ labels:
   - "traefik.http.routers.paperless.rule=Host(`paperless.lab.kemo.dev`)"
   - "traefik.http.routers.paperless.entrypoints=websecure"
   - "traefik.http.routers.paperless.tls=true"
-  - "traefik.http.routers.paperless.tls.certresolver=step-ca"
+  - "traefik.http.routers.paperless.tls.certresolver=stepca"
   - "traefik.http.services.paperless.loadbalancer.server.port=8000"
 ```
 

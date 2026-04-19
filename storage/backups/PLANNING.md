@@ -110,7 +110,7 @@ labels:
   - "traefik.enable=true"
   - "traefik.http.routers.kopia.rule=Host(`backups.lab.kemo.dev`)"
   - "traefik.http.routers.kopia.tls=true"
-  - "traefik.http.routers.kopia.tls.certresolver=step-ca"
+  - "traefik.http.routers.kopia.tls.certresolver=stepca"
   - "traefik.http.services.kopia.loadbalancer.server.port=51515"
   - "traefik.http.services.kopia.loadbalancer.server.scheme=https"
 ```

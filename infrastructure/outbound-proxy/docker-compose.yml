@@ -18,6 +18,12 @@ services:
       timeout: 5s
       retries: 3
       start_period: 15s
+    labels:
+      - "homepage.group=Services"
+      - "homepage.name=Squid"
+      - "homepage.icon=squidex.png"
+      - "homepage.description='Outbound proxy server'"
+      - "homepage.href=https://proxy.lab.kemo.dev"
 
 networks:
   bridge42:

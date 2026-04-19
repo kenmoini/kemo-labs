@@ -13,6 +13,7 @@ services:
       - /opt/workdir/caas/pika-pki/data/.pika-pki/public_bundles/certs/signing-ca.kemo-labs-squid-proxy-ca.cert.pem:/etc/squid/certs/ca.crt:ro
       - /opt/workdir/caas/pika-pki/data/.pika-pki/public_bundles/certs/signing-ca.kemo-labs-squid-proxy-ca.cert.pem.full-chain.pem:/etc/squid/certs/ca-bundle.crt:ro
       - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-intermediate-ca/signing-ca/kemo-labs-squid-proxy-ca/private/ca.key.pem:/etc/squid/certs/ca.key:ro
+      - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-intermediate-ca/signing-ca/kemo-labs-squid-proxy-ca/private/key_password.sh:/etc/squid/certs/key_password.sh:ro
     networks:
       bridge42:
         ipv4_address: 192.168.42.11

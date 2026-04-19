@@ -31,9 +31,9 @@ GitLab is configured via `GITLAB_OMNIBUS_CONFIG` in docker-compose.yml (inline R
 | URL | Purpose |
 |-----|---------|
 | `https://gitlab.lab.kemo.dev` | Web UI |
-| `192.168.62.40:22` | SSH for Git operations (direct, not proxied) |
+| `192.168.42.40:22` | SSH for Git operations (direct, not proxied) |
 
-**Static IP:** 192.168.62.40
+**Static IP:** 192.168.42.40
 
 ## Dependencies
 

@@ -40,7 +40,7 @@ Vault configuration is in `./config/vault.hcl` using Raft integrated storage.
 |-----|---------|
 | `https://vault.lab.kemo.dev` | Web UI and API |
 
-**Static IP:** 192.168.62.7
+**Static IP:** 192.168.42.7
 
 ## Dependencies
 

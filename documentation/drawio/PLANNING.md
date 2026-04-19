@@ -88,11 +88,11 @@ Draw.io has **no database or cache dependencies**. It is entirely self-contained
 
 | Setting | Value |
 |---------|-------|
-| Static IP | `192.168.62.52` |
+| Static IP | `192.168.42.52` |
 | DNS Zone | `lab.kemo.dev` |
 | FQDN | `drawio.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
-| Subnet | `192.168.62.0/23` |
+| Subnet | `192.168.42.0/23` |
 
 ### Traefik Labels
 

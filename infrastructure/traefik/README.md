@@ -34,11 +34,11 @@ Static configuration lives in `./config/traefik.yml`. Dynamic route definitions 
 |-----|---------|
 | `https://traefik.lab.kemo.dev` | Dashboard (requires BasicAuth) |
 
-**Static IP:** 192.168.62.10
+**Static IP:** 192.168.42.10
 
 ## Dependencies
 
-- **DNS (PowerDNS)** -- wildcard `*.lab.kemo.dev` must resolve to 192.168.62.10
+- **DNS (PowerDNS)** -- wildcard `*.lab.kemo.dev` must resolve to 192.168.42.10
 - **StepCA (ACME)** -- must be reachable for certificate issuance
 - **Podman socket** -- mounted read-only for container auto-discovery
 

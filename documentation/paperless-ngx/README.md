@@ -24,7 +24,7 @@ docker compose up -d
 | `PAPERLESS_ADMIN_USER` | Initial admin username (default: `admin`) |
 | `PAPERLESS_ADMIN_PASSWORD` | Initial admin password |
 | `PAPERLESS_DBPASS` | PostgreSQL password |
-| `PAPERLESS_REDIS` | Full Redis URL with DB index (e.g., `redis://:pass@192.168.62.15:6379/3`) |
+| `PAPERLESS_REDIS` | Full Redis URL with DB index (e.g., `redis://:pass@192.168.42.15:6379/3`) |
 | `PAPERLESS_OCR_LANGUAGE` | Primary OCR language (default: `eng`) |
 | `USERMAP_UID` / `USERMAP_GID` | File ownership UID/GID (default: `1000`) |
 
@@ -34,7 +34,7 @@ docker compose up -d
 |-----|---------|
 | `https://paperless.lab.kemo.dev` | Web UI and REST API |
 
-**Static IP:** 192.168.62.53
+**Static IP:** 192.168.42.53
 
 ## Dependencies
 

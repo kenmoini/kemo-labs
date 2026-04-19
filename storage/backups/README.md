@@ -18,7 +18,7 @@ docker compose up -d
 # Initialize the S3 repository (first run only)
 docker exec kopia kopia repository create s3 \
   --bucket=backups \
-  --endpoint=192.168.62.20:9000 \
+  --endpoint=192.168.42.20:9000 \
   --disable-tls-verification \
   --access-key=$S3_ACCESS_KEY \
   --secret-access-key=$S3_SECRET_KEY
@@ -42,7 +42,7 @@ Source directories to back up are mounted read-only in docker-compose.yml.
 |-----|---------|
 | `https://backups.lab.kemo.dev` | Kopia web UI |
 
-**Static IP:** 192.168.62.22
+**Static IP:** 192.168.42.22
 
 ## Dependencies
 

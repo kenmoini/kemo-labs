@@ -6,7 +6,7 @@ Mailcow is a fully-featured, self-hosted email server suite that bundles Postfix
 
 - **Project URL:** https://github.com/mailcow/mailcow-dockerized
 - **Documentation:** https://docs.mailcow.email/
-- **Static IP:** 192.168.62.80
+- **Static IP:** 192.168.42.80
 - **DNS Zone:** lab.kemo.dev
 
 ## Architecture Note - Mailcow's Own Compose Stack
@@ -103,9 +103,9 @@ REDISPASS=<random-alphanumeric-28-chars>
 # HTTP/S bindings - configure for Traefik integration
 # To put web UI behind Traefik, bind to localhost or a specific port
 HTTP_PORT=80
-HTTP_BIND=192.168.62.80
+HTTP_BIND=192.168.42.80
 HTTPS_PORT=443
-HTTPS_BIND=192.168.62.80
+HTTPS_BIND=192.168.42.80
 
 # SMTP/IMAP bindings - bind to the static IP
 SMTP_PORT=25
@@ -217,7 +217,7 @@ With 128GB+ RAM available on the host, resource constraints are not a concern. C
 - **Docker:** Version 24.0+ required
 - **Docker Compose:** Plugin or standalone
 - **Disk:** Sufficient storage for email data
-- **Network:** Static IP 192.168.62.80 for direct port binding
+- **Network:** Static IP 192.168.42.80 for direct port binding
 
 ## Network Configuration
 
@@ -243,29 +243,29 @@ These ports bind to all interfaces by default. To restrict to the static IP, use
 services:
   postfix-mailcow:
     ports:
-      - "192.168.62.80:25:25"
-      - "192.168.62.80:465:465"
-      - "192.168.62.80:587:587"
+      - "192.168.42.80:25:25"
+      - "192.168.42.80:465:465"
+      - "192.168.42.80:587:587"
 
   dovecot-mailcow:
     ports:
-      - "192.168.62.80:143:143"
-      - "192.168.62.80:993:993"
-      - "192.168.62.80:110:110"
-      - "192.168.62.80:995:995"
-      - "192.168.62.80:4190:4190"
+      - "192.168.42.80:143:143"
+      - "192.168.42.80:993:993"
+      - "192.168.42.80:110:110"
+      - "192.168.42.80:995:995"
+      - "192.168.42.80:4190:4190"
 
   nginx-mailcow:
     ports:
-      - "192.168.62.80:80:80"
-      - "192.168.62.80:443:443"
+      - "192.168.42.80:80:80"
+      - "192.168.42.80:443:443"
 ```
 
 ### Traefik Integration for Web UI
 
 The Mailcow web UI (port 443) can optionally be put behind Traefik. Options:
 
-1. **Direct access:** Access the web UI directly at `https://192.168.62.80` or `https://mail.lab.kemo.dev` with mailcow managing its own TLS.
+1. **Direct access:** Access the web UI directly at `https://192.168.42.80` or `https://mail.lab.kemo.dev` with mailcow managing its own TLS.
 2. **Traefik proxy:** Disable mailcow's HTTPS binding, expose HTTP only on a high port, and let Traefik terminate TLS. This requires:
    - Setting `HTTPS_BIND=127.0.0.1` and `HTTP_BIND=0.0.0.0` with a non-standard HTTP_PORT
    - Setting `SKIP_LETS_ENCRYPT=y` (Traefik/StepCA handles certs)
@@ -280,10 +280,10 @@ Mailcow creates its own Docker bridge network (`br-mailcow`) with subnet `172.22
 ### Macvlan / Host Network Considerations
 
 Since Mailcow needs many ports on a specific IP, consider:
-- **Option A (simpler):** Assign 192.168.62.80 as a secondary IP on the host and bind mailcow ports to it via `docker-compose.override.yml` port mappings.
+- **Option A (simpler):** Assign 192.168.42.80 as a secondary IP on the host and bind mailcow ports to it via `docker-compose.override.yml` port mappings.
 - **Option B (macvlan):** Use a macvlan network to give the mailcow stack its own IP. This is more complex and may conflict with mailcow's internal networking.
 
-**Recommendation:** Option A -- add 192.168.62.80 as a secondary IP on the host's LAN interface.
+**Recommendation:** Option A -- add 192.168.42.80 as a secondary IP on the host's LAN interface.
 
 ## DNS Requirements
 
@@ -291,7 +291,7 @@ The following DNS records must be configured in the `lab.kemo.dev` zone:
 
 ```
 ; A record for mail server
-mail.lab.kemo.dev.          IN A     192.168.62.80
+mail.lab.kemo.dev.          IN A     192.168.42.80
 
 ; MX record for the domain
 lab.kemo.dev.               IN MX    10 mail.lab.kemo.dev.

@@ -10,13 +10,13 @@ services:
       - PAPERLESS_ADMIN_USER=${PAPERLESS_ADMIN_USER:-admin}
       - PAPERLESS_ADMIN_PASSWORD=${PAPERLESS_ADMIN_PASSWORD}
       - PAPERLESS_ADMIN_MAIL=${PAPERLESS_ADMIN_MAIL:-admin@lab.kemo.dev}
-      - PAPERLESS_DBHOST=192.168.62.15
+      - PAPERLESS_DBHOST=192.168.42.15
       - PAPERLESS_DBPORT=5432
       - PAPERLESS_DBNAME=${PAPERLESS_DBNAME:-paperless}
       - PAPERLESS_DBUSER=${PAPERLESS_DBUSER:-paperless}
       - PAPERLESS_DBPASS=${PAPERLESS_DBPASS}
       - PAPERLESS_DBENGINE=postgresql
-      - PAPERLESS_REDIS=redis://${REDIS_PASSWORD:+:${REDIS_PASSWORD}@}192.168.62.15:6379/3
+      - PAPERLESS_REDIS=redis://${REDIS_PASSWORD:+:${REDIS_PASSWORD}@}192.168.42.15:6379/3
       - PAPERLESS_OCR_LANGUAGE=eng
       - PAPERLESS_OCR_MODE=skip
       - PAPERLESS_OCR_OUTPUT_TYPE=pdfa
@@ -34,8 +34,8 @@ services:
       - paperless-consume:/usr/src/paperless/consume
       - paperless-export:/usr/src/paperless/export
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.53
+      bridge42:
+        ipv4_address: 192.168.42.53
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.paperless.rule=Host(`paperless.lab.kemo.dev`)"
@@ -60,7 +60,7 @@ services:
     container_name: paperless-tika
     restart: unless-stopped
     networks:
-      homelab-lab:
+      bridge42:
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9998/"]
       interval: 30s
@@ -77,7 +77,7 @@ services:
       - "--chromium-disable-javascript=true"
       - "--chromium-allow-list=file:///tmp/.*"
     networks:
-      homelab-lab:
+      bridge42:
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
@@ -96,5 +96,5 @@ volumes:
     name: paperless-export
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

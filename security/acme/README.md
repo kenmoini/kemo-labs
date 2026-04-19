@@ -33,7 +33,7 @@ After init, customize `./data/config/ca.json` for certificate duration, allowed 
 | `https://step-ca.lab.kemo.dev:9000` | CA server and ACME endpoint |
 | ACME directory: `https://step-ca.lab.kemo.dev:9000/acme/acme/directory` | |
 
-**Static IP:** 192.168.62.6
+**Static IP:** 192.168.42.6
 
 ## Dependencies
 

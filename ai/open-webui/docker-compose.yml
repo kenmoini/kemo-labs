@@ -19,8 +19,8 @@ services:
     volumes:
       - open-webui-data:/app/backend/data
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.70
+      bridge42:
+        ipv4_address: 192.168.42.70
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.open-webui.rule=Host(`open-webui.lab.kemo.dev`)"
@@ -48,8 +48,8 @@ services:
     volumes:
       - ollama-data:/root/.ollama
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.73
+      bridge42:
+        ipv4_address: 192.168.42.73
     # GPU passthrough - uncomment the appropriate section:
     # --- NVIDIA GPU ---
     # deploy:
@@ -85,5 +85,5 @@ volumes:
   ollama-data:
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

@@ -32,13 +32,13 @@ NUT requires configuration files in `./nut/config/` (`ups.conf`, `upsd.conf`, `u
 |-----|---------|
 | `https://netboot.lab.kemo.dev` | Netboot.xyz web configuration UI |
 | `https://peanut.lab.kemo.dev` | PeaNUT UPS monitoring dashboard |
-| `192.168.62.12:69/udp` | TFTP for PXE boot (direct, not proxied) |
+| `192.168.42.12:69/udp` | TFTP for PXE boot (direct, not proxied) |
 
 ## Dependencies
 
 - **DNS** -- hostname resolution for web UIs
 - **Traefik** -- reverse proxy for web UIs
-- **DHCP server** -- must set `next-server` to 192.168.62.12 for PXE boot
+- **DHCP server** -- must set `next-server` to 192.168.42.12 for PXE boot
 
 ## Maintenance
 

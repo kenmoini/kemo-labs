@@ -96,7 +96,7 @@ GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n;
 
 | Setting | Value |
 |---------|-------|
-| Static IP | `192.168.62.71` |
+| Static IP | `192.168.42.71` |
 | DNS Name | `n8n.lab.kemo.dev` |
 | Container Network | Shared bridge to homelab-lab with static IP assignment |
 | Traefik Labels | Route `n8n.lab.kemo.dev` to container port 5678 |
@@ -110,8 +110,8 @@ GRANT ALL PRIVILEGES ON DATABASE n8n TO n8n;
 ### Cross-Service Communication
 
 - n8n needs network access to the shared PostgreSQL instance.
-- n8n may need access to other services on the lab network for automation (e.g., Ollama API at `192.168.62.70:11434`, Home Assistant, email servers, etc.).
-- Ensure the Podman network configuration allows n8n to reach other service IPs in the `192.168.62.0/23` range.
+- n8n may need access to other services on the lab network for automation (e.g., Ollama API at `192.168.42.70:11434`, Home Assistant, email servers, etc.).
+- Ensure the Podman network configuration allows n8n to reach other service IPs in the `192.168.42.0/23` range.
 
 ## Special Considerations
 

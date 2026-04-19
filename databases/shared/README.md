@@ -33,10 +33,10 @@ Init scripts in `./init-scripts/` run on first boot to create databases and user
 
 | Address | Purpose |
 |---------|---------|
-| `192.168.62.15:3306` | MariaDB |
-| `192.168.62.16:5432` | PostgreSQL |
-| `192.168.62.17:6379` | Valkey (Redis-compatible) |
-| `192.168.62.18:1883` | Mosquitto MQTT |
+| `192.168.42.15:3306` | MariaDB |
+| `192.168.42.16:5432` | PostgreSQL |
+| `192.168.42.17:6379` | Valkey (Redis-compatible) |
+| `192.168.42.18:1883` | Mosquitto MQTT |
 | `https://phpmyadmin.lab.kemo.dev` | phpMyAdmin web UI |
 
 ## Dependencies

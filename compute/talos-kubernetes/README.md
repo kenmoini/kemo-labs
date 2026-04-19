@@ -30,14 +30,14 @@ Node inventory:
 
 | Node | IP | Role | vCPU | RAM |
 |------|----|------|------|-----|
-| talos-cp1 | 192.168.62.100 | Control Plane | 4 | 8 GB |
-| talos-cp2 | 192.168.62.101 | Control Plane | 4 | 8 GB |
-| talos-cp3 | 192.168.62.102 | Control Plane | 4 | 8 GB |
-| talos-w1 | 192.168.62.110 | Worker | 6 | 16 GB |
-| talos-w2 | 192.168.62.111 | Worker | 6 | 16 GB |
-| talos-w3 | 192.168.62.112 | Worker | 6 | 16 GB |
+| talos-cp1 | 192.168.42.100 | Control Plane | 4 | 8 GB |
+| talos-cp2 | 192.168.42.101 | Control Plane | 4 | 8 GB |
+| talos-cp3 | 192.168.42.102 | Control Plane | 4 | 8 GB |
+| talos-w1 | 192.168.42.110 | Worker | 6 | 16 GB |
+| talos-w2 | 192.168.42.111 | Worker | 6 | 16 GB |
+| talos-w3 | 192.168.42.112 | Worker | 6 | 16 GB |
 
-**API VIP:** 192.168.62.99 (`talos-api.lab.kemo.dev`)
+**API VIP:** 192.168.42.99 (`talos-api.lab.kemo.dev`)
 
 Per-node patches are in `./patches/` for static IP, hostname, and VIP configuration.
 
@@ -45,7 +45,7 @@ Per-node patches are in `./patches/` for static IP, hostname, and VIP configurat
 
 | Address | Purpose |
 |---------|---------|
-| `https://192.168.62.99:6443` | Kubernetes API |
+| `https://192.168.42.99:6443` | Kubernetes API |
 | `talosctl` CLI | Node management (no SSH -- Talos is immutable) |
 
 ## Dependencies
@@ -61,13 +61,13 @@ Per-node patches are in `./patches/` for static IP, hostname, and VIP configurat
 talosctl health
 
 # View node logs
-talosctl logs -n 192.168.62.100
+talosctl logs -n 192.168.42.100
 
 # Interactive node dashboard
-talosctl dashboard -n 192.168.62.100
+talosctl dashboard -n 192.168.42.100
 
 # Upgrade Talos (rolling, one node at a time)
-talosctl upgrade --nodes 192.168.62.100 \
+talosctl upgrade --nodes 192.168.42.100 \
   --image ghcr.io/siderolabs/installer:v1.9.5
 
 # Snapshot VMs before upgrades

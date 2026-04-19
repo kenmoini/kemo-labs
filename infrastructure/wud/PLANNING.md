@@ -12,7 +12,7 @@ WUD monitors running Docker containers for available image updates by comparing 
 
 ## Static IP
 
-- `192.168.62.9`
+- `192.168.42.9`
 
 ## Required Ports
 
@@ -82,12 +82,12 @@ WUD monitors running Docker containers for available image updates by comparing 
 |------------|--------|
 | Podman socket | Required to enumerate and inspect containers |
 | Traefik | Reverse proxy and TLS termination for the web UI |
-| DNS (PowerDNS) | `wud.lab.kemo.dev` must resolve to 192.168.62.10 (Traefik) |
-| Ntfy (192.168.62.82) | Push notification target for update alerts |
+| DNS (PowerDNS) | `wud.lab.kemo.dev` must resolve to 192.168.42.10 (Traefik) |
+| Ntfy (192.168.42.82) | Push notification target for update alerts |
 
 ## Network Configuration
 
-- Attach to the external `homelab` macvlan network with static IP `192.168.62.9`.
+- Attach to the external `homelab` macvlan network with static IP `192.168.42.9`.
 - Traefik routes `wud.lab.kemo.dev` to port 3000 via Docker label discovery.
 - WUD does not need to expose ports directly; Traefik handles ingress.
 
@@ -98,4 +98,4 @@ WUD monitors running Docker containers for available image updates by comparing 
 3. **Per-container labels:** Fine-tune monitoring with labels on each container: `wud.watch=true/false`, `wud.tag.include=<regex>`, `wud.tag.exclude=<regex>`, `wud.watch.digest=true/false`.
 4. **Secret management:** WUD supports `__FILE` suffix on any env var to read secrets from mounted files instead of inline values.
 5. **Persistent store:** Mount `/store` to retain state across restarts. Without it, WUD re-evaluates all containers on startup and may re-trigger notifications.
-6. **Ntfy integration:** The Ntfy trigger sends notifications to the local Ntfy instance at `192.168.62.82`. Create a dedicated topic for WUD alerts.
+6. **Ntfy integration:** The Ntfy trigger sends notifications to the local Ntfy instance at `192.168.42.82`. Create a dedicated topic for WUD alerts.

@@ -11,7 +11,7 @@ Sonatype Nexus Repository Manager serves as a universal proxy and hosted registr
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.21
+- **IP:** 192.168.42.21
 - **DNS:** `nexus.lab.kemo.dev`, `registry.lab.kemo.dev` (Docker registry)
 
 ## Required Ports
@@ -57,7 +57,7 @@ Nexus is JVM-based and memory-hungry. Allocate at least 2 GB heap via `INSTALL4J
 
 ## Network Configuration
 
-- macvlan/ipvlan with static IP 192.168.62.21
+- macvlan/ipvlan with static IP 192.168.42.21
 - Multiple ports for different repository types
 - Traefik routes by hostname to different ports:
   - `nexus.lab.kemo.dev` → 8081 (Web UI)

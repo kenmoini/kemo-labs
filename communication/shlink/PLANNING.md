@@ -7,7 +7,7 @@ Shlink is a self-hosted URL shortener with a REST API interface. It provides sho
 - **Project URL:** https://github.com/shlinkio/shlink
 - **Documentation:** https://shlink.io/documentation/
 - **Docker Hub:** https://hub.docker.com/r/shlinkio/shlink
-- **Static IP:** 192.168.62.81
+- **Static IP:** 192.168.42.81
 - **DNS Zone:** lab.kemo.dev
 
 ## Container Images
@@ -183,7 +183,7 @@ services:
 
 ### Static IP
 
-The static IP 192.168.62.81 is assigned for DNS purposes. Since Shlink is fully behind Traefik, the container itself does not need the static IP directly -- Traefik handles routing based on hostname. The static IP is for the DNS A record pointing to the host/Traefik instance if Shlink gets its own dedicated IP, or it can share the Traefik LB IP with host-based routing.
+The static IP 192.168.42.81 is assigned for DNS purposes. Since Shlink is fully behind Traefik, the container itself does not need the static IP directly -- Traefik handles routing based on hostname. The static IP is for the DNS A record pointing to the host/Traefik instance if Shlink gets its own dedicated IP, or it can share the Traefik LB IP with host-based routing.
 
 If a dedicated IP is desired (e.g., for a short domain that should resolve to its own IP):
 
@@ -196,7 +196,7 @@ services:
   shlink:
     networks:
       macvlan:
-        ipv4_address: 192.168.62.81
+        ipv4_address: 192.168.42.81
       traefik:
 ```
 
@@ -204,10 +204,10 @@ services:
 
 ```
 ; Short URL domain - points to Traefik LB or dedicated IP
-s.lab.kemo.dev.             IN A     192.168.62.81
+s.lab.kemo.dev.             IN A     192.168.42.81
 
 ; Web client management UI
-shlink.lab.kemo.dev.        IN A     192.168.62.81
+shlink.lab.kemo.dev.        IN A     192.168.42.81
 ```
 
 The short URL domain (`s.lab.kemo.dev`) should be as short as possible. Consider using a shorter domain if available for external use.

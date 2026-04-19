@@ -6,7 +6,7 @@
 set -euo pipefail
 
 PDNS_API_KEY="${1:-${PDNS_AUTH_API_KEY:-changeme}}"
-PDNS_HOST="http://192.168.62.2:8081"
+PDNS_HOST="http://192.168.42.2:8081"
 
 echo "Creating zone lab.kemo.dev..."
 curl -s -X POST "${PDNS_HOST}/api/v1/servers/localhost/zones" \
@@ -21,55 +21,55 @@ curl -s -X POST "${PDNS_HOST}/api/v1/servers/localhost/zones" \
         "name": "ns1.lab.kemo.dev.",
         "type": "A",
         "ttl": 3600,
-        "records": [{"content": "192.168.62.2", "disabled": false}]
+        "records": [{"content": "192.168.42.2", "disabled": false}]
       },
       {
         "name": "*.lab.kemo.dev.",
         "type": "A",
         "ttl": 3600,
-        "records": [{"content": "192.168.62.10", "disabled": false}]
+        "records": [{"content": "192.168.42.10", "disabled": false}]
       },
       {
         "name": "pihole.lab.kemo.dev.",
         "type": "A",
         "ttl": 3600,
-        "records": [{"content": "192.168.62.4", "disabled": false}]
+        "records": [{"content": "192.168.42.4", "disabled": false}]
       },
       {
         "name": "traefik.lab.kemo.dev.",
         "type": "A",
         "ttl": 3600,
-        "records": [{"content": "192.168.62.10", "disabled": false}]
+        "records": [{"content": "192.168.42.10", "disabled": false}]
       },
       {
         "name": "proxy.lab.kemo.dev.",
         "type": "A",
         "ttl": 3600,
-        "records": [{"content": "192.168.62.11", "disabled": false}]
+        "records": [{"content": "192.168.42.11", "disabled": false}]
       },
       {
         "name": "netboot.lab.kemo.dev.",
         "type": "A",
         "ttl": 3600,
-        "records": [{"content": "192.168.62.12", "disabled": false}]
+        "records": [{"content": "192.168.42.12", "disabled": false}]
       },
       {
         "name": "peanut.lab.kemo.dev.",
         "type": "A",
         "ttl": 3600,
-        "records": [{"content": "192.168.62.12", "disabled": false}]
+        "records": [{"content": "192.168.42.12", "disabled": false}]
       },
       {
         "name": "speedtest.lab.kemo.dev.",
         "type": "A",
         "ttl": 3600,
-        "records": [{"content": "192.168.62.13", "disabled": false}]
+        "records": [{"content": "192.168.42.13", "disabled": false}]
       },
       {
         "name": "home.lab.kemo.dev.",
         "type": "A",
         "ttl": 3600,
-        "records": [{"content": "192.168.62.14", "disabled": false}]
+        "records": [{"content": "192.168.42.14", "disabled": false}]
       }
     ]
   }'

@@ -11,7 +11,7 @@ Smallstep's `step-ca` provides an internal ACME server for automated TLS certifi
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.6
+- **IP:** 192.168.42.6
 - **DNS:** `acme.lab.kemo.dev`
 
 ## Required Ports
@@ -25,7 +25,7 @@ Smallstep's `step-ca` provides an internal ACME server for automated TLS certifi
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `DOCKER_STEPCA_INIT_NAME` | CA name | `Homelab CA` |
-| `DOCKER_STEPCA_INIT_DNS_NAMES` | DNS SANs for the CA | `acme.lab.kemo.dev,192.168.62.6` |
+| `DOCKER_STEPCA_INIT_DNS_NAMES` | DNS SANs for the CA | `acme.lab.kemo.dev,192.168.42.6` |
 | `DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT` | Enable remote management | `true` |
 | `DOCKER_STEPCA_INIT_ACME` | Enable ACME provisioner | `true` |
 | `DOCKER_STEPCA_INIT_PASSWORD` | CA password (for init only) | (secret) |
@@ -58,7 +58,7 @@ The `step` directory contains:
 
 ## Network Configuration
 
-- Runs on macvlan/ipvlan network with static IP 192.168.62.6
+- Runs on macvlan/ipvlan network with static IP 192.168.42.6
 - Traefik connects to port 9000 for ACME challenges
 - All services that need TLS will trust StepCA's root CA (PikaPKI root)
 

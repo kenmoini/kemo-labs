@@ -9,8 +9,8 @@ services:
       - DRAWIO_SELF_CONTAINED=1
       - DRAWIO_BASE_URL=https://drawio.lab.kemo.dev
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.52
+      bridge42:
+        ipv4_address: 192.168.42.52
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.drawio.rule=Host(`drawio.lab.kemo.dev`)"
@@ -30,5 +30,5 @@ services:
       start_period: 30s
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

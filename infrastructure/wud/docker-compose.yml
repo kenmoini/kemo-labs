@@ -7,15 +7,15 @@ services:
       - TZ=${TZ:-America/New_York}
       - WUD_WATCHER_LOCAL_CRON=${WUD_WATCHER_LOCAL_CRON:-0 */6 * * *}
       - WUD_WATCHER_LOCAL_WATCHBYDEFAULT=${WUD_WATCHER_LOCAL_WATCHBYDEFAULT:-true}
-      - WUD_TRIGGER_NTFY_HOMELAB_URL=${WUD_TRIGGER_NTFY_HOMELAB_URL:-http://192.168.62.82}
+      - WUD_TRIGGER_NTFY_HOMELAB_URL=${WUD_TRIGGER_NTFY_HOMELAB_URL:-http://192.168.42.82}
       - WUD_TRIGGER_NTFY_HOMELAB_TOPIC=${WUD_TRIGGER_NTFY_HOMELAB_TOPIC:-wud}
       - WUD_TRIGGER_NTFY_HOMELAB_PRIORITY=${WUD_TRIGGER_NTFY_HOMELAB_PRIORITY:-3}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data/store:/store
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.9
+      bridge42:
+        ipv4_address: 192.168.42.9
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.wud.rule=Host(`wud.lab.kemo.dev`)"
@@ -32,5 +32,5 @@ services:
       start_period: 15s
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

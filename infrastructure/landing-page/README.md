@@ -32,7 +32,7 @@ Dashboard layout is defined in YAML files under `./config/`. Homepage watches fo
 |-----|---------|
 | `https://home.lab.kemo.dev` | Homepage dashboard |
 
-**Static IP:** 192.168.62.14
+**Static IP:** 192.168.42.14
 
 ## Dependencies
 

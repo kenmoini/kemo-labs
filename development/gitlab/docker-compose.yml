@@ -13,7 +13,7 @@ services:
         # Shared PostgreSQL
         postgresql['enable'] = false
         gitlab_rails['db_adapter'] = 'postgresql'
-        gitlab_rails['db_host'] = '192.168.62.15'
+        gitlab_rails['db_host'] = '192.168.42.15'
         gitlab_rails['db_port'] = 5432
         gitlab_rails['db_database'] = 'gitlab'
         gitlab_rails['db_username'] = 'gitlab'
@@ -21,7 +21,7 @@ services:
 
         # Shared Valkey (DB 5)
         redis['enable'] = false
-        gitlab_rails['redis_host'] = '192.168.62.15'
+        gitlab_rails['redis_host'] = '192.168.42.15'
         gitlab_rails['redis_port'] = 6379
         gitlab_rails['redis_database'] = 5
 
@@ -31,7 +31,7 @@ services:
 
         # SMTP via Mailcow
         gitlab_rails['smtp_enable'] = true
-        gitlab_rails['smtp_address'] = '192.168.62.80'
+        gitlab_rails['smtp_address'] = '192.168.42.80'
         gitlab_rails['smtp_port'] = 587
         gitlab_rails['smtp_domain'] = 'lab.kemo.dev'
 
@@ -50,8 +50,8 @@ services:
       - gitlab-data:/var/opt/gitlab
       - gitlab-logs:/var/log/gitlab
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.40
+      bridge42:
+        ipv4_address: 192.168.42.40
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gitlab.rule=Host(`gitlab.lab.kemo.dev`)"
@@ -75,5 +75,5 @@ volumes:
     name: gitlab-logs
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

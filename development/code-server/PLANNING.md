@@ -11,7 +11,7 @@ Code Server runs VS Code in the browser, providing a consistent development envi
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.42
+- **IP:** 192.168.42.42
 - **DNS:** `code.lab.kemo.dev`
 
 ## Required Ports
@@ -58,7 +58,7 @@ Depends on extensions loaded and language servers running.
 
 ## Network Configuration
 
-- macvlan/ipvlan with static IP 192.168.62.42
+- macvlan/ipvlan with static IP 192.168.42.42
 - WebSocket support required in Traefik for terminal and editor
 
 ## Special Considerations

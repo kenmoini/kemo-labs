@@ -17,15 +17,15 @@ frontend:
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 192.168.62.0/23
+    - 192.168.42.0/23
 
 # Text-to-speech
 tts:
   - platform: google_translate
 
-# MQTT broker integration (shared Mosquitto at 192.168.62.15)
+# MQTT broker integration (shared Mosquitto at 192.168.42.15)
 mqtt:
-  broker: 192.168.62.15
+  broker: 192.168.42.15
   port: 1883
   # username: homeassistant
   # password: \!secret mqtt_password

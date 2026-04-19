@@ -24,9 +24,9 @@ docker compose up -d
 | Variable | Purpose |
 |----------|---------|
 | `AUTHENTIK_SECRET_KEY` | Secret key for signing (generate with `openssl rand -hex 50`) |
-| `AUTHENTIK_POSTGRESQL__HOST` | PostgreSQL host (`192.168.62.15`) |
+| `AUTHENTIK_POSTGRESQL__HOST` | PostgreSQL host (`192.168.42.15`) |
 | `AUTHENTIK_POSTGRESQL__PASSWORD` | Database password |
-| `AUTHENTIK_REDIS__HOST` | Valkey/Redis host (`192.168.62.15`) |
+| `AUTHENTIK_REDIS__HOST` | Valkey/Redis host (`192.168.42.15`) |
 | `AUTHENTIK_REDIS__DB` | Redis DB index (`4`) |
 | `AUTHENTIK_EMAIL__HOST` | SMTP host for email notifications |
 
@@ -35,14 +35,14 @@ docker compose up -d
 | URL | Purpose |
 |-----|---------|
 | `https://auth.lab.kemo.dev` | Web UI, admin panel, and auth flows |
-| `192.168.62.8:389` | LDAP (if embedded outpost enabled) |
-| `192.168.62.8:636` | LDAPS |
+| `192.168.42.8:389` | LDAP (if embedded outpost enabled) |
+| `192.168.42.8:636` | LDAPS |
 
-**Static IP:** 192.168.62.8
+**Static IP:** 192.168.42.8
 
 ## Dependencies
 
-- **Shared PostgreSQL** -- `authentik` database on 192.168.62.15
+- **Shared PostgreSQL** -- `authentik` database on 192.168.42.15
 - **Shared Valkey** -- DB 4 for caching, sessions, and task queue
 - **DNS** -- `auth.lab.kemo.dev`
 - **Mailcow** (optional) -- SMTP for email notifications and password resets

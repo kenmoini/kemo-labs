@@ -101,12 +101,12 @@ Configured via `alloy-config.alloy` (River format) mounted into the container. K
 - **Traefik** (infrastructure/traefik): Reverse proxy for HTTPS access to Grafana UI.
 - **StepCA ACME**: TLS certificates via Traefik integration.
 - **Podman socket**: Alloy needs read-only access to `/var/run/docker.sock` for container discovery, log collection, and Docker metrics.
-- **DNS**: `grafana.lab.kemo.dev` A record pointing to 192.168.62.30.
+- **DNS**: `grafana.lab.kemo.dev` A record pointing to 192.168.42.30.
 
 ## Network Configuration
 
-- **Static IP:** `192.168.62.30`
-- **Network:** Bridged macvlan or equivalent on `192.168.62.0/23`
+- **Static IP:** `192.168.42.30`
+- **Network:** Bridged macvlan or equivalent on `192.168.42.0/23`
 - Grafana exposed via Traefik with TLS at `https://grafana.lab.kemo.dev`
 - Alloy OTLP endpoints (4317/4318) exposed on the static IP for other workloads to send telemetry
 - Loki (3100), Mimir (9009), Tempo (3200) endpoints exposed on the static IP for direct push from external sources

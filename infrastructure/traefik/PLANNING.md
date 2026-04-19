@@ -11,7 +11,7 @@ Traefik serves as the central ingress point for all homelab services, providing 
 
 ## Static IP
 
-- `192.168.62.10`
+- `192.168.42.10`
 
 ## Required Ports
 
@@ -102,14 +102,14 @@ For services not discoverable via Docker labels (e.g., VMs, external hosts), pla
 | Dependency | Reason |
 |------------|--------|
 | StepCA | ACME certificate issuance (must be reachable at its CA server URL) |
-| DNS (PowerDNS) | Wildcard `*.lab.kemo.dev` must resolve to 192.168.62.10 |
+| DNS (PowerDNS) | Wildcard `*.lab.kemo.dev` must resolve to 192.168.42.10 |
 | Podman socket | Required for Docker provider auto-discovery |
 
 ## Network Configuration
 
-- Attach to a Podman network with a static IP of `192.168.62.10` using a bridge network, or use host networking with the IP bound on the host.
+- Attach to a Podman network with a static IP of `192.168.42.10` using a bridge network, or use host networking with the IP bound on the host.
 - All other Podman services that want to be discovered must share a common Podman network with Traefik (e.g., `traefik-net`).
-- Wildcard DNS record `*.lab.kemo.dev -> 192.168.62.10` must exist in the PowerDNS authoritative zone.
+- Wildcard DNS record `*.lab.kemo.dev -> 192.168.42.10` must exist in the PowerDNS authoritative zone.
 
 ## Special Considerations
 

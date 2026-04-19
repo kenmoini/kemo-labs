@@ -14,8 +14,8 @@ services:
       - "traefik.http.routers.files.tls.certresolver=step-ca"
       - "traefik.http.services.files.loadbalancer.server.port=80"
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.23
+      bridge42:
+        ipv4_address: 192.168.42.23
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost/"]
       interval: 30s
@@ -47,8 +47,8 @@ services:
       - "traefik.http.middlewares.upload-size.buffering.maxRequestBodyBytes=10737418240"
       - "traefik.http.routers.upload.middlewares=upload-size"
     networks:
-      homelab-lab:
+      bridge42:
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

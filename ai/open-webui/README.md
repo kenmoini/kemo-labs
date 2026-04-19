@@ -34,7 +34,7 @@ docker exec ollama ollama pull llama3.1:8b
 | `https://open-webui.lab.kemo.dev` | Chat interface |
 | `https://ollama.lab.kemo.dev` | Ollama API (for other services) |
 
-**Open WebUI Static IP:** 192.168.62.70 | **Ollama Static IP:** 192.168.62.73
+**Open WebUI Static IP:** 192.168.42.70 | **Ollama Static IP:** 192.168.42.73
 
 ## Dependencies
 

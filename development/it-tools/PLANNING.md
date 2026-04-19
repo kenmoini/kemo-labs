@@ -11,7 +11,7 @@ IT Tools is a collection of handy developer utilities accessible via a web inter
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.43
+- **IP:** 192.168.42.43
 - **DNS:** `tools.lab.kemo.dev`
 
 ## Required Ports
@@ -46,7 +46,7 @@ Extremely lightweight — it's just an NGINX container serving static files.
 
 ## Network Configuration
 
-- macvlan/ipvlan with static IP 192.168.62.43
+- macvlan/ipvlan with static IP 192.168.42.43
 - Single HTTP port behind Traefik
 
 ## Special Considerations

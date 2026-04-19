@@ -27,7 +27,7 @@ Most configuration is done through the web UI after first launch. Mount the Step
 |-----|---------|
 | `https://uptime.lab.kemo.dev` | Monitoring dashboard and status pages |
 
-**Static IP:** 192.168.62.32
+**Static IP:** 192.168.42.32
 
 ## Dependencies
 

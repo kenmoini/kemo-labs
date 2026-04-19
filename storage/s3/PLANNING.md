@@ -66,10 +66,10 @@ No other storage workloads depend on this being up first, but Kopia (backups) re
 
 | Setting | Value |
 |---------|-------|
-| Static IP | `192.168.62.20` |
+| Static IP | `192.168.42.20` |
 | DNS (S3 API) | `s3.lab.kemo.dev` |
 | DNS (Console) | `s3-console.lab.kemo.dev` |
-| Network | macvlan on 192.168.62.0/23 |
+| Network | macvlan on 192.168.42.0/23 |
 
 ### Traefik Labels
 

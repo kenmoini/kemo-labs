@@ -12,8 +12,8 @@ services:
       - ./netbootxyz/config/:/config
       - ./netbootxyz/assets/:/assets
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.12
+      bridge42:
+        ipv4_address: 192.168.42.12
     labels:
       - "traefik.enable=true"
       # Netboot.xyz web config UI
@@ -43,7 +43,7 @@ services:
     devices:
       - /dev/bus/usb:/dev/bus/usb
     networks:
-      homelab-lab:
+      bridge42:
     healthcheck:
       test: ["CMD-SHELL", "upsc ${UPS_NAME:-homelab-ups}@localhost 2>/dev/null | grep -q ups.status || exit 1"]
       interval: 30s
@@ -56,14 +56,14 @@ services:
     container_name: peanut
     restart: unless-stopped
     environment:
-      - NUT_HOST=192.168.62.12
+      - NUT_HOST=192.168.42.12
       - NUT_PORT=3493
       - WEB_PORT=8081
     depends_on:
       nut:
         condition: service_started
     networks:
-      homelab-lab:
+      bridge42:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.peanut.rule=Host(`peanut.lab.kemo.dev`)"
@@ -78,5 +78,5 @@ services:
       start_period: 10s
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

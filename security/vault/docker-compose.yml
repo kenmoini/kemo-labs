@@ -13,8 +13,8 @@ services:
       - vault-logs:/vault/logs
       - ./config:/vault/config:ro
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.7
+      bridge42:
+        ipv4_address: 192.168.42.7
     command: vault server -config=/vault/config/vault.hcl
     labels:
       - "traefik.enable=true"
@@ -36,5 +36,5 @@ volumes:
     name: vault-logs
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

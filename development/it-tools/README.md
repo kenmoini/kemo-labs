@@ -20,7 +20,7 @@ None. IT Tools is a static web application served by Nginx.
 |-----|---------|
 | `https://tools.lab.kemo.dev` | Developer utility suite |
 
-**Static IP:** 192.168.62.43
+**Static IP:** 192.168.42.43
 
 ## Dependencies
 

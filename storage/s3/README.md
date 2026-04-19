@@ -30,7 +30,7 @@ docker compose up -d
 | `https://s3.lab.kemo.dev` | S3 API endpoint |
 | `https://s3-console.lab.kemo.dev` | Web management console |
 
-**Static IP:** 192.168.62.20
+**Static IP:** 192.168.42.20
 
 ## Dependencies
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This stack consolidates all shared database engines into a single Docker Compose deployment at a fixed IP address (`192.168.62.15`). Rather than bundling a database container with every application stack, downstream services connect to these shared instances over the Docker bridge or host network. This reduces memory overhead, simplifies backups, and provides a single point of management for all persistent data stores.
+This stack consolidates all shared database engines into a single Docker Compose deployment at a fixed IP address (`192.168.42.15`). Rather than bundling a database container with every application stack, downstream services connect to these shared instances over the Docker bridge or host network. This reduces memory overhead, simplifies backups, and provides a single point of management for all persistent data stores.
 
 The stack includes:
 
@@ -32,17 +32,17 @@ The stack includes:
 
 ## Port Mapping
 
-All services bind to the static IP `192.168.62.15` to avoid port conflicts with other stacks.
+All services bind to the static IP `192.168.42.15` to avoid port conflicts with other stacks.
 
 | Service | Container Port | Host Binding | Protocol |
 |---------|---------------|--------------|----------|
-| MariaDB | 3306 | `192.168.62.15:3306` | TCP |
-| PostgreSQL | 5432 | `192.168.62.15:5432` | TCP |
-| Valkey | 6379 | `192.168.62.15:6379` | TCP |
-| Mosquitto (MQTT) | 1883 | `192.168.62.15:1883` | TCP |
-| Mosquitto (WebSocket) | 9001 | `192.168.62.15:9001` | TCP |
-| phpMyAdmin | 80 | `192.168.62.15:8080` | TCP (fronted by Traefik) |
-| Databasus | 8000 | `192.168.62.15:8000` | TCP (web UI, optional) |
+| MariaDB | 3306 | `192.168.42.15:3306` | TCP |
+| PostgreSQL | 5432 | `192.168.42.15:5432` | TCP |
+| Valkey | 6379 | `192.168.42.15:6379` | TCP |
+| Mosquitto (MQTT) | 1883 | `192.168.42.15:1883` | TCP |
+| Mosquitto (WebSocket) | 9001 | `192.168.42.15:9001` | TCP |
+| phpMyAdmin | 80 | `192.168.42.15:8080` | TCP (fronted by Traefik) |
+| Databasus | 8000 | `192.168.42.15:8000` | TCP (web UI, optional) |
 
 Traefik will reverse-proxy phpMyAdmin at `https://phpmyadmin.lab.kemo.dev` with StepCA ACME TLS.
 
@@ -228,7 +228,7 @@ On a 128 GB / 32-core host this is well within budget.
 
 ### Compose Network
 
-The stack defines a single bridge network. Other stacks connect to these databases by IP (`192.168.62.15`) and port rather than by joining this compose network. This keeps stacks decoupled.
+The stack defines a single bridge network. Other stacks connect to these databases by IP (`192.168.42.15`) and port rather than by joining this compose network. This keeps stacks decoupled.
 
 ```yaml
 networks:
@@ -242,7 +242,7 @@ Internal service names (`mariadb`, `postgresql`, `valkey`, `mosquitto`) resolve 
 
 | Record | Value |
 |--------|-------|
-| `db.lab.kemo.dev` | `192.168.62.15` |
+| `db.lab.kemo.dev` | `192.168.42.15` |
 | `mariadb.lab.kemo.dev` | CNAME to `db.lab.kemo.dev` |
 | `postgresql.lab.kemo.dev` | CNAME to `db.lab.kemo.dev` |
 | `valkey.lab.kemo.dev` | CNAME to `db.lab.kemo.dev` |
@@ -253,7 +253,7 @@ Downstream services should connect using the CNAME hostnames so that if individu
 
 ### Firewall
 
-Ports 3306, 5432, 6379, 1883, 9001 must be open on the host for `192.168.62.0/23` traffic. The phpMyAdmin web UI (8080) should only be exposed through Traefik.
+Ports 3306, 5432, 6379, 1883, 9001 must be open on the host for `192.168.42.0/23` traffic. The phpMyAdmin web UI (8080) should only be exposed through Traefik.
 
 ---
 

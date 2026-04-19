@@ -5,8 +5,8 @@ set -euo pipefail
 # Run this AFTER apply-configs.sh has been run on all nodes
 
 CLUSTER_NAME="homelab"
-CP1_IP="192.168.62.100"
-VIP="192.168.62.99"
+CP1_IP="192.168.42.100"
+VIP="192.168.42.99"
 TALOSCTL="./talosctl"
 
 echo "=== Bootstrapping Talos Kubernetes Cluster ==="

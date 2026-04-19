@@ -12,7 +12,7 @@ http:
     scrypted:
       loadBalancer:
         servers:
-          - url: "https://192.168.62.61:10443"
+          - url: "https://192.168.42.61:10443"
         serversTransport: scrypted-transport
 
   serversTransports:

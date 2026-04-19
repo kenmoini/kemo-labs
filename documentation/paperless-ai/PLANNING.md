@@ -118,7 +118,7 @@ If using Ollama locally, the LLM inference resource cost is borne by the Ollama 
 
 | Service | Purpose | Details |
 |---------|---------|---------|
-| Paperless-NGX | Source document system | Must be running and accessible via API at `192.168.62.53`. Requires a valid API token. |
+| Paperless-NGX | Source document system | Must be running and accessible via API at `192.168.42.53`. Requires a valid API token. |
 | AI Provider | LLM inference | One of: Ollama (local), OpenAI (cloud), or any OpenAI-compatible API (Open WebUI, vLLM, etc.) |
 | Traefik | Reverse proxy + TLS | Routes `paperless-ai.lab.kemo.dev` with StepCA ACME certificate |
 
@@ -129,9 +129,9 @@ Paperless-AI does **not** require PostgreSQL or Redis/Valkey. It stores its data
 ### Integration Architecture
 
 ```
-Paperless-AI (192.168.62.54)
+Paperless-AI (192.168.42.54)
     |
-    |--> Paperless-NGX API (192.168.62.53:8000) -- document retrieval and tagging
+    |--> Paperless-NGX API (192.168.42.53:8000) -- document retrieval and tagging
     |
     |--> AI Provider (Ollama / OpenAI / Custom) -- document analysis
 ```
@@ -140,11 +140,11 @@ Paperless-AI (192.168.62.54)
 
 | Setting | Value |
 |---------|-------|
-| Static IP | `192.168.62.54` |
+| Static IP | `192.168.42.54` |
 | DNS Zone | `lab.kemo.dev` |
 | FQDN | `paperless-ai.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
-| Subnet | `192.168.62.0/23` |
+| Subnet | `192.168.42.0/23` |
 
 ### Traefik Labels
 
@@ -176,6 +176,6 @@ labels:
 
 8. **System Prompt Customization**: The default system prompt works well for general documents. For specialized use cases (e.g., medical records, legal documents), customize the `SYSTEM_PROMPT` to extract domain-specific metadata.
 
-9. **Paperless-NGX API URL**: Use the internal Podman network URL (`http://192.168.62.53:8000/api`) or the Traefik URL (`https://paperless.lab.kemo.dev/api`). The internal URL avoids TLS overhead but requires network connectivity between containers.
+9. **Paperless-NGX API URL**: Use the internal Podman network URL (`http://192.168.42.53:8000/api`) or the Traefik URL (`https://paperless.lab.kemo.dev/api`). The internal URL avoids TLS overhead but requires network connectivity between containers.
 
 10. **No Authentication Built-in**: Paperless-AI does not have its own authentication system. Protect the web UI using Traefik middleware (forward auth with Keycloak/Authentik) or restrict access via network policy.

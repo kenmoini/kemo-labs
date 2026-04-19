@@ -4,17 +4,17 @@ services:
     container_name: netbox
     restart: unless-stopped
     environment:
-      - DB_HOST=192.168.62.15
+      - DB_HOST=192.168.42.15
       - DB_PORT=5432
       - DB_NAME=${DB_NAME:-netbox}
       - DB_USER=${DB_USER:-netbox}
       - DB_PASSWORD=${DB_PASSWORD}
-      - REDIS_HOST=192.168.62.15
+      - REDIS_HOST=192.168.42.15
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD:-}
       - REDIS_DATABASE=0
       - REDIS_SSL=false
-      - REDIS_CACHE_HOST=192.168.62.15
+      - REDIS_CACHE_HOST=192.168.42.15
       - REDIS_CACHE_PORT=6379
       - REDIS_CACHE_PASSWORD=${REDIS_PASSWORD:-}
       - REDIS_CACHE_DATABASE=1
@@ -35,8 +35,8 @@ services:
       - netbox-reports-files:/opt/netbox/netbox/reports
       - netbox-scripts-files:/opt/netbox/netbox/scripts
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.50
+      bridge42:
+        ipv4_address: 192.168.42.50
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.netbox.rule=Host(`netbox.lab.kemo.dev`)"
@@ -57,17 +57,17 @@ services:
     restart: unless-stopped
     command: /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py rqworker
     environment:
-      - DB_HOST=192.168.62.15
+      - DB_HOST=192.168.42.15
       - DB_PORT=5432
       - DB_NAME=${DB_NAME:-netbox}
       - DB_USER=${DB_USER:-netbox}
       - DB_PASSWORD=${DB_PASSWORD}
-      - REDIS_HOST=192.168.62.15
+      - REDIS_HOST=192.168.42.15
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD:-}
       - REDIS_DATABASE=0
       - REDIS_SSL=false
-      - REDIS_CACHE_HOST=192.168.62.15
+      - REDIS_CACHE_HOST=192.168.42.15
       - REDIS_CACHE_PORT=6379
       - REDIS_CACHE_PASSWORD=${REDIS_PASSWORD:-}
       - REDIS_CACHE_DATABASE=1
@@ -79,7 +79,7 @@ services:
       - netbox-reports-files:/opt/netbox/netbox/reports
       - netbox-scripts-files:/opt/netbox/netbox/scripts
     networks:
-      homelab-lab:
+      bridge42:
     depends_on:
       netbox:
         condition: service_healthy
@@ -90,12 +90,12 @@ services:
     restart: unless-stopped
     command: /opt/netbox/housekeeping.sh
     environment:
-      - DB_HOST=192.168.62.15
+      - DB_HOST=192.168.42.15
       - DB_PORT=5432
       - DB_NAME=${DB_NAME:-netbox}
       - DB_USER=${DB_USER:-netbox}
       - DB_PASSWORD=${DB_PASSWORD}
-      - REDIS_HOST=192.168.62.15
+      - REDIS_HOST=192.168.42.15
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD:-}
       - REDIS_DATABASE=0
@@ -103,7 +103,7 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - TZ=${TZ:-America/New_York}
     networks:
-      homelab-lab:
+      bridge42:
     depends_on:
       netbox:
         condition: service_healthy
@@ -117,5 +117,5 @@ volumes:
     name: netbox-scripts-files
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

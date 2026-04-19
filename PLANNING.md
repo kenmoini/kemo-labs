@@ -5,7 +5,7 @@
 - **OS:** Fedora (latest)
 - **Virtualization:** Libvirt/KVM (for Talos Kubernetes VMs)
 - **Containers:** Podman + Podman Compose (for everything else)
-- **Network:** 192.168.62.0/23 (bridged), static IPs from .0/24, DHCP from .128/24+
+- **Network:** 192.168.42.0/23 (bridged), static IPs from .0/24, DHCP from .128/24+
 - **DNS Zone:** lab.kemo.dev
 - **Resources:** 128GB+ RAM, 32+ cores
 - **TLS Strategy:** PikaPKI root CA → StepCA intermediate → ACME auto-certs via Traefik
@@ -14,106 +14,106 @@
 
 ## IP Allocation Scheme
 
-### Core Infrastructure (192.168.62.2 - 192.168.62.15)
+### Core Infrastructure (192.168.42.2 - 192.168.42.15)
 
 | IP | Service | Category |
 |----|---------|----------|
-| 192.168.62.2 | PowerDNS Authoritative | infrastructure/dns |
-| 192.168.62.3 | PowerDNS Recursor | infrastructure/dns |
-| 192.168.62.4 | Pi-hole | infrastructure/dns |
-| 192.168.62.5 | PikaPKI | security/pki |
-| 192.168.62.6 | StepCA (ACME) | security/acme |
-| 192.168.62.7 | HashiCorp Vault | security/vault |
-| 192.168.62.8 | Authentik | security/identity |
-| 192.168.62.10 | Traefik (Load Balancer) | infrastructure/traefik |
-| 192.168.62.11 | Squid (Outbound Proxy) | infrastructure/outbound-proxy |
-| 192.168.62.12 | Boot Services (Netboot/NUT/PeaNUT) | infrastructure/boot-services |
-| 192.168.62.13 | Network Testing (iPerf3/SpeedTest) | infrastructure/network-testing |
-| 192.168.62.14 | Homepage Dashboard | infrastructure/landing-page |
-| 192.168.62.15 | Shared Databases (MariaDB) | databases/shared |
-| 192.168.62.16 | Shared Databases (PostgreSQL) | databases/shared |
-| 192.168.62.17 | Shared Databases (Valkey) | databases/shared |
-| 192.168.62.18 | Shared Databases (Mosquitto) | databases/shared |
-| 192.168.62.19 | Shared Databases (phpMyAdmin) | databases/shared |
+| 192.168.42.2 | PowerDNS Authoritative | infrastructure/dns |
+| 192.168.42.3 | PowerDNS Recursor | infrastructure/dns |
+| 192.168.42.4 | Pi-hole | infrastructure/dns |
+| 192.168.42.5 | PikaPKI | security/pki |
+| 192.168.42.6 | StepCA (ACME) | security/acme |
+| 192.168.42.7 | HashiCorp Vault | security/vault |
+| 192.168.42.8 | Authentik | security/identity |
+| 192.168.42.10 | Traefik (Load Balancer) | infrastructure/traefik |
+| 192.168.42.11 | Squid (Outbound Proxy) | infrastructure/outbound-proxy |
+| 192.168.42.12 | Boot Services (Netboot/NUT/PeaNUT) | infrastructure/boot-services |
+| 192.168.42.13 | Network Testing (iPerf3/SpeedTest) | infrastructure/network-testing |
+| 192.168.42.14 | Homepage Dashboard | infrastructure/landing-page |
+| 192.168.42.15 | Shared Databases (MariaDB) | databases/shared |
+| 192.168.42.16 | Shared Databases (PostgreSQL) | databases/shared |
+| 192.168.42.17 | Shared Databases (Valkey) | databases/shared |
+| 192.168.42.18 | Shared Databases (Mosquitto) | databases/shared |
+| 192.168.42.19 | Shared Databases (phpMyAdmin) | databases/shared |
 
-### Infrastructure Tools (192.168.62.9, 192.168.62.25)
-
-| IP | Service | Category |
-|----|---------|----------|
-| 192.168.62.9 | WUD (What's Up Docker) | infrastructure/wud |
-| 192.168.62.25 | Semaphore (Ansible UI) | infrastructure/semaphore |
-
-### Storage (192.168.62.20 - 192.168.62.23)
+### Infrastructure Tools (192.168.42.9, 192.168.42.25)
 
 | IP | Service | Category |
 |----|---------|----------|
-| 192.168.62.20 | RustFS (S3) | storage/s3 |
-| 192.168.62.21 | Nexus (Registry) | storage/container-registry |
-| 192.168.62.22 | Kopia (Backups) | storage/backups |
-| 192.168.62.23 | Dropbox (NGINX + Copyparty) | storage/dropbox |
+| 192.168.42.9 | WUD (What's Up Docker) | infrastructure/wud |
+| 192.168.42.25 | Semaphore (Ansible UI) | infrastructure/semaphore |
 
-### Observability (192.168.62.30 - 192.168.62.33)
+### Storage (192.168.42.20 - 192.168.42.23)
 
 | IP | Service | Category |
 |----|---------|----------|
-| 192.168.62.30 | Grafana Alloy Stack | observability/grafana-alloy |
-| 192.168.62.31 | Dozzle | observability/dozzle |
-| 192.168.62.32 | Uptime Kuma | observability/uptime-kuma |
-| 192.168.62.33 | Scrutiny | observability/scrutiny |
+| 192.168.42.20 | RustFS (S3) | storage/s3 |
+| 192.168.42.21 | Nexus (Registry) | storage/container-registry |
+| 192.168.42.22 | Kopia (Backups) | storage/backups |
+| 192.168.42.23 | Dropbox (NGINX + Copyparty) | storage/dropbox |
 
-### Development (192.168.62.40 - 192.168.62.43)
-
-| IP | Service | Category |
-|----|---------|----------|
-| 192.168.62.40 | GitLab CE | development/gitlab |
-| 192.168.62.41 | Renovate | development/renovate |
-| 192.168.62.42 | Code Server | development/code-server |
-| 192.168.62.43 | IT Tools | development/it-tools |
-
-### Documentation (192.168.62.50 - 192.168.62.54)
+### Observability (192.168.42.30 - 192.168.42.33)
 
 | IP | Service | Category |
 |----|---------|----------|
-| 192.168.62.50 | Netbox | documentation/netbox |
-| 192.168.62.51 | Affine | documentation/affine |
-| 192.168.62.52 | Draw.io | documentation/drawio |
-| 192.168.62.53 | Paperless NGX | documentation/paperless-ngx |
-| 192.168.62.54 | Paperless AI | documentation/paperless-ai |
+| 192.168.42.30 | Grafana Alloy Stack | observability/grafana-alloy |
+| 192.168.42.31 | Dozzle | observability/dozzle |
+| 192.168.42.32 | Uptime Kuma | observability/uptime-kuma |
+| 192.168.42.33 | Scrutiny | observability/scrutiny |
 
-### Home Automation (192.168.62.60 - 192.168.62.61)
-
-| IP | Service | Category |
-|----|---------|----------|
-| 192.168.62.60 | Home Assistant | automation/home-assistant |
-| 192.168.62.61 | Scrypted | automation/scrypted |
-
-### AI & Automation (192.168.62.70 - 192.168.62.72)
+### Development (192.168.42.40 - 192.168.42.43)
 
 | IP | Service | Category |
 |----|---------|----------|
-| 192.168.62.70 | Open WebUI + Ollama | ai/open-webui |
-| 192.168.62.71 | n8n | ai/n8n |
-| 192.168.62.72 | Postiz | ai/postiz |
+| 192.168.42.40 | GitLab CE | development/gitlab |
+| 192.168.42.41 | Renovate | development/renovate |
+| 192.168.42.42 | Code Server | development/code-server |
+| 192.168.42.43 | IT Tools | development/it-tools |
 
-### Communication (192.168.62.80 - 192.168.62.82)
+### Documentation (192.168.42.50 - 192.168.42.54)
 
 | IP | Service | Category |
 |----|---------|----------|
-| 192.168.62.80 | Mailcow | communication/mailcow |
-| 192.168.62.81 | Shlink | communication/shlink |
-| 192.168.62.82 | Ntfy (Push Notifications) | communication/ntfy |
+| 192.168.42.50 | Netbox | documentation/netbox |
+| 192.168.42.51 | Affine | documentation/affine |
+| 192.168.42.52 | Draw.io | documentation/drawio |
+| 192.168.42.53 | Paperless NGX | documentation/paperless-ngx |
+| 192.168.42.54 | Paperless AI | documentation/paperless-ai |
 
-### Kubernetes Cluster (192.168.62.99 - 192.168.62.112)
+### Home Automation (192.168.42.60 - 192.168.42.61)
+
+| IP | Service | Category |
+|----|---------|----------|
+| 192.168.42.60 | Home Assistant | automation/home-assistant |
+| 192.168.42.61 | Scrypted | automation/scrypted |
+
+### AI & Automation (192.168.42.70 - 192.168.42.72)
+
+| IP | Service | Category |
+|----|---------|----------|
+| 192.168.42.70 | Open WebUI + Ollama | ai/open-webui |
+| 192.168.42.71 | n8n | ai/n8n |
+| 192.168.42.72 | Postiz | ai/postiz |
+
+### Communication (192.168.42.80 - 192.168.42.82)
+
+| IP | Service | Category |
+|----|---------|----------|
+| 192.168.42.80 | Mailcow | communication/mailcow |
+| 192.168.42.81 | Shlink | communication/shlink |
+| 192.168.42.82 | Ntfy (Push Notifications) | communication/ntfy |
+
+### Kubernetes Cluster (192.168.42.99 - 192.168.42.112)
 
 | IP | Service | Role |
 |----|---------|------|
-| 192.168.62.99 | Talos VIP | Control Plane VIP |
-| 192.168.62.100 | talos-cp-1 | Control Plane |
-| 192.168.62.101 | talos-cp-2 | Control Plane |
-| 192.168.62.102 | talos-cp-3 | Control Plane |
-| 192.168.62.110 | talos-w-1 | Worker |
-| 192.168.62.111 | talos-w-2 | Worker |
-| 192.168.62.112 | talos-w-3 | Worker |
+| 192.168.42.99 | Talos VIP | Control Plane VIP |
+| 192.168.42.100 | talos-cp-1 | Control Plane |
+| 192.168.42.101 | talos-cp-2 | Control Plane |
+| 192.168.42.102 | talos-cp-3 | Control Plane |
+| 192.168.42.110 | talos-w-1 | Worker |
+| 192.168.42.111 | talos-w-2 | Worker |
+| 192.168.42.112 | talos-w-3 | Worker |
 
 ---
 
@@ -223,7 +223,7 @@ Phase 14 (Kubernetes - Depends on DNS, PKI):
 | DNS Stack | infrastructure/dns/ | 3 | 512 MB |
 | StepCA | security/acme/ | 1 | 256 MB |
 
-**Gate:** `dig lab.kemo.dev @192.168.62.2` resolves. StepCA ACME endpoint responds.
+**Gate:** `dig lab.kemo.dev @192.168.42.2` resolves. StepCA ACME endpoint responds.
 
 ### Phase 2: Networking
 | Workload | Dir | Containers | Est. RAM |
@@ -389,16 +389,16 @@ All Podman Compose stacks will connect to a shared macvlan or ipvlan network for
 # Or create the primary lab network individually
 ./scripts/setup-network.sh \
   --name homelab-lab \
-  --subnet 192.168.62.0/23 \
-  --gateway 192.168.62.1 \
-  --ip-range 192.168.62.0/24 \
+  --subnet 192.168.42.0/23 \
+  --gateway 192.168.42.1 \
+  --ip-range 192.168.42.0/24 \
   --parent br0.62
 ```
 
 Each docker-compose.yml references this as an external network:
 ```yaml
 networks:
-  homelab-lab:
+  bridge42:
     external: true
 ```
 
@@ -409,33 +409,33 @@ networks:
 All services need A records in PowerDNS Auth. A wildcard approach simplifies this:
 
 ```
-*.lab.kemo.dev.  A  192.168.62.10  (Traefik)
+*.lab.kemo.dev.  A  192.168.42.10  (Traefik)
 ```
 
 Services with direct access (not behind Traefik) need explicit records:
 ```
-dns-auth.lab.kemo.dev.     A  192.168.62.2
-dns-recursor.lab.kemo.dev. A  192.168.62.3
-pihole.lab.kemo.dev.       A  192.168.62.4
-pki.lab.kemo.dev.          A  192.168.62.5
-acme.lab.kemo.dev.         A  192.168.62.6
-vault.lab.kemo.dev.        A  192.168.62.7
-auth.lab.kemo.dev.         A  192.168.62.8
-db.lab.kemo.dev.           A  192.168.62.15
-s3.lab.kemo.dev.           A  192.168.62.20
-gitlab.lab.kemo.dev.       A  192.168.62.40  (for SSH access)
-mail.lab.kemo.dev.         A  192.168.62.80
-ha.lab.kemo.dev.           A  192.168.62.60  (host network)
-scrypted.lab.kemo.dev.     A  192.168.62.61  (host network)
+dns-auth.lab.kemo.dev.     A  192.168.42.2
+dns-recursor.lab.kemo.dev. A  192.168.42.3
+pihole.lab.kemo.dev.       A  192.168.42.4
+pki.lab.kemo.dev.          A  192.168.42.5
+acme.lab.kemo.dev.         A  192.168.42.6
+vault.lab.kemo.dev.        A  192.168.42.7
+auth.lab.kemo.dev.         A  192.168.42.8
+db.lab.kemo.dev.           A  192.168.42.15
+s3.lab.kemo.dev.           A  192.168.42.20
+gitlab.lab.kemo.dev.       A  192.168.42.40  (for SSH access)
+mail.lab.kemo.dev.         A  192.168.42.80
+ha.lab.kemo.dev.           A  192.168.42.60  (host network)
+scrypted.lab.kemo.dev.     A  192.168.42.61  (host network)
 
 ; Kubernetes
-talos-vip.lab.kemo.dev.    A  192.168.62.99
-talos-cp-1.lab.kemo.dev.   A  192.168.62.100
-talos-cp-2.lab.kemo.dev.   A  192.168.62.101
-talos-cp-3.lab.kemo.dev.   A  192.168.62.102
-talos-w-1.lab.kemo.dev.    A  192.168.62.110
-talos-w-2.lab.kemo.dev.    A  192.168.62.111
-talos-w-3.lab.kemo.dev.    A  192.168.62.112
+talos-vip.lab.kemo.dev.    A  192.168.42.99
+talos-cp-1.lab.kemo.dev.   A  192.168.42.100
+talos-cp-2.lab.kemo.dev.   A  192.168.42.101
+talos-cp-3.lab.kemo.dev.   A  192.168.42.102
+talos-w-1.lab.kemo.dev.    A  192.168.42.110
+talos-w-2.lab.kemo.dev.    A  192.168.42.111
+talos-w-3.lab.kemo.dev.    A  192.168.42.112
 
 ; Mail
 mail.lab.kemo.dev.         MX 10 mail.lab.kemo.dev.

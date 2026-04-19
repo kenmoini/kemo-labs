@@ -105,11 +105,11 @@ AFFiNE requires the `pgvector` PostgreSQL extension for vector search functional
 
 | Setting | Value |
 |---------|-------|
-| Static IP | `192.168.62.51` |
+| Static IP | `192.168.42.51` |
 | DNS Zone | `lab.kemo.dev` |
 | FQDN | `affine.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
-| Subnet | `192.168.62.0/23` |
+| Subnet | `192.168.42.0/23` |
 
 ### Traefik Labels
 

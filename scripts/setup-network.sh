@@ -11,9 +11,9 @@ set -euo pipefail
 # Usage:
 #   ./setup-network.sh --all                    Create all predefined networks
 #   ./setup-network.sh --name homelab-lab \      Create a single network
-#     --subnet 192.168.62.0/23 \
-#     --gateway 192.168.62.1 \
-#     --ip-range 192.168.62.0/24 \
+#     --subnet 192.168.42.0/23 \
+#     --gateway 192.168.42.1 \
+#     --ip-range 192.168.42.0/24 \
 #     --parent br0.62
 #   ./setup-network.sh                          Interactive mode (prompts)
 # =============================================================================
@@ -32,7 +32,7 @@ info() { echo -e "${CYAN}[INFO]${NC} $*"; }
 # Format: NAME|SUBNET|GATEWAY|IP_RANGE|PARENT|DESCRIPTION
 PREDEFINED_NETWORKS=(
   "homelab-access|192.168.92.0/23|192.168.92.1|192.168.92.0/24|br0|Access VLAN"
-  "homelab-lab|192.168.62.0/23|192.168.62.1|192.168.62.0/24|br0.62|Lab VLAN 62 - primary workload network"
+  "homelab-lab|192.168.42.0/23|192.168.42.1|192.168.42.0/24|br0.62|Lab VLAN 62 - primary workload network"
   "homelab-disconnected|192.168.70.0/24|192.168.70.1|192.168.70.0/24|br0.70|Disconnected VLAN 70 - no upstream connectivity"
   "homelab-isolated|192.168.86.0/24|192.168.86.1|192.168.86.0/24|br0.86|Isolated VLAN 86 - restricted traffic"
 )
@@ -174,9 +174,9 @@ interactive_mode() {
   echo ""
 
   prompt_value "Network name" "homelab-lab" NETWORK_NAME
-  prompt_value "Subnet (CIDR)" "192.168.62.0/23" SUBNET
-  prompt_value "Gateway" "192.168.62.1" GATEWAY
-  prompt_value "IP range for containers (CIDR)" "192.168.62.0/24" IP_RANGE
+  prompt_value "Subnet (CIDR)" "192.168.42.0/23" SUBNET
+  prompt_value "Gateway" "192.168.42.1" GATEWAY
+  prompt_value "IP range for containers (CIDR)" "192.168.42.0/24" IP_RANGE
   prompt_value "Parent interface" "br0.62" PARENT
   prompt_value "Description (optional)" "" DESCRIPTION
 
@@ -211,7 +211,7 @@ Options:
   --shims              Create macvlan shim interfaces for host-to-container comms
   --list               List predefined and existing networks
   --name NAME          Network name
-  --subnet CIDR        Subnet (e.g., 192.168.62.0/23)
+  --subnet CIDR        Subnet (e.g., 192.168.42.0/23)
   --gateway IP         Gateway address
   --ip-range CIDR      Container IP range
   --parent IFACE       Parent host interface (e.g., br0.62)
@@ -222,7 +222,7 @@ Examples:
   $(basename "$0") --all
   $(basename "$0") --list
   $(basename "$0") --shims
-  $(basename "$0") --name homelab-lab --subnet 192.168.62.0/23 --gateway 192.168.62.1 --ip-range 192.168.62.0/24 --parent br0.62
+  $(basename "$0") --name homelab-lab --subnet 192.168.42.0/23 --gateway 192.168.42.1 --ip-range 192.168.42.0/24 --parent br0.62
   $(basename "$0")                    # Interactive mode
 EOF
 }

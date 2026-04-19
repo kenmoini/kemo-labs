@@ -27,13 +27,13 @@ fi
 # Target IPs -- these are the static IPs the nodes will receive.
 # In maintenance mode, nodes may have different (DHCP) addresses.
 # Override with environment variables if needed:
-#   CP1_IP=192.168.62.50 ./apply-configs.sh
-CP1_IP="${CP1_IP:-192.168.62.100}"
-CP2_IP="${CP2_IP:-192.168.62.101}"
-CP3_IP="${CP3_IP:-192.168.62.102}"
-W1_IP="${W1_IP:-192.168.62.110}"
-W2_IP="${W2_IP:-192.168.62.111}"
-W3_IP="${W3_IP:-192.168.62.112}"
+#   CP1_IP=192.168.42.50 ./apply-configs.sh
+CP1_IP="${CP1_IP:-192.168.42.100}"
+CP2_IP="${CP2_IP:-192.168.42.101}"
+CP3_IP="${CP3_IP:-192.168.42.102}"
+W1_IP="${W1_IP:-192.168.42.110}"
+W2_IP="${W2_IP:-192.168.42.111}"
+W3_IP="${W3_IP:-192.168.42.112}"
 
 echo "==> Applying Talos configs"
 echo ""

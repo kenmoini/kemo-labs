@@ -15,7 +15,7 @@ Authentik is a self-hosted identity provider offering LDAP, OIDC/OAuth2, SAML, a
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.8
+- **IP:** 192.168.42.8
 - **DNS:** `auth.lab.kemo.dev`
 
 ## Required Ports
@@ -32,17 +32,17 @@ Authentik is a self-hosted identity provider offering LDAP, OIDC/OAuth2, SAML, a
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `AUTHENTIK_SECRET_KEY` | Secret key for signing (generate with `openssl rand -hex 50`) | (secret) |
-| `AUTHENTIK_POSTGRESQL__HOST` | PostgreSQL host | `192.168.62.15` |
+| `AUTHENTIK_POSTGRESQL__HOST` | PostgreSQL host | `192.168.42.15` |
 | `AUTHENTIK_POSTGRESQL__PORT` | PostgreSQL port | `5432` |
 | `AUTHENTIK_POSTGRESQL__NAME` | Database name | `authentik` |
 | `AUTHENTIK_POSTGRESQL__USER` | Database user | `authentik` |
 | `AUTHENTIK_POSTGRESQL__PASSWORD` | Database password | (secret) |
-| `AUTHENTIK_REDIS__HOST` | Valkey/Redis host | `192.168.62.15` |
+| `AUTHENTIK_REDIS__HOST` | Valkey/Redis host | `192.168.42.15` |
 | `AUTHENTIK_REDIS__PORT` | Redis port | `6379` |
 | `AUTHENTIK_REDIS__DB` | Redis database number | `4` |
 | `AUTHENTIK_ERROR_REPORTING__ENABLED` | Disable telemetry | `false` |
 | `AUTHENTIK_LOG_LEVEL` | Log level | `info` |
-| `AUTHENTIK_EMAIL__HOST` | SMTP host (Mailcow) | `192.168.62.80` |
+| `AUTHENTIK_EMAIL__HOST` | SMTP host (Mailcow) | `192.168.42.80` |
 | `AUTHENTIK_EMAIL__PORT` | SMTP port | `587` |
 | `AUTHENTIK_EMAIL__FROM` | Sender address | `auth@lab.kemo.dev` |
 
@@ -65,14 +65,14 @@ Authentik is a self-hosted identity provider offering LDAP, OIDC/OAuth2, SAML, a
 
 | Dependency | Type | Details |
 |------------|------|---------|
-| Shared PostgreSQL | **Required** | `authentik` database on 192.168.62.15 |
+| Shared PostgreSQL | **Required** | `authentik` database on 192.168.42.15 |
 | Shared Valkey | **Required** | DB 4 for caching, sessions, task queue |
 | DNS | Recommended | `auth.lab.kemo.dev` |
 | Mailcow (SMTP) | Optional | For email notifications, password resets |
 
 ## Network Configuration
 
-- macvlan/ipvlan with static IP 192.168.62.8
+- macvlan/ipvlan with static IP 192.168.42.8
 - Server container exposes 9000 (HTTP) and 9443 (HTTPS)
 - LDAP ports 389/636 exposed directly for LDAP clients
 - Worker container needs no port exposure (connects to PostgreSQL and Valkey)
@@ -131,7 +131,7 @@ labels:
 Authentik can protect services that don't natively support SSO via Traefik forward auth:
 ```yaml
 # On Traefik
-- "traefik.http.middlewares.authentik.forwardauth.address=http://192.168.62.8:9000/outpost.goauthentik.io/auth/traefik"
+- "traefik.http.middlewares.authentik.forwardauth.address=http://192.168.42.8:9000/outpost.goauthentik.io/auth/traefik"
 - "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true"
 - "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
 ```

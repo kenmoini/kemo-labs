@@ -13,7 +13,7 @@ Website: https://semaphoreui.com
 
 ## Static IP
 
-- `192.168.62.25`
+- `192.168.42.25`
 
 ## Required Ports
 
@@ -26,7 +26,7 @@ Website: https://semaphoreui.com
 | Variable | Purpose | Example |
 |----------|---------|---------|
 | `SEMAPHORE_DB_DIALECT` | Database type | `postgres` |
-| `SEMAPHORE_DB_HOST` | PostgreSQL host | `192.168.62.16` |
+| `SEMAPHORE_DB_HOST` | PostgreSQL host | `192.168.42.16` |
 | `SEMAPHORE_DB_PORT` | PostgreSQL port | `5432` |
 | `SEMAPHORE_DB_USER` | Database user | `semaphore` |
 | `SEMAPHORE_DB_PASS` | Database password | `changeme` |
@@ -59,13 +59,13 @@ Website: https://semaphoreui.com
 
 | Dependency | Reason |
 |------------|--------|
-| Shared PostgreSQL (192.168.62.16) | Database backend -- requires `semaphore` database and user |
+| Shared PostgreSQL (192.168.42.16) | Database backend -- requires `semaphore` database and user |
 | DNS | Hostname resolution for `semaphore.lab.kemo.dev` |
 | Traefik | Reverse proxy with TLS termination |
 
 ## Network Configuration
 
-- Static IP `192.168.62.25` on the homelab macvlan network.
+- Static IP `192.168.42.25` on the homelab macvlan network.
 - Exposed through Traefik as `semaphore.lab.kemo.dev`.
 - Requires outbound network access to Git repositories and target hosts for Ansible.
 

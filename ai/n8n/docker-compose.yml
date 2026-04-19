@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       - DB_TYPE=postgresdb
-      - DB_POSTGRESDB_HOST=192.168.62.15
+      - DB_POSTGRESDB_HOST=192.168.42.15
       - DB_POSTGRESDB_PORT=5432
       - DB_POSTGRESDB_DATABASE=${DB_POSTGRESDB_DATABASE:-n8n}
       - DB_POSTGRESDB_USER=${DB_POSTGRESDB_USER:-n8n}
@@ -25,8 +25,8 @@ services:
     volumes:
       - n8n-data:/home/node/.n8n
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.71
+      bridge42:
+        ipv4_address: 192.168.42.71
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.n8n.rule=Host(`n8n.lab.kemo.dev`)"
@@ -49,5 +49,5 @@ volumes:
   n8n-data:
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

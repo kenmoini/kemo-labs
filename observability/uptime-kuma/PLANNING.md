@@ -55,13 +55,13 @@ Resource usage scales with the number of monitors and check frequency. For a hom
 
 - **Traefik** (infrastructure/traefik): Reverse proxy for HTTPS access.
 - **StepCA ACME**: TLS certificates via Traefik.
-- **DNS**: `uptime.lab.kemo.dev` A record pointing to 192.168.62.32.
+- **DNS**: `uptime.lab.kemo.dev` A record pointing to 192.168.42.32.
 - **StepCA root certificate** (optional): If monitoring internal HTTPS services signed by StepCA, mount the root CA cert and set `NODE_EXTRA_CA_CERTS` so Uptime Kuma trusts them.
 
 ## Network Configuration
 
-- **Static IP:** `192.168.62.32`
-- **Network:** Bridged macvlan or equivalent on `192.168.62.0/23`
+- **Static IP:** `192.168.42.32`
+- **Network:** Bridged macvlan or equivalent on `192.168.42.0/23`
 - Exposed via Traefik with TLS at `https://uptime.lab.kemo.dev`
 - Needs outbound network access to reach monitored services (both internal LAN and external internet)
 

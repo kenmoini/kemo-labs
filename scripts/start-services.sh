@@ -23,3 +23,7 @@ podman compose up -d
 # Traefik Proxy
 cd /opt/workdir/kemo-labs/infrastructure/traefik
 podman compose up -d
+
+# Landing Page
+cd /opt/workdir/kemo-labs/infrastructure/landing-page
+podman compose up -d

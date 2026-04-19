@@ -1,6 +1,6 @@
 ---
 networks:
-  homelab-lab:
+  bridge42:
     external: true
 
 services:
@@ -16,8 +16,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      homelab-lab:
-        ipv4_address: ${STATIC_IP:-192.168.62.31}
+      bridge42:
+        ipv4_address: ${STATIC_IP:-192.168.42.31}
     healthcheck:
       test: ["CMD", "/dozzle", "healthcheck"]
       interval: 30s

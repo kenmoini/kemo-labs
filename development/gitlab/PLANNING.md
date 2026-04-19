@@ -11,7 +11,7 @@ GitLab Community Edition provides self-hosted Git repository management, CI/CD p
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.40
+- **IP:** 192.168.42.40
 - **DNS:** `gitlab.lab.kemo.dev`
 
 ## Required Ports
@@ -35,7 +35,7 @@ nginx['listen_https'] = false  # TLS terminated by Traefik
 # PostgreSQL - use shared instance
 postgresql['enable'] = false
 gitlab_rails['db_adapter'] = 'postgresql'
-gitlab_rails['db_host'] = '192.168.62.15'
+gitlab_rails['db_host'] = '192.168.42.15'
 gitlab_rails['db_port'] = 5432
 gitlab_rails['db_database'] = 'gitlab'
 gitlab_rails['db_username'] = 'gitlab'
@@ -43,13 +43,13 @@ gitlab_rails['db_password'] = ENV['GITLAB_DB_PASSWORD']
 
 # Redis/Valkey - use shared instance
 redis['enable'] = false
-gitlab_rails['redis_host'] = '192.168.62.15'
+gitlab_rails['redis_host'] = '192.168.42.15'
 gitlab_rails['redis_port'] = 6379
 gitlab_rails['redis_database'] = 5
 
 # SMTP via Mailcow
 gitlab_rails['smtp_enable'] = true
-gitlab_rails['smtp_address'] = '192.168.62.80'
+gitlab_rails['smtp_address'] = '192.168.42.80'
 gitlab_rails['smtp_port'] = 587
 gitlab_rails['smtp_domain'] = 'lab.kemo.dev'
 
@@ -99,7 +99,7 @@ gitaly['configuration'] = { concurrency: [{ rpc: '/gitaly.SmartHTTPService/PostR
 
 ## Network Configuration
 
-- macvlan/ipvlan with static IP 192.168.62.40
+- macvlan/ipvlan with static IP 192.168.42.40
 - SSH on port 22 must be exposed directly (not through Traefik)
 - HTTP on port 80 routed through Traefik with TLS
 

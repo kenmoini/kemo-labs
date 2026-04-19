@@ -11,7 +11,7 @@ mkdir -p ./config
 docker compose up -d
 
 # Complete initial setup wizard at:
-# http://192.168.62.60:8123
+# http://192.168.42.60:8123
 ```
 
 ## Configuration
@@ -26,7 +26,7 @@ Home Assistant is configured primarily via `./config/configuration.yaml`, not en
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 192.168.62.0/23
+    - 192.168.42.0/23
 ```
 
 ## Access
@@ -34,9 +34,9 @@ http:
 | URL | Purpose |
 |-----|---------|
 | `https://home-assistant.lab.kemo.dev` | Web UI (via Traefik file provider) |
-| `http://192.168.62.60:8123` | Direct access |
+| `http://192.168.42.60:8123` | Direct access |
 
-**Static IP:** 192.168.62.60 (assigned at the host level, not Podman)
+**Static IP:** 192.168.42.60 (assigned at the host level, not Podman)
 
 ## Dependencies
 

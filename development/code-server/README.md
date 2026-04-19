@@ -27,7 +27,7 @@ docker compose up -d
 |-----|---------|
 | `https://code.lab.kemo.dev` | VS Code in the browser |
 
-**Static IP:** 192.168.62.42
+**Static IP:** 192.168.42.42
 
 ## Dependencies
 

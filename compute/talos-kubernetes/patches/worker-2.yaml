@@ -1,18 +1,18 @@
 # Talos machine config patch for talos-w2
-# Worker node 2 -- 192.168.62.111
+# Worker node 2 -- 192.168.42.111
 machine:
   network:
     hostname: talos-w2
     interfaces:
       - interface: eth0
         addresses:
-          - 192.168.62.111/23
+          - 192.168.42.111/23
         routes:
           - network: 0.0.0.0/0
-            gateway: 192.168.62.1
+            gateway: 192.168.42.1
     nameservers:
-      - 192.168.62.2
-      - 192.168.62.3
+      - 192.168.42.2
+      - 192.168.42.3
   time:
     servers:
       - 0.pool.ntp.org

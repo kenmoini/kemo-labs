@@ -32,10 +32,10 @@ Scrypted **requires host networking** for camera discovery (ONVIF, mDNS) and low
 | Setting | Value |
 |---|---|
 | Network Mode | `host` |
-| Static IP | `192.168.62.61` (configured on the host interface/macvlan, not in Docker) |
+| Static IP | `192.168.42.61` (configured on the host interface/macvlan, not in Docker) |
 | DNS Name | `scrypted.lab.kemo.dev` |
 
-Since host networking is used, the static IP `192.168.62.61` must be assigned at the host level (e.g., via a macvlan interface or a secondary IP on the bridge interface).
+Since host networking is used, the static IP `192.168.42.61` must be assigned at the host level (e.g., via a macvlan interface or a secondary IP on the bridge interface).
 
 ### Ports (Host Network)
 
@@ -55,7 +55,7 @@ Route Traefik to the Scrypted web UI via the static IP:
 
 ```
 URL: https://scrypted.lab.kemo.dev
-Backend: https://192.168.62.61:10443 (or http://192.168.62.61:11080)
+Backend: https://192.168.42.61:10443 (or http://192.168.42.61:11080)
 ```
 
 Scrypted generates its own self-signed certificate on port 10443. When proxying through Traefik, configure the backend as insecureSkipVerify or use the HTTP port (11080).
@@ -208,7 +208,7 @@ The official compose file sets custom DNS servers (1.1.1.1, 8.8.8.8) to avoid is
 
 ```yaml
 dns:
-  - 192.168.62.1    # Local DNS
+  - 192.168.42.1    # Local DNS
   - 1.1.1.1          # Fallback
 ```
 
@@ -217,7 +217,7 @@ dns:
 1. (Optional) MQTT broker running if MQTT plugin is used
 2. Scrypted container starts
 3. Scrypted Watchtower sidecar starts
-4. Initial setup wizard at `https://192.168.62.61:10443`
+4. Initial setup wizard at `https://192.168.42.61:10443`
 5. Add cameras and configure plugins through the web UI
 6. Configure Home Assistant integration (HomeKit Bridge or HACS plugin)
 

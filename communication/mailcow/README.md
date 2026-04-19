@@ -15,8 +15,8 @@ cd mailcow-dockerized
 
 # Edit mailcow.conf:
 #   SKIP_LETS_ENCRYPT=y
-#   HTTP_BIND=192.168.62.80
-#   HTTPS_BIND=192.168.62.80
+#   HTTP_BIND=192.168.42.80
+#   HTTPS_BIND=192.168.42.80
 
 # Create docker-compose.override.yml for IP binding (see PLANNING.md)
 
@@ -34,7 +34,7 @@ Mailcow uses `mailcow.conf` (not a standard `.env` file). Key settings:
 |---------|---------|
 | `MAILCOW_HOSTNAME` | FQDN of the mail server (`mail.lab.kemo.dev`) |
 | `SKIP_LETS_ENCRYPT` | Set to `y` (use StepCA instead) |
-| `HTTP_BIND` / `HTTPS_BIND` | Bind to static IP `192.168.62.80` |
+| `HTTP_BIND` / `HTTPS_BIND` | Bind to static IP `192.168.42.80` |
 | `SKIP_CLAMD` | Set to `n` (enable antivirus with 128 GB+ RAM) |
 
 ## Access
@@ -42,12 +42,12 @@ Mailcow uses `mailcow.conf` (not a standard `.env` file). Key settings:
 | URL | Purpose |
 |-----|---------|
 | `https://mail.lab.kemo.dev` | Admin UI and SOGo webmail |
-| `192.168.62.80:25/465/587` | SMTP |
-| `192.168.62.80:143/993` | IMAP |
+| `192.168.42.80:25/465/587` | SMTP |
+| `192.168.42.80:143/993` | IMAP |
 
 **Default credentials:** admin / moohoo (CHANGE IMMEDIATELY)
 
-**Static IP:** 192.168.62.80
+**Static IP:** 192.168.42.80
 
 ## Dependencies
 

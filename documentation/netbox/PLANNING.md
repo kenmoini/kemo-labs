@@ -115,11 +115,11 @@ Database storage is handled by the shared PostgreSQL instance.
 
 | Setting | Value |
 |---------|-------|
-| Static IP | `192.168.62.50` |
+| Static IP | `192.168.42.50` |
 | DNS Zone | `lab.kemo.dev` |
 | FQDN | `netbox.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
-| Subnet | `192.168.62.0/23` |
+| Subnet | `192.168.42.0/23` |
 
 ### Traefik Labels
 

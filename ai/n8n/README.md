@@ -33,7 +33,7 @@ docker compose up -d
 |-----|---------|
 | `https://n8n.lab.kemo.dev` | Workflow editor and webhook receiver |
 
-**Static IP:** 192.168.62.71
+**Static IP:** 192.168.42.71
 
 ## Dependencies
 

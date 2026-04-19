@@ -167,7 +167,7 @@ Temporal requires its own dedicated PostgreSQL instance. This is separate from t
 
 | Setting | Value |
 |---------|-------|
-| Static IP | `192.168.62.72` |
+| Static IP | `192.168.42.72` |
 | DNS Name | `postiz.lab.kemo.dev` |
 | Container Network | Shared macvlan/bridge with static IP assignment |
 | Traefik Labels | Route `postiz.lab.kemo.dev` to container port 5000 |

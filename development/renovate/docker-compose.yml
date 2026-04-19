@@ -18,8 +18,8 @@ services:
       - renovate-cache:/tmp/renovate
       - ./ca-certs/root-ca.crt:/usr/local/share/ca-certificates/homelab-root.crt:ro
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.41
+      bridge42:
+        ipv4_address: 192.168.42.41
 
 # Schedule via host crontab or systemd timer:
 # */30 * * * * cd /path/to/development/renovate && docker compose run --rm renovate
@@ -29,5 +29,5 @@ volumes:
     name: renovate-cache
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

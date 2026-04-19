@@ -26,7 +26,7 @@ All diagram data is stored client-side (browser) or saved to external storage (G
 |-----|---------|
 | `https://drawio.lab.kemo.dev` | Diagramming application |
 
-**Static IP:** 192.168.62.52
+**Static IP:** 192.168.42.52
 
 ## Dependencies
 

@@ -24,7 +24,7 @@ docker compose up -d
 | `PAPERLESS_API_URL` | Paperless-NGX API endpoint |
 | `PAPERLESS_API_TOKEN` | API token from Paperless-NGX admin panel |
 | `AI_PROVIDER` | Backend: `ollama`, `openai`, or `custom` |
-| `OLLAMA_API_URL` | Ollama endpoint (default: `http://192.168.62.70:11434`) |
+| `OLLAMA_API_URL` | Ollama endpoint (default: `http://192.168.42.70:11434`) |
 | `OLLAMA_MODEL` | Model name (default: `llama3.2`) |
 | `SCAN_INTERVAL` | Cron schedule for scanning new documents (default: `*/30 * * * *`) |
 | `TAGS` | Tag(s) that trigger processing (default: `pre-process`) |
@@ -35,7 +35,7 @@ docker compose up -d
 |-----|---------|
 | `https://paperless-ai.lab.kemo.dev` | Configuration UI and RAG chat |
 
-**Static IP:** 192.168.62.54
+**Static IP:** 192.168.42.54
 
 ## Dependencies
 

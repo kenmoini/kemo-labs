@@ -59,12 +59,12 @@ Dozzle is extremely lightweight. Memory usage scales slightly with the number of
 - **Podman socket**: Read-only access to `/var/run/docker.sock` is mandatory.
 - **Traefik** (infrastructure/traefik): Reverse proxy for HTTPS access.
 - **StepCA ACME**: TLS certificates via Traefik.
-- **DNS**: `dozzle.lab.kemo.dev` A record pointing to 192.168.62.31.
+- **DNS**: `dozzle.lab.kemo.dev` A record pointing to 192.168.42.31.
 
 ## Network Configuration
 
-- **Static IP:** `192.168.62.31`
-- **Network:** Bridged macvlan or equivalent on `192.168.62.0/23`
+- **Static IP:** `192.168.42.31`
+- **Network:** Bridged macvlan or equivalent on `192.168.42.0/23`
 - Exposed via Traefik with TLS at `https://dozzle.lab.kemo.dev`
 
 ### Traefik Labels

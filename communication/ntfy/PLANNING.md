@@ -7,7 +7,7 @@ Ntfy (pronounced "notify") is a simple HTTP-based pub-sub notification service. 
 - **Project URL:** https://github.com/binwiederhier/ntfy
 - **Documentation:** https://docs.ntfy.sh/
 - **Docker Hub:** https://hub.docker.com/r/binwiederhier/ntfy
-- **Static IP:** 192.168.62.82
+- **Static IP:** 192.168.42.82
 - **DNS Zone:** lab.kemo.dev
 
 ## Container Image
@@ -101,7 +101,7 @@ services:
       - ./server.yml:/etc/ntfy/server.yml:ro
     networks:
       homelab:
-        ipv4_address: 192.168.62.82
+        ipv4_address: 192.168.42.82
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ntfy.rule=Host(`ntfy.lab.kemo.dev`)"
@@ -113,7 +113,7 @@ services:
 ### Static IP
 
 ```
-ntfy.lab.kemo.dev.    IN A    192.168.62.82
+ntfy.lab.kemo.dev.    IN A    192.168.42.82
 ```
 
 ## Special Considerations

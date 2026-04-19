@@ -23,7 +23,7 @@ docker compose up -d
 | `TZ` | Timezone | `America/New_York` |
 | `WUD_WATCHER_LOCAL_CRON` | Update check schedule (cron) | `0 */6 * * *` |
 | `WUD_WATCHER_LOCAL_WATCHBYDEFAULT` | Monitor all containers | `true` |
-| `WUD_TRIGGER_NTFY_HOMELAB_URL` | Ntfy server URL | `http://192.168.62.82` |
+| `WUD_TRIGGER_NTFY_HOMELAB_URL` | Ntfy server URL | `http://192.168.42.82` |
 | `WUD_TRIGGER_NTFY_HOMELAB_TOPIC` | Ntfy notification topic | `wud` |
 | `WUD_TRIGGER_NTFY_HOMELAB_PRIORITY` | Notification priority (0-5) | `3` |
 
@@ -42,14 +42,14 @@ Add labels to individual containers to control WUD behavior:
 |-----|---------|
 | `https://wud.lab.kemo.dev` | WUD web dashboard |
 
-**Static IP:** 192.168.62.9
+**Static IP:** 192.168.42.9
 
 ## Dependencies
 
 - **Podman socket** -- mounted read-only for container inspection
 - **Traefik** -- reverse proxy with TLS via StepCA
-- **DNS** -- `wud.lab.kemo.dev` must resolve to Traefik (192.168.62.10)
-- **Ntfy** (192.168.62.82) -- notification delivery target
+- **DNS** -- `wud.lab.kemo.dev` must resolve to Traefik (192.168.42.10)
+- **Ntfy** (192.168.42.82) -- notification delivery target
 
 ## Maintenance
 
@@ -61,7 +61,7 @@ docker compose logs -f wud
 docker compose pull && docker compose up -d
 
 # Check health
-curl -s http://192.168.62.9:3000/health
+curl -s http://192.168.42.9:3000/health
 
 # Restart after config changes
 docker compose down && docker compose up -d

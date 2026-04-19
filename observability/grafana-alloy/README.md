@@ -35,12 +35,12 @@ Backend services (Loki, Mimir, Tempo) are configured via YAML files in `./config
 | URL | Purpose |
 |-----|---------|
 | `https://grafana.lab.kemo.dev` | Grafana dashboards and alerting |
-| `192.168.62.35:4317` | Alloy OTLP gRPC receiver (for sending traces) |
-| `192.168.62.35:4318` | Alloy OTLP HTTP receiver |
-| `192.168.62.30:3100` | Loki API (log push/query) |
-| `192.168.62.30:9009` | Mimir API (metrics remote write) |
+| `192.168.42.35:4317` | Alloy OTLP gRPC receiver (for sending traces) |
+| `192.168.42.35:4318` | Alloy OTLP HTTP receiver |
+| `192.168.42.30:3100` | Loki API (log push/query) |
+| `192.168.42.30:9009` | Mimir API (metrics remote write) |
 
-**Grafana Static IP:** 192.168.62.30 | **Alloy Static IP:** 192.168.62.35
+**Grafana Static IP:** 192.168.42.30 | **Alloy Static IP:** 192.168.42.35
 
 ## Dependencies
 

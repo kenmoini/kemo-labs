@@ -31,7 +31,7 @@ Repositories are configured via the web UI after first boot. Set up Docker Hoste
 | `https://nexus.lab.kemo.dev` | Nexus Web UI and API |
 | `https://registry.lab.kemo.dev` | Docker registry (group, combines hosted + proxy) |
 
-**Static IP:** 192.168.62.21
+**Static IP:** 192.168.42.21
 
 ## Dependencies
 

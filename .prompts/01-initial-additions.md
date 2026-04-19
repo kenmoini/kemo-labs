@@ -19,12 +19,12 @@ I like some of those suggestions - let's add WUD (getwud.github.io/wud/) since W
 ┌────────────────────────┬───────────────┬──────────────────────────┬───────────────────────────────────────────────────────────┐
 │        Workload        │      IP       │         Category         │                           Files                           │
 ├────────────────────────┼───────────────┼──────────────────────────┼───────────────────────────────────────────────────────────┤
-│ WUD (What's Up Docker) │ 192.168.62.9  │ infrastructure/wud       │ PLANNING.md, docker-compose.yml, .env.example, README.md  │
+│ WUD (What's Up Docker) │ 192.168.42.9  │ infrastructure/wud       │ PLANNING.md, docker-compose.yml, .env.example, README.md  │
 ├────────────────────────┼───────────────┼──────────────────────────┼───────────────────────────────────────────────────────────┤
-│ Ntfy (Push             │ 192.168.62.82 │ communication/ntfy       │ PLANNING.md, docker-compose.yml, .env.example,            │
+│ Ntfy (Push             │ 192.168.42.82 │ communication/ntfy       │ PLANNING.md, docker-compose.yml, .env.example,            │
 │ Notifications)         │               │                          │ server.yml, README.md                                     │
 ├────────────────────────┼───────────────┼──────────────────────────┼───────────────────────────────────────────────────────────┤
-│ Semaphore (Ansible UI) │ 192.168.62.25 │ infrastructure/semaphore │ PLANNING.md, docker-compose.yml, .env.example, README.md  │
+│ Semaphore (Ansible UI) │ 192.168.42.25 │ infrastructure/semaphore │ PLANNING.md, docker-compose.yml, .env.example, README.md  │
 └────────────────────────┴───────────────┴──────────────────────────┴───────────────────────────────────────────────────────────┘
 ```
 

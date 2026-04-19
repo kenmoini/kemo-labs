@@ -11,7 +11,7 @@ HashiCorp Vault provides centralized secrets management, encryption as a service
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.7
+- **IP:** 192.168.42.7
 - **DNS:** `vault.lab.kemo.dev`
 
 ## Required Ports
@@ -76,7 +76,7 @@ cluster_addr = "https://vault.lab.kemo.dev:8201"
 
 ## Network Configuration
 
-- macvlan/ipvlan with static IP 192.168.62.7
+- macvlan/ipvlan with static IP 192.168.42.7
 - Port 8200 exposed directly AND routed through Traefik
 - Vault can also run with TLS disabled behind Traefik (simpler), or with its own TLS certs
 

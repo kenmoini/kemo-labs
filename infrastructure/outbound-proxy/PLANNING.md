@@ -12,7 +12,7 @@ Squid serves as a forward (outbound) proxy for the homelab network, providing HT
 
 ## Static IP
 
-- `192.168.62.11`
+- `192.168.42.11`
 
 ## Required Ports
 
@@ -43,7 +43,7 @@ maximum_object_size 1024 MB
 cache_mem 512 MB
 
 # Access control
-acl localnet src 192.168.62.0/23
+acl localnet src 192.168.42.0/23
 acl localnet src 10.0.0.0/8
 acl localnet src 172.16.0.0/12
 http_access allow localnet
@@ -54,7 +54,7 @@ access_log /var/log/squid/access.log squid
 cache_log /var/log/squid/cache.log
 
 # DNS
-dns_nameservers 192.168.62.4
+dns_nameservers 192.168.42.4
 
 # Timeouts
 connect_timeout 30 seconds
@@ -92,8 +92,8 @@ Allocate **10 - 50 GB** of disk space for the cache depending on usage patterns.
 
 ## Network Configuration
 
-- Static IP `192.168.62.11` on the homelab macvlan/ipvlan network.
-- Clients use this proxy by setting `http_proxy=http://192.168.62.11:3128` and `https_proxy=http://192.168.62.11:3128` in their environment.
+- Static IP `192.168.42.11` on the homelab macvlan/ipvlan network.
+- Clients use this proxy by setting `http_proxy=http://192.168.42.11:3128` and `https_proxy=http://192.168.42.11:3128` in their environment.
 - Docker containers can be configured to use this proxy via daemon-level proxy settings or per-container environment variables.
 - Traefik subdomain: `proxy.lab.kemo.dev` (for Squid cache manager web interface if enabled).
 
@@ -104,5 +104,5 @@ Allocate **10 - 50 GB** of disk space for the cache depending on usage patterns.
 3. **Container image pull caching:** Docker can be configured to use Squid as a registry mirror proxy. This requires additional Squid configuration to handle Docker registry traffic correctly.
 4. **ACLs for safety:** Restrict the proxy to the local network. Do not allow arbitrary external access.
 5. **Log rotation:** Squid logs can grow large. Configure logrotate or Squid's built-in log rotation (`logfile_rotate`).
-6. **DNS configuration:** Point Squid at Pi-hole (192.168.62.4) for DNS resolution so it benefits from local DNS and ad blocking.
-7. **No-proxy list:** Services that communicate locally (e.g., within the Podman network) should bypass the proxy. Set `no_proxy=localhost,127.0.0.1,.lab.kemo.dev,192.168.62.0/23` in client configurations.
+6. **DNS configuration:** Point Squid at Pi-hole (192.168.42.4) for DNS resolution so it benefits from local DNS and ad blocking.
+7. **No-proxy list:** Services that communicate locally (e.g., within the Podman network) should bypass the proxy. Set `no_proxy=localhost,127.0.0.1,.lab.kemo.dev,192.168.42.0/23` in client configurations.

@@ -31,29 +31,29 @@ Given the host has 128GB+ RAM and 32+ cores, the following allocation dedicates 
 
 ### IP Assignments
 
-All nodes are bridged onto the existing 192.168.62.0/23 lab network. Static IPs are configured via Talos machine config (not DHCP).
+All nodes are bridged onto the existing 192.168.42.0/23 lab network. Static IPs are configured via Talos machine config (not DHCP).
 
 | Node | Hostname | FQDN | IP Address | MAC Address |
 |------|----------|------|------------|-------------|
-| CP1 | talos-cp1 | talos-cp1.lab.kemo.dev | 192.168.62.100 | 52:54:00:62:01:00 |
-| CP2 | talos-cp2 | talos-cp2.lab.kemo.dev | 192.168.62.101 | 52:54:00:62:01:01 |
-| CP3 | talos-cp3 | talos-cp3.lab.kemo.dev | 192.168.62.102 | 52:54:00:62:01:02 |
-| W1 | talos-w1 | talos-w1.lab.kemo.dev | 192.168.62.110 | 52:54:00:62:01:10 |
-| W2 | talos-w2 | talos-w2.lab.kemo.dev | 192.168.62.111 | 52:54:00:62:01:11 |
-| W3 | talos-w3 | talos-w3.lab.kemo.dev | 192.168.62.112 | 52:54:00:62:01:12 |
+| CP1 | talos-cp1 | talos-cp1.lab.kemo.dev | 192.168.42.100 | 52:54:00:62:01:00 |
+| CP2 | talos-cp2 | talos-cp2.lab.kemo.dev | 192.168.42.101 | 52:54:00:62:01:01 |
+| CP3 | talos-cp3 | talos-cp3.lab.kemo.dev | 192.168.42.102 | 52:54:00:62:01:02 |
+| W1 | talos-w1 | talos-w1.lab.kemo.dev | 192.168.42.110 | 52:54:00:62:01:10 |
+| W2 | talos-w2 | talos-w2.lab.kemo.dev | 192.168.42.111 | 52:54:00:62:01:11 |
+| W3 | talos-w3 | talos-w3.lab.kemo.dev | 192.168.42.112 | 52:54:00:62:01:12 |
 
 ### Control Plane VIP
 
 | Purpose | FQDN | IP Address |
 |---------|------|------------|
-| Kubernetes API VIP | talos-api.lab.kemo.dev | 192.168.62.99 |
+| Kubernetes API VIP | talos-api.lab.kemo.dev | 192.168.42.99 |
 
 The VIP floats between control plane nodes using Talos's built-in VIP support. No external load balancer is needed.
 
 ### Network Architecture
 
-- **Bridge mode:** VMs attach to the host's existing bridge interface (e.g., `br0`) that is already on the 192.168.62.0/23 network. This is NOT a libvirt NAT network -- the VMs are first-class citizens on the lab LAN.
-- **Gateway:** 192.168.62.1 (or whatever the lab network gateway is)
+- **Bridge mode:** VMs attach to the host's existing bridge interface (e.g., `br0`) that is already on the 192.168.42.0/23 network. This is NOT a libvirt NAT network -- the VMs are first-class citizens on the lab LAN.
+- **Gateway:** 192.168.42.1 (or whatever the lab network gateway is)
 - **DNS:** Handled by the lab's DNS infrastructure (Pi-hole / CoreDNS in the infrastructure stack)
 - **Subnet mask:** 255.255.254.0 (/23)
 
@@ -113,7 +113,7 @@ done
 
 ### VM Creation (virt-install)
 
-All VMs use bridged networking to `br0` (the host bridge on the 192.168.62.0/23 network), UEFI boot, and virtio for disk and network.
+All VMs use bridged networking to `br0` (the host bridge on the 192.168.42.0/23 network), UEFI boot, and virtio for disk and network.
 
 ```bash
 # Control Plane Nodes
@@ -172,7 +172,7 @@ done
 
 ```bash
 # Generate configs targeting the VIP as the API endpoint
-talosctl gen config talos-lab https://192.168.62.99:6443 \
+talosctl gen config talos-lab https://192.168.42.99:6443 \
   --output-dir _out \
   --with-docs=false \
   --with-examples=false
@@ -197,14 +197,14 @@ machine:
     interfaces:
       - interface: eth0
         addresses:
-          - 192.168.62.100/23
+          - 192.168.42.100/23
         routes:
           - network: 0.0.0.0/0
-            gateway: 192.168.62.1
+            gateway: 192.168.42.1
         vip:
-          ip: 192.168.62.99
+          ip: 192.168.42.99
     nameservers:
-      - 192.168.62.1
+      - 192.168.42.1
   install:
     disk: /dev/vda
 ```
@@ -219,12 +219,12 @@ machine:
     interfaces:
       - interface: eth0
         addresses:
-          - 192.168.62.110/23
+          - 192.168.42.110/23
         routes:
           - network: 0.0.0.0/0
-            gateway: 192.168.62.1
+            gateway: 192.168.42.1
     nameservers:
-      - 192.168.62.1
+      - 192.168.42.1
   install:
     disk: /dev/vda
 ```
@@ -233,23 +233,23 @@ machine:
 
 ```bash
 # Apply to control plane nodes (--insecure because they have no config yet)
-talosctl apply-config --insecure --nodes 192.168.62.100 \
+talosctl apply-config --insecure --nodes 192.168.42.100 \
   --config-patch @patch-cp1.yaml --file _out/controlplane.yaml
 
-talosctl apply-config --insecure --nodes 192.168.62.101 \
+talosctl apply-config --insecure --nodes 192.168.42.101 \
   --config-patch @patch-cp2.yaml --file _out/controlplane.yaml
 
-talosctl apply-config --insecure --nodes 192.168.62.102 \
+talosctl apply-config --insecure --nodes 192.168.42.102 \
   --config-patch @patch-cp3.yaml --file _out/controlplane.yaml
 
 # Apply to worker nodes
-talosctl apply-config --insecure --nodes 192.168.62.110 \
+talosctl apply-config --insecure --nodes 192.168.42.110 \
   --config-patch @patch-w1.yaml --file _out/worker.yaml
 
-talosctl apply-config --insecure --nodes 192.168.62.111 \
+talosctl apply-config --insecure --nodes 192.168.42.111 \
   --config-patch @patch-w2.yaml --file _out/worker.yaml
 
-talosctl apply-config --insecure --nodes 192.168.62.112 \
+talosctl apply-config --insecure --nodes 192.168.42.112 \
   --config-patch @patch-w3.yaml --file _out/worker.yaml
 ```
 
@@ -259,8 +259,8 @@ talosctl apply-config --insecure --nodes 192.168.62.112 \
 
 ```bash
 # Configure talosctl to use the VIP endpoint
-talosctl config endpoint 192.168.62.99
-talosctl config node 192.168.62.100
+talosctl config endpoint 192.168.42.99
+talosctl config node 192.168.42.100
 
 # Bootstrap etcd on the first control plane node
 talosctl bootstrap
@@ -269,7 +269,7 @@ talosctl bootstrap
 talosctl health --wait-timeout 10m
 
 # Retrieve kubeconfig
-talosctl kubeconfig --force -n 192.168.62.99
+talosctl kubeconfig --force -n 192.168.42.99
 ```
 
 ### Step 5: Verify
@@ -310,26 +310,26 @@ The following DNS records must exist in the `lab.kemo.dev` zone before or at dep
 
 | Record | Type | Value |
 |--------|------|-------|
-| talos-cp1.lab.kemo.dev | A | 192.168.62.100 |
-| talos-cp2.lab.kemo.dev | A | 192.168.62.101 |
-| talos-cp3.lab.kemo.dev | A | 192.168.62.102 |
-| talos-w1.lab.kemo.dev | A | 192.168.62.110 |
-| talos-w2.lab.kemo.dev | A | 192.168.62.111 |
-| talos-w3.lab.kemo.dev | A | 192.168.62.112 |
-| talos-api.lab.kemo.dev | A | 192.168.62.99 |
+| talos-cp1.lab.kemo.dev | A | 192.168.42.100 |
+| talos-cp2.lab.kemo.dev | A | 192.168.42.101 |
+| talos-cp3.lab.kemo.dev | A | 192.168.42.102 |
+| talos-w1.lab.kemo.dev | A | 192.168.42.110 |
+| talos-w2.lab.kemo.dev | A | 192.168.42.111 |
+| talos-w3.lab.kemo.dev | A | 192.168.42.112 |
+| talos-api.lab.kemo.dev | A | 192.168.42.99 |
 
 A wildcard record for ingress is also useful:
 
 | Record | Type | Value |
 |--------|------|-------|
-| *.apps.lab.kemo.dev | A | 192.168.62.99 (or a dedicated ingress VIP) |
+| *.apps.lab.kemo.dev | A | 192.168.42.99 (or a dedicated ingress VIP) |
 
 ### Host Prerequisites
 
 On the Fedora host:
 - `libvirt`, `qemu-kvm`, `virt-install` installed (`sudo dnf install @virtualization`)
 - `libvirtd` enabled and running
-- A bridge interface `br0` configured on the 192.168.62.0/23 network
+- A bridge interface `br0` configured on the 192.168.42.0/23 network
 - UEFI firmware available (`/usr/share/edk2/ovmf/OVMF_CODE.fd` on Fedora)
 
 ### Client Tools
@@ -359,7 +359,7 @@ Talos has no SSH, no shell, no package manager. All management is via `talosctl`
 Talos upgrades are rolling and non-disruptive:
 ```bash
 # Upgrade each node one at a time
-talosctl upgrade --nodes 192.168.62.100 \
+talosctl upgrade --nodes 192.168.42.100 \
   --image ghcr.io/siderolabs/installer:v1.9.5
 ```
 

@@ -27,6 +27,6 @@ services:
         max-file: "3"
 
 # NOTE: Home Assistant uses host networking for mDNS/SSDP/UPnP discovery.
-# The static IP 192.168.62.60 must be assigned at the host level.
+# The static IP 192.168.42.60 must be assigned at the host level.
 # Traefik routes to this service via file provider (not Container labels).
 # See infrastructure/traefik/config/dynamic/home-assistant.yml

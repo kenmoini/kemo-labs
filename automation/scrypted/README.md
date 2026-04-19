@@ -15,7 +15,7 @@ mkdir -p ./volume
 docker compose up -d
 
 # Complete initial setup at:
-# https://192.168.62.61:10443
+# https://192.168.42.61:10443
 ```
 
 ## Configuration
@@ -32,9 +32,9 @@ Most configuration is done through the web UI: adding cameras, configuring plugi
 | URL | Purpose |
 |-----|---------|
 | `https://scrypted.lab.kemo.dev` | Web UI (via Traefik file provider) |
-| `https://192.168.62.61:10443` | Direct access (self-signed cert) |
+| `https://192.168.42.61:10443` | Direct access (self-signed cert) |
 
-**Static IP:** 192.168.62.61 (assigned at the host level, not Docker)
+**Static IP:** 192.168.42.61 (assigned at the host level, not Docker)
 
 ## Dependencies
 

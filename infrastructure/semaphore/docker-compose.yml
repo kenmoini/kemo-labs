@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       - SEMAPHORE_DB_DIALECT=postgres
-      - SEMAPHORE_DB_HOST=192.168.62.16
+      - SEMAPHORE_DB_HOST=192.168.42.16
       - SEMAPHORE_DB_PORT=5432
       - SEMAPHORE_DB_USER=${DB_USERNAME:-semaphore}
       - SEMAPHORE_DB_PASS=${DB_PASSWORD}
@@ -21,8 +21,8 @@ services:
       - ./data:/etc/semaphore
       - ~/.ssh:/home/semaphore/.ssh:ro
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.25
+      bridge42:
+        ipv4_address: 192.168.42.25
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.semaphore.rule=Host(`semaphore.lab.kemo.dev`)"
@@ -37,5 +37,5 @@ services:
       start_period: 15s
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true

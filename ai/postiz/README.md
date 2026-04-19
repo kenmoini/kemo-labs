@@ -25,7 +25,7 @@ docker compose up -d
 |----------|---------|
 | `JWT_SECRET` | JWT signing secret (long random string) |
 | `DATABASE_URL` | PostgreSQL connection string for Postiz |
-| `REDIS_URL` | Valkey URL with DB index (e.g., `redis://192.168.62.15:6379/6`) |
+| `REDIS_URL` | Valkey URL with DB index (e.g., `redis://192.168.42.15:6379/6`) |
 | `TEMPORAL_DB_PASSWORD` | Password for Temporal's dedicated PostgreSQL |
 | Social media `*_API_KEY` / `*_CLIENT_ID` vars | Per-platform API credentials |
 
@@ -35,7 +35,7 @@ docker compose up -d
 |-----|---------|
 | `https://postiz.lab.kemo.dev` | Social media management UI |
 
-**Static IP:** 192.168.62.72
+**Static IP:** 192.168.42.72
 
 ## Dependencies
 

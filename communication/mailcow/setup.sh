@@ -7,7 +7,7 @@ set -euo pipefail
 
 MAILCOW_HOSTNAME="mail.lab.kemo.dev"
 MAILCOW_TZ="America/New_York"
-MAILCOW_IP="192.168.62.80"
+MAILCOW_IP="192.168.42.80"
 STEPCA_ACME_URL="https://stepca.lab.kemo.dev:9000/acme/acme/directory"
 INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/mailcow-dockerized"
 
@@ -85,27 +85,27 @@ echo "[INFO] Creating docker-compose.override.yml for IP binding..."
 
 cat > docker-compose.override.yml << 'EOF'
 # Mailcow Docker Compose Override
-# Binds all external ports to the dedicated static IP 192.168.62.80
+# Binds all external ports to the dedicated static IP 192.168.42.80
 
 services:
   postfix-mailcow:
     ports:
-      - "192.168.62.80:25:25"
-      - "192.168.62.80:465:465"
-      - "192.168.62.80:587:587"
+      - "192.168.42.80:25:25"
+      - "192.168.42.80:465:465"
+      - "192.168.42.80:587:587"
 
   dovecot-mailcow:
     ports:
-      - "192.168.62.80:143:143"
-      - "192.168.62.80:993:993"
-      - "192.168.62.80:110:110"
-      - "192.168.62.80:995:995"
-      - "192.168.62.80:4190:4190"
+      - "192.168.42.80:143:143"
+      - "192.168.42.80:993:993"
+      - "192.168.42.80:110:110"
+      - "192.168.42.80:995:995"
+      - "192.168.42.80:4190:4190"
 
   nginx-mailcow:
     ports:
-      - "192.168.62.80:80:80"
-      - "192.168.62.80:443:443"
+      - "192.168.42.80:80:80"
+      - "192.168.42.80:443:443"
 EOF
 
 echo "[OK] docker-compose.override.yml created."
@@ -120,8 +120,8 @@ echo "==========================================="
 echo ""
 echo "Next steps:"
 echo ""
-echo "1. Assign 192.168.62.80 as a secondary IP on the host:"
-echo "   sudo ip addr add 192.168.62.80/23 dev <your-lan-interface>"
+echo "1. Assign 192.168.42.80 as a secondary IP on the host:"
+echo "   sudo ip addr add 192.168.42.80/23 dev <your-lan-interface>"
 echo "   (or configure it permanently via NetworkManager/systemd-networkd)"
 echo ""
 echo "2. Disable host Postfix if running:"
@@ -138,7 +138,7 @@ echo ""
 echo "5. Configure the following DNS records:"
 echo ""
 echo "   ; A record for mail server"
-echo "   mail.lab.kemo.dev.              IN A     192.168.62.80"
+echo "   mail.lab.kemo.dev.              IN A     192.168.42.80"
 echo ""
 echo "   ; MX record"
 echo "   lab.kemo.dev.                   IN MX    10 mail.lab.kemo.dev."

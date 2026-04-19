@@ -34,10 +34,10 @@ networks:
 # Scratch Lab
 - name: bridge62
   physicalDevice: bridge62
-  subnet: 192.168.62.0
+  subnet: 192.168.42.0
   cidr: 23
-  gateway: 192.168.62.1
-  # ipv4: 192.168.62.90
+  gateway: 192.168.42.1
+  # ipv4: 192.168.42.90
 # Public Subnet
 - name: bridge420
   physicalDevice: bridge420

@@ -2,7 +2,7 @@
 
 > [Commit e4216d3](https://github.com/kenmoini/kemo-labs/commit/e4216d36a82c99412e68b7fcf6c58d0312e89cde)
 
-I'm redeploying my homelab.  It's running on a single physical Fedora host and already has Libvirt/KVM for VM workloads and Docker for container workloads setup.  Both already have networks bridged in for static and DHCP IP allocation in the 192.168.62.0/23 range with the second half being the DHCP pool.  All workloads will use the DNS zone "lab.kemo.dev".  I'm wanting to deploy the following workloads:
+I'm redeploying my homelab.  It's running on a single physical Fedora host and already has Libvirt/KVM for VM workloads and Docker for container workloads setup.  Both already have networks bridged in for static and DHCP IP allocation in the 192.168.42.0/23 range with the second half being the DHCP pool.  All workloads will use the DNS zone "lab.kemo.dev".  I'm wanting to deploy the following workloads:
 
 - **PKI** - [PikaPKI](https://github.com/kenmoini/pika-pki)
 - **Load Balancer** - [Traefik](https://doc.traefik.io/traefik/getting-started/quick-start/)

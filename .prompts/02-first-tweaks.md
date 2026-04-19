@@ -22,7 +22,7 @@ Let's take the ./scripts/setup-network.sh and have it support the creation of mu
   ├──────────────────────┼─────────────────┼────────┼──────────────────────────┤
   │ homelab-access       │ 192.168.92.0/23 │ br0    │ Access VLAN              │
   ├──────────────────────┼─────────────────┼────────┼──────────────────────────┤
-  │ homelab-lab          │ 192.168.62.0/23 │ br0.62 │ Primary workload network │
+  │ homelab-lab          │ 192.168.42.0/23 │ br0.62 │ Primary workload network │
   ├──────────────────────┼─────────────────┼────────┼──────────────────────────┤
   │ homelab-disconnected │ 192.168.70.0/24 │ br0.70 │ No upstream connectivity │
   ├──────────────────────┼─────────────────┼────────┼──────────────────────────┤

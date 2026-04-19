@@ -60,13 +60,13 @@ CPU usage spikes briefly during S.M.A.R.T. data collection (every few hours) and
 
 - **Traefik** (infrastructure/traefik): Reverse proxy for HTTPS access.
 - **StepCA ACME**: TLS certificates via Traefik.
-- **DNS**: `scrutiny.lab.kemo.dev` A record pointing to 192.168.62.33.
+- **DNS**: `scrutiny.lab.kemo.dev` A record pointing to 192.168.42.33.
 - **Host disk access**: Requires privileged access to host disk devices and smartmontools.
 
 ## Network Configuration
 
-- **Static IP:** `192.168.62.33`
-- **Network:** Bridged macvlan or equivalent on `192.168.62.0/23`
+- **Static IP:** `192.168.42.33`
+- **Network:** Bridged macvlan or equivalent on `192.168.42.0/23`
 - Exposed via Traefik with TLS at `https://scrutiny.lab.kemo.dev`
 
 ### Traefik Labels

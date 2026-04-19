@@ -11,7 +11,7 @@ Homepage is a modern, self-hosted application dashboard that serves as the centr
 
 ## Static IP
 
-- `192.168.62.14`
+- `192.168.42.14`
 
 ## Required Ports
 
@@ -23,7 +23,7 @@ Homepage is a modern, self-hosted application dashboard that serves as the centr
 
 | Variable | Purpose | Example |
 |----------|---------|---------|
-| `HOMEPAGE_ALLOWED_HOSTS` | Required: allowed Host headers | `home.lab.kemo.dev,192.168.62.14:3000` |
+| `HOMEPAGE_ALLOWED_HOSTS` | Required: allowed Host headers | `home.lab.kemo.dev,192.168.42.14:3000` |
 | `PUID` | User ID for file permissions | `1000` |
 | `PGID` | Group ID for file permissions | `1000` |
 | `TZ` | Timezone | `America/New_York` |
@@ -76,7 +76,7 @@ The `./config/` directory contains YAML files that define the dashboard layout:
 
 ## Network Configuration
 
-- Static IP `192.168.62.14` on the homelab macvlan/ipvlan network.
+- Static IP `192.168.42.14` on the homelab macvlan/ipvlan network.
 - Exposed through Traefik as `home.lab.kemo.dev`.
 - Podman socket access (read-only) enables automatic discovery and status display of Docker containers.
 - Homepage needs network access to all services it monitors (for widget API calls).
@@ -103,14 +103,14 @@ Homepage can display real-time data from other homelab services. Example `servic
         href: https://traefik.lab.kemo.dev
         widget:
           type: traefik
-          url: http://192.168.62.10:8080
+          url: http://192.168.42.10:8080
 
     - Pi-hole:
         icon: pi-hole.svg
         href: https://pihole.lab.kemo.dev
         widget:
           type: pihole
-          url: http://192.168.62.4
+          url: http://192.168.42.4
           key: "{{HOMEPAGE_VAR_PIHOLE_API_KEY}}"
 
     - PeaNUT:
@@ -118,7 +118,7 @@ Homepage can display real-time data from other homelab services. Example `servic
         href: https://peanut.lab.kemo.dev
         widget:
           type: peanut
-          url: http://192.168.62.12:8081
+          url: http://192.168.42.12:8081
 ```
 
 ## Special Considerations

@@ -100,7 +100,7 @@ Ollama is configured primarily through its runtime environment and model pulls. 
 
 | Setting | Value |
 |---------|-------|
-| Static IP | `192.168.62.70` |
+| Static IP | `192.168.42.70` |
 | DNS Name | `open-webui.lab.kemo.dev` |
 | Container Network | Shared macvlan/bridge with static IP assignment |
 | Traefik Labels | Route `open-webui.lab.kemo.dev` to container port 8080 |

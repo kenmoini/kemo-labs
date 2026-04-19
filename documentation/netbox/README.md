@@ -34,7 +34,7 @@ docker compose up -d
 |-----|---------|
 | `https://netbox.lab.kemo.dev` | Web UI and REST/GraphQL API |
 
-**Static IP:** 192.168.62.50
+**Static IP:** 192.168.42.50
 
 ## Dependencies
 

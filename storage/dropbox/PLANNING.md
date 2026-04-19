@@ -13,7 +13,7 @@ A dual-container file sharing solution: NGINX serves files for fast static downl
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.23
+- **IP:** 192.168.42.23
 - **DNS:** `files.lab.kemo.dev` (NGINX), `upload.lab.kemo.dev` (Copyparty)
 
 ## Required Ports
@@ -74,7 +74,7 @@ server {
 
 ## Network Configuration
 
-- macvlan/ipvlan with static IP 192.168.62.23
+- macvlan/ipvlan with static IP 192.168.42.23
 - Both containers share the same IP via the same compose network
 - Traefik routes by hostname:
   - `files.lab.kemo.dev` → NGINX port 80

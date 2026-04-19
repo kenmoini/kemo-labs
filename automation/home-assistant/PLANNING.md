@@ -25,10 +25,10 @@ Home Assistant **requires host networking** for proper device discovery (mDNS, S
 | Setting | Value |
 |---|---|
 | Network Mode | `host` |
-| Static IP | `192.168.62.60` (configured on the host interface/macvlan, not in Docker) |
+| Static IP | `192.168.42.60` (configured on the host interface/macvlan, not in Docker) |
 | DNS Name | `home-assistant.lab.kemo.dev` |
 
-Since host networking is used, the static IP `192.168.62.60` must be assigned at the host level (e.g., via a macvlan interface or a secondary IP on the bridge interface). Podman's `network_mode: host` shares the host's entire network stack.
+Since host networking is used, the static IP `192.168.42.60` must be assigned at the host level (e.g., via a macvlan interface or a secondary IP on the bridge interface). Podman's `network_mode: host` shares the host's entire network stack.
 
 ### Ports (Host Network)
 
@@ -48,7 +48,7 @@ Since Home Assistant runs on host networking with a static IP, Traefik should ro
 
 ```
 URL: https://home-assistant.lab.kemo.dev
-Backend: http://192.168.62.60:8123
+Backend: http://192.168.42.60:8123
 ```
 
 Home Assistant requires the `trusted_proxies` configuration in `configuration.yaml` to accept proxied connections:
@@ -57,7 +57,7 @@ Home Assistant requires the `trusted_proxies` configuration in `configuration.ya
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 192.168.62.0/23
+    - 192.168.42.0/23
 ```
 
 ## Environment Variables
@@ -119,7 +119,7 @@ The MQTT integration is configured through the Home Assistant UI or `configurati
 
 - **MariaDB/PostgreSQL** (optional): For the recorder component if SQLite performance is insufficient
 - **InfluxDB** (optional): For long-term statistics storage
-- **Scrypted** (`192.168.62.61`): Camera/NVR integration via HomeKit or direct plugin
+- **Scrypted** (`192.168.42.61`): Camera/NVR integration via HomeKit or direct plugin
 
 ## Special Considerations
 
@@ -179,7 +179,7 @@ Store backups on a separate volume or sync to external storage.
 1. Shared MQTT broker must be running
 2. (Optional) External database must be running if configured
 3. Home Assistant container starts
-4. Initial setup wizard runs on first boot at `http://192.168.62.60:8123`
+4. Initial setup wizard runs on first boot at `http://192.168.42.60:8123`
 
 ## Docker Compose Skeleton
 

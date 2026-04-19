@@ -34,9 +34,9 @@ PowerDNS Auth and Recursor are configured via mounted config files (`pdns.conf`,
 | URL / IP | Purpose |
 |----------|---------|
 | `https://pihole.lab.kemo.dev` | Pi-hole admin dashboard (via Traefik) |
-| `192.168.62.4:53` | Pi-hole DNS (set as network DNS server) |
-| `192.168.62.2:8081` | PowerDNS Auth API |
-| `192.168.62.3:8082` | PowerDNS Recursor API |
+| `192.168.42.4:53` | Pi-hole DNS (set as network DNS server) |
+| `192.168.42.2:8081` | PowerDNS Auth API |
+| `192.168.42.3:8082` | PowerDNS Recursor API |
 
 ## Dependencies
 
@@ -52,9 +52,9 @@ docker compose logs -f
 docker compose pull pihole && docker compose up -d pihole
 
 # Add a DNS record via PowerDNS API
-curl -X PATCH http://192.168.62.2:8081/api/v1/servers/localhost/zones/lab.kemo.dev. \
+curl -X PATCH http://192.168.42.2:8081/api/v1/servers/localhost/zones/lab.kemo.dev. \
   -H "X-API-Key: $PDNS_AUTH_API_KEY" \
-  -d '{"rrsets": [{"name": "new.lab.kemo.dev.", "type": "A", "ttl": 300, "changetype": "REPLACE", "records": [{"content": "192.168.62.x", "disabled": false}]}]}'
+  -d '{"rrsets": [{"name": "new.lab.kemo.dev.", "type": "A", "ttl": 300, "changetype": "REPLACE", "records": [{"content": "192.168.42.x", "disabled": false}]}]}'
 
 # Back up Pi-hole config
 cp -r ./pihole/etc-pihole/ /path/to/backup/

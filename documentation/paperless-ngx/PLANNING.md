@@ -129,17 +129,17 @@ OCR processing (Tesseract) is the primary resource consumer. During batch import
 
 ### Integration Dependencies
 
-- **Paperless-AI** (192.168.62.54) connects to Paperless-NGX via its REST API. An API token must be generated within Paperless-NGX for Paperless-AI to use.
+- **Paperless-AI** (192.168.42.54) connects to Paperless-NGX via its REST API. An API token must be generated within Paperless-NGX for Paperless-AI to use.
 
 ## Network Configuration
 
 | Setting | Value |
 |---------|-------|
-| Static IP | `192.168.62.53` |
+| Static IP | `192.168.42.53` |
 | DNS Zone | `lab.kemo.dev` |
 | FQDN | `paperless.lab.kemo.dev` |
 | Container Network | `lab-network` (macvlan/bridge) |
-| Subnet | `192.168.62.0/23` |
+| Subnet | `192.168.42.0/23` |
 
 ### Traefik Labels
 

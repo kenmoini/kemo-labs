@@ -1,6 +1,6 @@
 ---
 networks:
-  homelab-lab:
+  bridge42:
     external: true
 
 volumes:
@@ -29,8 +29,8 @@ services:
       #- /dev/nvme0n1:/dev/nvme0n1
       #- /dev/nvme1n1:/dev/nvme1n1
     networks:
-      homelab-lab:
-        ipv4_address: ${STATIC_IP:-192.168.62.33}
+      bridge42:
+        ipv4_address: ${STATIC_IP:-192.168.42.33}
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1"]
       interval: 30s

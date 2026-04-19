@@ -46,7 +46,7 @@ Everything here is meant to be run on a single Fedora host, however in my lab I 
 |  bridge0 ─── 192.168.92.0/23 (bridge) ─── Access VLAN (home)    |
 |  bridge42 ─── 192.168.42.0/23 (bridge) ─── Lab VLAN 42          |
 |  bridge60 ─── 192.168.60.0/23 (bridge) ─── K8s/OCP VLAN 60      |
-|  bridge62 ─── 192.168.62.0/23 (bridge) ─── Scratch Lab VLAN 62  |
+|  bridge62 ─── 192.168.42.0/23 (bridge) ─── Scratch Lab VLAN 62  |
 |  bridge66 ─── 192.168.66.0/24 (bridge) ─── DB VLAN 66           |
 |  bridge70 ─── 192.168.70.0/23 (bridge) ─── Disconnected VLAN 70 |
 |  bridge86 ─── 192.168.86.0/24 (bridge) ─── Isolated VLAN 86     |
@@ -102,7 +102,7 @@ The homelab uses multiple VLANs, each mapped to a Libvirt/Podman bridge network 
 | `home-access` | 192.168.92.0/23 | 192.168.92.1 | `bridge0` | Access VLAN - home things, not used by lab |
 | `homelab-lab` | 192.168.42.0/23 | 192.168.42.1 | `bridge42` | Lab VLAN 42 - primary lab workload network |
 | `homelab-k8s` | 192.168.60.0/23 | 192.168.60.1 | `bridge60` | K8s/OCP VLAN 60 - Kubernetes/OpenShift network |
-| `homelab-sandbox` | 192.168.62.0/23 | 192.168.62.1 | `bridge62` | Lab VLAN 62 - Sandbox lab workload network |
+| `homelab-sandbox` | 192.168.42.0/23 | 192.168.42.1 | `bridge62` | Lab VLAN 62 - Sandbox lab workload network |
 | `homelab-db` | 192.168.66.0/24 | 192.168.66.1 | `bridge66` | DB VLAN 66 - Database workload network |
 | `homelab-disconnected` | 192.168.70.0/23 | 192.168.70.1 | `bridge70` | Disconnected VLAN 70 - no Internet connectivity |
 | `homelab-isolated` | 192.168.86.0/24 | 192.168.86.1 | `bridge86` | Isolated VLAN 86 - no DHCP and no access to other VLANs |
@@ -328,7 +328,7 @@ Estimated peak usage for all Podman workloads is ~106 GB RAM. The Talos Kubernet
 
 The Talos Linux cluster (Phase 14) runs as KVM virtual machines managed by libvirt, separate from the Podman workloads. It is deployed last because it takes the longest to stabilize and has the heaviest resource footprint.
 
-Configuration lives in `compute/talos-kubernetes/`. The cluster uses its own IP range (192.168.62.99-112) with a shared VIP at .99 for the control plane.
+Configuration lives in `compute/talos-kubernetes/`. The cluster uses its own IP range (192.168.42.99-112) with a shared VIP at .99 for the control plane.
 
 ## Further Reading
 

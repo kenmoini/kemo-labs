@@ -59,6 +59,6 @@ services:
       - 8.8.8.8
 
 # NOTE: Scrypted uses host networking for ONVIF/mDNS camera discovery.
-# The static IP 192.168.62.61 must be assigned at the host level.
+# The static IP 192.168.42.61 must be assigned at the host level.
 # Traefik routes to this service via file provider (not Container labels).
 # See infrastructure/traefik/config/dynamic/scrypted.yml

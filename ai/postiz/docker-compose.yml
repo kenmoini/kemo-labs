@@ -12,8 +12,8 @@ services:
       - NEXT_PUBLIC_BACKEND_URL=https://postiz.lab.kemo.dev/api
       - BACKEND_INTERNAL_URL=http://localhost:3000
       - JWT_SECRET=${JWT_SECRET}
-      - DATABASE_URL=postgresql://${POSTIZ_DB_USER:-postiz}:${POSTIZ_DB_PASSWORD}@192.168.62.15:5432/${POSTIZ_DB_NAME:-postiz}
-      - REDIS_URL=redis://192.168.62.15:6379/6
+      - DATABASE_URL=postgresql://${POSTIZ_DB_USER:-postiz}:${POSTIZ_DB_PASSWORD}@192.168.42.15:5432/${POSTIZ_DB_NAME:-postiz}
+      - REDIS_URL=redis://192.168.42.15:6379/6
       - TEMPORAL_ADDRESS=temporal:7233
       - IS_GENERAL=true
       - STORAGE_PROVIDER=local
@@ -34,8 +34,8 @@ services:
       - postiz-config:/config
       - postiz-uploads:/uploads
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.72
+      bridge42:
+        ipv4_address: 192.168.42.72
       postiz-internal:
     labels:
       - "traefik.enable=true"
@@ -187,7 +187,7 @@ volumes:
   temporal-es-data:
 
 networks:
-  homelab-lab:
+  bridge42:
     external: true
   postiz-internal:
     driver: bridge

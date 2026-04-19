@@ -11,7 +11,7 @@ Renovate automatically creates merge requests in GitLab when dependencies have u
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.41 (only needed if running as persistent service)
+- **IP:** 192.168.42.41 (only needed if running as persistent service)
 - **DNS:** `renovate.lab.kemo.dev` (optional, for logs UI)
 
 ## Required Ports

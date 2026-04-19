@@ -11,7 +11,7 @@ Kopia is a fast, encrypted backup tool with deduplication. It backs up homelab d
 
 ## Static IP & DNS
 
-- **IP:** 192.168.62.22
+- **IP:** 192.168.42.22
 - **DNS:** `backups.lab.kemo.dev`
 
 ## Required Ports
@@ -66,8 +66,8 @@ CPU/RAM spike during compression and deduplication of large backups.
 
 ## Network Configuration
 
-- macvlan/ipvlan with static IP 192.168.62.22
-- Needs network access to RustFS at 192.168.62.20:9000
+- macvlan/ipvlan with static IP 192.168.42.22
+- Needs network access to RustFS at 192.168.42.20:9000
 - Source data mounted as read-only bind mounts from host
 
 ## Special Considerations
@@ -77,7 +77,7 @@ Initialize the S3 repository before first backup:
 ```bash
 docker exec kopia kopia repository create s3 \
   --bucket=backups \
-  --endpoint=192.168.62.20:9000 \
+  --endpoint=192.168.42.20:9000 \
   --disable-tls-verification \
   --access-key=$AWS_ACCESS_KEY_ID \
   --secret-access-key=$AWS_SECRET_ACCESS_KEY

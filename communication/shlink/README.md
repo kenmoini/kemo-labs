@@ -35,7 +35,7 @@ docker exec shlink shlink api-key:generate
 | `https://s.lab.kemo.dev` | Short URL redirects and API |
 | `https://shlink.lab.kemo.dev` | Web management UI |
 
-**Static IP:** 192.168.62.81
+**Static IP:** 192.168.42.81
 
 ## Dependencies
 

@@ -75,8 +75,8 @@ No special environment variables required. Configuration is via a mounted `defau
 
 ## Network Configuration
 
-- **Static IP:** `192.168.62.5`
-- **DNS record:** `pki.lab.kemo.dev` -> `192.168.62.5`
+- **Static IP:** `192.168.42.5`
+- **DNS record:** `pki.lab.kemo.dev` -> `192.168.42.5`
 - **Traefik:** Route `pki.lab.kemo.dev` to the Nginx container on port 80. TLS is optional for this endpoint since it serves public CA certs and CRLs (public data), but HTTPS is recommended for integrity.
 - **macvlan/ipvlan network:** The Nginx container should be attached to the Docker macvlan network with the static IP. The PikaPKI interactive container can share this network or use the default bridge.
 

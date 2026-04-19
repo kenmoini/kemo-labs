@@ -40,7 +40,7 @@ Configuration is managed via `server.yml`, not environment variables.
 |-----|---------|
 | `https://ntfy.lab.kemo.dev` | Web UI and API endpoint |
 
-**Static IP:** 192.168.62.82
+**Static IP:** 192.168.42.82
 
 ## Integration Examples
 

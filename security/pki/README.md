@@ -36,7 +36,7 @@ docker compose run --rm pika-pki
 |-----|---------|
 | `https://pki.lab.kemo.dev` | Public CA certificates and CRLs (Nginx) |
 
-**Static IP:** 192.168.62.5
+**Static IP:** 192.168.42.5
 
 ## Dependencies
 

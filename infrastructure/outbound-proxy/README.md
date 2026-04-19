@@ -34,9 +34,9 @@ Squid is configured via `./config/squid.conf`, not environment variables. Key se
 
 | Address | Purpose |
 |---------|---------|
-| `192.168.62.11:3128` | Proxy endpoint |
+| `192.168.42.11:3128` | Proxy endpoint |
 
-Configure clients with: `http_proxy=http://192.168.62.11:3128` and `https_proxy=http://192.168.62.11:3128`.
+Configure clients with: `http_proxy=http://192.168.42.11:3128` and `https_proxy=http://192.168.42.11:3128`.
 
 ## Dependencies
 

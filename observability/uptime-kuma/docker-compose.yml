@@ -1,6 +1,6 @@
 ---
 networks:
-  homelab-lab:
+  bridge42:
     external: true
 
 volumes:
@@ -17,8 +17,8 @@ services:
     volumes:
       - uptime-kuma-data:/app/data
     networks:
-      homelab-lab:
-        ipv4_address: ${STATIC_IP:-192.168.62.32}
+      bridge42:
+        ipv4_address: ${STATIC_IP:-192.168.42.32}
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3001/ || exit 1"]
       interval: 30s

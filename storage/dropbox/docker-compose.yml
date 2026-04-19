@@ -8,7 +8,7 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.files.rule=Host(`files.lab.kemo.dev`)"
+      - "traefik.http.routers.files.rule=Host(`dropbox.apps.lab.kemo.dev`)"
       - "traefik.http.routers.files.entrypoints=websecure"
       - "traefik.http.routers.files.tls=true"
       - "traefik.http.routers.files.tls.certresolver=stepca"
@@ -38,7 +38,7 @@ services:
     user: "1000:1000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.upload.rule=Host(`upload.lab.kemo.dev`)"
+      - "traefik.http.routers.upload.rule=Host(`upload.apps.lab.kemo.dev`)"
       - "traefik.http.routers.upload.entrypoints=websecure"
       - "traefik.http.routers.upload.tls=true"
       - "traefik.http.routers.upload.tls.certresolver=stepca"

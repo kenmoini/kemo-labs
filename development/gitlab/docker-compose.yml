@@ -3,10 +3,10 @@ services:
     image: gitlab/gitlab-ce:17.10.2-ce.0
     container_name: gitlab
     restart: unless-stopped
-    hostname: gitlab.lab.kemo.dev
+    hostname: gitlab.apps.lab.kemo.dev
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://gitlab.lab.kemo.dev'
+        external_url 'https://gitlab.apps.lab.kemo.dev'
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
 
@@ -54,7 +54,7 @@ services:
         ipv4_address: 192.168.42.40
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.gitlab.rule=Host(`gitlab.lab.kemo.dev`)"
+      - "traefik.http.routers.gitlab.rule=Host(`gitlab.apps.lab.kemo.dev`)"
       - "traefik.http.routers.gitlab.entrypoints=websecure"
       - "traefik.http.routers.gitlab.tls=true"
       - "traefik.http.routers.gitlab.tls.certresolver=stepca"

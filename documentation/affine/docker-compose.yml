@@ -23,8 +23,8 @@ services:
       - AFFINE_REVISION=stable
       - PORT=3010
       - AFFINE_SERVER_HTTPS=true
-      - AFFINE_SERVER_HOST=affine.lab.kemo.dev
-      - AFFINE_SERVER_EXTERNAL_URL=https://affine.lab.kemo.dev
+      - AFFINE_SERVER_HOST=affine.apps.lab.kemo.dev
+      - AFFINE_SERVER_EXTERNAL_URL=https://affine.apps.lab.kemo.dev
       - AFFINE_INDEXER_ENABLED=false
       - DATABASE_URL=postgresql://${DB_USERNAME:-affine}:${DB_PASSWORD}@192.168.42.15:5432/${DB_DATABASE:-affine}
       - REDIS_SERVER_HOST=192.168.42.15
@@ -40,7 +40,7 @@ services:
         ipv4_address: 192.168.42.51
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.affine.rule=Host(`affine.lab.kemo.dev`)"
+      - "traefik.http.routers.affine.rule=Host(`affine.apps.lab.kemo.dev`)"
       - "traefik.http.routers.affine.entrypoints=websecure"
       - "traefik.http.routers.affine.tls=true"
       - "traefik.http.routers.affine.tls.certresolver=stepca"

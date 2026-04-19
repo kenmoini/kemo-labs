@@ -8,7 +8,7 @@ set -euo pipefail
 MAILCOW_HOSTNAME="mail.lab.kemo.dev"
 MAILCOW_TZ="America/New_York"
 MAILCOW_IP="192.168.42.80"
-STEPCA_ACME_URL="https://stepca.lab.kemo.dev:9000/acme/acme/directory"
+STEPCA_ACME_URL="https://stepca.apps.lab.kemo.dev/acme/acme/directory"
 INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/mailcow-dockerized"
 
 echo "=== Mailcow Deployment Setup ==="

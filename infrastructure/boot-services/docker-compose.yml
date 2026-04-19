@@ -17,7 +17,7 @@ services:
     labels:
       - "traefik.enable=true"
       # Netboot.xyz web config UI
-      - "traefik.http.routers.netboot.rule=Host(`netboot.lab.kemo.dev`)"
+      - "traefik.http.routers.netboot.rule=Host(`netboot.apps.lab.kemo.dev`)"
       - "traefik.http.routers.netboot.entrypoints=websecure"
       - "traefik.http.routers.netboot.tls.certresolver=stepca"
       - "traefik.http.services.netboot.loadbalancer.server.port=3000"
@@ -66,7 +66,7 @@ services:
       bridge42:
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.peanut.rule=Host(`peanut.lab.kemo.dev`)"
+      - "traefik.http.routers.peanut.rule=Host(`peanut.apps.lab.kemo.dev`)"
       - "traefik.http.routers.peanut.entrypoints=websecure"
       - "traefik.http.routers.peanut.tls.certresolver=stepca"
       - "traefik.http.services.peanut.loadbalancer.server.port=8081"

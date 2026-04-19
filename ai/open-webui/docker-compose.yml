@@ -23,7 +23,7 @@ services:
         ipv4_address: 192.168.42.70
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.open-webui.rule=Host(`open-webui.lab.kemo.dev`)"
+      - "traefik.http.routers.open-webui.rule=Host(`open-webui.apps.lab.kemo.dev`)"
       - "traefik.http.routers.open-webui.entrypoints=websecure"
       - "traefik.http.routers.open-webui.tls.certresolver=stepca"
       - "traefik.http.services.open-webui.loadbalancer.server.port=8080"
@@ -64,7 +64,7 @@ services:
       - /dev/dri:/dev/dri
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ollama.rule=Host(`ollama.lab.kemo.dev`)"
+      - "traefik.http.routers.ollama.rule=Host(`ollama.apps.lab.kemo.dev`)"
       - "traefik.http.routers.ollama.entrypoints=websecure"
       - "traefik.http.routers.ollama.tls.certresolver=stepca"
       - "traefik.http.services.ollama.loadbalancer.server.port=11434"

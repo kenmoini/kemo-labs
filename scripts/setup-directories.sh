@@ -7,6 +7,7 @@
 # Variables
 export CONTAINER_WORK_DIR="/opt/workdir/caas"
 export VM_WORK_DIR="/opt/workdir/vm"
+export GIT_SRC_DIR="/opt/workdir/kemo-labs"
 
 # ==================================================================
 # Create directories for CaaS services
@@ -80,4 +81,18 @@ fi
 mkdir -p ${CONTAINER_WORK_DIR}/homepage/logs
 if [ -d "${CONTAINER_WORK_DIR}/homepage/logs" ]; then
   chown -R 1001:1001 ${CONTAINER_WORK_DIR}/homepage/logs
+fi
+if [ -d "${GIT_SRC_DIR}/infrastructure/landing-page/config" ]; then
+  chown -R 1000:1000 ${GIT_SRC_DIR}/infrastructure/landing-page/config
+fi
+
+# ==================================================================
+# Squid Proxy
+mkdir -p ${CONTAINER_WORK_DIR}/outbound-proxy/data/cache
+mkdir -p ${CONTAINER_WORK_DIR}/outbound-proxy/data/logs
+if [ -d "${CONTAINER_WORK_DIR}/outbound-proxy/data/cache" ]; then
+  chown -R 0:0 ${CONTAINER_WORK_DIR}/outbound-proxy/data/cache
+fi
+if [ -d "${CONTAINER_WORK_DIR}/outbound-proxy/data/logs" ]; then
+  chown -R 0:0 ${CONTAINER_WORK_DIR}/outbound-proxy/data/logs
 fi

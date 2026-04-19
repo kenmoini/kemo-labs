@@ -27,7 +27,7 @@ services:
       - /srv/authentik:/sources/authentik:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.kopia.rule=Host(`backups.lab.kemo.dev`)"
+      - "traefik.http.routers.kopia.rule=Host(`backups.apps.lab.kemo.dev`)"
       - "traefik.http.routers.kopia.entrypoints=websecure"
       - "traefik.http.routers.kopia.tls=true"
       - "traefik.http.routers.kopia.tls.certresolver=stepca"

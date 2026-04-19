@@ -5,15 +5,15 @@ services:
     restart: unless-stopped
     environment:
       - LETS_ENCRYPT_ENABLED=false
-      - PUBLIC_DNS=drawio.lab.kemo.dev
+      - PUBLIC_DNS=drawio.apps.lab.kemo.dev
       - DRAWIO_SELF_CONTAINED=1
-      - DRAWIO_BASE_URL=https://drawio.lab.kemo.dev
+      - DRAWIO_BASE_URL=https://drawio.apps.lab.kemo.dev
     networks:
       bridge42:
         ipv4_address: 192.168.42.52
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.drawio.rule=Host(`drawio.lab.kemo.dev`)"
+      - "traefik.http.routers.drawio.rule=Host(`drawio.apps.lab.kemo.dev`)"
       - "traefik.http.routers.drawio.entrypoints=websecure"
       - "traefik.http.routers.drawio.tls=true"
       - "traefik.http.routers.drawio.tls.certresolver=stepca"

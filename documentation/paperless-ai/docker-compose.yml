@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       - PAPERLESS_AI_PORT=3000
-      - PAPERLESS_API_URL=${PAPERLESS_API_URL:-https://paperless.lab.kemo.dev/api}
+      - PAPERLESS_API_URL=${PAPERLESS_API_URL:-https://paperless.apps.lab.kemo.dev/api}
       - PAPERLESS_API_TOKEN=${PAPERLESS_API_TOKEN}
       - PAPERLESS_USERNAME=${PAPERLESS_USERNAME:-admin}
       - AI_PROVIDER=${AI_PROVIDER:-ollama}
@@ -27,7 +27,7 @@ services:
         ipv4_address: 192.168.42.54
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.paperless-ai.rule=Host(`paperless-ai.lab.kemo.dev`)"
+      - "traefik.http.routers.paperless-ai.rule=Host(`paperless-ai.apps.lab.kemo.dev`)"
       - "traefik.http.routers.paperless-ai.entrypoints=websecure"
       - "traefik.http.routers.paperless-ai.tls=true"
       - "traefik.http.routers.paperless-ai.tls.certresolver=stepca"

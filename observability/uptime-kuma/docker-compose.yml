@@ -8,7 +8,7 @@ volumes:
 
 services:
   uptime-kuma:
-    image: louislam/uptime-kuma:${UPTIME_KUMA_TAG:-1.23.16}
+    image: ghcr.io/louislam/uptime-kuma:${UPTIME_KUMA_TAG:-2.2.1}
     container_name: uptime-kuma
     restart: unless-stopped
     environment:

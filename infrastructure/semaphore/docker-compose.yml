@@ -25,7 +25,7 @@ services:
         ipv4_address: 192.168.42.25
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.semaphore.rule=Host(`semaphore.lab.kemo.dev`)"
+      - "traefik.http.routers.semaphore.rule=Host(`semaphore.apps.lab.kemo.dev`)"
       - "traefik.http.routers.semaphore.entrypoints=websecure"
       - "traefik.http.routers.semaphore.tls.certresolver=stepca"
       - "traefik.http.services.semaphore.loadbalancer.server.port=3000"

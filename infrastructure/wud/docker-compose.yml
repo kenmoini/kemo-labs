@@ -18,7 +18,7 @@ services:
         ipv4_address: 192.168.42.9
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.wud.rule=Host(`wud.lab.kemo.dev`)"
+      - "traefik.http.routers.wud.rule=Host(`wud.apps.lab.kemo.dev`)"
       - "traefik.http.routers.wud.entrypoints=websecure"
       - "traefik.http.routers.wud.tls.certresolver=stepca"
       - "traefik.http.services.wud.loadbalancer.server.port=3000"

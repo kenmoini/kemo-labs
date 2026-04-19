@@ -17,7 +17,7 @@ services:
         ipv4_address: 192.168.42.42
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.code.rule=Host(`code.lab.kemo.dev`)"
+      - "traefik.http.routers.code.rule=Host(`code.apps.lab.kemo.dev`)"
       - "traefik.http.routers.code.entrypoints=websecure"
       - "traefik.http.routers.code.tls=true"
       - "traefik.http.routers.code.tls.certresolver=stepca"

@@ -18,6 +18,8 @@ services:
     hostname: o11y-podman-exporter
     security_opt:
       - label=disable
+    group_add:
+      - 0 # root group to access the podman socket
     volumes:
       - /var/run/podman/podman.sock:/var/run/podman/podman.sock:ro
     environment:

@@ -61,10 +61,10 @@ certificatesResolvers:
 
 log:
   level: INFO
-  format: json
+  # format: json
 
 accessLog:
-  format: json
+  # format: json
   # Filter on status codes, retry attempts and minimal duration
   filters:
     statusCodes:

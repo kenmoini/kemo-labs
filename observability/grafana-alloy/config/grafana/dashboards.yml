@@ -1,0 +1,76 @@
+apiVersion: 1
+providers:
+  - name: 'Host Metrics'
+    type: file
+    folder: System
+    allowUiUpdates: true
+    options:
+      path: /data/grafana/dashboards/node-exporter-full.json
+      foldersFromFilesStructure: false
+
+  - name: 'Prometheus Metrics'
+    type: file
+    folder: Observability Internals
+    allowUiUpdates: true
+    options:
+      path: /data/grafana/dashboards/19268_rev1.json
+      foldersFromFilesStructure: false
+
+  - name: Grafana Image Renderer
+    type: file
+    folder: Observability Internals
+    allowUiUpdates: true
+    options:
+      path: /data/grafana/dashboards/12203_rev3.json
+      foldersFromFilesStructure: false
+
+  - name: 'Traefik Metrics'
+    type: file
+    folder: Services
+    allowUiUpdates: true
+    options:
+      path: /data/grafana/dashboards/traefik.json
+      foldersFromFilesStructure: false
+
+  - name: "RED Metrics (classic histogram)"
+    type: file
+    folder: Observability Internals
+    options:
+      path: /data/grafana/dashboards/grafana-dashboard-red-metrics-classic.json
+      foldersFromFilesStructure: false
+
+  - name: "RED Metrics (exponential/native histogram)"
+    type: file
+    folder: Observability Internals
+    options:
+      path: /data/grafana/dashboards/grafana-dashboard-red-metrics-native.json
+      foldersFromFilesStructure: false
+
+  - name: "JVM Metrics"
+    type: file
+    folder: Observability Internals
+    options:
+      path: /data/grafana/dashboards/grafana-dashboard-jvm-metrics.json
+      foldersFromFilesStructure: false
+
+  # - name: 'Website Monitoring'
+  #   type: file
+  #   folder: Services
+  #   allowUiUpdates: true
+  #   options:
+  #     path: /data/grafana/dashboards/13041_rev4.json
+  #     foldersFromFilesStructure: false
+  # Needs old Graphite deployment
+  # - name: Grafana Internals
+  #   type: file
+  #   allowUiUpdates: true
+  #   options:
+  #     path: /data/grafana/dashboards/55_rev3.json
+  #     foldersFromFilesStructure: false
+  # - name: 'Docker Daemon Metrics'
+  #   type: file
+  #   folder: System
+  #   allowUiUpdates: true
+  #   options:
+  #     path: /data/grafana/dashboards/21040_rev1.json
+  #     foldersFromFilesStructure: false

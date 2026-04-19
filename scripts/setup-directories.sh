@@ -67,3 +67,10 @@ mkdir -p ${CONTAINER_WORK_DIR}/stepca/data/{db,templates}
 if [ -d "${CONTAINER_WORK_DIR}/stepca/data" ]; then
   chown -R 1000:1000 ${CONTAINER_WORK_DIR}/stepca/data
 fi
+
+# ==================================================================
+# Traefik
+mkdir -p ${CONTAINER_WORK_DIR}/traefik/data/storage
+if [ -d "${CONTAINER_WORK_DIR}/traefik/data/storage" ]; then
+  chown -R 0:0 ${CONTAINER_WORK_DIR}/traefik/data/storage
+fi

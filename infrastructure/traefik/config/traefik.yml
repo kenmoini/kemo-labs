@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://www.schemastore.org/traefik-v3.json
 global:
   checkNewVersion: true
   sendAnonymousUsage: false
@@ -8,6 +9,11 @@ serverTransport:
   insecureSkipVerify: true
   rootCAs:
     - /etc/traefik/certs/root_ca.crt
+
+http:
+  serversTransports:
+    skipverify:
+      insecureSkipVerify: true
 
 api:
   dashboard: true
@@ -51,7 +57,7 @@ providers:
 certificatesResolvers:
   leresolver:
     acme:
-      httpchallenge: false
+      httpChallenge: {}
   stepca:
     acme:
       caServer: "https://192.168.42.6:9100/acme/acme/directory"
@@ -94,7 +100,7 @@ accessLog:
         Authorization: drop
 
 experimental:
-  otlpLogs: true
+  otlplogs: true
 
 tracing:
   addInternals: true

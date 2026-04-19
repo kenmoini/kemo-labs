@@ -24,6 +24,7 @@ services:
       - "traefik.http.routers.step-ca.tls.certresolver=stepca"
       - "traefik.http.services.step-ca.loadbalancer.server.port=9100"
       - "traefik.http.services.step-ca.loadbalancer.server.scheme=https"
+      - "traefik.http.services.step-ca.loadbalancer.server.serversTransport=skipverify"
       - "homepage.group=PKI"
       - "homepage.name=Step CA"
       - "homepage.icon=step-ca.png"

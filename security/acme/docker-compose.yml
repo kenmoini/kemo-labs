@@ -26,7 +26,7 @@ services:
       - "traefik.http.services.step-ca.loadbalancer.server.scheme=https"
       - "homepage.group=PKI"
       - "homepage.name=Step CA"
-      - "homepage.icon=stepca.png"
+      - "homepage.icon=step-ca.png"
       - "homepage.description='Step Certificate Authority'"
       - "homepage.href=https://step-ca.apps.lab.kemo.dev"
     healthcheck:

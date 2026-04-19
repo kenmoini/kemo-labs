@@ -1,7 +1,7 @@
 ---
 services:
   pika-pki:
-    image: quay.io/kenmoini/pika-pki:latest
+    image: quay.io/kenmoini/pika-pki:d2be714
     container_name: pika-pki
     stdin_open: true
     tty: true

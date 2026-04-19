@@ -21,7 +21,7 @@ services:
       # traefik-proxy:
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.lab.kemo.dev`)"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.apps.lab.kemo.dev`)"
       - "traefik.http.routers.traefik-dashboard.entrypoints=web,websecure"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=stepca"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
@@ -35,7 +35,7 @@ services:
       - "homepage.group=Services"
       - "homepage.name=Traefik"
       - "homepage.icon=traefik.png"
-      - "homepage.href=https://traefik.lab.kemo.dev"
+      - "homepage.href=https://traefik.apps.lab.kemo.dev"
       - "homepage.description=Reverse Proxy and Load Balancer"
     healthcheck:
       test: ["CMD", "traefik", "healthcheck"]

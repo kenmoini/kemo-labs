@@ -26,10 +26,15 @@ services:
         ipv4_address: 192.168.42.5
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pki.rule=Host(`pki.lab.kemo.dev`)"
+      - "traefik.http.routers.pki.rule=Host(`pki.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pki.tls=true"
       - "traefik.http.routers.pki.tls.certresolver=step-ca"
       - "traefik.http.services.pki.loadbalancer.server.port=8001"
+      - "homepage.group=PKI"
+      - "homepage.name=Public Trust Store"
+      - "homepage.icon=nginx.png"
+      - "homepage.href=https://pki.apps.lab.kemo.dev"
+      - "homepage.description=Public Trust Store"
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:8001/"]
       interval: 30s

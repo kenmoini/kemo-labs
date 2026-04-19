@@ -11,7 +11,7 @@ services:
       # traefik-proxy:
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pdns-auth.rule=Host(`pdns-auth.lab.kemo.dev`)"
+      - "traefik.http.routers.pdns-auth.rule=Host(`pdns-auth.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pdns-auth.entrypoints=websecure"
       - "traefik.http.routers.pdns-auth.tls.certresolver=stepca"
       - "traefik.http.services.pdns-auth.loadbalancer.server.port=8081"
@@ -19,7 +19,7 @@ services:
       - "homepage.name=PowerDNS Auth"
       - "homepage.icon=powerdns.png"
       - "homepage.description='PowerDNS Authoritative Server'"
-      - "homepage.href=https://pdns-auth.lab.kemo.dev"
+      - "homepage.href=https://pdns-auth.apps.lab.kemo.dev"
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8081"]
       interval: 30s
@@ -45,7 +45,7 @@ services:
       - ./pdns-recursor/config/recursor.conf:/etc/pdns-recursor/recursor.conf:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pdns-recursor.rule=Host(`pdns-recursor.lab.kemo.dev`)"
+      - "traefik.http.routers.pdns-recursor.rule=Host(`pdns-recursor.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pdns-recursor.entrypoints=websecure"
       - "traefik.http.routers.pdns-recursor.tls.certresolver=stepca"
       - "traefik.http.services.pdns-recursor.loadbalancer.server.port=8082"
@@ -53,7 +53,7 @@ services:
       - "homepage.name=PowerDNS Recursor"
       - "homepage.icon=powerdns.png"
       - "homepage.description='PowerDNS Recursor at 192.168.42.3'"
-      - "homepage.href=https://pdns-recursor.lab.kemo.dev"
+      - "homepage.href=https://pdns-recursor.apps.lab.kemo.dev"
     networks:
       bridge42:
         ipv4_address: 192.168.42.3
@@ -81,7 +81,7 @@ services:
       - /opt/workdir/caas/dns/pdns-admin/data:/data:Z
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pdnsadmin.rule=Host(`pdnsadmin.lab.kemo.dev`)"
+      - "traefik.http.routers.pdnsadmin.rule=Host(`pdnsadmin.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pdnsadmin.entrypoints=websecure"
       - "traefik.http.routers.pdnsadmin.tls.certresolver=stepca"
       - "traefik.http.services.pdnsadmin.loadbalancer.server.port=8080"
@@ -89,7 +89,7 @@ services:
       - "homepage.name=PowerDNS Admin"
       - "homepage.icon=powerdns.png"
       - "homepage.description='PowerDNS Admin web interface'"
-      - "homepage.href=https://pdnsadmin.lab.kemo.dev"
+      - "homepage.href=https://pdnsadmin.apps.lab.kemo.dev"
     networks:
       bridge42:
         ipv4_address: 192.168.42.15
@@ -125,7 +125,7 @@ services:
       - 443
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pihole.rule=Host(`pihole.lab.kemo.dev`)"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pihole.entrypoints=websecure"
       - "traefik.http.routers.pihole.tls.certresolver=stepca"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
@@ -133,7 +133,7 @@ services:
       - "homepage.name=Pi-hole"
       - "homepage.icon=pihole.png"
       - "homepage.description='Network-wide ad blocker'"
-      - "homepage.href=https://pihole.lab.kemo.dev"
+      - "homepage.href=https://pihole.apps.lab.kemo.dev"
     healthcheck:
       test: ["CMD-SHELL", "dig +short +tries=1 +time=2 @127.0.0.1 pi.hole || exit 1"]
       interval: 30s

@@ -154,15 +154,15 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.lab.kemo.dev`)"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.apps.lab.kemo.dev`)"
       - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
       - "traefik.http.routers.phpmyadmin.tls.certresolver=stepca"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
       - "homepage.group=Databases"
       - "homepage.name=phpMyAdmin"
       - "homepage.icon=phpmyadmin.png"
-      - "homepage.description='MariaDB web UI"
-      - "homepage.href=https://phpmyadmin.lab.kemo.dev"
+      - "homepage.description='MariaDB web UI'"
+      - "homepage.href=https://phpmyadmin.apps.lab.kemo.dev"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 10s
@@ -198,7 +198,7 @@ services:
       DATABASUS_PGSQL_PASSWORD: ${POSTGRES_PASSWORD}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.databasus.rule=Host(`databasus.lab.kemo.dev`)"
+      - "traefik.http.routers.databasus.rule=Host(`databasus.apps.lab.kemo.dev`)"
       - "traefik.http.routers.databasus.entrypoints=websecure"
       - "traefik.http.routers.databasus.tls.certresolver=stepca"
       - "traefik.http.services.databasus.loadbalancer.server.port=4005"
@@ -206,7 +206,7 @@ services:
       - "homepage.name=Databasus"
       - "homepage.icon=databasus.png"
       - "homepage.description='Automated database backups'"
-      - "homepage.href=https://databasus.lab.kemo.dev"
+      - "homepage.href=https://databasus.apps.lab.kemo.dev"
     volumes:
       - /opt/workdir/caas/databases/backups:/backups:Z
     depends_on:
@@ -236,7 +236,7 @@ services:
       ADMINER_DESIGN: win98
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.adminer.rule=Host(`adminer.lab.kemo.dev`)"
+      - "traefik.http.routers.adminer.rule=Host(`adminer.apps.lab.kemo.dev`)"
       - "traefik.http.routers.adminer.entrypoints=websecure"
       - "traefik.http.routers.adminer.tls.certresolver=stepca"
       - "traefik.http.services.adminer.loadbalancer.server.port=8080"
@@ -244,7 +244,7 @@ services:
       - "homepage.name=Adminer"
       - "homepage.icon=adminer.png"
       - "homepage.description='Web UI for DBs cause I am noob'"
-      - "homepage.href=https://adminer.lab.kemo.dev"
+      - "homepage.href=https://adminer.apps.lab.kemo.dev"
     depends_on:
       mariadb:
         condition: service_healthy

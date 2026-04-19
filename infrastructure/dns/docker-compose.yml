@@ -42,7 +42,7 @@ services:
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=53
     volumes:
-      - ./pdns-recursor/config/recursor.conf:/etc/pdns-recursor/recursor.conf:ro
+      - ./pdns-recursor/config/recursor.yml:/etc/pdns-recursor/recursor.yml:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pdns-recursor.rule=Host(`pdns-recursor.apps.lab.kemo.dev`)"

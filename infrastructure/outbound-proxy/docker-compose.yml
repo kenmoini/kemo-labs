@@ -7,7 +7,7 @@ services:
       - TZ=${TZ:-America/New_York}
     volumes:
       - ./config/:/etc/squid/conf.d:ro,Z
-      - /etc/pki/:/etc/pki/:ro,Z
+      - /etc/pki/:/etc/pki/:ro
       - /opt/workdir/caas/outbound-proxy/data/cache/:/var/spool/squid/:Z
       - /opt/workdir/caas/outbound-proxy/data/logs/:/var/log/squid/:Z
     networks:

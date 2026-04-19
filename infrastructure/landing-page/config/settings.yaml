@@ -1,15 +1,23 @@
 title: Homelab Dashboard
-description: lab.kemo.dev
+description: Internal dashboard for Kemo Labs
+language: en
+hideVersion: true
+showStats: true
+
+startUrl: https://dashboard.apps.lab.kemo.dev
+base: https://dashboard.apps.lab.kemo.dev
+target: _blank
+
+logpath: /data/logs
 
 theme: dark
 color: slate
-
+useEqualHeights: true
 headerStyle: clean
 
-layout:
-  Infrastructure:
-    style: row
-    columns: 4
-  Network:
-    style: row
-    columns: 3
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: true
+  showSearchSuggestions: true
+  hideVisitURL: false
+  provider: duckduckgo

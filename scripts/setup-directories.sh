@@ -74,3 +74,10 @@ mkdir -p ${CONTAINER_WORK_DIR}/traefik/data/storage
 if [ -d "${CONTAINER_WORK_DIR}/traefik/data/storage" ]; then
   chown -R 0:0 ${CONTAINER_WORK_DIR}/traefik/data/storage
 fi
+
+# ==================================================================
+# Homepage
+mkdir -p ${CONTAINER_WORK_DIR}/homepage/logs
+if [ -d "${CONTAINER_WORK_DIR}/homepage/logs" ]; then
+  chown -R 1001:1001 ${CONTAINER_WORK_DIR}/homepage/logs
+fi

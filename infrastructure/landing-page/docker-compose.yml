@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     user: "1001:1001"
     environment:
-      - HOMEPAGE_ALLOWED_HOSTS=dashboard.apps.lab.kemo.dev,192.168.42.14:3000
+      - HOMEPAGE_ALLOWED_HOSTS=dashboard.apps.lab.kemo.dev,192.168.42.14:3000,localhost,127.0.0.1:3000
       - PUID=${PUID:-1001}
       - PGID=${PGID:-1001}
       - TZ=${TZ:-America/New_York}
@@ -13,6 +13,7 @@ services:
     volumes:
       - ./config/:/app/config
       - /var/run/podman/podman.sock:/var/run/docker.sock:ro
+      - /opt/workdir/caas/homepage/logs:/data/logs:Z
     networks:
       bridge42:
         ipv4_address: 192.168.42.14

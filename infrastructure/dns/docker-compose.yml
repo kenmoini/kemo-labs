@@ -133,7 +133,7 @@ services:
       - "homepage.name=Pi-hole"
       - "homepage.icon=pi-hole.png"
       - "homepage.description='Network-wide ad blocker'"
-      - "homepage.href=https://pihole.apps.lab.kemo.dev"
+      - "homepage.href=https://pihole.apps.lab.kemo.dev/admin/"
     healthcheck:
       test: ["CMD-SHELL", "dig +short +tries=1 +time=2 @127.0.0.1 pi.hole || exit 1"]
       interval: 30s

@@ -91,8 +91,8 @@ fi
 mkdir -p ${CONTAINER_WORK_DIR}/outbound-proxy/data/cache
 mkdir -p ${CONTAINER_WORK_DIR}/outbound-proxy/data/logs
 if [ -d "${CONTAINER_WORK_DIR}/outbound-proxy/data/cache" ]; then
-  chown -R 0:0 ${CONTAINER_WORK_DIR}/outbound-proxy/data/cache
+  chown -R 23:23 ${CONTAINER_WORK_DIR}/outbound-proxy/data/cache
 fi
 if [ -d "${CONTAINER_WORK_DIR}/outbound-proxy/data/logs" ]; then
-  chown -R 0:0 ${CONTAINER_WORK_DIR}/outbound-proxy/data/logs
+  chown -R 23:23 ${CONTAINER_WORK_DIR}/outbound-proxy/data/logs
 fi

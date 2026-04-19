@@ -172,7 +172,7 @@ services:
   #############################################################################################
   tempo:
     !!merge <<: *common
-    image: docker.io/grafana/tempo:latest
+    image: docker.io/grafana/tempo:main-8b5ef72
     container_name: o11y-tempo
     hostname: o11y-tempo
     command: [ "-config.file=/etc/tempo.yaml", "-reporting.enabled=false" ]

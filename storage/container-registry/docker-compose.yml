@@ -3,6 +3,8 @@ services:
     image: docker.io/sonatype/nexus3:3.91.1-ubi
     container_name: nexus
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       INSTALL4J_ADD_VM_PARAMS: >-
         -Xms2g -Xmx4g

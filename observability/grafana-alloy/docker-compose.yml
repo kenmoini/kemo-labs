@@ -301,3 +301,5 @@ networks:
   bridge42:
     external: true
   default:
+    external: true
+    name: podman

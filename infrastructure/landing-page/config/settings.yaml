@@ -13,7 +13,7 @@ logpath: /data/logs
 theme: dark
 color: slate
 useEqualHeights: true
-headerStyle: clean
+headerStyle: boxed
 
 quicklaunch:
   searchDescriptions: true

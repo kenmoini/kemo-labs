@@ -1,7 +1,4 @@
 - External:
-    - GitHub:
+    - GitHub Source:
         - icon: github.svg
-          href: https://github.com
-    - Cloudflare:
-        - icon: cloudflare.svg
-          href: https://dash.cloudflare.com
+          href: https://github.com/kenmoini/kemo-labs

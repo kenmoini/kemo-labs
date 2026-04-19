@@ -71,7 +71,7 @@ case $1 in
 
     echo "Creating Pod..."
 
-    /usr/bin/podman pod create --name ${POD_NAME} --network ${POD_NETWORK}:ip="${POD_IP_ADDRESS}" --network traefik-proxy ${POD_PORTS}
+    /usr/bin/podman pod create --name ${POD_NAME} --network ${POD_NETWORK}:ip="${POD_IP_ADDRESS}" ${POD_PORTS}
 
     echo "Starting ${STEP_CA_CONTAINER_NAME} container..."
 

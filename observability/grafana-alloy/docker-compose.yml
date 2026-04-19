@@ -4,7 +4,7 @@ x-common: &common
   environment:
     - TZ=America/New_York
   networks:
-    default:
+    podman:
   logging:
     options:
       max-size: 50m
@@ -119,6 +119,7 @@ services:
     expose:
       - 9090
     networks:
+      podman:
       bridge42:
         ipv4_address: 192.168.42.34
     labels:
@@ -178,6 +179,7 @@ services:
     expose:
       - 9093
     networks:
+      podman:
       bridge42:
         ipv4_address: 192.168.42.35
     healthcheck:
@@ -263,6 +265,7 @@ services:
     expose:
       - 3000
     networks:
+      podman:
       bridge42:
         ipv4_address: 192.168.42.30
     depends_on:
@@ -300,6 +303,6 @@ volumes:
 networks:
   bridge42:
     external: true
-  default:
+  podman:
     external: true
     name: podman

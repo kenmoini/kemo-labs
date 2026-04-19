@@ -5,7 +5,7 @@ global:
 
 ping: {}
 
-serverTransport:
+serversTransport:
   insecureSkipVerify: true
   rootCAs:
     - /etc/traefik/certs/root_ca.crt

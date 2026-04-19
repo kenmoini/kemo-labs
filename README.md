@@ -252,7 +252,7 @@ All services are accessible via `*.lab.kemo.dev`. Services behind Traefik resolv
 | Traefik Dashboard | `https://traefik.lab.kemo.dev` |
 | Pi-hole | `https://pihole.lab.kemo.dev` |
 | PikaPKI | `https://pki.lab.kemo.dev` |
-| StepCA | `https://acme.lab.kemo.dev` |
+| StepCA | `https://step-ca.lab.kemo.dev` |
 | Vault | `https://vault.lab.kemo.dev` |
 | Authentik | `https://auth.lab.kemo.dev` |
 | Grafana | `https://grafana.lab.kemo.dev` |

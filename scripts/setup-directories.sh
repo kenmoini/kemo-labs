@@ -53,6 +53,17 @@ fi
 # ==================================================================
 # DNS Services
 mkdir -p ${CONTAINER_WORK_DIR}/dns/pihole/etc-pihole
+mkdir -p ${CONTAINER_WORK_DIR}/dns/pdns-admin/data
 if [ -d "${CONTAINER_WORK_DIR}/dns/pihole/etc-pihole" ]; then
   chown -R 0:1000 ${CONTAINER_WORK_DIR}/dns/pihole/etc-pihole
+fi
+if [ -d "${CONTAINER_WORK_DIR}/dns/pdns-admin/data" ]; then
+  chown -R 999:999 ${CONTAINER_WORK_DIR}/dns/pdns-admin/data
+fi
+
+# ==================================================================
+# StepCA
+mkdir -p ${CONTAINER_WORK_DIR}/stepca/data/{db,templates}
+if [ -d "${CONTAINER_WORK_DIR}/stepca/data" ]; then
+  chown -R 1000:1000 ${CONTAINER_WORK_DIR}/stepca/data
 fi

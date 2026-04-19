@@ -42,7 +42,7 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    useBindPortIP: true
+    # useBindPortIP: true
     network: traefik-proxy
   file:
     directory: "/etc/traefik/dynamic/"
@@ -58,6 +58,7 @@ certificatesResolvers:
       email: "admin@lab.kemo.dev"
       clientResponseHeaderTimeout: 60s
       storage: "/etc/traefik/storage/acme.json"
+      tlsChallenge: {}        
       httpChallenge:
         # used during the challenge
         entryPoint: web

@@ -6,9 +6,9 @@ services:
     volumes:
       - ./pdns-auth/config/:/etc/pdns/:ro
     networks:
-      traefik-proxy:
       bridge42:
         ipv4_address: 192.168.42.2
+      traefik-proxy:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pdns-auth.rule=Host(`pdns-auth.lab.kemo.dev`)"
@@ -26,6 +26,9 @@ services:
       timeout: 5s
       retries: 3
       start_period: 15s
+    expose:
+      - 5300
+      - 8081
 
   pdns-recursor:
     image: quay.io/kenmoini/pdns-recursor:ae856c5
@@ -52,9 +55,12 @@ services:
       - "homepage.description='PowerDNS Recursor at 192.168.42.3'"
       - "homepage.href=https://pdns-recursor.lab.kemo.dev"
     networks:
-      traefik-proxy:
       bridge42:
         ipv4_address: 192.168.42.3
+      traefik-proxy:
+    expose:
+      - 53
+      - 8082
     healthcheck:
       test: ["CMD-SHELL", "rec_control ping 2>/dev/null || exit 1"]
       interval: 30s
@@ -85,9 +91,11 @@ services:
       - "homepage.description='PowerDNS Admin web interface'"
       - "homepage.href=https://pdnsadmin.lab.kemo.dev"
     networks:
-      traefik-proxy:
       bridge42:
         ipv4_address: 192.168.42.15
+      traefik-proxy:
+    expose:
+      - 8080
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/ping || exit 1"]
       interval: 30s
@@ -108,9 +116,13 @@ services:
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=53
     networks:
-      traefik-proxy:
       bridge42:
         ipv4_address: 192.168.42.4
+      traefik-proxy:
+    expose:
+      - 53
+      - 80
+      - 443
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pihole.rule=Host(`pihole.lab.kemo.dev`)"

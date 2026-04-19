@@ -1,3 +1,9 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+ping: {}
+
 api:
   dashboard: true
 

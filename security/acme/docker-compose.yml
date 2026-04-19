@@ -39,5 +39,9 @@ services:
 networks:
   bridge42:
     external: true
+    name: bridge42
+    enable_ipv4: true
+    enable_ipv6: false
+    driver: bridge
   traefik-proxy:
     external: true

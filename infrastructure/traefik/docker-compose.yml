@@ -12,6 +12,7 @@ services:
       - /opt/workdir/caas/traefik/data/storage:/etc/traefik/storage:Z
       - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/certs/ca.cert.pem:/etc/traefik/certs/root_ca.crt:ro
       - /var/run/podman/podman.sock:/var/run/docker.sock:ro
+      - /etc/pki/tls/cert.pem:/etc/ssl/certs/ca-certificates.crt:ro
     security_opt:
       - no-new-privileges:true
     networks:

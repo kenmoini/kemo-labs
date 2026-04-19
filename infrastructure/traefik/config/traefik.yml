@@ -57,6 +57,9 @@ certificatesResolvers:
       caServer: "https://192.168.42.6:9100/acme/acme/directory"
       email: "admin@lab.kemo.dev"
       storage: "/etc/traefik/storage/acme.json"
+      httpChallenge:
+        # used during the challenge
+        entryPoint: web
       tlsChallenge: {}
 
 log:

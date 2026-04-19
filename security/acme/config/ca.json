@@ -7,6 +7,7 @@
   "insecureAddress": "",
   "dnsNames": [
     "step-ca.lab.kemo.dev",
+    "step-ca.apps.lab.kemo.dev",
     "192.168.42.6",
     "192.168.42.10"
   ],
@@ -39,6 +40,7 @@
                 "kemo.dev",
                 "*.kemo.dev",
                 "*.lab.kemo.dev",
+                "*.apps.lab.kemo.dev",
                 "kemo.network",
                 "*.kemo.network",
                 "*.lab.kemo.network"

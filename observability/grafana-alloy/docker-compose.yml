@@ -305,4 +305,4 @@ networks:
     external: true
   podman:
     external: true
-    name: podman
+    name: traefik-proxy

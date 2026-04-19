@@ -1,0 +1,16 @@
+http:
+  routers:
+    traefikdashboard:
+      rule: "Host(`traefik.apps.lab.kemo.dev`)"
+      service: traefikdashboard
+      entrypoints:
+        - web
+        - websecure
+      tls:
+        certresolver: stepca
+
+  services:
+    traefikdashboard:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.42.10:8080"

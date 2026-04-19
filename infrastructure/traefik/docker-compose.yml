@@ -21,12 +21,12 @@ services:
       # traefik-proxy:
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik_https.rule=Host(`traefik.apps.lab.kemo.dev`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
-      - "traefik.http.routers.traefik_https.entrypoints=web,websecure"
-      - "traefik.http.routers.traefik_https.tls=true"
-      - "traefik.http.routers.traefik_https.tls.certresolver=stepca"
-      - "traefik.http.routers.traefik_https.service=traefik-service"
-      - "traefik.http.services.traefik-service.loadbalancer.server.port=8080"
+      # - "traefik.http.routers.traefik_https.rule=Host(`traefik.apps.lab.kemo.dev`)"
+      # - "traefik.http.routers.traefik_https.entrypoints=web,websecure"
+      # - "traefik.http.routers.traefik_https.tls=true"
+      # - "traefik.http.routers.traefik_https.tls.certresolver=stepca"
+      # - "traefik.http.routers.traefik_https.service=traefik-service"
+      # - "traefik.http.services.traefik-service.loadbalancer.server.port=8080"
       # - "traefik.http.routers.dashboard.middlewares=traefik-auth"
       - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
       - "traefik.http.routers.http-catchall.entrypoints=web"

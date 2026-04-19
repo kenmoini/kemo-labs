@@ -4,12 +4,24 @@ global:
 
 ping: {}
 
+serverTransport:
+  insecureSkipVerify: true
+  rootCAs:
+    - /etc/traefik/certs/root_ca.crt
+
 api:
   dashboard: true
+  insecure: true
 
 entryPoints:
   web:
     address: ":80"
+    forwardedHeaders:
+      insecure: true
+    observability:
+      accessLogs: true
+      metrics: true
+      tracing: true
     http:
       redirections:
         entryPoint:
@@ -18,6 +30,10 @@ entryPoints:
           permanent: true
   websecure:
     address: ":443"
+    observability:
+      accessLogs: true
+      metrics: true
+      tracing: true
     http:
       tls:
         certResolver: stepca
@@ -26,20 +42,64 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
+    useBindPortIP: true
     network: traefik-proxy
   file:
     directory: "/etc/traefik/dynamic/"
     watch: true
 
 certificatesResolvers:
+  leresolver:
+    acme:
+      httpchallenge: false
   stepca:
     acme:
       caServer: "https://192.168.42.6:9100/acme/acme/directory"
       email: "admin@lab.kemo.dev"
-      storage: "/etc/traefik/acme.json"
+      storage: "/etc/traefik/storage/acme.json"
       tlsChallenge: {}
 
 log:
   level: INFO
+  format: json
 
-accessLog: {}
+accessLog:
+  format: json
+  # Filter on status codes, retry attempts and minimal duration
+  filters:
+    statusCodes:
+      - "200"
+      - "300-302"
+      - "400-405"
+      - "500-503"
+    retryAttempts: true
+    minDuration: "10ms"
+  fields:
+    # Keep all the fields by default
+    defaultMode: keep
+    names:
+      # Drop the Field ClientUserName
+      ClientUsername: drop
+    headers:
+      # Keep all the headers by default
+      defaultMode: keep
+      names:
+        # Redact the User-Agent header value
+        User-Agent: redact
+        # Drop the Authorization header value
+        Authorization: drop
+
+experimental:
+  otlpLogs: true
+
+tracing:
+  addInternals: true
+  serviceName: traefik
+
+metrics:
+  addInternals: true
+  otlp:
+    serviceName: traefik
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    addRoutersLabels: true

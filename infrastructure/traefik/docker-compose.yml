@@ -4,25 +4,38 @@ services:
     container_name: traefik
     restart: unless-stopped
     environment:
-      #- LEGO_CA_CERTIFICATES=/etc/traefik/certs/root_ca.crt
       - TZ=${TZ:-America/New_York}
+      - OTEL_SERVICE_NAME=mgmt-traefik
     volumes:
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./config/dynamic/:/etc/traefik/dynamic/:ro
-      - ./data/acme.json:/etc/traefik/acme.json
+      - /opt/workdir/caas/traefik/data/storage:/etc/traefik/storage:Z
       - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/certs/ca.cert.pem:/etc/traefik/certs/root_ca.crt:ro
       - /var/run/podman/podman.sock:/var/run/docker.sock:ro
+    security_opt:
+      - no-new-privileges:true
     networks:
-      traefik-proxy:
       bridge42:
         ipv4_address: 192.168.42.10
+      traefik-proxy:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.lab.kemo.dev`)"
-      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=web,websecure"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=stepca"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
       - "traefik.http.routers.traefik-dashboard.middlewares=traefik-auth"
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https,hsts-header"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+      - "traefik.http.middlewares.hsts-header.headers.sslredirect=true"
+      - "homepage.group=Services"
+      - "homepage.name=Traefik"
+      - "homepage.icon=traefik.png"
+      - "homepage.href=https://traefik.lab.kemo.dev"
+      - "homepage.description=Reverse Proxy and Load Balancer"
     healthcheck:
       test: ["CMD", "traefik", "healthcheck"]
       interval: 30s

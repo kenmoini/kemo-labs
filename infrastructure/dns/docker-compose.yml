@@ -8,7 +8,7 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.2
-      traefik-proxy:
+      # traefik-proxy:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pdns-auth.rule=Host(`pdns-auth.lab.kemo.dev`)"
@@ -57,7 +57,7 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.3
-      traefik-proxy:
+      # traefik-proxy:
     expose:
       - 53
       - 8082
@@ -93,7 +93,7 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.15
-      traefik-proxy:
+      # traefik-proxy:
     expose:
       - 8080
     healthcheck:
@@ -118,7 +118,7 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.4
-      traefik-proxy:
+      # traefik-proxy:
     expose:
       - 53
       - 80
@@ -144,5 +144,5 @@ services:
 networks:
   bridge42:
     external: true
-  traefik-proxy:
-    external: true
+  # traefik-proxy:
+  #   external: true

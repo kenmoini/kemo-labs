@@ -42,8 +42,8 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    # useBindPortIP: true
-    network: traefik-proxy
+    useBindPortIP: true
+    # network: traefik-proxy
   file:
     directory: "/etc/traefik/dynamic/"
     watch: true

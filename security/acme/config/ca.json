@@ -1,0 +1,69 @@
+{
+  "root": "/home/step/certs/root_ca.crt",
+  "crt": "/home/step/certs/intermediate_ca.crt",
+  "key": "/home/step/secrets/intermediate_ca_key",
+  "federatedRoots": null,
+  "address": ":9100",
+  "insecureAddress": "",
+  "dnsNames": [
+    "step-ca.lab.kemo.dev",
+    "192.168.42.6",
+    "192.168.42.10"
+  ],
+  "logger": {
+    "format": "text"
+  },
+  "db": {
+    "type": "badgerv2",
+    "dataSource": "/home/step/db",
+    "badgerFileLoadingMode": ""
+  },
+  "authority": {
+    "provisioners": [
+      {
+        "type": "ACME",
+        "name": "acme",
+        "claims": {
+          "maxTLSCertDuration": "8760h",
+          "defaultTLSCertDuration": "744h",
+          "disableRenewal": false,
+          "allowRenewalAfterExpiry": false,
+          "disableSmallstepExtensions": false
+        },
+        "options": {
+          "x509": {
+            "allow": {
+              "dns": [
+                "kemo.labs",
+                "*.kemo.labs",
+                "kemo.dev",
+                "*.kemo.dev",
+                "*.lab.kemo.dev",
+                "kemo.network",
+                "*.kemo.network",
+                "*.lab.kemo.network"
+              ],
+              "ip": [
+                "192.168.0.0/16"
+              ]
+            },
+            "allowWildcardNames": true
+          },
+          "ssh": {}
+        }
+      }
+    ],
+    "template": {},
+    "backdate": "1m0s"
+  },
+  "tls": {
+    "cipherSuites": [
+      "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+      "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+    ],
+    "minVersion": 1.2,
+    "maxVersion": 1.3,
+    "renegotiation": false
+  },
+  "commonName": "Step Online CA"
+}

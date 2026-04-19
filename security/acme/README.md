@@ -30,15 +30,15 @@ After init, customize `./data/config/ca.json` for certificate duration, allowed 
 
 | URL | Purpose |
 |-----|---------|
-| `https://acme.lab.kemo.dev:9000` | CA server and ACME endpoint |
-| ACME directory: `https://acme.lab.kemo.dev:9000/acme/acme/directory` | |
+| `https://step-ca.lab.kemo.dev:9000` | CA server and ACME endpoint |
+| ACME directory: `https://step-ca.lab.kemo.dev:9000/acme/acme/directory` | |
 
 **Static IP:** 192.168.62.6
 
 ## Dependencies
 
 - **PikaPKI** -- intermediate CA cert and key must be issued before StepCA can start
-- **DNS** -- recommended for `acme.lab.kemo.dev` resolution
+- **DNS** -- recommended for `step-ca.lab.kemo.dev` resolution
 
 ## Maintenance
 
@@ -47,7 +47,7 @@ After init, customize `./data/config/ca.json` for certificate duration, allowed 
 docker compose logs -f step-ca
 
 # Check CA health
-docker exec step-ca step ca health --ca-url https://localhost:9000 --root /home/step/certs/root_ca.crt
+docker exec step-ca step ca health --ca-url https://localhost:9100 --root /home/step/certs/root_ca.crt
 
 # Back up CA data (keys, config, database)
 docker run --rm -v step-data:/data -v /path/to/backup:/backup alpine tar czf /backup/step-data.tar.gz /data

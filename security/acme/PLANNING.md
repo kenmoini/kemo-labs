@@ -6,7 +6,7 @@ Smallstep's `step-ca` provides an internal ACME server for automated TLS certifi
 
 ## Container Image
 
-- **Image:** `smallstep/step-ca:0.28.3`
+- **Image:** `smallstep/step-ca:0.30.2`
 - **Tag policy:** Pin to minor version, update quarterly
 
 ## Static IP & DNS

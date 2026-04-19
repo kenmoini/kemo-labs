@@ -1,36 +1,43 @@
 ---
 services:
   step-ca:
-    image: smallstep/step-ca:0.28.3
+    image: docker.io/smallstep/step-ca:0.30.2
     container_name: step-ca
     restart: unless-stopped
-    env_file:
-      - .env
     volumes:
-      - step-data:/home/step
+      - /opt/workdir/caas/stepca/data/db:/home/step/db:Z
+      - ./config/ca.json:/home/step/config/ca.json:ro,Z
+      - ./config/defaults.json:/home/step/config/defaults.json:ro,Z
+      - ./secrets/password:/home/step/secrets/password:ro,Z
+      - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/certs/ca.cert.pem:/home/step/certs/root_ca.crt:ro,Z
+      - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/certs/ca.cert.pem:/home/step/certs/intermediate_ca.crt:ro,Z
+      - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/private/ca.key.pem:/home/step/secrets/intermediate_ca_key:ro,Z
     networks:
-      homelab-lab:
-        ipv4_address: 192.168.62.6
-    ports:
-      - "9000:9000"
+      traefik-proxy:
+      bridge42:
+        ipv4_address: 192.168.42.6
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.step-ca.rule=Host(`acme.lab.kemo.dev`)"
+      - "traefik.http.routers.step-ca.rule=Host(`step-ca.lab.kemo.dev`)"
+      - "traefik.http.routers.step-ca.entrypoints=websecure"
       - "traefik.http.routers.step-ca.tls=true"
       - "traefik.http.routers.step-ca.tls.certresolver=step-ca"
-      - "traefik.http.services.step-ca.loadbalancer.server.port=9000"
+      - "traefik.http.services.step-ca.loadbalancer.server.port=9100"
       - "traefik.http.services.step-ca.loadbalancer.server.scheme=https"
+      - "homepage.group=Services"
+      - "homepage.name=Step CA"
+      - "homepage.icon=stepca.png"
+      - "homepage.description='Step Certificate Authority'"
+      - "homepage.href=https://step-ca.lab.kemo.dev"
     healthcheck:
-      test: ["CMD", "step", "ca", "health", "--ca-url", "https://localhost:9000", "--root", "/home/step/certs/root_ca.crt"]
+      test: ["CMD-SHELL", "curl -k https://127.0.0.1:9100/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 30s
 
-volumes:
-  step-data:
-    name: step-data
-
 networks:
-  homelab-lab:
+  bridge42:
+    external: true
+  traefik-proxy:
     external: true

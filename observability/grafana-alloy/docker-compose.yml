@@ -3,6 +3,8 @@ x-common: &common
   restart: unless-stopped
   environment:
     - TZ=America/New_York
+  networks:
+    default:
   logging:
     options:
       max-size: 50m

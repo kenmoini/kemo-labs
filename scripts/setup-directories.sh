@@ -96,3 +96,10 @@ fi
 if [ -d "${CONTAINER_WORK_DIR}/outbound-proxy/data/logs" ]; then
   chown -R 23:23 ${CONTAINER_WORK_DIR}/outbound-proxy/data/logs
 fi
+
+# ==================================================================
+# Sonatype Nexus
+mkdir -p ${CONTAINER_WORK_DIR}/nexus/data
+if [ -d "${CONTAINER_WORK_DIR}/nexus/data" ]; then
+  chown -R 200:200 ${CONTAINER_WORK_DIR}/nexus/data
+fi

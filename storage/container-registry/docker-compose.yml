@@ -1,6 +1,6 @@
 services:
   nexus:
-    image: sonatype/nexus3:3.78.0
+    image: docker.io/sonatype/nexus3:3.91.1-ubi
     container_name: nexus
     restart: unless-stopped
     environment:
@@ -10,7 +10,7 @@ services:
         -Djava.util.prefs.userRoot=/nexus-data/javaprefs
       NEXUS_SECURITY_RANDOMPASSWORD: "false"
     volumes:
-      - ./data:/nexus-data
+      - /opt/workdir/caas/nexus/data:/nexus-data
     labels:
       - "traefik.enable=true"
       # Nexus Web UI

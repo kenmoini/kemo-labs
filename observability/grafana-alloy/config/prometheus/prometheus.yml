@@ -73,11 +73,6 @@ scrape_configs:
     static_configs:
       - targets: ['o11y-grafana-renderer:8081']
 
-  - job_name: "nvitop-exporter"
-    # scrape_interval: 1m
-    static_configs:
-      - targets: ["o11y-nvitop-exporter:5050"]
-
   # Works fine, just limited compared to OTLP
   # - job_name: "traefik"
   #   scrape_interval: 1m

@@ -125,7 +125,7 @@ for net in $(yq eval -o=j host-info.yaml | jq -cr '.networks[]'); do
   }],
   "ipv6_enabled": false,
   "internal": false,
-  "dns_enabled": false,
+  "dns_enabled": true,
   "ipam_options": {
     "driver": "host-local"
   }

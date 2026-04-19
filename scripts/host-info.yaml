@@ -44,3 +44,9 @@ networks:
   subnet: 76.195.90.174
   cidr: 28
   gateway: 76.195.90.174
+# Pod Network
+- name: podnet
+  physicalDevice: podman0
+  subnet: 10.88.0.0
+  cidr: 16
+  gateway: 10.88.0.1

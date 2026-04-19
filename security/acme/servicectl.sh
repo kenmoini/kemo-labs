@@ -10,12 +10,12 @@ STEP_CA_CONTAINER_NAME="step-ca"
 STEP_CA_CONTAINER_IMAGE="docker.io/smallstep/step-ca:0.30.2"
 STEP_CA_CONTAINER_RESTART_POLICY="unless-stopped"
 STEP_CA_CONTAINER_HEALTHCHECK="CMD-SHELL curl -fk https://localhost:9100/health || exit 1"
-STEP_CA_VOLUMES="-v /opt/workdir/caas/stepca/data/db:/home/step/db:Z
-      -v ./config/ca.json:/home/step/config/ca.json:ro,Z
-      -v ./config/defaults.json:/home/step/config/defaults.json:ro,Z
-      -v ./secrets/password:/home/step/secrets/password:ro,Z
-      -v /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/certs/ca.cert.pem:/home/step/certs/root_ca.crt:ro,Z
-      -v /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/certs/ca.cert.pem:/home/step/certs/intermediate_ca.crt:ro,Z
+STEP_CA_VOLUMES="-v /opt/workdir/caas/stepca/data/db:/home/step/db:Z \
+      -v ./config/ca.json:/home/step/config/ca.json:ro,Z \
+      -v ./config/defaults.json:/home/step/config/defaults.json:ro,Z \
+      -v ./secrets/password:/home/step/secrets/password:ro,Z \
+      -v /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/certs/ca.cert.pem:/home/step/certs/root_ca.crt:ro,Z \
+      -v /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/certs/ca.cert.pem:/home/step/certs/intermediate_ca.crt:ro,Z \
       -v /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/private/ca.key.pem:/home/step/secrets/intermediate_ca_key:ro,Z"
 
 STEP_CA_CONTAINER_LABELS='

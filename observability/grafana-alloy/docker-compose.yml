@@ -93,6 +93,9 @@ services:
     hostname: o11y-prometheus
     expose:
       - 9090
+    networks:
+      bridge42:
+        ipv4_address: 192.168.42.34
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.prometheus.entrypoints=websecure"
@@ -136,7 +139,6 @@ services:
     command: --config.file=/config/alertmanager.yml --log.level=debug
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
       - "traefik.http.routers.alertmanager.entrypoints=web,websecure"
       - "traefik.http.routers.alertmanager.service=alertmanager"
       - "traefik.http.routers.alertmanager.tls=true"
@@ -150,6 +152,9 @@ services:
       - "homepage.description=Alert Management"
     expose:
       - 9093
+    networks:
+      bridge42:
+        ipv4_address: 192.168.42.35
     healthcheck:
       test: ["CMD-SHELL", "wget -q --tries=1 --spider http://localhost:9093/metrics || exit 1"]
       interval: 30s

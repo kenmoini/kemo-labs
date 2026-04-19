@@ -177,6 +177,8 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .31 | Dozzle |
 | .32 | Uptime Kuma |
 | .33 | Scrutiny |
+| .34 | Prometheus |
+| .35 | Alertmanager |
 | .40 | GitLab CE |
 | .41 | Renovate |
 | .42 | Code Server |

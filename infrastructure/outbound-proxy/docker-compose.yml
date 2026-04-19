@@ -10,6 +10,9 @@ services:
       - /etc/pki/:/etc/pki/:ro
       - /opt/workdir/caas/outbound-proxy/data/cache/:/var/spool/squid/:Z
       - /opt/workdir/caas/outbound-proxy/data/logs/:/var/log/squid/:Z
+      - /opt/workdir/caas/pika-pki/data/.pika-pki/public_bundles/certs/signing-ca.kemo-labs-squid-proxy-ca.cert.pem:/etc/squid/certs/ca.crt:ro
+      - /opt/workdir/caas/pika-pki/data/.pika-pki/public_bundles/certs/signing-ca.kemo-labs-squid-proxy-ca.cert.pem.full-chain.pem:/etc/squid/certs/ca-bundle.crt:ro
+      - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-intermediate-ca/signing-ca/kemo-labs-squid-proxy-ca/private/ca.key.pem:/etc/squid/certs/ca.key:ro
     networks:
       bridge42:
         ipv4_address: 192.168.42.11

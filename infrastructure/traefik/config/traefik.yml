@@ -20,7 +20,7 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    network: homelab-lab
+    network: traefik-proxy
   file:
     directory: "/etc/traefik/dynamic/"
     watch: true
@@ -28,7 +28,7 @@ providers:
 certificatesResolvers:
   stepca:
     acme:
-      caServer: "https://stepca.lab.kemo.dev:9000/acme/acme/directory"
+      caServer: "https://192.168.42.6:9100/acme/acme/directory"
       email: "admin@lab.kemo.dev"
       storage: "/etc/traefik/acme.json"
       tlsChallenge: {}

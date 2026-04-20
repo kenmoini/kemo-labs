@@ -1,6 +1,6 @@
 services:
   iperf3:
-    image: networkstatic/iperf3:latest
+    image: docker.io/networkstatic/iperf3:latest
     container_name: iperf3
     restart: unless-stopped
     command: ["-s"]
@@ -20,7 +20,7 @@ services:
       start_period: 5s
 
   openspeedtest:
-    image: openspeedtest/latest:latest
+    image: docker.io/openspeedtest/latest:latest
     container_name: openspeedtest
     restart: unless-stopped
     environment:

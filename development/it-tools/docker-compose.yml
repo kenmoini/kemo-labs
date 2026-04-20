@@ -14,6 +14,11 @@ services:
       - "traefik.http.routers.it-tools.tls.certresolver=stepca"
       - "traefik.http.routers.it-tools.service=it-tools"
       - "traefik.http.services.it-tools.loadbalancer.server.port=80"
+      - "homepage.group=Utilities"
+      - "homepage.name=IT Tools"
+      - "homepage.icon=it-tools.png"
+      - "homepage.description='IT Tools'"
+      - "homepage.href=https://tools.apps.lab.kemo.dev"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/"]
       interval: 30s

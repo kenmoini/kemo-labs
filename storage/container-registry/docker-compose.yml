@@ -22,6 +22,11 @@ services:
       - "traefik.http.routers.nexus.tls.certresolver=stepca"
       - "traefik.http.routers.nexus.service=nexus"
       - "traefik.http.services.nexus.loadbalancer.server.port=8081"
+      - "homepage.group=Utilities"
+      - "homepage.name=Sonatype Nexus"
+      - "homepage.icon=nexus.png"
+      - "homepage.description=Nexus Repository Manager"
+      - "homepage.href=https://nexus.apps.lab.kemo.dev"
       # Docker Registry (group)
       # - "traefik.http.routers.registry.rule=Host(`registry.apps.lab.kemo.dev`)"
       # - "traefik.http.routers.registry.entrypoints=websecure"

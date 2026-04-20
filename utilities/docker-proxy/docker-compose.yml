@@ -1,0 +1,42 @@
+x-podman:
+  in_pod: false
+
+services:
+  podman_proxy:
+    image: docker.io/tecnativa/docker-socket-proxy
+    container_name: podman-proxy
+    volumes:
+      - /var/run/podman/podman.sock:/var/run/docker.sock:ro
+    environment:
+      OTEL_SERVICE_NAME: podman-proxy
+      CONTAINERS: 1
+      SERVICES: 1
+      DISTRIBUTION: 1
+      EVENTS: 1
+      STATS: 1
+      GRPC: 1
+      IMAGES: 1
+      INFO: 1
+      NETWORKS: 1
+      NODES: 1
+      VOLUMES: 1
+      SESSION: 1
+    restart: unless-stopped
+    networks:
+      - proxy
+    security_opt:
+      - no-new-privileges:true
+    group_add:
+      - 0 # Podman rooted groupid on the host system if it's different
+    ports:
+      - "2375:2375"  # Expose the Docker API over TCP (optional, be cautious)
+    labels:
+      - "homepage.group=Utilities"
+      - "homepage.name=Docker/Podman Proxy"
+      - "homepage.icon=tsd-proxy.png"
+      - "homepage.description=Docker/Podman Socket Proxy"
+
+networks:
+  proxy:
+    external: true
+    name: traefik-proxy

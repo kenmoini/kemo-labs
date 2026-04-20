@@ -1,0 +1,32 @@
+x-podman:
+  in_pod: false
+
+services:
+  dockns:
+    container_name: dockns
+    hostname: dockns
+    image: docker.io/brenekh/dockns:0.4.0
+    restart: unless-stopped
+    networks:
+      - proxy
+    env_file:
+      - .env
+    environment:
+      - DOCKER_HOST=tcp://podman-proxy:2375
+    volumes:
+      # - /var/run/podman/podman.sock:/var/run/docker.sock:ro
+      - dockns-data:/data:Z
+    labels:
+      - "homepage.group=Utilities"
+      - "homepage.name=DockNS"
+      - "homepage.icon=dockns.png"
+      - "homepage.description=DockNS Record Orchestration"
+
+volumes:
+  dockns-data:
+    name: dockns-data
+
+networks:
+  proxy:
+    external: true
+    name: traefik-proxy

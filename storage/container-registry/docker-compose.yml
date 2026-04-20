@@ -23,12 +23,12 @@ services:
       - "traefik.http.routers.nexus.service=nexus"
       - "traefik.http.services.nexus.loadbalancer.server.port=8081"
       # Docker Registry (group)
-      - "traefik.http.routers.registry.rule=Host(`registry.apps.lab.kemo.dev`)"
-      - "traefik.http.routers.registry.entrypoints=websecure"
-      - "traefik.http.routers.registry.tls=true"
-      - "traefik.http.routers.registry.tls.certresolver=stepca"
-      - "traefik.http.routers.registry.service=registry"
-      - "traefik.http.services.registry.loadbalancer.server.port=8084"
+      # - "traefik.http.routers.registry.rule=Host(`registry.apps.lab.kemo.dev`)"
+      # - "traefik.http.routers.registry.entrypoints=websecure"
+      # - "traefik.http.routers.registry.tls=true"
+      # - "traefik.http.routers.registry.tls.certresolver=stepca"
+      # - "traefik.http.routers.registry.service=registry"
+      # - "traefik.http.services.registry.loadbalancer.server.port=8084"
     networks:
       bridge42:
         ipv4_address: 192.168.42.21

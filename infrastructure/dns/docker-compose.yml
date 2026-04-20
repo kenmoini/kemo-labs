@@ -18,7 +18,7 @@ services:
       - "homepage.group=DNS"
       - "homepage.name=PowerDNS Auth"
       - "homepage.icon=powerdns.png"
-      - "homepage.description='PowerDNS Authoritative Server'"
+      - "homepage.description=PowerDNS Authoritative Server"
       - "homepage.href=https://pdns-auth.apps.lab.kemo.dev"
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8081"]
@@ -52,7 +52,7 @@ services:
       - "homepage.group=DNS"
       - "homepage.name=PowerDNS Recursor"
       - "homepage.icon=powerdns.png"
-      - "homepage.description='PowerDNS Recursor at 192.168.42.3'"
+      - "homepage.description=PowerDNS Recursor at 192.168.42.3"
       - "homepage.href=https://pdns-recursor.apps.lab.kemo.dev"
     networks:
       bridge42:
@@ -81,15 +81,15 @@ services:
       - /opt/workdir/caas/dns/pdns-admin/data:/data:Z
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pdnsadmin.rule=Host(`pdnsadmin.apps.lab.kemo.dev`)"
+      - "traefik.http.routers.pdnsadmin.rule=Host(`pdns-admin.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pdnsadmin.entrypoints=websecure"
       - "traefik.http.routers.pdnsadmin.tls.certresolver=stepca"
       - "traefik.http.services.pdnsadmin.loadbalancer.server.port=8080"
       - "homepage.group=DNS"
       - "homepage.name=PowerDNS Admin"
       - "homepage.icon=powerdns.png"
-      - "homepage.description='PowerDNS Admin web interface'"
-      - "homepage.href=https://pdnsadmin.apps.lab.kemo.dev"
+      - "homepage.description=PowerDNS Admin web interface"
+      - "homepage.href=https://pdns-admin.apps.lab.kemo.dev"
     networks:
       bridge42:
         ipv4_address: 192.168.42.15
@@ -132,7 +132,7 @@ services:
       - "homepage.group=DNS"
       - "homepage.name=Pi-hole"
       - "homepage.icon=pi-hole.png"
-      - "homepage.description='Network-wide ad blocker'"
+      - "homepage.description=Network-wide ad blocker"
       - "homepage.href=https://pihole.apps.lab.kemo.dev/admin/"
     healthcheck:
       test: ["CMD-SHELL", "dig +short +tries=1 +time=2 @127.0.0.1 pi.hole || exit 1"]

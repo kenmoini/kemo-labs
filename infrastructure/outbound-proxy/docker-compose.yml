@@ -29,6 +29,10 @@ services:
       - "homepage.icon=squidex.png"
       - "homepage.description=Outbound proxy server MiTM 3128, Passthrough 3129"
       - "homepage.href=http://proxy.lab.kemo.dev"
+      - "dockns.powerdns.record=A"
+      - "dockns.powerdns.name=proxy.lab.kemo.dev"
+      - "dockns.powerdns.ttl=60"
+      - "dockns.powerdns.ip=192.168.42.11"
 
 networks:
   bridge42:

@@ -7,6 +7,11 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.13
+    labels:
+      - "homepage.group=Utilities"
+      - "homepage.name=iperf3"
+      - "homepage.icon=iperf3.png"
+      - "homepage.description=iperf3 on port 5201"
     healthcheck:
       test: ["CMD-SHELL", "ls /proc/1/status > /dev/null 2>&1"]
       interval: 60s
@@ -26,11 +31,18 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.speedtest.rule=Host(`speedtest.apps.lab.kemo.dev`)"
       - "traefik.http.routers.speedtest.entrypoints=websecure"
+      - "traefik.http.routers.speedtest.tls=true"
       - "traefik.http.routers.speedtest.tls.certresolver=stepca"
+      - "traefik.http.routers.speedtest.service=speedtest"
       - "traefik.http.services.speedtest.loadbalancer.server.port=3000"
       - "traefik.http.middlewares.speedtest-buffering.buffering.maxRequestBodyBytes=50000000"
       - "traefik.http.middlewares.speedtest-buffering.buffering.memRequestBodyBytes=50000000"
       - "traefik.http.routers.speedtest.middlewares=speedtest-buffering"
+      - "homepage.group=Utilities"
+      - "homepage.name=Open Speedtest"
+      - "homepage.icon=openspeedtest.png"
+      - "homepage.description=Open Speedtest"
+      - "homepage.href=https://speedtest.apps.lab.kemo.dev"
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://127.0.0.1:3000/ > /dev/null || exit 1"]
       interval: 30s

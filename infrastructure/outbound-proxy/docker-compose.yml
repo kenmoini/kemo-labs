@@ -1,3 +1,6 @@
+x-podman:
+  in_pod: false
+
 services:
   squid:
     image: quay.io/kenmoini/squid-proxy:latest

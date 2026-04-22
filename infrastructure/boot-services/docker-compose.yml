@@ -52,7 +52,7 @@ services:
       start_period: 10s
 
   peanut:
-    image: brandawg93/peanut:latest
+    image: docker.io/brandawg93/peanut:latest
     container_name: peanut
     restart: unless-stopped
     environment:

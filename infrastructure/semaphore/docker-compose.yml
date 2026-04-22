@@ -1,6 +1,6 @@
 services:
   semaphore:
-    image: semaphoreui/semaphore
+    image: docker.io/semaphoreui/semaphore
     container_name: semaphore
     restart: unless-stopped
     environment:

@@ -1,6 +1,6 @@
 services:
   wud:
-    image: getwud/wud
+    image: docker.io/getwud/wud
     container_name: wud
     restart: unless-stopped
     environment:

@@ -1,0 +1,16 @@
+[Unit]
+Description=Kemo Labs Container Services
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStop=/opt/workdir/kemo-labs/scripts/servicectl.sh stop
+ExecStart=/opt/workdir/kemo-labs/scripts/servicectl.sh start
+ExecReload=/opt/workdir/kemo-labs/scripts/servicectl.sh restart
+
+TimeoutStartSec=300
+Type=forking
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

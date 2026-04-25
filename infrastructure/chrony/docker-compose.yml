@@ -1,0 +1,37 @@
+x-podman:
+  in_pod: false
+
+services:
+  chrony:
+    image: docker.io/tecnativa/docker-socket-proxy
+    container_name: chrony
+    healthcheck:
+      test: ["CMD-SHELL", "chronyc tracking > /dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    cap_add:
+      - SYS_NICE
+      - SYS_RESOURCE
+      - SYS_TIME
+    restart: unless-stopped
+    networks:
+      bridge42:
+        ipv4_address: 192.168.42.16
+    ports:
+      - "123:123"  # Expose the Docker API over TCP (optional, be cautious)
+    labels:
+      - "homepage.group=Utilities"
+      - "homepage.name=Chrony Time Sync"
+      - "homepage.icon=chrony.png"
+      - "homepage.description=Chrony Time Synchronization Service"
+      - "dockns.powerdns.record=A"
+      - "dockns.powerdns.name=time.lab.kemo.dev"
+      - "dockns.powerdns.ttl=60"
+      - "dockns.powerdns.ip=192.168.42.16"
+
+networks:
+  bridge42:
+    external: true
+    name: bridge42

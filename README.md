@@ -144,13 +144,14 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .6 | StepCA (ACME) |
 | .7 | HashiCorp Vault |
 | .8 | Authentik |
+| .9 | WUD (What's Up Docker) |
 | .10 | Traefik (Load Balancer) |
 | .11 | Squid (Outbound Proxy) |
 | .12 | Boot Services (Netboot/NUT/PeaNUT) |
 | .13 | Network Testing (iPerf3/SpeedTest) |
-| .9 | WUD (What's Up Docker) |
 | .14 | Homepage Dashboard |
 | .15 | PowerDNS Admin |
+| .16 | Chrony |
 | .25 | Semaphore (Ansible UI) |
 
 ### Database Services (192.168.66.15 -- 192.168.66.21)

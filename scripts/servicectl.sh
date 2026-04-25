@@ -67,6 +67,10 @@ case $1 in
     cd /opt/workdir/kemo-labs/databases/shared
     podman compose down
 
+    # Time
+    cd /opt/workdir/kemo-labs/infrastructure/chrony
+    podman compose down
+
     # PKI
     cd /opt/workdir/kemo-labs/security/pki
     podman compose down
@@ -84,6 +88,10 @@ case $1 in
 
     # PKI
     cd /opt/workdir/kemo-labs/security/pki
+    podman compose up -d
+
+    # Time
+    cd /opt/workdir/kemo-labs/infrastructure/chrony
     podman compose up -d
 
     # Databases

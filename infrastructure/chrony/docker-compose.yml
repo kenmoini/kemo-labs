@@ -3,7 +3,7 @@ x-podman:
 
 services:
   chrony:
-    image: docker.io/tecnativa/docker-socket-proxy
+    image: ghcr.io/kenmoini/docker-chrony:latest
     container_name: chrony
     healthcheck:
       test: ["CMD-SHELL", "chronyc tracking > /dev/null 2>&1 || exit 1"]

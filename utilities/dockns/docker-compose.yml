@@ -21,12 +21,12 @@ services:
       - "homepage.name=DockNS"
       - "homepage.icon=dockns.png"
       - "homepage.description=DockNS Record Orchestration"
-    healthcheck:
-      test: ["CMD-SHELL", "curl http://127.0.0.1:4104/health || exit 1"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
+    # healthcheck:
+    #   test: ["CMD-SHELL", "curl http://127.0.0.1:4104/health || exit 1"]
+    #   interval: 30s
+    #   timeout: 5s
+    #   retries: 3
+    #   start_period: 15s
 
 volumes:
   dockns-data:

@@ -20,11 +20,11 @@ services:
       bridge42:
         ipv4_address: 192.168.42.16
     ports:
-      - "123:123"  # Expose the Docker API over TCP (optional, be cautious)
+      - "123:123"
     labels:
       - "homepage.group=Utilities"
       - "homepage.name=Chrony Time Sync"
-      - "homepage.icon=chrony.png"
+      - "homepage.icon=mdi-clock-digital"
       - "homepage.description=Chrony Time Synchronization Service"
       - "dockns.powerdns.record=A"
       - "dockns.powerdns.name=time.lab.kemo.dev"

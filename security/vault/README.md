@@ -23,6 +23,30 @@ docker exec vault vault operator unseal <key2>
 docker exec vault vault operator unseal <key3>
 ```
 
+There is an additional `auto-unseal.sh` script in this directory to aid in unsealing the Vault during boot.
+
+Once the Vault is unsealed configure the following:
+
+1. Log In via the Web UI with the Root Token
+2. Enable the KV Store Secrets Engine at `kv/` (defaults are fine)
+3. Enable the User/Pass Authentication engine, create a User
+4. Create a Policy called `kv_reader`:
+```
+path "/kv/*" {
+  capabilities = ["read"]
+}
+```
+5. Create a Policy called `kv_browser`:
+```
+path "/kv/*" {
+  capabilities = ["read", "list"]
+}
+```
+6. Run the following command in the Vault UI Shell to associate the Policy to the User created:
+```
+write auth/userpass/users/openshift policies=kv_reader
+```
+
 ## Configuration
 
 | Variable | Purpose |
@@ -38,7 +62,7 @@ Vault configuration is in `./config/vault.hcl` using Raft integrated storage.
 
 | URL | Purpose |
 |-----|---------|
-| `https://vault.lab.kemo.dev` | Web UI and API |
+| `https://vault.apps.lab.kemo.dev` | Web UI and API |
 
 **Static IP:** 192.168.42.7
 
@@ -46,6 +70,7 @@ Vault configuration is in `./config/vault.hcl` using Raft integrated storage.
 
 - **PikaPKI / StepCA** -- recommended for TLS certificates
 - **DNS** -- recommended for `vault.lab.kemo.dev` resolution
+- **DockNS** -- Automated DNS record creation
 
 ## Maintenance
 

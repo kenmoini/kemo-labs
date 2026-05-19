@@ -19,6 +19,10 @@ case $1 in
   "restart" | "stop")
     echo "Stopping container services if running..."
 
+    # Vault
+    cd /opt/workdir/kemo-labs/security/vault
+    podman compose down
+
     # Network Testing
     cd /opt/workdir/kemo-labs/infrastructure/network-testing
     podman compose down
@@ -86,6 +90,10 @@ case $1 in
   "restart" | "start")
     echo "Starting container services..."
 
+    # Docker Proxy
+    cd /opt/workdir/kemo-labs/utilities/docker-proxy
+    podman compose up -d
+
     # PKI
     cd /opt/workdir/kemo-labs/security/pki
     podman compose up -d
@@ -98,12 +106,16 @@ case $1 in
     cd /opt/workdir/kemo-labs/databases/shared
     podman compose up -d
 
-    # Step CA
-    cd /opt/workdir/kemo-labs/security/acme
-    podman compose up -d
-
     # DNS Services
     cd /opt/workdir/kemo-labs/infrastructure/dns
+    podman compose up -d
+
+    # DockNS
+    cd /opt/workdir/kemo-labs/utilities/dockns
+    podman compose up -d
+
+    # Step CA
+    cd /opt/workdir/kemo-labs/security/acme
     podman compose up -d
 
     # Traefik Proxy
@@ -116,14 +128,6 @@ case $1 in
 
     # Outbound Proxy
     cd /opt/workdir/kemo-labs/infrastructure/outbound-proxy
-    podman compose up -d
-
-    # Docker Proxy
-    cd /opt/workdir/kemo-labs/utilities/docker-proxy
-    podman compose up -d
-
-    # DockNS
-    cd /opt/workdir/kemo-labs/utilities/dockns
     podman compose up -d
 
     # Container Registry
@@ -141,6 +145,11 @@ case $1 in
     # IT Tools
     cd /opt/workdir/kemo-labs/development/it-tools
     podman compose up -d
+
+    # Vault
+    cd /opt/workdir/kemo-labs/security/vault
+    podman compose up -d
+    /bin/bash /opt/workdir/caas/vault/unseal.sh
 
     ;;
 

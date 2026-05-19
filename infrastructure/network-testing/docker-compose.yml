@@ -10,7 +10,7 @@ services:
     labels:
       - "homepage.group=Utilities"
       - "homepage.name=iperf3"
-      - "homepage.icon=iperf3.png"
+      - "homepage.icon=/assets/iperf3-logo.png"
       - "homepage.description=iperf3 on port 5201"
     healthcheck:
       test: ["CMD-SHELL", "ls /proc/1/status > /dev/null 2>&1"]

@@ -1,4 +1,7 @@
 ---
+x-podman:
+  in_pod: false
+
 services:
   vault:
     image: docker.io/hashicorp/vault:1.21

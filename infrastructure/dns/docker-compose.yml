@@ -122,6 +122,7 @@ services:
     expose:
       - 53
       - 80
+      - 123
       - 443
     labels:
       - "traefik.enable=true"

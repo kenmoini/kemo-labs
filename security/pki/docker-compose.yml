@@ -30,7 +30,7 @@ services:
       - "traefik.http.routers.pki.tls=true"
       - "traefik.http.routers.pki.tls.certresolver=stepca"
       - "traefik.http.services.pki.loadbalancer.server.port=8001"
-      - "homepage.group=PKI"
+      - "homepage.group=Identity & Secrets"
       - "homepage.name=Public Trust Store"
       - "homepage.icon=nginx.png"
       - "homepage.href=https://pki.apps.lab.kemo.dev"

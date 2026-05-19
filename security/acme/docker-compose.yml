@@ -25,7 +25,7 @@ services:
       - "traefik.http.services.step-ca.loadbalancer.server.port=9100"
       - "traefik.http.services.step-ca.loadbalancer.server.scheme=https"
       # - "traefik.http.services.step-ca.loadbalancer.serversTransport=skipverify"
-      - "homepage.group=PKI"
+      - "homepage.group=Identity & Secrets"
       - "homepage.name=Step CA"
       - "homepage.icon=step-ca.png"
       - "homepage.description='Step Certificate Authority'"

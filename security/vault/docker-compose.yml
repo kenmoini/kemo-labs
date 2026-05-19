@@ -1,7 +1,7 @@
 ---
 services:
   vault:
-    image: hashicorp/vault:1.19
+    image: docker.io/hashicorp/vault:1.21
     container_name: vault
     restart: unless-stopped
     env_file:
@@ -9,14 +9,26 @@ services:
     cap_add:
       - IPC_LOCK
     volumes:
-      - vault-data:/vault/data
-      - vault-logs:/vault/logs
+      - /opt/workdir/caas/vault/data:/vault/data:Z
+      - /opt/workdir/caas/vault/logs:/vault/logs:Z
       - ./config:/vault/config:ro
     networks:
       bridge42:
         ipv4_address: 192.168.42.7
+    expose:
+      - 8200
+      - 8201
     command: vault server -config=/vault/config/vault.hcl
     labels:
+      - "dockns.powerdns.record=A"
+      - "dockns.powerdns.name=vault.lab.kemo.dev"
+      - "dockns.powerdns.ttl=60"
+      - "dockns.powerdns.ip=192.168.42.7"
+      - "homepage.group=Identity & Secrets"
+      - "homepage.name=Vault"
+      - "homepage.icon=vault.png"
+      - "homepage.description=Vault"
+      - "homepage.href=https://vault.apps.lab.kemo.dev"
       - "traefik.enable=true"
       - "traefik.http.routers.vault.rule=Host(`vault.apps.lab.kemo.dev`)"
       - "traefik.http.routers.vault.tls=true"
@@ -29,12 +41,7 @@ services:
       retries: 3
       start_period: 15s
 
-volumes:
-  vault-data:
-    name: vault-data
-  vault-logs:
-    name: vault-logs
-
 networks:
   bridge42:
     external: true
+    name: bridge42

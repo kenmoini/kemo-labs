@@ -14,7 +14,7 @@ services:
     volumes:
       - /opt/workdir/caas/vault/data:/vault/data:Z
       - /opt/workdir/caas/vault/logs:/vault/logs:Z
-      - ./config:/vault/config:ro
+      - ./config:/vault/config:Z
     networks:
       bridge42:
         ipv4_address: 192.168.42.7

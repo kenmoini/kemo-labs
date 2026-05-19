@@ -103,3 +103,14 @@ mkdir -p ${CONTAINER_WORK_DIR}/nexus/data
 if [ -d "${CONTAINER_WORK_DIR}/nexus/data" ]; then
   chown -R 200:200 ${CONTAINER_WORK_DIR}/nexus/data
 fi
+
+
+# ==================================================================
+# Vault
+mkdir -p ${CONTAINER_WORK_DIR}/vault/{data,logs}
+if [ -d "${CONTAINER_WORK_DIR}/vault/data" ]; then
+  chown -R 100:1000 ${CONTAINER_WORK_DIR}/vault/data
+fi
+if [ -d "${CONTAINER_WORK_DIR}/vault/logs" ]; then
+  chown -R 100:1000 ${CONTAINER_WORK_DIR}/vault/logs
+fi

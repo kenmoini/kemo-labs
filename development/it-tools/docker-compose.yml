@@ -1,3 +1,6 @@
+x-podman:
+  in_pod: false
+
 services:
   it-tools:
     image: docker.io/corentinth/it-tools:latest

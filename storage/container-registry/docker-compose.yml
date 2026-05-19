@@ -1,3 +1,7 @@
+---
+x-podman:
+  in_pod: false
+
 services:
   nexus:
     image: docker.io/sonatype/nexus3:3.91.1-ubi

@@ -1,4 +1,7 @@
 ---
+x-podman:
+  in_pod: false
+
 services:
   step-ca:
     image: docker.io/smallstep/step-ca:0.30.2

@@ -7,7 +7,7 @@ cluster_addr = "https://vault.lab.kemo.dev:8201"
 log_level = "info"
 
 storage "raft" {
-  path    = "/vault/raft/data"
+  path    = "/vault/data"
   node_id = "vault-1"
 }
 

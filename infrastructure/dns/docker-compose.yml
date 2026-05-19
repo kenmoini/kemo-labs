@@ -1,6 +1,6 @@
 services:
   pdns-auth:
-    image: quay.io/kenmoini/pdns-auth:4ba2c66
+    image: quay.io/kenmoini/pdns-auth:3fbe9f7
     container_name: pdns-auth
     restart: unless-stopped
     volumes:
@@ -31,7 +31,7 @@ services:
       - 8081
 
   pdns-recursor:
-    image: quay.io/kenmoini/pdns-recursor:ae856c5
+    image: quay.io/kenmoini/pdns-recursor:46f8a8d
     container_name: pdns-recursor
     restart: unless-stopped
     depends_on:

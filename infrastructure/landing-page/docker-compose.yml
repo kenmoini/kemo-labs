@@ -14,6 +14,7 @@ services:
       - OTEL_SERVICE_NAME=homepage
     volumes:
       - ./config/:/app/config
+      - ./assets/:/app/public/assets
       - /var/run/podman/podman.sock:/var/run/docker.sock:ro
       - /opt/workdir/caas/homepage/logs:/data/logs:Z
     networks:

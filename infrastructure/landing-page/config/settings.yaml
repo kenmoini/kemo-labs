@@ -12,6 +12,10 @@ logpath: /data/logs
 
 theme: dark
 color: slate
+background:
+  image: /assets/background.jpeg
+  opacity: 50
+
 useEqualHeights: true
 headerStyle: boxed
 

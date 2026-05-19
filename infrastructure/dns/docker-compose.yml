@@ -60,6 +60,7 @@ services:
       # traefik-proxy:
     expose:
       - 53
+      - 5300
       - 8082
     healthcheck:
       test: ["CMD-SHELL", "rec_control ping 2>/dev/null || exit 1"]

@@ -125,3 +125,10 @@ fi
 if [ -d "${CONTAINER_WORK_DIR}/dropbox/copyparty-db" ]; then
   chown -R 1000:1000 ${CONTAINER_WORK_DIR}/dropbox/copyparty-db
 fi
+
+# ==================================================================
+# RustFS
+mkdir -p ${CONTAINER_WORK_DIR}/rustfs/data
+if [ -d "${CONTAINER_WORK_DIR}/rustfs/data" ]; then
+  chown -R 10001:10001 ${CONTAINER_WORK_DIR}/rustfs/data
+fi

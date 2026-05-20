@@ -4,11 +4,11 @@ services:
     container_name: rustfs
     restart: unless-stopped
     command: server /data --console-address ":9001"
-    environment:
-      RUSTFS_ROOT_USER: ${RUSTFS_ROOT_USER:-admin}
-      RUSTFS_ROOT_PASSWORD: ${RUSTFS_ROOT_PASSWORD}
+    env_file:
+      - .env
     volumes:
-      - ./data:/data
+      - /opt/workdir/caas/rustfs/data:/data:Z
+      - cargo_registry:/usr/local/cargo/registry:Z
     labels:
       - "traefik.enable=true"
       # S3 API
@@ -23,15 +23,31 @@ services:
       - "traefik.http.routers.s3-console.tls=true"
       - "traefik.http.routers.s3-console.tls.certresolver=stepca"
       - "traefik.http.services.s3-console.loadbalancer.server.port=9001"
+      - "homepage.group=Services"
+      - "homepage.name=RustFS"
+      - "homepage.icon=rustfs.png"
+      - "homepage.description=RustFS S3-compatible storage server"
+      - "homepage.href=http://s3-console.apps.lab.kemo.dev"
     networks:
       bridge42:
         ipv4_address: 192.168.42.20
+    security_opt:
+      - "no-new-privileges:true"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test:
+        [
+          "CMD",
+          "sh", "-c",
+          "curl -f http://127.0.0.1:9000/health && curl -f http://127.0.0.1:9001/rustfs/console/health"
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 40s
 
 networks:
   bridge42:
     external: true
+
+volumes:
+  cargo_registry: {}

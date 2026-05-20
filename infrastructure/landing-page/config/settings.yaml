@@ -25,3 +25,15 @@ quicklaunch:
   showSearchSuggestions: true
   hideVisitURL: false
   provider: duckduckgo
+
+layout:
+  Utilities:
+    style: row
+  Databases:
+    style: row
+  Services:
+    style: row
+  DNS:
+    style: row
+  Observability:
+    style: row

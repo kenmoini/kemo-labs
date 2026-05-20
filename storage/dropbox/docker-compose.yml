@@ -33,6 +33,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 15s  # thumbnailer is allowed to continue finishing up for 10s after the shutdown signal
     # command: >
+    #   --allow-csrf
     #   -i 0.0.0.0 -p 3923
     #   -a admin:${COPYPARTY_PASSWORD}:rwmd:/srv/files
     #   --urlbase /
@@ -68,8 +69,8 @@ services:
         ipv4_address: 192.168.42.24
     healthcheck:
       # hide it from logs with "/._" so it matches the default --lf-url filter 
-      test: ["CMD-SHELL", "wget --spider -q 127.0.0.1:3923/?reset=/._"]
-      interval: 1m
+      test: ["CMD-SHELL", "wget --spider -q http://127.0.0.1:3923/?reset=/._"]
+      interval: 30s
       timeout: 2s
       retries: 5
       start_period: 15s

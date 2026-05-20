@@ -1,12 +1,16 @@
+x-podman:
+  pod_args:
+    - --network=bridge42
+    - --ip=192.168.42.13
+
 services:
   iperf3:
     image: docker.io/networkstatic/iperf3:latest
     container_name: iperf3
     restart: unless-stopped
     command: ["-s"]
-    networks:
-      bridge42:
-        ipv4_address: 192.168.42.13
+    # networks:
+    #   bridge42:
     labels:
       - "homepage.group=Utilities"
       - "homepage.name=iperf3"
@@ -25,9 +29,9 @@ services:
     restart: unless-stopped
     environment:
       - ENABLE_LETSENCRYPT=false
-    networks:
-      bridge42:
-        ipv4_address: 192.168.42.13
+    # networks:
+    #   bridge42:
+    #     ipv4_address: 192.168.42.13
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.speedtest.rule=Host(`speedtest.apps.lab.kemo.dev`)"
@@ -51,6 +55,6 @@ services:
       retries: 3
       start_period: 10s
 
-networks:
-  bridge42:
-    external: true
+# networks:
+#   bridge42:
+#     external: true

@@ -42,3 +42,6 @@ layout:
   Observability:
     style: row
     columns: 4
+  Identity & Secrets:
+    style: row
+    columns: 4

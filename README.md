@@ -148,10 +148,11 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .10 | Traefik (Load Balancer) |
 | .11 | Squid (Outbound Proxy) |
 | .12 | Boot Services (Netboot/NUT/PeaNUT) |
-| .13 | Network Testing (iPerf3/SpeedTest) |
+| .13 | iPerf3 |
 | .14 | Homepage Dashboard |
 | .15 | PowerDNS Admin |
 | .16 | Chrony |
+| .17 | OpenSpeedTest |
 | .25 | Semaphore (Ansible UI) |
 
 ### Database Services (192.168.66.15 -- 192.168.66.21)

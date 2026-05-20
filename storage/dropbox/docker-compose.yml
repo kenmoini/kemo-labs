@@ -3,7 +3,6 @@ services:
     image: nginx:1.27-alpine
     container_name: nginx-files
     restart: unless-stopped
-    user: "1000:1000"
     volumes:
       - /opt/workdir/caas/dropbox/data:/srv/files:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
@@ -41,7 +40,7 @@ services:
     volumes:
       - /opt/workdir/caas/dropbox/data:/srv/files
       - /opt/workdir/caas/dropbox/copyparty-db:/var/lib/copyparty
-    user: "1000:1000"
+    # user: "1000:1000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.upload.rule=Host(`upload.apps.lab.kemo.dev`)"

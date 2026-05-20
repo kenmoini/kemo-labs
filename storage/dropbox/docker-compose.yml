@@ -31,16 +31,23 @@ services:
     image: ghcr.io/9001/copyparty-dj:1.20.14
     container_name: copyparty
     restart: unless-stopped
-    command: >
-      --i 0.0.0.0 -p 3923
-      -a admin:${COPYPARTY_PASSWORD}:rwmd:/srv/files
-      --urlbase /
+    stop_grace_period: 15s  # thumbnailer is allowed to continue finishing up for 10s after the shutdown signal
+    # command: >
+    #   -i 0.0.0.0 -p 3923
+    #   -a admin:${COPYPARTY_PASSWORD}:rwmd:/srv/files
+    #   --urlbase /
+    environment:
+      # enable mimalloc by replacing "NOPE" with "2" for a nice speed-boost (will use twice as much ram)
+      LD_PRELOAD: /usr/lib/libmimalloc-secure.so.NOPE
+      # ensures log-messages are not delayed (but can reduce speed a tiny bit)
+      PYTHONUNBUFFERED: 1
     env_file:
       - .env
     volumes:
+      - ./copyparty.conf:/cfg/copyparty.conf:ro
       - /opt/workdir/caas/dropbox/data:/srv/files
       - /opt/workdir/caas/dropbox/copyparty-db:/var/lib/copyparty
-    # user: "1000:1000"
+    user: "1000:1000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.upload.rule=Host(`upload.apps.lab.kemo.dev`)"
@@ -59,6 +66,13 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.24
+    healthcheck:
+      # hide it from logs with "/._" so it matches the default --lf-url filter 
+      test: ["CMD-SHELL", "wget --spider -q 127.0.0.1:3923/?reset=/._"]
+      interval: 1m
+      timeout: 2s
+      retries: 5
+      start_period: 15s
 
 networks:
   bridge42:

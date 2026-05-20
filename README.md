@@ -174,7 +174,8 @@ Each workload directory contains a `docker-compose.yml` and any supporting confi
 | .20 | RustFS (S3) |
 | .21 | Nexus (Container Registry) |
 | .22 | Kopia (Backups) |
-| .23 | Dropbox (NGINX + Copyparty) |
+| .23 | Dropbox (NGINX) |
+| .24 | Dropbox (Copyparty) |
 | .30 | Grafana Alloy Stack |
 | .31 | Dozzle |
 | .32 | Uptime Kuma |

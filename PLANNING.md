@@ -30,11 +30,11 @@
 | 192.168.42.12 | Boot Services (Netboot/NUT/PeaNUT) | infrastructure/boot-services |
 | 192.168.42.13 | Network Testing (iPerf3/SpeedTest) | infrastructure/network-testing |
 | 192.168.42.14 | Homepage Dashboard | infrastructure/landing-page |
-| 192.168.42.15 | Shared Databases (MariaDB) | databases/shared |
-| 192.168.42.16 | Shared Databases (PostgreSQL) | databases/shared |
-| 192.168.42.17 | Shared Databases (Valkey) | databases/shared |
-| 192.168.42.18 | Shared Databases (Mosquitto) | databases/shared |
-| 192.168.42.19 | Shared Databases (phpMyAdmin) | databases/shared |
+| 192.168.66.15 | Shared Databases (MariaDB) | databases/shared |
+| 192.168.66.16 | Shared Databases (PostgreSQL) | databases/shared |
+| 192.168.66.17 | Shared Databases (Valkey) | databases/shared |
+| 192.168.66.18 | Shared Databases (Mosquitto) | databases/shared |
+| 192.168.66.19 | Shared Databases (phpMyAdmin) | databases/shared |
 
 ### Infrastructure Tools (192.168.42.9, 192.168.42.25)
 

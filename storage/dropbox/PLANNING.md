@@ -9,11 +9,11 @@ A dual-container file sharing solution: NGINX serves files for fast static downl
 | Container | Image | Purpose |
 |-----------|-------|---------|
 | NGINX | `nginx:1.27-alpine` | Static file serving / downloads |
-| Copyparty | `ghcr.io/9001/copyparty:latest` | Upload, file management, search, media player |
+| Copyparty | `ghcr.io/9001/copyparty-dj:1.20.14` | Upload, file management, search, media player |
 
 ## Static IP & DNS
 
-- **IP:** 192.168.42.23
+- **IP:** 192.168.42.23 (NGINX), 192.168.42.24 (Copyparty)
 - **DNS:** `files.lab.kemo.dev` (NGINX), `upload.lab.kemo.dev` (Copyparty)
 
 ## Required Ports
@@ -44,7 +44,7 @@ Copyparty is primarily configured via command-line arguments rather than env var
 ### NGINX Configuration
 ```nginx
 server {
-    listen 80;
+    listen 8080;
     server_name files.lab.kemo.dev;
     root /srv/files;
     autoindex on;
@@ -77,7 +77,7 @@ server {
 - macvlan/ipvlan with static IP 192.168.42.23
 - Both containers share the same IP via the same compose network
 - Traefik routes by hostname:
-  - `files.lab.kemo.dev` → NGINX port 80
+  - `files.lab.kemo.dev` → NGINX port 8080
   - `upload.lab.kemo.dev` → Copyparty port 3923
 
 ## Special Considerations

@@ -114,3 +114,14 @@ fi
 if [ -d "${CONTAINER_WORK_DIR}/vault/logs" ]; then
   chown -R 100:1000 ${CONTAINER_WORK_DIR}/vault/logs
 fi
+
+# ==================================================================
+# Dropbox
+mkdir -p ${CONTAINER_WORK_DIR}/dropbox/data
+mkdir -p ${CONTAINER_WORK_DIR}/dropbox/copyparty-db
+if [ -d "${CONTAINER_WORK_DIR}/dropbox/data" ]; then
+  chown -R 1000:1000 ${CONTAINER_WORK_DIR}/dropbox/data
+fi
+if [ -d "${CONTAINER_WORK_DIR}/dropbox/copyparty-db" ]; then
+  chown -R 1000:1000 ${CONTAINER_WORK_DIR}/dropbox/copyparty-db
+fi

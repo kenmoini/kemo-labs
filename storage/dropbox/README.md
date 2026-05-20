@@ -33,7 +33,8 @@ Nginx configuration is in `./nginx.conf`. Copyparty is configured via command-li
 | `https://files.lab.kemo.dev` | Nginx file browser (downloads) |
 | `https://upload.lab.kemo.dev` | Copyparty file manager (uploads, search, media) |
 
-**Static IP:** 192.168.42.23
+**NGINX Static IP:** 192.168.42.23
+**Copyparty Static IP:** 192.168.42.24
 
 ## Dependencies
 

@@ -27,21 +27,21 @@ quicklaunch:
   provider: duckduckgo
 
 layout:
-  Utilities:
-    style: row
-    columns: 4
   Databases:
-    style: row
-    columns: 4
-  Services:
     style: row
     columns: 4
   DNS:
     style: row
     columns: 4
+  Identity & Secrets:
+    style: row
+    columns: 4
   Observability:
     style: row
     columns: 4
-  Identity & Secrets:
+  Services:
+    style: row
+    columns: 4
+  Utilities:
     style: row
     columns: 4

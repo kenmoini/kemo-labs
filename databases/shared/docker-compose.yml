@@ -20,7 +20,7 @@ services:
       - "homepage.group=Databases"
       - "homepage.name=MariaDB"
       - "homepage.icon=mariadb.png"
-      - "homepage.description='MariaDB database at 192.168.66.15:3306'"
+      - "homepage.description=MariaDB database at 192.168.66.15:3306"
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -56,7 +56,7 @@ services:
       - "homepage.group=Databases"
       - "homepage.name=PostgreSQL"
       - "homepage.icon=postgresql.png"
-      - "homepage.description='PostgreSQL database at 192.168.66.16:5432'"
+      - "homepage.description=PostgreSQL database at 192.168.66.16:5432"
     volumes:
       - /opt/workdir/caas/databases/shared/postgresql_data:/var/lib/postgresql/data:Z
       - ./init-scripts/postgres-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
@@ -95,7 +95,7 @@ services:
       - "homepage.group=Databases"
       - "homepage.name=Valkey"
       - "homepage.icon=valkey.png"
-      - "homepage.description='Redis-compatible database at 192.168.66.17:6379'"
+      - "homepage.description=Redis-compatible database at 192.168.66.17:6379"
     healthcheck:
       test: ["CMD", "valkey-cli", "-a", "${VALKEY_PASSWORD}", "ping"]
       interval: 10s
@@ -126,7 +126,7 @@ services:
       - "homepage.group=Databases"
       - "homepage.name=Mosquitto"
       - "homepage.icon=mosquitto.png"
-      - "homepage.description='MQTT broker at 192.168.66.18:1883'"
+      - "homepage.description=MQTT broker at 192.168.66.18:1883"
     healthcheck:
       test: ["CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
       interval: 30s
@@ -161,7 +161,7 @@ services:
       - "homepage.group=Databases"
       - "homepage.name=phpMyAdmin"
       - "homepage.icon=phpmyadmin.png"
-      - "homepage.description='MariaDB web UI'"
+      - "homepage.description=MariaDB web UI"
       - "homepage.href=https://phpmyadmin.apps.lab.kemo.dev"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
@@ -205,7 +205,7 @@ services:
       - "homepage.group=Databases"
       - "homepage.name=Databasus"
       - "homepage.icon=databasus.png"
-      - "homepage.description='Automated database backups'"
+      - "homepage.description=Automated database backups"
       - "homepage.href=https://databasus.apps.lab.kemo.dev"
     volumes:
       - /opt/workdir/caas/databases/backups:/backups:Z
@@ -243,7 +243,7 @@ services:
       - "homepage.group=Databases"
       - "homepage.name=Adminer"
       - "homepage.icon=adminer.png"
-      - "homepage.description='Web UI for DBs cause I am noob'"
+      - "homepage.description=Web UI for DBs cause I am noob"
       - "homepage.href=https://adminer.apps.lab.kemo.dev"
     depends_on:
       mariadb:

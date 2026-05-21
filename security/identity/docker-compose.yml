@@ -1,7 +1,7 @@
 ---
 services:
   server:
-    image: ghcr.io/goauthentik/server@sha256:28fab86f1c16a06010c7cf9502200bf32b63cf7d80a6153e126d0b0a9ed49123
+    image: ghcr.io/goauthentik/server:sha256-a919099addc29b8166f2ef9d5a6aa128d9aea25c9c2e56faf2e06a52b863eeb7
     container_name: authentik-server
     restart: unless-stopped
     command: server
@@ -46,7 +46,7 @@ services:
       - ./templates:/templates
 
   worker:
-    image: ghcr.io/goauthentik/server@sha256:28fab86f1c16a06010c7cf9502200bf32b63cf7d80a6153e126d0b0a9ed49123
+    image: ghcr.io/goauthentik/server:sha256-a919099addc29b8166f2ef9d5a6aa128d9aea25c9c2e56faf2e06a52b863eeb7
     container_name: authentik-worker
     restart: unless-stopped
     command: worker

@@ -1,18 +1,23 @@
 ---
 services:
   server:
-    image: ghcr.io/goauthentik/server:2025.2.4
+    image: ghcr.io/goauthentik/server@sha256:28fab86f1c16a06010c7cf9502200bf32b63cf7d80a6153e126d0b0a9ed49123
     container_name: authentik-server
     restart: unless-stopped
     command: server
+    shm_size: 512mb
     env_file:
       - .env
-    volumes:
-      - authentik-media:/media
-      - authentik-templates:/templates
+    cap_add:
+      - NET_BIND_SERVICE
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=389
     networks:
       bridge42:
         ipv4_address: 192.168.42.8
+    expose:
+      - 389
+      - 636
     labels:
       - "homepage.group=Identity & Secrets"
       - "homepage.name=Authentik"
@@ -23,6 +28,7 @@ services:
       - "traefik.http.routers.authentik.rule=Host(`auth.apps.lab.kemo.dev`)"
       - "traefik.http.routers.authentik.tls=true"
       - "traefik.http.routers.authentik.tls.certresolver=stepca"
+      - "traefik.http.routers.authentik.service=authentik"
       - "traefik.http.services.authentik.loadbalancer.server.port=9000"
       # Forward auth middleware for protecting other services
       - "traefik.http.middlewares.authentik.forwardauth.address=http://192.168.42.8:9000/outpost.goauthentik.io/auth/traefik"
@@ -34,19 +40,23 @@ services:
       timeout: 10s
       retries: 5
       start_period: 60s
+    volumes:
+      - /opt/workdir/caas/authentik/data:/data:Z
+      - ./templates:/templates
 
   worker:
-    image: ghcr.io/goauthentik/server:2025.2.4
+    image: ghcr.io/goauthentik/server@sha256:28fab86f1c16a06010c7cf9502200bf32b63cf7d80a6153e126d0b0a9ed49123
     container_name: authentik-worker
     restart: unless-stopped
     command: worker
+    shm_size: 512mb
     env_file:
       - .env
-    volumes:
-      - authentik-media:/media
-      - authentik-templates:/templates
     networks:
       homelab: {}
+    volumes:
+      - /opt/workdir/caas/authentik/data:/data:Z
+      - ./templates:/templates
     healthcheck:
       test: ["CMD", "ak", "healthcheck"]
       interval: 30s
@@ -57,8 +67,6 @@ services:
 volumes:
   authentik-media:
     name: authentik-media
-  authentik-templates:
-    name: authentik-templates
 
 networks:
   bridge42:

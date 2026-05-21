@@ -132,3 +132,10 @@ mkdir -p ${CONTAINER_WORK_DIR}/rustfs/data
 if [ -d "${CONTAINER_WORK_DIR}/rustfs/data" ]; then
   chown -R 10001:10001 ${CONTAINER_WORK_DIR}/rustfs/data
 fi
+
+# ==================================================================
+# Authentik
+mkdir -p ${CONTAINER_WORK_DIR}/authentik/data
+if [ -d "${CONTAINER_WORK_DIR}/authentik/data" ]; then
+  chown -R 1000:1000 ${CONTAINER_WORK_DIR}/authentik/data
+fi

@@ -51,6 +51,7 @@ services:
     restart: unless-stopped
     command: worker
     shm_size: 512mb
+    user: root # needed for docker socket access
     env_file:
       - .env
     networks:

@@ -19,32 +19,12 @@ case $1 in
   "restart" | "stop")
     echo "Stopping container services if running..."
 
-    # Vault
-    cd /opt/workdir/kemo-labs/security/vault
-    podman compose down
-
     # Network Testing
     cd /opt/workdir/kemo-labs/infrastructure/network-testing
     podman compose down
 
     # IT Tools
     cd /opt/workdir/kemo-labs/development/it-tools
-    podman compose down
-
-    # Observability Stack
-    cd /opt/workdir/kemo-labs/observability/grafana-alloy
-    podman compose down
-
-    # Container Registry
-    cd /opt/workdir/kemo-labs/storage/container-registry
-    podman compose down
-
-    # DockNS
-    cd /opt/workdir/kemo-labs/utilities/dockns
-    podman compose down
-
-    # Docker Proxy
-    cd /opt/workdir/kemo-labs/utilities/docker-proxy
     podman compose down
 
     # Outbound Proxy
@@ -55,8 +35,28 @@ case $1 in
     cd /opt/workdir/kemo-labs/infrastructure/landing-page
     podman compose down
 
+    # Container Registry
+    cd /opt/workdir/kemo-labs/storage/container-registry
+    podman compose down
+
+    # Vault
+    cd /opt/workdir/kemo-labs/security/vault
+    podman compose down
+
     # Traefik Proxy
     cd /opt/workdir/kemo-labs/infrastructure/traefik
+    podman compose down
+
+    # DockNS
+    cd /opt/workdir/kemo-labs/utilities/dockns
+    podman compose down
+
+    # Docker Proxy
+    cd /opt/workdir/kemo-labs/utilities/docker-proxy
+    podman compose down
+
+    # Authentik
+    cd /opt/workdir/kemo-labs/security/identity
     podman compose down
 
     # DNS Services
@@ -65,6 +65,10 @@ case $1 in
 
     # Step CA
     cd /opt/workdir/kemo-labs/security/acme
+    podman compose down
+
+    # Observability Stack
+    cd /opt/workdir/kemo-labs/observability/grafana-alloy
     podman compose down
 
     # Databases
@@ -90,16 +94,16 @@ case $1 in
   "restart" | "start")
     echo "Starting container services..."
 
+    # Time
+    cd /opt/workdir/kemo-labs/infrastructure/chrony
+    podman compose up -d
+
     # Docker Proxy
     cd /opt/workdir/kemo-labs/utilities/docker-proxy
     podman compose up -d
 
     # PKI
     cd /opt/workdir/kemo-labs/security/pki
-    podman compose up -d
-
-    # Time
-    cd /opt/workdir/kemo-labs/infrastructure/chrony
     podman compose up -d
 
     # Databases
@@ -122,20 +126,29 @@ case $1 in
     cd /opt/workdir/kemo-labs/infrastructure/traefik
     podman compose up -d
 
-    # Landing Page
-    cd /opt/workdir/kemo-labs/infrastructure/landing-page
+    # Authentik
+    cd /opt/workdir/kemo-labs/security/identity
     podman compose up -d
 
-    # Outbound Proxy
-    cd /opt/workdir/kemo-labs/infrastructure/outbound-proxy
+    # Vault
+    cd /opt/workdir/kemo-labs/security/vault
+    podman compose up -d
+    /bin/bash /opt/workdir/caas/vault/unseal.sh
+
+    # Observability Stack
+    cd /opt/workdir/kemo-labs/observability/grafana-alloy
     podman compose up -d
 
     # Container Registry
     cd /opt/workdir/kemo-labs/storage/container-registry
     podman compose up -d
 
-    # Observability Stack
-    cd /opt/workdir/kemo-labs/observability/grafana-alloy
+    # Landing Page
+    cd /opt/workdir/kemo-labs/infrastructure/landing-page
+    podman compose up -d
+
+    # Outbound Proxy
+    cd /opt/workdir/kemo-labs/infrastructure/outbound-proxy
     podman compose up -d
 
     # Network Testing
@@ -145,11 +158,6 @@ case $1 in
     # IT Tools
     cd /opt/workdir/kemo-labs/development/it-tools
     podman compose up -d
-
-    # Vault
-    cd /opt/workdir/kemo-labs/security/vault
-    podman compose up -d
-    /bin/bash /opt/workdir/caas/vault/unseal.sh
 
     ;;
 

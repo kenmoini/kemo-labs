@@ -13,6 +13,7 @@ services:
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=389
     networks:
+      authentik: {}
       bridge42:
         ipv4_address: 192.168.42.8
     expose:
@@ -53,7 +54,7 @@ services:
     env_file:
       - .env
     networks:
-      homelab: {}
+      authentik: {}
     volumes:
       - /opt/workdir/caas/authentik/data:/data:Z
       - ./templates:/templates
@@ -69,5 +70,6 @@ volumes:
     name: authentik-media
 
 networks:
+  authentik:
   bridge42:
     external: true

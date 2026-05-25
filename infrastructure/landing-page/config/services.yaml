@@ -1,0 +1,11 @@
+- Cockpit:
+  - Tardis:
+      href: "https://tardis.lab.kemo.dev:9090/"
+
+- OOBM:
+  - Endurance:
+      href: "https://endurance.mgmt.kemo.labs/"
+  - Raza:
+      href: "https://raza.mgmt.kemo.labs/"
+  - Suki:
+      href: "https://suki.mgmt.kemo.labs/"

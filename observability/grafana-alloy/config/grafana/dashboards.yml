@@ -1,5 +1,13 @@
 apiVersion: 1
 providers:
+  - name: 'Authentik'
+    type: file
+    folder: System
+    allowUiUpdates: true
+    options:
+      path: /data/grafana/dashboards/authentik.json
+      foldersFromFilesStructure: false
+
   - name: 'Host Metrics'
     type: file
     folder: System

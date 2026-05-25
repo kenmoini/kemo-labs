@@ -43,6 +43,10 @@ case $1 in
     cd /opt/workdir/kemo-labs/security/vault
     podman compose down
 
+    # RustFS
+    cd /opt/workdir/kemo-labs/storage/s3
+    podman compose down
+
     # Traefik Proxy
     cd /opt/workdir/kemo-labs/infrastructure/traefik
     podman compose down
@@ -128,6 +132,10 @@ case $1 in
 
     # Authentik
     cd /opt/workdir/kemo-labs/security/identity
+    podman compose up -d
+
+    # RustFS
+    cd /opt/workdir/kemo-labs/storage/s3
     podman compose up -d
 
     # Vault

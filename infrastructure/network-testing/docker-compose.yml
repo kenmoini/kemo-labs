@@ -38,7 +38,7 @@ services:
       - "traefik.http.services.speedtest.loadbalancer.server.port=3000"
       - "traefik.http.middlewares.speedtest-buffering.buffering.maxRequestBodyBytes=50000000"
       - "traefik.http.middlewares.speedtest-buffering.buffering.memRequestBodyBytes=50000000"
-      - "traefik.http.routers.speedtest.middlewares=speedtest-buffering"
+      - "traefik.http.routers.speedtest.middlewares=speedtest-buffering,authentik-auth@file"
       - "homepage.group=Utilities"
       - "homepage.name=Open Speedtest"
       - "homepage.icon=openspeedtest.png"

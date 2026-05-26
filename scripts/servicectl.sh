@@ -157,7 +157,7 @@ case $1 in
     # Vault
     cd /opt/workdir/kemo-labs/security/vault
     podman compose up -d
-    /bin/bash /opt/workdir/caas/vault/unseal.sh
+    /opt/workdir/caas/vault/unseal.sh
 
     # Observability Stack
     cd /opt/workdir/kemo-labs/observability/grafana-alloy

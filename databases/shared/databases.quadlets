@@ -125,8 +125,8 @@ Label="homepage.description=PostgreSQL database at 192.168.66.16:5432"
 Volume=/opt/workdir/caas/databases/shared/postgresql_data:/var/lib/postgresql/data:Z
 Volume=/opt/workdir/kemo-labs/databases/shared/init-scripts/postgres-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
 
-HealthCmd=["pg_isready -U ${POSTGRES_USER:-postgres}"]
-HealthStartupCmd=["pg_isready -U ${POSTGRES_USER:-postgres}"]
+HealthCmd=["pg_isready -U $${POSTGRES_USER:-postgres}"]
+HealthStartupCmd=["pg_isready -U $${POSTGRES_USER:-postgres}"]
 HealthInterval=30s
 HealthTimeout=5s
 HealthRetries=3

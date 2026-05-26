@@ -19,6 +19,14 @@ case $1 in
   "restart" | "stop")
     echo "Stopping container services if running..."
 
+    # Auto Kuma
+    cd /opt/workdir/kemo-labs/utilities/auto-kuma
+    podman compose down
+
+    # Uptime Kuma
+    cd /opt/workdir/kemo-labs/observability/uptime-kuma
+    podman compose down
+
     # Network Testing
     cd /opt/workdir/kemo-labs/infrastructure/network-testing
     podman compose down
@@ -173,6 +181,14 @@ case $1 in
 
     # IT Tools
     cd /opt/workdir/kemo-labs/development/it-tools
+    podman compose up -d
+
+    # Uptime Kuma
+    cd /opt/workdir/kemo-labs/observability/uptime-kuma
+    podman compose up -d
+
+    # Auto Kuma
+    cd /opt/workdir/kemo-labs/utilities/auto-kuma
     podman compose up -d
 
     ;;

@@ -12,9 +12,10 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.2
-      # traefik-proxy:
+      traefik-proxy:
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
       - "traefik.http.routers.pdns-auth.rule=Host(`pdns-auth.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pdns-auth.entrypoints=websecure"
       - "traefik.http.routers.pdns-auth.tls.certresolver=stepca"
@@ -50,6 +51,7 @@ services:
       - ./pdns-recursor/config/recursor.yml:/etc/pdns-recursor/recursor.yml:ro
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
       - "traefik.http.routers.pdns-recursor.rule=Host(`pdns-recursor.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pdns-recursor.entrypoints=websecure"
       - "traefik.http.routers.pdns-recursor.tls.certresolver=stepca"
@@ -62,7 +64,7 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.3
-      # traefik-proxy:
+      traefik-proxy:
     expose:
       - 53
       - 5300
@@ -87,6 +89,7 @@ services:
       - /opt/workdir/caas/dns/pdns-admin/data:/data:Z
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
       - "traefik.http.routers.pdnsadmin.rule=Host(`pdns-admin.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pdnsadmin.entrypoints=websecure"
       - "traefik.http.routers.pdnsadmin.tls.certresolver=stepca"
@@ -97,9 +100,9 @@ services:
       - "homepage.description=PowerDNS Admin web interface"
       - "homepage.href=https://pdns-admin.apps.lab.kemo.dev"
     networks:
-      bridge42:
-        ipv4_address: 192.168.42.15
-      # traefik-proxy:
+      # bridge42:
+      #   ipv4_address: 192.168.42.15
+      traefik-proxy:
     expose:
       - 8080
     healthcheck:
@@ -124,7 +127,7 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.4
-      # traefik-proxy:
+      traefik-proxy:
     expose:
       - 53
       - 80
@@ -132,6 +135,7 @@ services:
       - 443
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
       - "traefik.http.routers.pihole.rule=Host(`pihole.apps.lab.kemo.dev`)"
       - "traefik.http.routers.pihole.entrypoints=websecure"
       - "traefik.http.routers.pihole.tls.certresolver=stepca"
@@ -151,5 +155,6 @@ services:
 networks:
   bridge42:
     external: true
-  # traefik-proxy:
-  #   external: true
+  traefik-proxy:
+    external: true
+    name: traefik-proxy

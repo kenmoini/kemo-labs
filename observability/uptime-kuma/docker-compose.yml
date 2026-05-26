@@ -16,10 +16,6 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    environment:
-      - UPTIME_KUMA_PORT=3001
-      - UPTIME_KUMA_IN_CONTAINER=1
-      - UPTIME_KUMA_DISABLE_FRAME_SAMEORIGIN=${UPTIME_KUMA_DISABLE_FRAME_SAMEORIGIN:-true}
     volumes:
       - uptime-kuma-data:/app/data
     networks:

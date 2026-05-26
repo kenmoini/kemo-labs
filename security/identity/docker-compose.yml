@@ -68,6 +68,8 @@ services:
       - /opt/workdir/caas/authentik/data:/data:Z
       - /var/run/docker.sock:/var/run/docker.sock
       - ./templates:/templates
+    networks:
+      podman-proxy:
     healthcheck:
       test: ["CMD", "ak", "healthcheck"]
       interval: 30s
@@ -82,3 +84,6 @@ networks:
   traefik:
     external: true
     name: traefik
+  podman-proxy:
+    external: true
+    name: podman-proxy

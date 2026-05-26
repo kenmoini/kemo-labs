@@ -13,7 +13,7 @@ After=network-online.target
 Description=Chrony time sync
 
 [Container]
-Image=ghcr.io/kenmoini/docker-chrony:latest
+Image=caas-chrony.image
 ContainerName=chrony
 
 Network=bridge42
@@ -32,6 +32,7 @@ Label="dockns.powerdns.ip=192.168.42.16"
 AddCapability=SYS_NICE
 AddCapability=SYS_RESOURCE
 AddCapability=SYS_TIME
+NoNewPrivileges=true
 
 HealthCmd=chronyc tracking > /dev/null 2>&1 || exit 1
 HealthStartupCmd=chronyc tracking > /dev/null 2>&1 || exit 1

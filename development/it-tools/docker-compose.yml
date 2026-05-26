@@ -19,6 +19,7 @@ services:
       - "traefik.http.routers.it-tools.tls.certresolver=stepca"
       - "traefik.http.routers.it-tools.service=it-tools"
       - "traefik.http.services.it-tools.loadbalancer.server.port=80"
+      - "traefik.http.routers.it-tools.middlewares=authentik-auth@file"
       - "homepage.group=Utilities"
       - "homepage.name=IT Tools"
       - "homepage.icon=it-tools.png"

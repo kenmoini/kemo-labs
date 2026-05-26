@@ -16,6 +16,7 @@ services:
       - /opt/workdir/caas/vault/logs:/vault/logs:Z
       - ./config:/vault/config:Z
     networks:
+      traefik-proxy:
       bridge42:
         ipv4_address: 192.168.42.7
     expose:
@@ -48,3 +49,6 @@ networks:
   bridge42:
     external: true
     name: bridge42
+  traefik-proxy:
+    external: true
+    name: traefik-proxy

@@ -1,0 +1,34 @@
+# FileName=chrony
+[Image]
+Image=ghcr.io/kenmoini/docker-chrony:latest
+AllTags=false
+Policy=newer
+---
+# FileName=chrony
+[Install]
+WantedBy=multi-user.target
+After=network-online.target
+
+[Unit]
+Description=Chrony time sync
+
+[Container]
+Image=ghcr.io/kenmoini/docker-chrony:latest
+ContainerName=chrony
+
+Network=bridge42
+IP=192.168.42.16
+PublishPort=123:123
+
+Label="homepage.group=Utilities"
+Label="homepage.name=Chrony Time Sync"
+Label="homepage.icon=mdi-clock-digital"
+Label="homepage.description=Chrony Time Synchronization Service"
+Label="dockns.powerdns.record=A"
+Label="dockns.powerdns.name=time.lab.kemo.dev"
+Label="dockns.powerdns.ttl=60"
+Label="dockns.powerdns.ip=192.168.42.16"
+
+AddCapability=SYS_NICE
+AddCapability=SYS_RESOURCE
+AddCapability=SYS_TIME

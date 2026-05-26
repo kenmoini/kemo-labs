@@ -10,7 +10,8 @@ services:
     group_add:
       - 0
     environment:
-      - HOMEPAGE_ALLOWED_HOSTS=dashboard.apps.lab.kemo.dev,192.168.42.14:3000,localhost,127.0.0.1:3000
+      # - HOMEPAGE_ALLOWED_HOSTS=dashboard.apps.lab.kemo.dev,192.168.42.14:3000,localhost,127.0.0.1:3000
+      - HOMEPAGE_ALLOWED_HOSTS=*
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
       - TZ=${TZ:-America/New_York}

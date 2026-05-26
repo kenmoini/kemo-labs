@@ -45,3 +45,15 @@ IPv6=false
 DisableDNS=false
 NetworkDeleteOnStop=false
 Options=isolate=false
+---
+# FileName=internal-dns
+[Network]
+NetworkName=internal-dns
+InterfaceName=internal-dns
+Options=com.docker.network.bridge.name=internal-dns
+Subnet=10.10.4.0/24
+Gateway=10.10.4.1
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false

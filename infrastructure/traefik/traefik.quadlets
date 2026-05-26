@@ -1,0 +1,55 @@
+# FileName=caas-traefik
+[Image]
+Image=docker.io/library/traefik:v3.6
+AllTags=false
+Policy=newer
+---
+# FileName=caas-traefik
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-podman-proxy.container
+Description=Reverse Proxy and Load Balancer
+
+[Container]
+Image=docker.io/library/traefik:v3.6
+ContainerName=traefik
+NoNewPrivileges=true
+
+Environment=TZ=America/New_York
+Environment=OTEL_SERVICE_NAME=traefik
+
+Network=bridge42,ip=192.168.42.10
+Network=traefik
+Network=podman-proxy
+Expose=80
+Expose=443
+Expose=8080
+
+HealthCmd=traefik healthcheck
+HealthStartupCmd=traefik healthcheck
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Label="traefik.enable=true"
+Label="traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+Label="traefik.http.routers.http-catchall.entrypoints=web"
+Label="traefik.http.routers.http-catchall.middlewares=redirect-to-https,hsts-header"
+Label="traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+Label="traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+Label="traefik.http.middlewares.hsts-header.headers.sslredirect=true"
+
+Label="homepage.group=Services"
+Label="homepage.name=Traefik"
+Label="homepage.icon=traefik.png"
+Label="homepage.href=https://traefik.apps.lab.kemo.dev"
+Label="homepage.description=Reverse Proxy and Load Balancer"
+
+Volume=/opt/workdir/kemo-labs/infrastructure/traefik/config/traefik.yml:/etc/traefik/traefik.yml:ro
+Volume=/opt/workdir/kemo-labs/infrastructure/traefik/config/dynamic/:/etc/traefik/dynamic/:ro
+Volume=/opt/workdir/caas/traefik/data/storage:/etc/traefik/storage:Z
+Volume=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/certs/ca.cert.pem:/etc/traefik/certs/root_ca.crt:ro
+Volume=/etc/pki/tls/cert.pem:/etc/ssl/certs/ca-certificates.crt:ro

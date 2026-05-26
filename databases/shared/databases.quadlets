@@ -151,7 +151,7 @@ Pod=caas-shared-db.pod
 Image=caas-db-valkey.image
 ContainerName=shared-valkey
 EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
-Exec=valkey-server --requirepass '${VALKEY_PASSWORD}' --appendonly yes --maxmemory 1gb --maxmemory-policy allkeys-lru
+Exec=valkey-server --requirepass '$${VALKEY_PASSWORD}' --appendonly yes --maxmemory 1gb --maxmemory-policy allkeys-lru
 
 Memory=1.2g
 
@@ -165,8 +165,8 @@ Label="homepage.description=Redis-compatible database at 192.168.66.17:6379"
 
 Volume=/opt/workdir/caas/databases/shared/valkey_data:/data:Z
 
-HealthCmd=["valkey-cli", "-a", "${VALKEY_PASSWORD}", "ping"]
-HealthStartupCmd=["valkey-cli", "-a", "${VALKEY_PASSWORD}", "ping"]
+HealthCmd=["valkey-cli", "-a", "$${VALKEY_PASSWORD}", "ping"]
+HealthStartupCmd=["valkey-cli", "-a", "$${VALKEY_PASSWORD}", "ping"]
 HealthInterval=30s
 HealthTimeout=5s
 HealthRetries=3

@@ -32,3 +32,10 @@ Label="dockns.powerdns.ip=192.168.42.16"
 AddCapability=SYS_NICE
 AddCapability=SYS_RESOURCE
 AddCapability=SYS_TIME
+
+HealthCmd=chronyc tracking > /dev/null 2>&1 || exit 1
+HealthStartupCmd=chronyc tracking > /dev/null 2>&1 || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s

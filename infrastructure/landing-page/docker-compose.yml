@@ -35,6 +35,7 @@ services:
       - "traefik.http.routers.homepage.entrypoints=websecure"
       - "traefik.http.routers.homepage.tls=true"
       - "traefik.http.routers.homepage.tls.certresolver=stepca"
+      - "traefik.http.routers.homepage.service=homepage"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
       # - "traefik.http.routers.homepage.middlewares=authentik-auth@file"
     healthcheck:

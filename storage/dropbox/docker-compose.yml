@@ -61,7 +61,7 @@ services:
       - "traefik.http.services.upload.loadbalancer.server.port=3923"
       # Allow large uploads
       - "traefik.http.middlewares.upload-size.buffering.maxRequestBodyBytes=10737418240"
-      - "traefik.http.routers.upload.middlewares=upload-size"
+      - "traefik.http.routers.upload.middlewares=upload-size,authentik-auth@file"
       - "homepage.group=Services"
       - "homepage.name=Copyparty"
       - "homepage.icon=copyparty.png"

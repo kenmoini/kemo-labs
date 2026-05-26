@@ -15,10 +15,31 @@ services:
       start_period: 10s
     environment:
       OTEL_SERVICE_NAME: podman-proxy
+      ### Granted by Default
+      EVENTS: 1
+      PING: 1
+      VERSION: 1
+      ### Security critical
+      AUTH: 0
+      SECRETS: 0
+      EXEC: 0
+      POST: 0 # Makes everything read only
+      PLUGINS: 0
+      ALLOW_START: 0
+      ALLOW_STOP: 0
+      ALLOW_PAUSE: 0
+      ALLOW_UNPAUSE: 0
+      ALLOW_RESTART: 0
+      ### Not Needed
+      SWARM: 0
+      BUILD: 0
+      COMMIT: 0
+      CONFIGS: 0
+      TASKS: 0
+      ### General
       CONTAINERS: 1
       SERVICES: 1
       DISTRIBUTION: 1
-      EVENTS: 1
       STATS: 1
       GRPC: 1
       IMAGES: 1
@@ -27,9 +48,10 @@ services:
       NODES: 1
       VOLUMES: 1
       SESSION: 1
+      SYSTEM: 1
     restart: unless-stopped
     networks:
-      - proxy
+      - traefik-proxy
     security_opt:
       - no-new-privileges:true
     group_add:
@@ -43,6 +65,6 @@ services:
       - "homepage.description=Docker/Podman Socket Proxy"
 
 networks:
-  proxy:
+  traefik-proxy:
     external: true
     name: traefik-proxy

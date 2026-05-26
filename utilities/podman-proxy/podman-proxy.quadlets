@@ -1,0 +1,38 @@
+# FileName=caas-podman-proxy
+[Image]
+Image=docker.io/tecnativa/docker-socket-proxy:latest
+AllTags=false
+Policy=newer
+---
+# FileName=caas-podman-proxy
+[Install]
+WantedBy=multi-user.target
+After=network-online.target
+
+[Unit]
+Description=Podman Proxy over TCP
+ConditionPathExists=/opt/workdir/kemo-labs/utilities/podman-proxy/.env
+
+[Container]
+Image=ghcr.io/kenmoini/docker-chrony:latest
+ContainerName=podman-proxy
+EnvironmentFile=/opt/workdir/kemo-labs/utilities/podman-proxy/.env
+
+Network=podman-proxy
+PublishPort=2375:2375
+
+GroupAdd=0
+NoNewPrivileges=true
+Volume=/var/run/podman/podman.sock:/var/run/docker.sock:ro
+
+Label="homepage.group=Utilities"
+Label="homepage.name=Docker/Podman Proxy"
+Label="homepage.icon=tsd-proxy.png"
+Label="homepage.description=Docker/Podman Socket Proxy"
+
+HealthCmd=wget --spider http://localhost:2375/_ping || exit 1
+HealthStartupCmd=wget --spider http://localhost:2375/_ping || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s

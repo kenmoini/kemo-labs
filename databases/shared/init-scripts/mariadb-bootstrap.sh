@@ -29,6 +29,11 @@ mariadb <<-EOSQL
       CHARACTER SET utf8mb4
       COLLATE utf8mb4_unicode_ci;
 
+    -- Uptime Kuma database
+    CREATE DATABASE IF NOT EXISTS uptime_kuma
+      CHARACTER SET utf8mb4
+      COLLATE utf8mb4_unicode_ci;
+
     -- PowerDNS Authoritative user
     CREATE USER IF NOT EXISTS 'powerdns_auth'@'%' IDENTIFIED BY '${MYSQL_POWERDNS_AUTH_PASSWORD}';
     GRANT ALL PRIVILEGES ON powerdns_auth.* TO 'powerdns_auth'@'%';
@@ -41,11 +46,15 @@ mariadb <<-EOSQL
     CREATE USER IF NOT EXISTS 'mailcow'@'%' IDENTIFIED BY '${MYSQL_MAILCOW_PASSWORD}';
     GRANT ALL PRIVILEGES ON mailcow.* TO 'mailcow'@'%';
 
+    -- Uptime Kuma user
+    CREATE USER IF NOT EXISTS 'uptime_kuma'@'%' IDENTIFIED BY '${MYSQL_UPTIME_KUMA_PASSWORD}';
+    GRANT ALL PRIVILEGES ON uptime_kuma.* TO 'uptime_kuma'@'%';
+
     FLUSH PRIVILEGES;
 
 EOSQL
 
-echo "===== MariaDB init complete: powerdns_auth, gitlab, and mailcow databases and users created ====="
+echo "===== MariaDB init complete: powerdns_auth, gitlab, mailcow, and uptime_kuma databases and users created ====="
 
 mariadb <<EOSQL
   USE powerdns_auth;

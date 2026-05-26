@@ -8,6 +8,14 @@ providers:
       path: /data/grafana/dashboards/authentik.json
       foldersFromFilesStructure: false
 
+  - name: 'Vault'
+    type: file
+    folder: System
+    allowUiUpdates: true
+    options:
+      path: /data/grafana/dashboards/12904_rev2.json
+      foldersFromFilesStructure: false
+
   - name: 'Host Metrics'
     type: file
     folder: System

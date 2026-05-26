@@ -1,24 +1,31 @@
 ---
 networks:
-  bridge42:
+  traefik:
     external: true
+    name: traefik
+  # bridge42:
+  #   external: true
 
 volumes:
   uptime-kuma-data:
 
 services:
   uptime-kuma:
-    image: ghcr.io/louislam/uptime-kuma:${UPTIME_KUMA_TAG:-2.2.1}
+    image: ghcr.io/louislam/uptime-kuma@sha256:0f2c9e73cc85cfe97f3ab4781d8d8cb5b35e9b749d21583a2ea381ac28a41461
     container_name: uptime-kuma
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - UPTIME_KUMA_PORT=3001
+      - UPTIME_KUMA_IN_CONTAINER=1
       - UPTIME_KUMA_DISABLE_FRAME_SAMEORIGIN=${UPTIME_KUMA_DISABLE_FRAME_SAMEORIGIN:-true}
     volumes:
       - uptime-kuma-data:/app/data
     networks:
-      bridge42:
-        ipv4_address: ${STATIC_IP:-192.168.42.32}
+      traefik:
+      # bridge42:
+      #   ipv4_address: ${STATIC_IP:-192.168.42.32}
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3001/ || exit 1"]
       interval: 30s
@@ -27,7 +34,8 @@ services:
       start_period: 30s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.uptime-kuma.rule=Host(`${UPTIME_KUMA_DOMAIN:-uptime.apps.lab.kemo.dev}`)"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.uptime-kuma.rule=Host(`uptime.apps.lab.kemo.dev`)"
       - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
       - "traefik.http.routers.uptime-kuma.tls=true"
       - "traefik.http.routers.uptime-kuma.tls.certresolver=stepca"

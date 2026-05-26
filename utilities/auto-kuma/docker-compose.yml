@@ -1,0 +1,21 @@
+---
+networks:
+  podman-proxy:
+    external: true
+    name: podman-proxy
+  # bridge42:
+  #   external: true
+
+volumes:
+  autokuma-data:
+
+services:
+  autokuma:
+    image: ghcr.io/bigboot/autokuma@sha256:82071fd7338c5b9fa0814190919f8dedc3aa945824c431d87c23dd22008ee77e
+    restart: unless-stopped
+    networks:
+      podman-proxy:
+    env_file:
+      - .env
+    volumes:
+      - autokuma-data:/data

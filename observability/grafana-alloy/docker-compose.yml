@@ -309,6 +309,10 @@ volumes:
 networks:
   o11y:
     name: o11y
+    attachable: true
+    enable_ipv4: true
+    enable_ipv6: false
+    internal: true
   bridge42:
     external: true
     name: bridge42

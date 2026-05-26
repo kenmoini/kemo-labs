@@ -58,6 +58,10 @@ services:
 networks:
   traefik:
     name: traefik
+    attachable: true
+    enable_ipv4: true
+    enable_ipv6: false
+    internal: true
   bridge42:
     external: true
   podman-proxy:

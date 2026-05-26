@@ -278,6 +278,10 @@ networks:
   # Database bridge
   internal-db:
     name: internal-db
+    attachable: true
+    enable_ipv4: true
+    enable_ipv6: false
+    internal: true
   bridge66:
     external: true
   traefik:

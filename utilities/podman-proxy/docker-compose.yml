@@ -68,6 +68,10 @@ services:
 networks:
   podman-proxy:
     name: podman-proxy
+    attachable: true
+    enable_ipv4: true
+    enable_ipv6: false
+    internal: true
   # traefik:
   #   external: true
   #   name: traefik

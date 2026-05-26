@@ -1,0 +1,36 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-dockns
+[Image]
+Image=docker.io/brenekh/dockns:0.5.0
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-dockns
+[Container]
+ContainerName=dockns
+Image=caas-dockns.image
+
+Environment=DOCKER_HOST=tcp://podman-proxy:2375
+EnvironmentFile=.env
+HostName=dockns
+Network=podman-proxy.network
+
+Label=homepage.group=Utilities
+Label=homepage.name=DockNS
+Label=homepage.icon=mdi-anchor
+Label="homepage.description=DockNS Record Orchestration"
+
+Volume=dockns-data:/data:Z
+
+[Service]
+Restart=always
+
+[Unit]
+Requires=podman-proxy-network.service

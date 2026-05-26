@@ -54,9 +54,8 @@ Label="homepage.icon=traefik.png"
 Label="homepage.href=https://traefik.apps.lab.kemo.dev"
 Label="homepage.description=Reverse Proxy and Load Balancer"
 
-WorkingDir=/opt/workdir/kemo-labs/infrastructure/traefik
-Volume=./config/traefik.yml:/etc/traefik/traefik.yml:ro
-Volume=./config/dynamic/:/etc/traefik/dynamic/:ro
+Volume=/opt/workdir/kemo-labs/infrastructure/traefik/config/traefik.yml:/etc/traefik/traefik.yml:ro
+Volume=/opt/workdir/kemo-labs/infrastructure/traefik/config/dynamic/:/etc/traefik/dynamic/:ro
 Volume=/opt/workdir/caas/traefik/data/storage:/etc/traefik/storage:Z
 Volume=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/certs/ca.cert.pem:/etc/traefik/certs/root_ca.crt:ro
 Volume=/etc/pki/tls/cert.pem:/etc/ssl/certs/ca-certificates.crt:ro

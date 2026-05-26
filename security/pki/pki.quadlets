@@ -45,6 +45,5 @@ Label=homepage.icon=nginx.png
 Label=homepage.href=https://pki.apps.lab.kemo.dev
 Label="homepage.description=Public Trust Store"
 
-WorkingDir=/opt/workdir/kemo-labs/security/pki
 Volume=/opt/workdir/caas/pika-pki/data:/data:ro,Z
-Volume=./nginx/default.conf:/etc/nginx/conf.d/default.conf:Z
+Volume=/opt/workdir/kemo-labs/security/pki/nginx/default.conf:/etc/nginx/conf.d/default.conf:Z

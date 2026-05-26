@@ -83,10 +83,9 @@ Label="homepage.name=MariaDB"
 Label="homepage.icon=mariadb.png"
 Label="homepage.description=MariaDB database at 192.168.66.15:3306"
 
-WorkingDir=/opt/workdir/kemo-labs/databases/shared
 Volume=/opt/workdir/caas/databases/shared/mariadb_data:/config:Z
-Volume=./init-scripts/mariadb-healthcheck.sh:/usr/local/bin/healthcheck.sh:ro,Z
-Volume=./init-scripts/mariadb-bootstrap.sh:/custom-services.d/mariadb-bootstrap.sh:ro,Z
+Volume=/opt/workdir/kemo-labs/databases/shared/init-scripts/mariadb-healthcheck.sh:/usr/local/bin/healthcheck.sh:ro,Z
+Volume=/opt/workdir/kemo-labs/databases/shared/init-scripts/mariadb-bootstrap.sh:/custom-services.d/mariadb-bootstrap.sh:ro,Z
 
 HealthCmd=["healthcheck.sh", "--connect", "--innodb_initialized"]
 HealthStartupCmd=["healthcheck.sh", "--connect", "--innodb_initialized"]
@@ -123,9 +122,8 @@ Label="homepage.name=PostgreSQL"
 Label="homepage.icon=postgresql.png"
 Label="homepage.description=PostgreSQL database at 192.168.66.16:5432"
 
-WorkingDir=/opt/workdir/kemo-labs/databases/shared
 Volume=/opt/workdir/caas/databases/shared/postgresql_data:/var/lib/postgresql/data:Z
-Volume=./init-scripts/postgres-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
+Volume=/opt/workdir/kemo-labs/databases/shared/init-scripts/postgres-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
 
 HealthCmd=["pg_isready -U ${POSTGRES_USER:-postgres}"]
 HealthStartupCmd=["pg_isready -U ${POSTGRES_USER:-postgres}"]
@@ -165,7 +163,6 @@ Label="homepage.name=Valkey"
 Label="homepage.icon=valkey.png"
 Label="homepage.description=Redis-compatible database at 192.168.66.17:6379"
 
-WorkingDir=/opt/workdir/kemo-labs/databases/shared
 Volume=/opt/workdir/caas/databases/shared/valkey_data:/data:Z
 
 HealthCmd=["valkey-cli", "-a", "${VALKEY_PASSWORD}", "ping"]
@@ -203,8 +200,7 @@ Label="homepage.name=Mosquitto"
 Label="homepage.icon=mosquitto.png"
 Label="homepage.description=MQTT broker at 192.168.66.18:188"
 
-WorkingDir=/opt/workdir/kemo-labs/databases/shared
-Volume=./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro,Z
+Volume=/opt/workdir/kemo-labs/databases/shared/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro,Z
 Volume=/opt/workdir/caas/databases/shared/mosquitto_data:/mosquitto/data:Z
 Volume=/opt/workdir/caas/databases/shared/mosquitto_log:/mosquitto/log:Z
 

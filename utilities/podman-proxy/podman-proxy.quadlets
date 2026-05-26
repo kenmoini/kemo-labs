@@ -14,7 +14,7 @@ Description=Podman Proxy over TCP
 ConditionPathExists=/opt/workdir/kemo-labs/utilities/podman-proxy/.env
 
 [Container]
-Image=ghcr.io/kenmoini/docker-chrony:latest
+Image=docker.io/tecnativa/docker-socket-proxy:latest
 ContainerName=podman-proxy
 EnvironmentFile=/opt/workdir/kemo-labs/utilities/podman-proxy/.env
 

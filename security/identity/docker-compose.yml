@@ -67,7 +67,7 @@ services:
       - .env
     volumes:
       - /opt/workdir/caas/authentik/data:/data:Z
-      - /var/run/docker.sock:/var/run/docker.sock
+      # - /var/run/docker.sock:/var/run/docker.sock
       - ./templates:/templates
     networks:
       podman-proxy:

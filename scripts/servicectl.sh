@@ -47,6 +47,10 @@ case $1 in
     cd /opt/workdir/kemo-labs/storage/s3
     podman compose down
 
+    # Dropbox
+    cd /opt/workdir/kemo-labs/storage/dropbox
+    podman compose down
+
     # Traefik Proxy
     cd /opt/workdir/kemo-labs/infrastructure/traefik
     podman compose down
@@ -136,6 +140,10 @@ case $1 in
 
     # RustFS
     cd /opt/workdir/kemo-labs/storage/s3
+    podman compose up -d
+
+    # Dropbox
+    cd /opt/workdir/kemo-labs/storage/dropbox
     podman compose up -d
 
     # Vault

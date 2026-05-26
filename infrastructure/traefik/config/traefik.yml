@@ -43,13 +43,20 @@ entryPoints:
     http:
       tls:
         certResolver: stepca
+    forwardedHeaders:
+      trustedIPs:
+        # Local IPs
+        - "127.0.0.1/32"
+        - "10.0.0.0/8"
+        - "192.168.0.0/16"
+        - "172.16.0.0/12"
 
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     useBindPortIP: false
-    # network: traefik-proxy
+    network: traefik-proxy
   file:
     directory: "/etc/traefik/dynamic/"
     watch: true
@@ -74,6 +81,7 @@ log:
   # format: json
 
 accessLog:
+  addInternals: true  # things like ping@internal
   # format: json
   # Filter on status codes, retry attempts and minimal duration
   filters:

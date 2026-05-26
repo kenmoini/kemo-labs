@@ -23,7 +23,7 @@ services:
       - "homepage.group=Utilities"
       - "homepage.name=IT Tools"
       - "homepage.icon=it-tools.png"
-      - "homepage.description='IT Tools'"
+      - "homepage.description=Quick utilities"
       - "homepage.href=https://tools.apps.lab.kemo.dev"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/"]

@@ -70,6 +70,7 @@ Description=Shared MariaDB
 ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
 
 [Container]
+Pod=shared-db
 Image=caas-db-mariadb.image
 ContainerName=shared-mariadb
 EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
@@ -109,6 +110,7 @@ Description=Shared PostgreSQL
 ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
 
 [Container]
+Pod=shared-db
 Image=caas-db-pgsql.image
 ContainerName=shared-postgresql
 EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
@@ -147,6 +149,7 @@ Description=Shared Valkey
 ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
 
 [Container]
+Pod=shared-db
 Image=caas-db-valkey.image
 ContainerName=shared-valkey
 EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
@@ -187,6 +190,7 @@ Description=Shared MQTT Broker
 ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
 
 [Container]
+Pod=shared-db
 Image=caas-db-mosquitto.image
 ContainerName=shared-mosquitto
 EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env

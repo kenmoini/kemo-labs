@@ -1,2 +1,4 @@
 local:
-  socket: /var/run/docker.sock
+  # socket: /var/run/docker.sock
+  host: podman-proxy
+  port: 2375

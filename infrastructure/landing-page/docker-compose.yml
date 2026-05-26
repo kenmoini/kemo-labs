@@ -23,8 +23,11 @@ services:
       - /opt/workdir/caas/homepage/logs:/data/logs:Z
     networks:
       traefik:
+      podman-proxy:
       # bridge42:
       #   ipv4_address: 192.168.42.14
+    expose:
+      - 3000
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
@@ -47,3 +50,6 @@ networks:
   traefik:
     external: true
     name: traefik
+  podman-proxy:
+    external: true
+    name: podman-proxy

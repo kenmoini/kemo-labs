@@ -210,3 +210,96 @@ HealthInterval=30s
 HealthTimeout=5s
 HealthRetries=3
 HealthStartPeriod=10s
+
+---
+# FileName=caas-phpmyadmin
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-mariadb.container
+Requires=internal-db-network.service
+Requires=traefik-network.service
+Description=phpMyAdmin Web UI
+ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
+
+[Container]
+Pod=caas-shared-db.pod
+Image=caas-db-phpmyadmin.image
+ContainerName=shared-phpmyadmin
+
+EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
+Environment=PMA_HOST=shared-mariadb
+Environment=PMA_PORT=3306
+Environment=PMA_ARBITRARY=0
+Environment=UPLOAD_LIMIT=256M
+
+Network=internal-db
+Network=traefik
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.phpmyadmin.entrypoints=websecure"
+Label="traefik.http.routers.phpmyadmin.tls.certresolver=stepca"
+Label="traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
+Label="homepage.group=Databases"
+Label="homepage.name=phpMyAdmin"
+Label="homepage.icon=phpmyadmin.png"
+Label="homepage.description=MariaDB web UI"
+Label="homepage.href=https://phpmyadmin.apps.lab.kemo.dev"
+
+HealthCmd=["curl", "-f", "http://localhost"]
+HealthStartupCmd=["curl", "-f", "http://localhost"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+---
+# FileName=caas-adminer
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-mariadb.container
+After=caas-postgresql.container
+Requires=internal-db-network.service
+Requires=traefik-network.service
+Description=Multi Database Web UI
+ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
+
+[Container]
+Pod=caas-shared-db.pod
+Image=caas-db-adminer.image
+ContainerName=shared-adminer
+
+Environment=ADMINER_DESIGN=win98
+
+Network=internal-db
+Network=traefik
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.adminer.rule=Host(`adminer.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.adminer.entrypoints=websecure"
+Label="traefik.http.routers.adminer.tls.certresolver=stepca"
+Label="traefik.http.services.adminer.loadbalancer.server.port=8080"
+Label="homepage.group=Databases"
+Label="homepage.name=Adminer"
+Label="homepage.icon=adminer.png"
+Label="homepage.description=Web UI for DBs cause I am noob"
+Label="homepage.href=https://adminer.apps.lab.kemo.dev"
+
+HealthCmd=["curl", "-f", "http://localhost:8080"]
+HealthStartupCmd=["curl", "-f", "http://localhost:8080"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s

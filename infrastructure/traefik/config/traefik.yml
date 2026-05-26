@@ -77,7 +77,7 @@ certificatesResolvers:
         entryPoint: web
 
 log:
-  level: INFO
+  level: WARN
   # format: json
 
 accessLog:

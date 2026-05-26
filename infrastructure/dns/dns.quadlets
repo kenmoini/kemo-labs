@@ -1,0 +1,245 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-pdns-auth
+[Image]
+Image=quay.io/kenmoini/pdns-auth:3fbe9f7
+AllTags=false
+Policy=newer
+---
+# FileName=caas-pdns-recursor
+[Image]
+Image=quay.io/kenmoini/pdns-recursor:46f8a8d
+AllTags=false
+Policy=newer
+---
+# FileName=caas-pdns-admin
+[Image]
+Image=ghcr.io/kenmoini/powerdns-admin:807cc03
+AllTags=false
+Policy=newer
+---
+# FileName=caas-pihole
+[Image]
+Image=docker.io/pihole/pihole@sha256:300cc8f9e966b00440358aafef21f91b32dfe8887e8bd9a6193ed1c4328655d4
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Pod ##################################################################################
+##########################################################################################
+---
+# FileName=caas-dns
+[Pod]
+PodName=dns
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-pdns-auth
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=traefik-network.service
+Requires=internal-db-network.service
+Requires=internal-dns-network.service
+Description=PowerDNS Authoritative Server
+ConditionPathExists=/opt/workdir/kemo-labs/infrastructure/dns/.env
+
+[Container]
+Pod=caas-dns.pod
+Image=caas-pdns-auth.image
+ContainerName=pdns-auth
+EnvironmentFile=/opt/workdir/kemo-labs/infrastructure/dns/.env
+
+AddCapability=NET_BIND_SERVICE
+Sysctl=net.ipv4.ip_unprivileged_port_start=53
+
+Network=bridge42:ip=192.168.42.2
+Network=traefik
+Network=internal-db
+Network=internal-dns
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.pdns-auth.rule=Host(`pdns-auth.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.pdns-auth.entrypoints=websecure"
+Label="traefik.http.routers.pdns-auth.tls=true"
+Label="traefik.http.routers.pdns-auth.tls.certresolver=stepca"
+Label="traefik.http.routers.pdns-auth.service=pdns-auth"
+Label="traefik.http.services.pdns-auth.loadbalancer.server.port=8081"
+Label="traefik.http.routers.pdns-auth.middlewares=authentik-auth@file"
+Label="homepage.group=DNS"
+Label="homepage.name=PowerDNS Auth"
+Label="homepage.icon=powerdns.png"
+Label="homepage.description=PowerDNS Authoritative Server"
+Label="homepage.href=https://pdns-auth.apps.lab.kemo.dev"
+
+Volume=/opt/workdir/kemo-labs/infrastructure/dns/pdns-auth/config/:/etc/pdns/:ro
+
+HealthCmd=["curl -f http://localhost:8081"]
+HealthStartupCmd=["curl -f http://localhost:8081"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+---
+# FileName=caas-pdns-recursor
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=traefik-network.service
+Requires=internal-db-network.service
+Requires=internal-dns-network.service
+Description=PowerDNS Recursor Server
+ConditionPathExists=/opt/workdir/kemo-labs/infrastructure/dns/.env
+
+[Container]
+Pod=caas-dns.pod
+Image=caas-pdns-recursor.image
+ContainerName=pdns-recursor
+EnvironmentFile=/opt/workdir/kemo-labs/infrastructure/dns/.env
+
+AddCapability=NET_BIND_SERVICE
+Sysctl=net.ipv4.ip_unprivileged_port_start=53
+
+Network=bridge42:ip=192.168.42.3
+Network=traefik
+Network=internal-db
+Network=internal-dns
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.pdns-recursor.rule=Host(`pdns-recursor.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.pdns-recursor.entrypoints=websecure"
+Label="traefik.http.routers.pdns-recursor.tls=true"
+Label="traefik.http.routers.pdns-recursor.tls.certresolver=stepca"
+Label="traefik.http.routers.pdns-recursor.service=pdns-recursor"
+Label="traefik.http.services.pdns-recursor.loadbalancer.server.port=8082"
+Label="traefik.http.routers.pdns-recursor.middlewares=authentik-auth@file"
+Label="homepage.group=DNS"
+Label="homepage.name=PowerDNS Recursor"
+Label="homepage.icon=powerdns.png"
+Label="homepage.description=PowerDNS Recursor at 192.168.42.3"
+Label="homepage.href=https://pdns-recursor.apps.lab.kemo.dev"
+
+Volume=/opt/workdir/kemo-labs/infrastructure/dns/pdns-recursor/config/recursor.yml:/etc/pdns-recursor/recursor.yml:ro
+
+HealthCmd=["rec_control ping 2>/dev/null || exit 1"]
+HealthStartupCmd=["rec_control ping 2>/dev/null || exit 1"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+---
+# FileName=caas-pdns-admin
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+After=caas-pdns-recursor.container
+Requires=traefik-network.service
+Requires=internal-db-network.service
+Requires=internal-dns-network.service
+Description=PowerDNS Admin Web UI
+ConditionPathExists=/opt/workdir/kemo-labs/infrastructure/dns/.env
+
+[Container]
+Pod=caas-dns.pod
+Image=caas-pdns-admin.image
+ContainerName=pdns-admin
+EnvironmentFile=/opt/workdir/kemo-labs/infrastructure/dns/.env
+
+Network=traefik
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.pdnsadmin.rule=Host(`pdns-admin.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.pdnsadmin.entrypoints=websecure"
+Label="traefik.http.routers.pdnsadmin.tls=true"
+Label="traefik.http.routers.pdnsadmin.tls.certresolver=stepca"
+Label="traefik.http.routers.pdnsadmin.service=pdnsadmin"
+Label="traefik.http.services.pdnsadmin.loadbalancer.server.port=8080"
+Label="homepage.group=DNS"
+Label="homepage.name=PowerDNS Admin"
+Label="homepage.icon=powerdns.png"
+Label="homepage.description=PowerDNS Admin web interface"
+Label="homepage.href=https://pdns-admin.apps.lab.kemo.dev"
+
+Volume=/opt/workdir/caas/dns/pdns-admin/data:/data:Z
+
+HealthCmd=["curl -f http://localhost:8080/ping || exit 1"]
+HealthStartupCmd=["curl -f http://localhost:8080/ping || exit 1"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+---
+# FileName=caas-pihole
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=traefik-network.service
+Description=Pi-hole DNS Server and Ad Blocker
+ConditionPathExists=/opt/workdir/kemo-labs/infrastructure/dns/.env
+
+[Container]
+Pod=caas-dns.pod
+Image=caas-pihole.image
+ContainerName=pihole
+EnvironmentFile=/opt/workdir/kemo-labs/infrastructure/dns/.env
+
+AddCapability=NET_BIND_SERVICE
+Sysctl=net.ipv4.ip_unprivileged_port_start=53
+
+# Needed for DNS resolution
+Network=bridge42:ip=192.168.42.4
+# Needed for WebUI access
+Network=traefik
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.pihole.rule=Host(`pihole.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.pihole.entrypoints=websecure"
+Label="traefik.http.routers.pihole.tls.certresolver=stepca"
+Label="traefik.http.routers.pihole.tls=true"
+Label="traefik.http.routers.pihole.service=pihole"
+Label="traefik.http.services.pihole.loadbalancer.server.port=80"
+Label="homepage.group=DNS"
+Label="homepage.name=Pi-hole"
+Label="homepage.icon=pi-hole.png"
+Label="homepage.description=Network-wide ad blocker"
+Label="homepage.href=https://pihole.apps.lab.kemo.dev/admin/"
+
+Volume=/opt/workdir/caas/dns/pihole/etc-pihole/:/etc/pihole/:Z
+
+HealthCmd=["dig +short +tries=1 +time=2 @127.0.0.1 pi.hole || exit 1"]
+HealthStartupCmd=["dig +short +tries=1 +time=2 @127.0.0.1 pi.hole || exit 1"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s

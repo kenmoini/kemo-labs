@@ -17,8 +17,8 @@ services:
       - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/private/ca.key.pem:/home/step/secrets/intermediate_ca_key:ro,Z
     networks:
       traefik-proxy:
-      # bridge42:
-      #   ipv4_address: 192.168.42.6
+      bridge42:
+        ipv4_address: 192.168.42.6
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-proxy"
@@ -42,7 +42,7 @@ services:
       start_period: 30s
 
 networks:
-  # bridge42:
-  #   external: true
+  bridge42:
+    external: true
   traefik-proxy:
     external: true

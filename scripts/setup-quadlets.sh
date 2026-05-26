@@ -12,11 +12,6 @@ fi
 
 # Networking
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/quadlets/networks.quadlets
-systemctl daemon-reload
-systemctl restart traefik-network.service
-systemctl restart podman-proxy-network.service
-systemctl restart internal-db-network.service
-systemctl restart o11y-network.service
 
 # Services - No Requirements
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/chrony/chrony.quadlets

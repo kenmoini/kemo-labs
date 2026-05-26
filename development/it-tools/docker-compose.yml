@@ -7,11 +7,12 @@ services:
     container_name: it-tools
     restart: unless-stopped
     networks:
-      bridge42:
-        ipv4_address: 192.168.42.43
+      # bridge42:
+      #   ipv4_address: 192.168.42.43
       traefik-proxy:
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
       - "traefik.http.routers.it-tools.rule=Host(`tools.apps.lab.kemo.dev`)"
       - "traefik.http.routers.it-tools.entrypoints=websecure"
       - "traefik.http.routers.it-tools.tls=true"
@@ -31,8 +32,8 @@ services:
       start_period: 10s
 
 networks:
-  bridge42:
-    external: true
+  # bridge42:
+  #   external: true
   traefik-proxy:
     external: true
     name: traefik-proxy

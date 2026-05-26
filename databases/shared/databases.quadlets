@@ -303,3 +303,51 @@ HealthInterval=30s
 HealthTimeout=5s
 HealthRetries=3
 HealthStartPeriod=10s
+
+---
+# FileName=caas-databasus
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-mariadb.container
+Requires=internal-db-network.service
+Requires=traefik-network.service
+Description=Databasus backup
+ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
+
+[Container]
+Pod=caas-shared-db.pod
+Image=caas-db-databasus.image
+ContainerName=shared-databasus
+
+EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
+Environment=DATABASUS_PGSQL_PASSWORD=$${POSTGRES_PASSWORD}
+Environment=DATABASUS_MARIADB_PASSWORD=$${MYSQL_ROOT_PASSWORD}
+
+Network=internal-db
+Network=traefik
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.databasus.rule=Host(`databasus.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.databasus.entrypoints=websecure"
+Label="traefik.http.routers.databasus.tls.certresolver=stepca"
+Label="traefik.http.services.databasus.loadbalancer.server.port=4005"
+Label="homepage.group=Databases"
+Label="homepage.name=Databasus"
+Label="homepage.icon=databasus.png"
+Label="homepage.description=Automated database backups"
+Label="homepage.href=https://databasus.apps.lab.kemo.dev"
+
+HealthCmd=["wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:4005/"]
+HealthStartupCmd=["wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:4005/"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=/opt/workdir/caas/databases/backups:/backups:Z

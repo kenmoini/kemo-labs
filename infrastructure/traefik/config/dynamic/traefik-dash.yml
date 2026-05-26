@@ -8,6 +8,8 @@ http:
         - websecure
       tls:
         certresolver: stepca
+      middlewares:
+        - authentik-auth@file
 
   services:
     traefikdashboard:

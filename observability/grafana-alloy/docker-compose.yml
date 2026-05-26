@@ -20,6 +20,9 @@ services:
     image: quay.io/navidys/prometheus-podman-exporter:v1.21.0
     container_name: o11y-podman-exporter
     hostname: o11y-podman-exporter
+    networks:
+      o11y:
+      podman-proxy:
     security_opt:
       - label=disable
     group_add:

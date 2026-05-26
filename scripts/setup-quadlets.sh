@@ -25,7 +25,7 @@ podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/pki/pk
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/databases/shared/databases.quadlets
 
 # Services - Requires Traefik Proxy and Databases
-# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/dns/dns.quadlets
+podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/dns/dns.quadlets
 
 # # Services - Requires Traefik Proxy and DNS
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/utilities/dockns/dockns.quadlets

@@ -1,4 +1,7 @@
 ---
+x-podman:
+  in_pod: false
+
 networks:
   traefik:
     external: true

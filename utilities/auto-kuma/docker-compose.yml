@@ -1,4 +1,7 @@
 ---
+x-podman:
+  in_pod: false
+
 networks:
   podman-proxy:
     external: true
@@ -13,6 +16,7 @@ services:
   autokuma:
     image: ghcr.io/bigboot/autokuma@sha256:82071fd7338c5b9fa0814190919f8dedc3aa945824c431d87c23dd22008ee77e
     restart: unless-stopped
+    container_name: autokuma
     networks:
       podman-proxy:
     env_file:

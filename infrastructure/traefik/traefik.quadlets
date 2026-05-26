@@ -20,7 +20,7 @@ NoNewPrivileges=true
 Environment=TZ=America/New_York
 Environment=OTEL_SERVICE_NAME=traefik
 
-Network=bridge42,ip=192.168.42.10
+Network=bridge42:ip=192.168.42.10
 Network=traefik
 Network=podman-proxy
 #ExposeHostPort=80

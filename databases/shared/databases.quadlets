@@ -151,7 +151,7 @@ Pod=caas-shared-db.pod
 Image=caas-db-valkey.image
 ContainerName=shared-valkey
 EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
-Exec=["valkey-server", "--requirepass", "${VALKEY_PASSWORD}", "--appendonly", ""yes"", "--maxmemory", "1gb", "--maxmemory-policy", "allkeys-lru"]
+Exec=valkey-server --requirepass '${VALKEY_PASSWORD}' --appendonly yes --maxmemory 1gb --maxmemory-policy allkeys-lru
 
 Memory=1.2g
 

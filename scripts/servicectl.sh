@@ -75,6 +75,10 @@ case $1 in
     cd /opt/workdir/kemo-labs/databases/shared
     podman compose down
 
+    # PKI
+    cd /opt/workdir/kemo-labs/security/pki
+    podman compose down
+
     # Traefik Proxy
     cd /opt/workdir/kemo-labs/infrastructure/traefik
     podman compose down
@@ -85,10 +89,6 @@ case $1 in
 
     # Time
     cd /opt/workdir/kemo-labs/infrastructure/chrony
-    podman compose down
-
-    # PKI
-    cd /opt/workdir/kemo-labs/security/pki
     podman compose down
 
     ;;

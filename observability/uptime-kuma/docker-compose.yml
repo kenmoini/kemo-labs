@@ -42,5 +42,5 @@ services:
       - "homepage.group=Observability"
       - "homepage.name=Uptime Kuma"
       - "homepage.icon=uptime-kuma.png"
-      - "homepage.description='Self-hosted monitoring tool'"
+      - "homepage.description=Self-hosted monitoring tool"
       - "homepage.href=https://uptime.apps.lab.kemo.dev"

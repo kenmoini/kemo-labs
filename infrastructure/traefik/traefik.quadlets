@@ -23,9 +23,9 @@ Environment=OTEL_SERVICE_NAME=traefik
 Network=bridge42,ip=192.168.42.10
 Network=traefik
 Network=podman-proxy
-Expose=80
-Expose=443
-Expose=8080
+#ExposeHostPort=80
+#ExposeHostPort=443
+#ExposeHostPort=8080
 
 HealthCmd=traefik healthcheck
 HealthStartupCmd=traefik healthcheck

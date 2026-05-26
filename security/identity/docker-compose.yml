@@ -14,6 +14,7 @@ services:
       - net.ipv4.ip_unprivileged_port_start=389
     networks:
       # authentik:
+      internal-db:
       traefik:
       bridge42:
         ipv4_address: 192.168.42.8
@@ -70,6 +71,7 @@ services:
       - ./templates:/templates
     networks:
       podman-proxy:
+      internal-db:
     healthcheck:
       test: ["CMD", "ak", "healthcheck"]
       interval: 30s
@@ -87,3 +89,6 @@ networks:
   podman-proxy:
     external: true
     name: podman-proxy
+  internal-db:
+    external: true
+    name: internal-db

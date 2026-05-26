@@ -6,6 +6,9 @@ networks:
   traefik:
     external: true
     name: traefik
+  internal-db:
+    external: true
+    name: internal-db
   # bridge42:
   #   external: true
 
@@ -22,6 +25,7 @@ services:
     volumes:
       - uptime-kuma-data:/app/data
     networks:
+      internal-db:
       traefik:
       # bridge42:
       #   ipv4_address: ${STATIC_IP:-192.168.42.32}

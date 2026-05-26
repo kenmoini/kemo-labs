@@ -1,0 +1,47 @@
+# FileName=podman-proxy
+[Network]
+NetworkName=podman-proxy
+InterfaceName=podman-proxy
+Options=com.docker.network.bridge.name=podman-proxy
+Subnet=10.10.0.0/24
+Gateway=10.10.0.1
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false
+---
+# FileName=traefik
+[Network]
+NetworkName=traefik
+InterfaceName=traefik
+Options=com.docker.network.bridge.name=traefik
+Subnet=10.10.1.0/24
+Gateway=10.10.1.1
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false
+---
+# FileName=internal-db
+[Network]
+NetworkName=internal-db
+InterfaceName=internal-db
+Options=com.docker.network.bridge.name=internal-db
+Subnet=10.10.2.0/24
+Gateway=10.10.2.1
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false
+---
+# FileName=o11y
+[Network]
+NetworkName=o11y
+InterfaceName=o11y
+Options=com.docker.network.bridge.name=o11y
+Subnet=10.10.3.0/24
+Gateway=10.10.3.1
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false

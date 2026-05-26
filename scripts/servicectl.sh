@@ -79,8 +79,8 @@ case $1 in
     cd /opt/workdir/kemo-labs/infrastructure/traefik
     podman compose down
 
-    # Docker Proxy
-    cd /opt/workdir/kemo-labs/utilities/docker-proxy
+    # Podman Proxy
+    cd /opt/workdir/kemo-labs/utilities/podman-proxy
     podman compose down
 
     # Time
@@ -106,8 +106,8 @@ case $1 in
     cd /opt/workdir/kemo-labs/infrastructure/chrony
     podman compose up -d
 
-    # Docker Proxy
-    cd /opt/workdir/kemo-labs/utilities/docker-proxy
+    # Podman Proxy
+    cd /opt/workdir/kemo-labs/utilities/podman-proxy
     podman compose up -d
 
     # Traefik Proxy

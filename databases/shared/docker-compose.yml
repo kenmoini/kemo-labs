@@ -204,6 +204,7 @@ services:
       DATABASUS_PGSQL_PASSWORD: ${POSTGRES_PASSWORD}
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.databasus.rule=Host(`databasus.apps.lab.kemo.dev`)"
       - "traefik.http.routers.databasus.entrypoints=websecure"
       - "traefik.http.routers.databasus.tls.certresolver=stepca"
@@ -243,6 +244,7 @@ services:
       ADMINER_DESIGN: win98
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.adminer.rule=Host(`adminer.apps.lab.kemo.dev`)"
       - "traefik.http.routers.adminer.entrypoints=websecure"
       - "traefik.http.routers.adminer.tls.certresolver=stepca"
@@ -264,8 +266,8 @@ services:
       retries: 5
       start_period: 30s
     networks:
-      traefik:
       internal-db:
+      traefik:
       # bridge66:
       #   ipv4_address: 192.168.66.21
 

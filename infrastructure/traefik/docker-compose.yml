@@ -38,7 +38,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.middlewares.hsts-header.headers.sslredirect=true"
-      - "traefik.docker.network=traefik"
+      # - "traefik.docker.network=traefik"
       - "homepage.group=Services"
       - "homepage.name=Traefik"
       - "homepage.icon=traefik.png"

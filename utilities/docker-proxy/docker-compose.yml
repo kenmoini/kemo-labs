@@ -15,6 +15,7 @@ services:
       start_period: 10s
     environment:
       OTEL_SERVICE_NAME: podman-proxy
+      LOG_LEVEL: warning
       ### Granted by Default
       EVENTS: 1
       PING: 1

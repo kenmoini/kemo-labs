@@ -1,3 +1,6 @@
+x-podman:
+  in_pod: false
+
 services:
   rustfs:
     image: docker.io/rustfs/rustfs:latest

@@ -16,12 +16,12 @@ services:
       - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/certs/ca.cert.pem:/home/step/certs/intermediate_ca.crt:ro,Z
       - /opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/private/ca.key.pem:/home/step/secrets/intermediate_ca_key:ro,Z
     networks:
-      traefik-proxy:
+      traefik:
       bridge42:
         ipv4_address: 192.168.42.6
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik-proxy"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.step-ca.rule=Host(`step-ca.apps.lab.kemo.dev`)"
       - "traefik.http.routers.step-ca.entrypoints=websecure"
       - "traefik.http.routers.step-ca.tls=true"
@@ -44,5 +44,5 @@ services:
 networks:
   bridge42:
     external: true
-  traefik-proxy:
+  traefik:
     external: true

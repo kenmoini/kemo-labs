@@ -9,10 +9,10 @@ services:
     networks:
       # bridge42:
       #   ipv4_address: 192.168.42.43
-      traefik-proxy:
+      traefik:
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik-proxy"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.it-tools.rule=Host(`tools.apps.lab.kemo.dev`)"
       - "traefik.http.routers.it-tools.entrypoints=websecure"
       - "traefik.http.routers.it-tools.tls=true"
@@ -35,6 +35,6 @@ services:
 networks:
   # bridge42:
   #   external: true
-  traefik-proxy:
+  traefik:
     external: true
-    name: traefik-proxy
+    name: traefik

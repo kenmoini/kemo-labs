@@ -14,7 +14,7 @@ services:
       - net.ipv4.ip_unprivileged_port_start=389
     networks:
       # authentik:
-      traefik-proxy:
+      traefik:
       bridge42:
         ipv4_address: 192.168.42.8
     expose:
@@ -27,7 +27,7 @@ services:
       - "homepage.description=Identity Management"
       - "homepage.href=https://auth.apps.lab.kemo.dev"
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik-proxy"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.authentik.rule=Host(`auth.apps.lab.kemo.dev`)"
       - "traefik.http.routers.authentik.tls=true"
       - "traefik.http.routers.authentik.tls.certresolver=stepca"
@@ -79,6 +79,6 @@ networks:
   # authentik:
   bridge42:
     external: true
-  traefik-proxy:
+  traefik:
     external: true
-    name: traefik-proxy
+    name: traefik

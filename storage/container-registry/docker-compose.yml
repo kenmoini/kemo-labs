@@ -19,7 +19,7 @@ services:
       - /opt/workdir/caas/nexus/data:/nexus-data
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik-proxy"
+      - "traefik.docker.network=traefik"
       # Nexus Web UI
       - "traefik.http.routers.nexus.rule=Host(`nexus.apps.lab.kemo.dev`)"
       - "traefik.http.routers.nexus.entrypoints=websecure"
@@ -40,7 +40,7 @@ services:
       # - "traefik.http.routers.registry.service=registry"
       # - "traefik.http.services.registry.loadbalancer.server.port=8084"
     networks:
-      traefik-proxy:
+      traefik:
       bridge42:
         ipv4_address: 192.168.42.21
     healthcheck:
@@ -53,6 +53,6 @@ services:
 networks:
   bridge42:
     external: true
-  traefik-proxy:
+  traefik:
     external: true
-    name: traefik-proxy
+    name: traefik

@@ -51,16 +51,8 @@ case $1 in
     cd /opt/workdir/kemo-labs/storage/dropbox
     podman compose down
 
-    # Traefik Proxy
-    cd /opt/workdir/kemo-labs/infrastructure/traefik
-    podman compose down
-
     # DockNS
     cd /opt/workdir/kemo-labs/utilities/dockns
-    podman compose down
-
-    # Docker Proxy
-    cd /opt/workdir/kemo-labs/utilities/docker-proxy
     podman compose down
 
     # Authentik
@@ -81,6 +73,14 @@ case $1 in
 
     # Databases
     cd /opt/workdir/kemo-labs/databases/shared
+    podman compose down
+
+    # Traefik Proxy
+    cd /opt/workdir/kemo-labs/infrastructure/traefik
+    podman compose down
+
+    # Docker Proxy
+    cd /opt/workdir/kemo-labs/utilities/docker-proxy
     podman compose down
 
     # Time
@@ -110,6 +110,10 @@ case $1 in
     cd /opt/workdir/kemo-labs/utilities/docker-proxy
     podman compose up -d
 
+    # Traefik Proxy
+    cd /opt/workdir/kemo-labs/infrastructure/traefik
+    podman compose up -d
+
     # PKI
     cd /opt/workdir/kemo-labs/security/pki
     podman compose up -d
@@ -128,10 +132,6 @@ case $1 in
 
     # Step CA
     cd /opt/workdir/kemo-labs/security/acme
-    podman compose up -d
-
-    # Traefik Proxy
-    cd /opt/workdir/kemo-labs/infrastructure/traefik
     podman compose up -d
 
     # Authentik

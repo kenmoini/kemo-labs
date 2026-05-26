@@ -154,7 +154,7 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik-proxy"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.apps.lab.kemo.dev`)"
       - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
       - "traefik.http.routers.phpmyadmin.tls.certresolver=stepca"
@@ -171,7 +171,7 @@ services:
       retries: 5
       start_period: 30s
     networks:
-      traefik-proxy:
+      traefik:
       # bridge66:
       #   ipv4_address: 192.168.66.19
       
@@ -222,7 +222,7 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      traefik-proxy:
+      traefik:
       # bridge66:
       #   ipv4_address: 192.168.66.20
 
@@ -258,7 +258,7 @@ services:
       retries: 5
       start_period: 30s
     networks:
-      traefik-proxy:
+      traefik:
       # bridge66:
       #   ipv4_address: 192.168.66.21
 
@@ -269,6 +269,6 @@ networks:
   # Database bridge
   bridge66:
     external: true
-  traefik-proxy:
+  traefik:
     external: true
-    name: traefik-proxy
+    name: traefik

@@ -52,7 +52,7 @@ services:
       SYSTEM: 1
     restart: unless-stopped
     networks:
-      - traefik-proxy
+      - podman-proxy
     security_opt:
       - no-new-privileges:true
     group_add:
@@ -66,6 +66,8 @@ services:
       - "homepage.description=Docker/Podman Socket Proxy"
 
 networks:
-  traefik-proxy:
-    external: true
-    name: traefik-proxy
+  podman-proxy:
+    name: podman-proxy
+  # traefik:
+  #   external: true
+  #   name: traefik

@@ -21,7 +21,7 @@ services:
     networks:
       bridge42:
         ipv4_address: 192.168.42.10
-      traefik-proxy:
+      traefik:
     labels:
       - "traefik.enable=true"
       # - "traefik.http.routers.traefik_https.rule=Host(`traefik.apps.lab.kemo.dev`)"
@@ -37,7 +37,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
       - "traefik.http.middlewares.hsts-header.headers.sslredirect=true"
-      - "traefik.docker.network=traefik-proxy"
+      - "traefik.docker.network=traefik"
       - "homepage.group=Services"
       - "homepage.name=Traefik"
       - "homepage.icon=traefik.png"
@@ -55,8 +55,7 @@ services:
       - 8080
 
 networks:
-  traefik-proxy:
-    external: true
-    name: traefik-proxy
+  traefik:
+    name: traefik
   bridge42:
     external: true

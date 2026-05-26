@@ -16,7 +16,7 @@ services:
       - /opt/workdir/caas/vault/logs:/vault/logs:Z
       - ./config:/vault/config:Z
     networks:
-      traefik-proxy:
+      traefik:
       bridge42:
         ipv4_address: 192.168.42.7
     expose:
@@ -34,7 +34,7 @@ services:
       - "homepage.description=Vault"
       - "homepage.href=https://vault.apps.lab.kemo.dev"
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik-proxy"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.vault.rule=Host(`vault.apps.lab.kemo.dev`)"
       - "traefik.http.routers.vault.tls=true"
       - "traefik.http.routers.vault.tls.certresolver=stepca"
@@ -50,6 +50,6 @@ networks:
   bridge42:
     external: true
     name: bridge42
-  traefik-proxy:
+  traefik:
     external: true
-    name: traefik-proxy
+    name: traefik

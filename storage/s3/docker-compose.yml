@@ -14,7 +14,7 @@ services:
       - cargo_registry:/usr/local/cargo/registry:Z
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik-proxy"
+      - "traefik.docker.network=traefik"
       # S3 API
       - "traefik.http.routers.s3-api.rule=Host(`s3.apps.lab.kemo.dev`)"
       - "traefik.http.routers.s3-api.entrypoints=websecure"
@@ -35,7 +35,7 @@ services:
       - "homepage.description=RustFS S3-compatible storage server"
       - "homepage.href=http://s3-console.apps.lab.kemo.dev"
     networks:
-      traefik-proxy:
+      traefik:
       # bridge42:
       #   ipv4_address: 192.168.42.20
     security_opt:
@@ -55,9 +55,9 @@ services:
 networks:
   # bridge42:
   #   external: true
-  traefik-proxy:
+  traefik:
     external: true
-    name: traefik-proxy
+    name: traefik
 
 volumes:
   cargo_registry: {}

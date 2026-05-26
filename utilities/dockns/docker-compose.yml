@@ -8,7 +8,7 @@ services:
     image: docker.io/brenekh/dockns:0.5.0
     restart: unless-stopped
     networks:
-      - traefik-proxy
+      - podman-proxy
     env_file:
       - .env
     environment:
@@ -33,6 +33,6 @@ volumes:
     name: dockns-data
 
 networks:
-  traefik-proxy:
+  podman-proxy:
     external: true
-    name: traefik-proxy
+    name: podman-proxy

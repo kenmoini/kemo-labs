@@ -1,10 +1,10 @@
-# FileName=chrony
+# FileName=caas-chrony
 [Image]
 Image=ghcr.io/kenmoini/docker-chrony:latest
 AllTags=false
 Policy=newer
 ---
-# FileName=chrony
+# FileName=caas-chrony
 [Install]
 WantedBy=multi-user.target
 After=network-online.target

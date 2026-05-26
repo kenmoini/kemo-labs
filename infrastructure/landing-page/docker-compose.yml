@@ -7,8 +7,8 @@ services:
     container_name: homepage
     restart: unless-stopped
     user: "1000:1000"
-    group_add:
-      - 0
+    # group_add:
+    #   - 0
     environment:
       # - HOMEPAGE_ALLOWED_HOSTS=dashboard.apps.lab.kemo.dev,192.168.42.14:3000,localhost,127.0.0.1:3000
       - HOMEPAGE_ALLOWED_HOSTS=*
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./config/:/app/config
       - ./assets/:/app/public/assets
-      - /var/run/podman/podman.sock:/var/run/docker.sock:ro
+      # - /var/run/podman/podman.sock:/var/run/docker.sock:ro
       - /opt/workdir/caas/homepage/logs:/data/logs:Z
     networks:
       traefik:

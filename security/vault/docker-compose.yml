@@ -34,6 +34,7 @@ services:
       - "homepage.description=Vault"
       - "homepage.href=https://vault.apps.lab.kemo.dev"
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
       - "traefik.http.routers.vault.rule=Host(`vault.apps.lab.kemo.dev`)"
       - "traefik.http.routers.vault.tls=true"
       - "traefik.http.routers.vault.tls.certresolver=stepca"

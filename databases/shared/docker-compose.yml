@@ -154,6 +154,7 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
       - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.apps.lab.kemo.dev`)"
       - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
       - "traefik.http.routers.phpmyadmin.tls.certresolver=stepca"
@@ -170,9 +171,9 @@ services:
       retries: 5
       start_period: 30s
     networks:
-      # traefik-proxy:
-      bridge66:
-        ipv4_address: 192.168.66.19
+      traefik-proxy:
+      # bridge66:
+      #   ipv4_address: 192.168.66.19
       
 
   ##############################################################################
@@ -221,9 +222,9 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      # traefik-proxy:
-      bridge66:
-        ipv4_address: 192.168.66.20
+      traefik-proxy:
+      # bridge66:
+      #   ipv4_address: 192.168.66.20
 
   ##############################################################################
   # Adminer 5.4.2 (Database web UI, fronted by Traefik)
@@ -257,9 +258,9 @@ services:
       retries: 5
       start_period: 30s
     networks:
-      # traefik-proxy:
-      bridge66:
-        ipv4_address: 192.168.66.21
+      traefik-proxy:
+      # bridge66:
+      #   ipv4_address: 192.168.66.21
 
 ##############################################################################
 # Networks
@@ -268,5 +269,6 @@ networks:
   # Database bridge
   bridge66:
     external: true
-  # traefik-proxy:
-  #   external: true
+  traefik-proxy:
+    external: true
+    name: traefik-proxy

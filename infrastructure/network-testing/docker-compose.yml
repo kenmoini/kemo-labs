@@ -26,10 +26,12 @@ services:
     environment:
       - ENABLE_LETSENCRYPT=false
     networks:
-      bridge42:
-        ipv4_address: 192.168.42.17
+      traefik-proxy:
+      # bridge42:
+      #   ipv4_address: 192.168.42.17
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
       - "traefik.http.routers.speedtest.rule=Host(`speedtest.apps.lab.kemo.dev`)"
       - "traefik.http.routers.speedtest.entrypoints=websecure"
       - "traefik.http.routers.speedtest.tls=true"
@@ -54,3 +56,6 @@ services:
 networks:
   bridge42:
     external: true
+  traefik-proxy:
+    external: true
+    name: traefik-proxy

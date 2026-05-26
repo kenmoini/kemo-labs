@@ -1,0 +1,50 @@
+# FileName=caas-pki-nginx
+[Image]
+Image=docker.io/nginx:1.31.1-alpine-otel
+AllTags=false
+Policy=newer
+---
+# FileName=caas-pki-nginx
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=traefik-network.service
+Description=Public PKI Store
+
+[Container]
+ContainerName=pki-nginx
+Image=caas-pki-nginx.image
+Environment=OTEL_SERVICE_NAME=pki-nginx
+
+DropCapability=ALL
+NoNewPrivileges=true
+
+Network=traefik.network
+Network=bridge42.network:ip=192.168.42.5
+
+HealthCmd=["wget","--no-verbose","--tries=1","--spider","http://127.0.0.1:8001/"]
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=10s
+HealthTimeout=5s
+
+Label=traefik.enable=true
+Label=traefik.docker.network=traefik
+Label=traefik.http.routers.pki.rule=Host(`pki.apps.lab.kemo.dev`)
+Label=traefik.http.routers.pki.tls=true
+Label=traefik.http.routers.pki.tls.certresolver=stepca
+Label=traefik.http.services.pki.loadbalancer.server.port=8001
+Label="homepage.group=Identity & Secrets"
+Label="homepage.name=Public Trust Store"
+Label=homepage.icon=nginx.png
+Label=homepage.href=https://pki.apps.lab.kemo.dev
+Label="homepage.description=Public Trust Store"
+
+WorkingDir=/opt/workdir/kemo-labs/security/pki
+Volume=/opt/workdir/caas/pika-pki/data:/data:ro,Z
+Volume=./nginx/default.conf:/etc/nginx/conf.d/default.conf:Z

@@ -5,16 +5,20 @@ AllTags=false
 Policy=newer
 ---
 # FileName=caas-podman-proxy
+[Service]
+Restart=always
+
 [Install]
 WantedBy=multi-user.target
 
 [Unit]
 After=network-online.target
+Requires=podman-proxy-network.service
 Description=Podman Proxy over TCP
 ConditionPathExists=/opt/workdir/kemo-labs/utilities/podman-proxy/.env
 
 [Container]
-Image=docker.io/tecnativa/docker-socket-proxy:latest
+Image=caas-podman-proxy.image
 ContainerName=podman-proxy
 EnvironmentFile=/opt/workdir/kemo-labs/utilities/podman-proxy/.env
 
@@ -22,6 +26,7 @@ Network=podman-proxy
 PublishPort=2375:2375
 
 GroupAdd=0
+DropCapability=ALL
 NoNewPrivileges=true
 Volume=/var/run/podman/podman.sock:/var/run/docker.sock:ro
 

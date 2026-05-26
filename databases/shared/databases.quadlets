@@ -1,0 +1,212 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-db-mariadb
+[Image]
+Image=quay.io/linuxserver.io/mariadb:11.4.9
+AllTags=false
+Policy=newer
+---
+# FileName=caas-db-pgsql
+[Image]
+Image=docker.io/pgvector/pgvector:pg17
+AllTags=false
+Policy=newer
+---
+# FileName=caas-db-valkey
+[Image]
+Image=docker.io/valkey/valkey:9.0.3
+AllTags=false
+Policy=newer
+---
+# FileName=caas-db-mosquitto
+[Image]
+Image=docker.io/library/eclipse-mosquitto:2
+AllTags=false
+Policy=newer
+---
+# FileName=caas-db-phpmyadmin
+[Image]
+Image=quay.io/linuxserver.io/phpmyadmin@sha256:239f1fa322cee7d3aa1271b0c6732f5ca71c52c372cd5dc4d10bd684e7fb352a
+AllTags=false
+Policy=newer
+---
+# FileName=caas-db-databasus
+[Image]
+Image=docker.io/databasus/databasus:v3.32.1
+AllTags=false
+Policy=newer
+---
+# FileName=caas-db-adminer
+[Image]
+Image=docker.io/library/adminer@sha256:3a1582df310cf49a3c9cad2882496eed4596563f8d33250703f8b26e538cef7d
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Pod ##################################################################################
+##########################################################################################
+---
+# FileName=caas-shared-db
+[Pod]
+PodName=shared-db
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-mariadb
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=internal-db-network.service
+Description=Shared MariaDB
+ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
+
+[Container]
+Image=caas-db-mariadb.image
+ContainerName=shared-mariadb
+EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
+
+Network=bridge66:ip=192.168.66.15
+Network=internal-db
+
+Label="homepage.group=Databases"
+Label="homepage.name=MariaDB"
+Label="homepage.icon=mariadb.png"
+Label="homepage.description=MariaDB database at 192.168.66.15:3306"
+
+WorkingDir=/opt/workdir/kemo-labs/databases/shared
+Volume=/opt/workdir/caas/databases/shared/mariadb_data:/config:Z
+Volume=./init-scripts/mariadb-healthcheck.sh:/usr/local/bin/healthcheck.sh:ro,Z
+Volume=./init-scripts/mariadb-bootstrap.sh:/custom-services.d/mariadb-bootstrap.sh:ro,Z
+
+HealthCmd=["healthcheck.sh", "--connect", "--innodb_initialized"]
+HealthStartupCmd=["healthcheck.sh", "--connect", "--innodb_initialized"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+---
+# FileName=caas-postgresql
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=internal-db-network.service
+Description=Shared PostgreSQL
+ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
+
+[Container]
+Image=caas-db-pgsql.image
+ContainerName=shared-postgresql
+EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
+
+Network=bridge66:ip=192.168.66.16
+Network=internal-db
+
+Label="homepage.group=Databases"
+Label="homepage.name=PostgreSQL"
+Label="homepage.icon=postgresql.png"
+Label="homepage.description=PostgreSQL database at 192.168.66.16:5432"
+
+WorkingDir=/opt/workdir/kemo-labs/databases/shared
+Volume=/opt/workdir/caas/databases/shared/postgresql_data:/var/lib/postgresql/data:Z
+Volume=./init-scripts/postgres-init.sh:/docker-entrypoint-initdb.d/01-create-databases.sh:ro,Z
+
+HealthCmd=["pg_isready -U ${POSTGRES_USER:-postgres}"]
+HealthStartupCmd=["pg_isready -U ${POSTGRES_USER:-postgres}"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+---
+# FileName=caas-valkey
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=internal-db-network.service
+Description=Shared Valkey
+ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
+
+[Container]
+Image=caas-db-valkey.image
+ContainerName=shared-valkey
+EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
+Exec=["valkey-server", "--requirepass", "${VALKEY_PASSWORD}", "--appendonly", ""yes"", "--maxmemory", "1gb", "--maxmemory-policy", "allkeys-lru"]
+
+Memory=1.2g
+
+Network=bridge66:ip=192.168.66.17
+Network=internal-db
+
+Label="homepage.group=Databases"
+Label="homepage.name=Valkey"
+Label="homepage.icon=valkey.png"
+Label="homepage.description=Redis-compatible database at 192.168.66.17:6379"
+
+WorkingDir=/opt/workdir/kemo-labs/databases/shared
+Volume=/opt/workdir/caas/databases/shared/valkey_data:/data:Z
+
+HealthCmd=["valkey-cli", "-a", "${VALKEY_PASSWORD}", "ping"]
+HealthStartupCmd=["valkey-cli", "-a", "${VALKEY_PASSWORD}", "ping"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+---
+# FileName=caas-mosquitto
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=internal-db-network.service
+Description=Shared MQTT Broker
+ConditionPathExists=/opt/workdir/kemo-labs/databases/shared/.env
+
+[Container]
+Image=caas-db-mosquitto.image
+ContainerName=shared-mosquitto
+EnvironmentFile=/opt/workdir/kemo-labs/databases/shared/.env
+
+Network=bridge66:ip=192.168.66.18
+Network=internal-db
+
+Label="homepage.group=Databases"
+Label="homepage.name=Mosquitto"
+Label="homepage.icon=mosquitto.png"
+Label="homepage.description=MQTT broker at 192.168.66.18:188"
+
+WorkingDir=/opt/workdir/kemo-labs/databases/shared
+Volume=./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro,Z
+Volume=/opt/workdir/caas/databases/shared/mosquitto_data:/mosquitto/data:Z
+Volume=/opt/workdir/caas/databases/shared/mosquitto_log:/mosquitto/log:Z
+
+HealthCmd=["mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
+HealthStartupCmd=["mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s

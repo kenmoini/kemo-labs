@@ -7,9 +7,9 @@ Policy=newer
 # FileName=caas-chrony
 [Install]
 WantedBy=multi-user.target
-After=network-online.target
 
 [Unit]
+After=network-online.target
 Description=Chrony time sync
 
 [Container]

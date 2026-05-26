@@ -53,7 +53,7 @@ entryPoints:
 
 providers:
   docker:
-    endpoint: "unix:///var/run/docker.sock"
+    endpoint: "tcp://podman-proxy:2375"
     exposedByDefault: false
     useBindPortIP: false
     network: traefik

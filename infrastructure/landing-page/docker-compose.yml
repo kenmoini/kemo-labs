@@ -21,16 +21,18 @@ services:
       - /var/run/podman/podman.sock:/var/run/docker.sock:ro
       - /opt/workdir/caas/homepage/logs:/data/logs:Z
     networks:
+      traefik-proxy:
       bridge42:
         ipv4_address: 192.168.42.14
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
       - "traefik.http.routers.homepage.rule=Host(`dashboard.apps.lab.kemo.dev`)"
       - "traefik.http.routers.homepage.entrypoints=websecure"
       - "traefik.http.routers.homepage.tls=true"
       - "traefik.http.routers.homepage.tls.certresolver=stepca"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
-      - "traefik.http.routers.homepage.middlewares=authentik-auth@file"
+      # - "traefik.http.routers.homepage.middlewares=authentik-auth@file"
     healthcheck:
       test: ["CMD-SHELL", "wget -qO /dev/null http://127.0.0.1:3000/ || exit 1"]
       interval: 30s
@@ -41,3 +43,6 @@ services:
 networks:
   bridge42:
     external: true
+  traefik-proxy:
+    external: true
+    name: traefik-proxy

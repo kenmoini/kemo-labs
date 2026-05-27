@@ -1,0 +1,62 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-squid
+[Image]
+Image=quay.io/kenmoini/squid-proxy:latest
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-squid
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-squid.container
+Requires=podman-proxy-network.service
+Description=Squid Outbound Proxy Service
+ConditionPathExists=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-intermediate-ca/signing-ca/kemo-labs-squid-proxy-ca/private/key_password.sh
+
+[Container]
+ContainerName=squid
+Image=caas-squid.image
+
+Environment=TZ=America/New_York
+
+HostName=proxy
+Network=bridge42
+IP=192.168.42.11
+
+Label="homepage.group=Services"
+Label="homepage.name=Squid"
+Label="homepage.icon=squidex.png"
+Label="homepage.description=Outbound proxy server MiTM 3128, Passthrough 3129"
+Label="homepage.href=http://proxy.lab.kemo.dev"
+Label="dockns.powerdns.record=A"
+Label="dockns.powerdns.name=proxy.lab.kemo.dev"
+Label="dockns.powerdns.ttl=60"
+Label="dockns.powerdns.ip=192.168.42.11"
+
+HealthCmd="curl http://localhost:3128 || exit 1"
+HealthStartupCmd="curl http://localhost:3128 || exit 1"
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=/opt/workdir/kemo-labs/infrastructure/outbound-proxy/config/:/etc/squid/conf.d:ro,Z
+Volume=/etc/pki/:/etc/pki/:ro
+Volume=/opt/workdir/caas/outbound-proxy/data/cache/:/var/spool/squid/:Z
+Volume=/opt/workdir/caas/outbound-proxy/data/logs/:/var/log/squid/:Z
+Volume=/opt/workdir/caas/pika-pki/data/.pika-pki/public_bundles/certs/signing-ca.kemo-labs-squid-proxy-ca.cert.pem:/etc/squid/certs/ca.crt:ro
+Volume=/opt/workdir/caas/pika-pki/data/.pika-pki/public_bundles/certs/signing-ca.kemo-labs-squid-proxy-ca.cert.pem.full-chain.pem:/etc/squid/certs/ca-bundle.crt:ro
+Volume=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-intermediate-ca/signing-ca/kemo-labs-squid-proxy-ca/private/ca.key.pem:/etc/squid/certs/ca.key:ro
+Volume=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-intermediate-ca/signing-ca/kemo-labs-squid-proxy-ca/private/key_password.sh:/etc/squid/certs/key_password.sh:ro

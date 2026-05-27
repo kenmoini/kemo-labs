@@ -1,0 +1,53 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-it-tools
+[Image]
+Image=docker.io/corentinth/it-tools:latest
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-it-tools
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-recursor.container
+Requires=traefik-network.service
+Description=IT Tools Container
+
+[Container]
+Image=caas-it-tools.image
+ContainerName=it-tools
+
+Network=traefik.network
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.it-tools.rule=Host(`tools.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.it-tools.entrypoints=websecure"
+Label="traefik.http.routers.it-tools.tls=true"
+Label="traefik.http.routers.it-tools.tls.certresolver=stepca"
+Label="traefik.http.routers.it-tools.service=it-tools"
+Label="traefik.http.services.it-tools.loadbalancer.server.port=80"
+Label="traefik.http.routers.it-tools.middlewares=authentik-auth@file"
+Label="homepage.group=Utilities"
+Label="homepage.name=IT Tools"
+Label="homepage.icon=it-tools.png"
+Label="homepage.description=Quick utilities"
+Label="homepage.href=https://tools.apps.lab.kemo.dev"
+
+HealthCmd="curl -f http://127.0.0.1"
+HealthStartupCmd="curl -f http://127.0.0.1/"
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s

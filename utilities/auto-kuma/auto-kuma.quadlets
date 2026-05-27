@@ -39,6 +39,13 @@ Label=homepage.name=AutoKuma
 Label=homepage.icon=si-kuma
 Label="homepage.description=AutoKuma Monitor Orchestration"
 
+HealthCmd=curl -sf http://localhost:8090/health || exit 1
+HealthStartupCmd=curl -sf http://localhost:8090/health || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
 Volume=auto-kuma-data.volume:/data:Z
 
 ##########################################################################################

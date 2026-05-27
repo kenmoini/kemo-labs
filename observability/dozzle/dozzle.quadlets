@@ -32,7 +32,7 @@ ContainerName=dozzle
 Network=traefik
 Network=podman-proxy
 
-Environment=DOZZLE_LEVEL=warning
+Environment=DOZZLE_LEVEL=warn
 Environment=DOZZLE_TAILSIZE=300
 Environment=DOZZLE_NO_ANALYTICS=true
 Environment=DOZZLE_ENABLE_ACTIONS=false

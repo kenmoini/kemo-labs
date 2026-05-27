@@ -20,8 +20,7 @@ Restart=always
 WantedBy=multi-user.target
 
 [Unit]
-After=caas-squid.container
-Requires=podman-proxy-network.service
+After=network-online.target
 Description=Squid Outbound Proxy Service
 ConditionPathExists=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-intermediate-ca/signing-ca/kemo-labs-squid-proxy-ca/private/key_password.sh
 

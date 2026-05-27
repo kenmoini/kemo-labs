@@ -20,7 +20,7 @@ Description=Reverse Proxy and Load Balancer
 Image=caas-traefik.image
 ContainerName=traefik
 
-DropCapability=ALL
+#DropCapability=ALL
 NoNewPrivileges=true
 
 Environment=TZ=America/New_York

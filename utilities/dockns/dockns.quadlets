@@ -30,7 +30,7 @@ ConditionPathExists=/opt/workdir/kemo-labs/utilities/dockns/.env
 ContainerName=dockns
 Image=caas-dockns.image
 
-EnvironmentFile=.env
+EnvironmentFile=/opt/workdir/kemo-labs/utilities/dockns/.env
 Environment=DOCKER_HOST=tcp://podman-proxy:2375
 
 HostName=dockns

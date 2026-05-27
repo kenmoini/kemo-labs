@@ -1,0 +1,62 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-homepage
+[Image]
+Image=ghcr.io/gethomepage/homepage:v1.12.3
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-homepage
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=podman-proxy-network.service
+Description=Homepage Landing Page
+
+[Container]
+Image=caas-homepage.image
+ContainerName=homepage
+User=1000:1000
+
+Network=traefik
+Network=podman-proxy
+
+Environment=HOMEPAGE_ALLOWED_HOSTS=*
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=America/New_York
+Environment=OTEL_SERVICE_NAME=homepage
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.homepage.rule=Host(`dashboard.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.homepage.entrypoints=websecure"
+Label="traefik.http.routers.homepage.tls=true"
+Label="traefik.http.routers.homepage.tls.certresolver=stepca"
+Label="traefik.http.routers.homepage.service=homepage"
+Label="traefik.http.services.homepage.loadbalancer.server.port=3000"
+Label="traefik.http.services.homepage.loadbalancer.healthcheck.path=/api/healthcheck"
+Label="traefik.http.routers.homepage.middlewares=authentik-auth@file"
+
+HealthCmd=["wget -qO /dev/null http://127.0.0.1:3000/api/healthcheck || exit 1"]
+HealthStartupCmd=["wget -qO /dev/null http://127.0.0.1:3000/api/healthcheck || exit 1"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=/opt/workdir/kemo-labs/infrastructure/landing-page/config/:/app/config
+Volume=/opt/workdir/kemo-labs/infrastructure/landing-page/assets/:/app/public/assets
+Volume=/opt/workdir/caas/homepage/logs:/data/logs:Z

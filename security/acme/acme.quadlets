@@ -1,0 +1,63 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-stepca
+[Image]
+Image=docker.io/smallstep/step-ca:0.30.2
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-stepca
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Description=SmallStep CA Server
+ConditionPathExists=/opt/workdir/kemo-labs/security/acme/secrets/password
+
+[Container]
+Image=caas-stepca.image
+ContainerName=step-ca
+
+Network=bridge42:ip=192.168.42.6
+Network=traefik
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.step-ca.rule=Host(`step-ca.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.step-ca.entrypoints=websecure"
+Label="traefik.http.routers.step-ca.tls=true"
+Label="traefik.http.routers.step-ca.tls.certresolver=stepca"
+Label="traefik.http.services.step-ca.loadbalancer.server.port=9100"
+Label="traefik.http.services.step-ca.loadbalancer.server.scheme=https"
+
+Label="homepage.group=Identity & Secrets"
+Label="homepage.name=Step CA"
+Label="homepage.icon=step-ca.png"
+Label="homepage.description=Step Certificate Authority"
+Label="homepage.href=https://step-ca.apps.lab.kemo.dev"
+
+Volume=/opt/workdir/caas/stepca/data/db:/home/step/db:Z
+Volume=/opt/workdir/kemo-labs/security/acme/config/ca.json:/home/step/config/ca.json:ro,Z
+Volume=/opt/workdir/kemo-labs/security/acme/config/defaults.json:/home/step/config/defaults.json:ro,Z
+Volume=/opt/workdir/kemo-labs/security/acme/secrets/password:/home/step/secrets/password:ro,Z
+Volume=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/certs/ca.cert.pem:/home/step/certs/root_ca.crt:ro,Z
+Volume=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/certs/ca.cert.pem:/home/step/certs/intermediate_ca.crt:ro,Z
+Volume=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-root-certificate-authority/intermediate-ca/kemo-labs-stepca-intermediate-ca/private/ca.key.pem:/home/step/secrets/intermediate_ca_key:ro,Z
+
+HealthCmd=["curl -k https://127.0.0.1:9100/health || exit 1"]
+HealthStartupCmd=["curl -k https://127.0.0.1:9100/health || exit 1"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s

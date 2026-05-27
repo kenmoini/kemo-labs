@@ -25,7 +25,7 @@ DropCapability=ALL
 NoNewPrivileges=true
 
 Network=traefik.network
-Network=bridge42.network:ip=192.168.42.5
+Network=bridge42:ip=192.168.42.5
 
 HealthCmd=["wget","--no-verbose","--tries=1","--spider","http://127.0.0.1:8001/"]
 HealthInterval=30s

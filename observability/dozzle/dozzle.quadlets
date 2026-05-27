@@ -52,8 +52,8 @@ Label="homepage.icon=dozzle.png"
 Label="homepage.description=Real-time log viewer for Docker containers"
 Label="homepage.href=https://dozzle.apps.lab.kemo.dev"
 
-HealthCmd=/dozzle healthcheck
-HealthStartupCmd=/dozzle healthcheck
+HealthCmd=["/dozzle", "healthcheck"]
+HealthStartupCmd=["/dozzle", "healthcheck"]
 HealthInterval=30s
 HealthTimeout=5s
 HealthRetries=3

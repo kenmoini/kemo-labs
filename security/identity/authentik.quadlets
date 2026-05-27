@@ -1,0 +1,123 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-authentik-server
+[Image]
+Image=ghcr.io/goauthentik/server@sha256:feb81e02f7af70469c87c8a4fbfdb148647ae7a3ee5f79f8b08b7ee02b98c4c9
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Pod ##################################################################################
+##########################################################################################
+---
+# FileName=caas-authentik
+[Pod]
+PodName=authentik
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-authentik-server
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=internal-db-network.service
+Requires=podman-proxy-network.service
+Description=Authentik Identity Server
+ConditionPathExists=/opt/workdir/kemo-labs/security/identity/.env
+
+[Container]
+Pod=caas-authentik.pod
+Image=caas-authentik-server.image
+ContainerName=authentik-server
+EnvironmentFile=/opt/workdir/kemo-labs/security/identity/.env
+Exec=server
+
+AddCapability=NET_BIND_SERVICE
+Sysctl=net.ipv4.ip_unprivileged_port_start=389
+ShmSize=1g
+
+Network=bridge42:ip=192.168.42.8
+Network=traefik
+Network=podman-proxy
+Network=internal-db
+
+Label="homepage.group=Identity & Secrets"
+Label="homepage.name=Authentik"
+Label="homepage.icon=authentik.png"
+Label="homepage.description=Identity Management"
+Label="homepage.href=https://auth.apps.lab.kemo.dev"
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.authentik.rule=Host(`auth.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.authentik.tls=true"
+Label="traefik.http.routers.authentik.tls.certresolver=stepca"
+Label="traefik.http.routers.authentik.service=authentik"
+Label="traefik.http.services.authentik.loadbalancer.server.port=9000"
+# Metrics
+Label="traefik.http.routers.authentik-metrics.rule=Host(`auth-metrics.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.authentik-metrics.tls=true"
+Label="traefik.http.routers.authentik-metrics.tls.certresolver=stepca"
+Label="traefik.http.routers.authentik-metrics.service=authentik-metrics"
+Label="traefik.http.services.authentik-metrics.loadbalancer.server.port=9300"
+
+HealthCmd=["ak", "healthcheck"]
+HealthStartupCmd=["ak", "healthcheck"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=/opt/workdir/caas/authentik/data:/data:Z
+Volume=/opt/workdir/kemo-labs/security/identity/templates:/templates
+
+---
+# FileName=caas-authentik-worker
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=internal-db-network.service
+Requires=podman-proxy-network.service
+Description=Authentik Identity Worker
+ConditionPathExists=/opt/workdir/kemo-labs/security/identity/.env
+
+[Container]
+Pod=caas-authentik.pod
+Image=caas-authentik-server.image
+ContainerName=authentik-worker
+EnvironmentFile=/opt/workdir/kemo-labs/security/identity/.env
+Exec=worker
+
+ShmSize=1g
+
+Network=podman-proxy
+Network=internal-db
+
+Label="homepage.group=Identity & Secrets"
+Label="homepage.name=Authentik Worker"
+Label="homepage.icon=authentik.png"
+Label="homepage.description=Service Worker for Authentik Identity Management"
+
+HealthCmd=["ak", "healthcheck"]
+HealthStartupCmd=["ak", "healthcheck"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=/opt/workdir/caas/authentik/data:/data:Z
+Volume=/opt/workdir/kemo-labs/security/identity/templates:/templates

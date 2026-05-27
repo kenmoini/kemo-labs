@@ -27,14 +27,14 @@ podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/databases/share
 # Services - Requires Traefik Proxy and Databases
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/dns/dns.quadlets
 
+# # Services - Requires Traefik Proxy, Databases, and DNS
+podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/identity/authentik.quadlets
+
 # # Services - Requires Traefik Proxy and DNS
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/utilities/dockns/dockns.quadlets
-# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/acme/acme.quadlets
+podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/acme/acme.quadlets
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/s3/s3.quadlets
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/dropbox/dropbox.quadlets
-
-# # Services - Requires Traefik Proxy, Databases, and DNS
-# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/identity/authentik.quadlets
 
 # # Services - Requires Podman Proxy, Traefik Proxy, Databases, and DNS
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/observability/grafana-alloy/grafana-alloy.quadlets

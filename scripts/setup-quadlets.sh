@@ -43,9 +43,9 @@ podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/acme/a
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/container-registry/nexus.quadlets
 
 # Services - Requires Podman Proxy, Traefik Proxy, and DNS
+podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/utilities/auto-kuma/auto-kuma.quadlets
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/observability/dozzle/dozzle.quadlets
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/landing-page/landing-page.quadlets
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/outbound-proxy/squid.quadlets
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/network-testing/network-testing.quadlets
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/development/it-tools/it-tools.quadlets
-# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/utilities/auto-kuma/auto-kuma.quadlets

@@ -1,0 +1,50 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-auto-kuma
+[Image]
+Image=ghcr.io/bigboot/autokuma@sha256:82071fd7338c5b9fa0814190919f8dedc3aa945824c431d87c23dd22008ee77e
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-auto-kuma
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-uptime-kuma.container
+Requires=podman-proxy-network.service
+Description=AutoKuma Monitor Orchestration
+ConditionPathExists=/opt/workdir/kemo-labs/utilities/auto-kuma/.env
+
+[Container]
+ContainerName=auto-kuma
+Image=caas-auto-kuma.image
+
+EnvironmentFile=/opt/workdir/kemo-labs/utilities/auto-kuma/.env
+
+HostName=auto-kuma
+Network=podman-proxy.network
+
+Label=homepage.group=Utilities
+Label=homepage.name=AutoKuma
+Label=homepage.icon=si-kuma
+Label="homepage.description=AutoKuma Monitor Orchestration"
+
+Volume=auto-kuma-data.volume:/data:Z
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=auto-kuma-data
+[Volume]
+VolumeName=auto-kuma-data

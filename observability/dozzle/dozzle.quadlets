@@ -1,0 +1,61 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-dozzle
+[Image]
+Image=ghcr.io/amir20/dozzle:v10.6.2
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-dozzle
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-recursor.container
+Requires=traefik-network.service
+Requires=podman-proxy-network.service
+Description=Dozzle Container Log Viewer
+
+[Container]
+Image=caas-dozzle.image
+ContainerName=dozzle
+
+Network=traefik
+Network=podman-proxy
+
+Environment=DOZZLE_LEVEL=warning
+Environment=DOZZLE_TAILSIZE=300
+Environment=DOZZLE_NO_ANALYTICS=true
+Environment=DOZZLE_ENABLE_ACTIONS=false
+Environment=DOZZLE_REMOTE_HOST=tcp://podman-proxy:2375
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.dozzle.rule=Host(`dozzle.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.dozzle.entrypoints=websecure"
+Label="traefik.http.routers.dozzle.tls=true"
+Label="traefik.http.routers.dozzle.tls.certresolver=stepca"
+Label="traefik.http.routers.dozzle.service=dozzle"
+Label="traefik.http.services.dozzle.loadbalancer.server.port=8080"
+
+Label="homepage.group=Observability"
+Label="homepage.name=Dozzle"
+Label="homepage.icon=dozzle.png"
+Label="homepage.description=Real-time log viewer for Docker containers"
+Label="homepage.href=https://dozzle.apps.lab.kemo.dev"
+
+HealthCmd=/dozzle healthcheck
+HealthStartupCmd=/dozzle healthcheck
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s

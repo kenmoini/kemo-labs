@@ -27,17 +27,25 @@ podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/databases/share
 # Services - Requires Traefik Proxy and Databases
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/dns/dns.quadlets
 
+# Services - Requires Podman Proxy, Traefik Proxy, Databases, and DNS
+# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/observability/grafana-alloy/grafana-alloy.quadlets
+podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/observability/uptime-kuma/uptime-kuma.quadlets
+
 # Services - Requires Traefik Proxy, Databases, and DNS
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/identity/authentik.quadlets
 
 # Services - Requires Traefik Proxy and DNS
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/utilities/dockns/dockns.quadlets
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/acme/acme.quadlets
+# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/vault/vault.quadlets
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/s3/s3.quadlets
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/dropbox/dropbox.quadlets
+# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/container-registry/nexus.quadlets
 
 # Services - Requires Podman Proxy, Traefik Proxy, and DNS
+podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/observability/dozzle/dozzle.quadlets
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/landing-page/landing-page.quadlets
-
-# Services - Requires Podman Proxy, Traefik Proxy, Databases, and DNS
-# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/observability/grafana-alloy/grafana-alloy.quadlets
+# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/outbound-proxy/squid.quadlets
+# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/network-testing/network-testing.quadlets
+# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/development/it-tools/it-tools.quadlets
+# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/utilities/auto-kuma/auto-kuma.quadlets

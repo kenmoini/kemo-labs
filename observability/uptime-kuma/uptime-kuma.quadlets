@@ -1,0 +1,67 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-uptime-kuma
+[Image]
+Image=ghcr.io/louislam/uptime-kuma@sha256:0f2c9e73cc85cfe97f3ab4781d8d8cb5b35e9b749d21583a2ea381ac28a41461
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-uptime-kuma
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-recursor.container
+Requires=traefik-network.service
+Requires=internal-db-network.service
+Requires=podman-proxy-network.service
+Description=Uptime Kuma - Self-hosted monitoring tool
+ConditionPathExists=/opt/workdir/kemo-labs/observability/uptime-kuma/.env
+
+[Container]
+Image=caas-uptime-kuma.image
+ContainerName=uptime-kuma
+EnvironmentFile=/opt/workdir/kemo-labs/observability/uptime-kuma/.env
+
+Network=traefik
+Network=podman-proxy
+Network=internal-db
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.uptime-kuma.rule=Host(`uptime.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.uptime-kuma.entrypoints=websecure"
+Label="traefik.http.routers.uptime-kuma.tls=true"
+Label="traefik.http.routers.uptime-kuma.tls.certresolver=stepca"
+Label="traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
+Label="homepage.group=Observability"
+Label="homepage.name=Uptime Kuma"
+Label="homepage.icon=uptime-kuma.png"
+Label="homepage.description=Self-hosted monitoring tool"
+Label="homepage.href=https://uptime.apps.lab.kemo.dev"
+
+HealthCmd=extra/healthcheck
+HealthStartupCmd=extra/healthcheck
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=uptime-kuma-data.volume:/app/data:Z
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=uptime-kuma-data
+[Volume]
+VolumeName=uptime-kuma-data

@@ -9,10 +9,11 @@ services:
     container_name: dozzle
     restart: unless-stopped
     environment:
-      - DOZZLE_LEVEL=${DOZZLE_LEVEL:-info}
-      - DOZZLE_TAILSIZE=${DOZZLE_TAILSIZE:-300}
+      - DOZZLE_LEVEL=warning
+      - DOZZLE_TAILSIZE=300
       - DOZZLE_NO_ANALYTICS=true
-      - DOZZLE_ENABLE_ACTIONS=${DOZZLE_ENABLE_ACTIONS:-false}
+      - DOZZLE_ENABLE_ACTIONS=false
+      - DOZZLE_REMOTE_HOST=tcp://podman-proxy:2375
     volumes:
       - /var/run/podman/podman.sock:/var/run/docker.sock:ro
     networks:

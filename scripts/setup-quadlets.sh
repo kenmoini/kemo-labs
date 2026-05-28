@@ -39,7 +39,7 @@ podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/utilities/dockn
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/acme/acme.quadlets
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/dropbox/dropbox.quadlets
 # podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/vault/vault.quadlets
-# podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/s3/s3.quadlets
+podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/s3/s3.quadlets
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/container-registry/nexus.quadlets
 
 # Services - Requires Podman Proxy, Traefik Proxy, and DNS

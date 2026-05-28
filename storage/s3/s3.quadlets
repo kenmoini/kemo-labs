@@ -1,0 +1,76 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-rustfs
+[Image]
+Image=docker.io/rustfs/rustfs:latest
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-rustfs
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=traefik-network.service
+Description=RustFS S3
+ConditionPathExists=/opt/workdir/kemo-labs/storage/s3/.env
+
+[Container]
+Image=caas-rustfs.image
+ContainerName=rustfs
+EnvironmentFile=/opt/workdir/kemo-labs/storage/s3/.env
+
+Exec="server /data --console-address ':9001'"
+
+Network=traefik.network
+NoNewPrivileges=true
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+# S3 API
+Label="traefik.http.routers.s3-api.rule=Host(`s3.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.s3-api.entrypoints=websecure"
+Label="traefik.http.routers.s3-api.tls=true"
+Label="traefik.http.routers.s3-api.tls.certresolver=stepca"
+Label="traefik.http.routers.s3-api.service=s3-api"
+Label="traefik.http.services.s3-api.loadbalancer.server.port=9000"
+# Console UI
+Label="traefik.http.routers.s3-console.rule=Host(`s3-console.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.s3-console.entrypoints=websecure"
+Label="traefik.http.routers.s3-console.tls=true"
+Label="traefik.http.routers.s3-console.tls.certresolver=stepca"
+Label="traefik.http.routers.s3-console.service=s3-console"
+Label="traefik.http.services.s3-console.loadbalancer.server.port=9001"
+Label="homepage.group=Services"
+Label="homepage.name=RustFS"
+Label="homepage.icon=rustfs.png"
+Label="homepage.description=RustFS S3-compatible storage server"
+Label="homepage.href=http://s3-console.apps.lab.kemo.dev"
+
+HealthCmd=["sh", "-c", "curl -f http://127.0.0.1:9000/health && curl -f http://127.0.0.1:9001/rustfs/console/health"]
+HealthStartupCmd=["sh", "-c", "curl -f http://127.0.0.1:9000/health && curl -f http://127.0.0.1:9001/rustfs/console/health"]
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=10s
+HealthTimeout=5s
+
+Volume=/opt/workdir/caas/rustfs/data:/data:Z
+Volume=rustfs-data.volume:/usr/local/cargo/registry:Z
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=rustfs-data
+[Volume]
+VolumeName=rustfs-data

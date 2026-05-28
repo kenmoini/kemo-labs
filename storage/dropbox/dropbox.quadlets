@@ -8,6 +8,7 @@ Image=docker.io/nginx:1.31.1-alpine-otel
 AllTags=false
 Policy=newer
 
+---
 # FileName=caas-copyparty
 [Image]
 Image=ghcr.io/9001/copyparty-dj:1.20.14

@@ -47,3 +47,13 @@ Label="homepage.description=Public Trust Store"
 
 Volume=/opt/workdir/caas/pika-pki/data:/data:ro,Z
 Volume=/opt/workdir/kemo-labs/security/pki/nginx/default.conf:/etc/nginx/nginx.conf:Z
+
+Volume=pki-nginx-tmp:/tmp/nginx:Z
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=pki-nginx-tmp
+[Volume]
+VolumeName=pki-nginx-tmp

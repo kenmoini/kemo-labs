@@ -1,0 +1,60 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-nexus
+[Image]
+Image=docker.io/sonatype/nexus3:3.91.1-ubi
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-nexus
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-recursor.container
+Requires=traefik-network.service
+Description=Nexus Container Registry
+ConditionPathExists=/opt/workdir/kemo-labs/storage/container-registry/.env
+
+[Container]
+Image=caas-nexus.image
+ContainerName=nexus
+
+EnvironmentFile=/opt/workdir/kemo-labs/storage/container-registry/.env
+Environment=NEXUS_SECURITY_RANDOMPASSWORD="false"
+Environment=INSTALL4J_ADD_VM_PARAMS="-Xms2g -Xmx4g -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=/nexus-data/javaprefs"
+
+Network=traefik.network
+Network=bridge42:ip=192.168.42.21
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.nexus.rule=Host(`nexus.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.nexus.entrypoints=websecure"
+Label="traefik.http.routers.nexus.tls=true"
+Label="traefik.http.routers.nexus.tls.certresolver=stepca"
+Label="traefik.http.routers.nexus.service=nexus"
+Label="traefik.http.services.nexus.loadbalancer.server.port=8081"
+Label="homepage.group=Utilities"
+Label="homepage.name=Sonatype Nexus"
+Label="homepage.icon=nexus.png"
+Label="homepage.description=Nexus Repository Manager"
+Label="homepage.href=https://nexus.apps.lab.kemo.dev"
+
+HealthCmd="curl -f http://127.0.0.1:8081/service/rest/v1/status"
+HealthStartupCmd="curl -f http://127.0.0.1:8081/service/rest/v1/status"
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=/opt/workdir/caas/nexus/data:/nexus-data

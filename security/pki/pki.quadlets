@@ -21,7 +21,7 @@ ContainerName=pki-nginx
 Image=caas-pki-nginx.image
 Environment=OTEL_SERVICE_NAME=pki-nginx
 Entrypoint=["nginx"]
-Exec=["-g","daemon off;"]
+Exec="-g daemon off;"
 User=101:101
 
 DropCapability=ALL

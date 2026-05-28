@@ -98,7 +98,6 @@ ConditionPathExists=/opt/workdir/kemo-labs/storage/dropbox/.env
 Pod=caas-dropbox.pod
 Image=caas-copyparty.image
 ContainerName=copyparty
-StopTimeout=30s
 User=1000
 Group=1000
 

@@ -10,6 +10,7 @@ systemctl stop caas-auto-kuma
 systemctl stop caas-stepca
 systemctl stop caas-dockns
 systemctl stop caas-nexus
+systemctl stop caas-dropbox-pod
 systemctl stop caas-authentik-pod
 systemctl stop caas-uptime-kuma
 systemctl stop caas-dns-pod

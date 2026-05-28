@@ -1,0 +1,148 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-nginx
+[Image]
+Image=docker.io/nginx:1.31.1-alpine-otel
+AllTags=false
+Policy=newer
+
+# FileName=caas-copyparty
+[Image]
+Image=ghcr.io/9001/copyparty-dj:1.20.14
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Pod ##################################################################################
+##########################################################################################
+---
+# FileName=caas-dropbox
+[Pod]
+PodName=dropbox
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-dropbox-files
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=traefik-network.service
+Description=Dropbox File Server
+
+[Container]
+Pod=caas-dropbox.pod
+Image=caas-nginx.image
+ContainerName=dropbox-files
+Environment=OTEL_SERVICE_NAME=dropbox-files
+Entrypoint=["nginx"]
+Exec="-g daemon off;"
+User=101
+Group=101
+
+DropCapability=ALL
+NoNewPrivileges=true
+
+Network=traefik.network
+Network=bridge42:ip=192.168.42.23
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.files.rule=Host(`dropbox.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.files.entrypoints=websecure"
+Label="traefik.http.routers.files.tls=true"
+Label="traefik.http.routers.files.tls.certresolver=stepca"
+Label="traefik.http.services.files.loadbalancer.server.port=8080"
+Label="homepage.group=Services"
+Label="homepage.name=Dropbox"
+Label="homepage.icon=nginx.png"
+Label="homepage.description=Dropbox File Download"
+Label="homepage.href=https://dropbox.apps.lab.kemo.dev"
+
+Volume=/opt/workdir/caas/dropbox/data:/srv/files:ro
+Volume=/opt/workdir/kemo-labs/storage/dropbox/nginx.conf:/etc/nginx/nginx.conf:ro
+
+HealthCmd=["wget --spider -q http://127.0.0.1:8080/"]
+HealthStartupCmd=["wget --spider -q http://127.0.0.1:8080/"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=dropbox-nginx-tmp.volume:/tmp/nginx:Z
+
+---
+# FileName=caas-dropbox-copyparty
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-traefik.container
+Requires=traefik-network.service
+Description=Copyparty File Server
+ConditionPathExists=/opt/workdir/kemo-labs/storage/dropbox/.env
+
+[Container]
+Pod=caas-dropbox.pod
+Image=caas-copyparty.image
+ContainerName=copyparty
+StopTimeout=30s
+User=1000
+Group=1000
+
+EnvironmentFile=/opt/workdir/kemo-labs/storage/dropbox/.env
+# enable mimalloc by replacing "NOPE" with "2" for a nice speed-boost (will use twice as much ram)
+Environment=LD_PRELOAD=/usr/lib/libmimalloc-secure.so.NOPE
+# ensures log-messages are not delayed (but can reduce speed a tiny bit)
+Environment=PYTHONUNBUFFERED=1
+
+Network=traefik.network
+#Network=bridge42:ip=192.168.42.24
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.upload.rule=Host(`upload.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.upload.entrypoints=websecure"
+Label="traefik.http.routers.upload.tls=true"
+Label="traefik.http.routers.upload.tls.certresolver=stepca"
+Label="traefik.http.services.upload.loadbalancer.server.port=3923"
+# Allow large uploads
+Label="traefik.http.middlewares.upload-size.buffering.maxRequestBodyBytes=10737418240"
+Label="traefik.http.routers.upload.middlewares=upload-size,authentik-auth@file"
+Label="homepage.group=Services"
+Label="homepage.name=Copyparty"
+Label="homepage.icon=copyparty.png"
+Label="homepage.description=Copyparty File Manager"
+Label="homepage.href=https://upload.apps.lab.kemo.dev"
+
+Volume=/opt/workdir/kemo-labs/storage/dropbox/copyparty.conf:/cfg/copyparty.conf:ro
+Volume=/opt/workdir/caas/dropbox/data:/srv/files
+Volume=/opt/workdir/caas/dropbox/copyparty-db:/var/lib/copyparty
+
+HealthCmd=["wget --spider -q http://127.0.0.1:3923/?reset=/._"]
+HealthStartupCmd=["wget --spider -q http://127.0.0.1:3923/?reset=/._"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=dropbox-nginx-tmp
+[Volume]
+VolumeName=dropbox-nginx-tmp
+User=101
+Group=101

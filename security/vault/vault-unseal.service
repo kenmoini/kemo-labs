@@ -5,6 +5,7 @@ Requires=caas-vault.service
 
 [Service]
 Type=oneshot
+RemainAfterExit=yes
 ExecStart=/opt/workdir/caas/vault/unseal.sh
 
 [Install]

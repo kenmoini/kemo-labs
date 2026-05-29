@@ -15,6 +15,7 @@ Policy=newer
 # FileName=caas-vault
 [Service]
 Restart=always
+ExecStartPost=/opt/workdir/caas/vault/unseal.sh
 
 [Install]
 WantedBy=multi-user.target

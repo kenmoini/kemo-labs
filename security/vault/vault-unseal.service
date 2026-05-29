@@ -2,6 +2,7 @@
 Description=Vault Unseal Service
 After=caas-vault.service
 Requires=caas-vault.service
+WantedBy=caas-vault.service
 
 [Service]
 Type=oneshot

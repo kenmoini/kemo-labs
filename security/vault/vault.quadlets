@@ -31,7 +31,7 @@ ContainerName=vault
 EnvironmentFile=/opt/workdir/kemo-labs/security/vault/.env
 
 AddCapability=IPC_LOCK
-Exec="vault server -config=/vault/config/vault.hcl"
+Exec=vault server -config=/vault/config/vault.hcl
 
 Network=traefik.network
 Network=bridge42:ip=192.168.42.7

@@ -30,7 +30,7 @@ Image=caas-rustfs.image
 ContainerName=rustfs
 EnvironmentFile=/opt/workdir/kemo-labs/storage/s3/.env
 
-Exec="server"
+Exec=server
 
 Network=traefik.network
 NoNewPrivileges=true

@@ -1,0 +1,64 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-vault
+[Image]
+Image=docker.io/hashicorp/vault:1.21
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-vault
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-recursor.container
+Requires=traefik-network.service
+Description=Vault Secrets Manager
+ConditionPathExists=/opt/workdir/kemo-labs/security/vault/.env
+
+[Container]
+Image=caas-vault.image
+ContainerName=vault
+EnvironmentFile=/opt/workdir/kemo-labs/security/vault/.env
+
+CapAdd=IPC_LOCK
+Exec="vault server -config=/vault/config/vault.hcl"
+
+Network=traefik.network
+Network=bridge42:ip=192.168.42.7
+
+HealthCmd=["vault", "status", "-address=http://127.0.0.1:8200"]
+HealthStartupCmd=["vault", "status", "-address=http://127.0.0.1:8200"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Label="dockns.powerdns.record=A"
+Label="dockns.powerdns.name=vault.lab.kemo.dev"
+Label="dockns.powerdns.ttl=60"
+Label="dockns.powerdns.ip=192.168.42.7"
+Label="homepage.group=Identity & Secrets"
+Label="homepage.name=Vault"
+Label="homepage.icon=vault.png"
+Label="homepage.description=Vault"
+Label="homepage.href=https://vault.apps.lab.kemo.dev"
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.vault.rule=Host(`vault.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.vault.tls=true"
+Label="traefik.http.routers.vault.tls.certresolver=stepca"
+Label="traefik.http.services.vault.loadbalancer.server.port=8200"
+
+Volume=/opt/workdir/caas/vault/data:/vault/data:Z
+Volume=/opt/workdir/caas/vault/logs:/vault/logs:Z
+Volume=/opt/workdir/kemo-labs/security/vault/config:/vault/config:Z

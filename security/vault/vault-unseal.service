@@ -1,0 +1,8 @@
+[Unit]
+Description=Vault Unseal Service
+After=caas-vault.service
+Requires=caas-vault.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/workdir/caas/vault/unseal.sh

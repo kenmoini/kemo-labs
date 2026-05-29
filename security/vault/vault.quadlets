@@ -30,7 +30,7 @@ Image=caas-vault.image
 ContainerName=vault
 EnvironmentFile=/opt/workdir/kemo-labs/security/vault/.env
 
-CapAdd=IPC_LOCK
+AddCapability=IPC_LOCK
 Exec="vault server -config=/vault/config/vault.hcl"
 
 Network=traefik.network

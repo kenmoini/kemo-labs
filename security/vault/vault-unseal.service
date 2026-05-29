@@ -1,7 +1,7 @@
 [Unit]
 Description=Vault Unseal Service
-After=caas-vault.container
-Requires=caas-vault.container
+After=caas-vault.service
+Requires=caas-vault.service
 
 [Service]
 Type=oneshot

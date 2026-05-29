@@ -1,9 +1,11 @@
 [Unit]
 Description=Vault Unseal Service
-After=caas-vault.service
-Requires=caas-vault.service
-WantedBy=caas-vault.service
+After=caas-vault.container
+Requires=caas-vault.container
 
 [Service]
 Type=oneshot
 ExecStart=/opt/workdir/caas/vault/unseal.sh
+
+[Install]
+WantedBy=multi-user.target

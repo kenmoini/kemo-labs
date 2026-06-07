@@ -1,0 +1,49 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-omni
+[Image]
+Image=ghcr.io/siderolabs/omni:v1.8.2
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=omni-sqlite-data
+[Volume]
+VolumeName=omni-sqlite-data
+
+---
+# FileName=omni-etcd-data
+[Volume]
+VolumeName=omni-etcd-data
+
+##########################################################################################
+### Pod ##################################################################################
+##########################################################################################
+---
+# FileName=caas-omni
+[Pod]
+PodName=omni
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-authentik-server
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=internal-omni-network.service
+Description=Omni Kubernetes Orchestration
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/.env
+ConditionPathExists=/opt/workdir/caas/omni/secrets/omni.asc

@@ -11,6 +11,7 @@ DisableDNS=false
 NetworkDeleteOnStop=false
 Options=isolate=false
 Options=no_default_route=1
+
 ---
 # FileName=traefik
 [Network]
@@ -25,6 +26,7 @@ DisableDNS=false
 NetworkDeleteOnStop=false
 Options=isolate=false
 Options=no_default_route=1
+
 ---
 # FileName=internal-db
 [Network]
@@ -39,6 +41,7 @@ DisableDNS=false
 NetworkDeleteOnStop=false
 Options=isolate=false
 Options=no_default_route=1
+
 ---
 # FileName=o11y
 [Network]
@@ -53,6 +56,7 @@ DisableDNS=false
 NetworkDeleteOnStop=false
 Options=isolate=false
 Options=no_default_route=1
+
 ---
 # FileName=internal-dns
 [Network]
@@ -61,6 +65,21 @@ InterfaceName=internal-dns
 Options=com.docker.network.bridge.name=internal-dns
 Subnet=10.10.4.0/24
 Gateway=10.10.4.1
+Internal=false
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false
+Options=no_default_route=1
+
+---
+# FileName=internal-omni
+[Network]
+NetworkName=internal-omni
+InterfaceName=internal-omni
+Options=com.docker.network.bridge.name=internal-omni
+Subnet=10.10.5.0/24
+Gateway=10.10.5.1
 Internal=false
 IPv6=false
 DisableDNS=false

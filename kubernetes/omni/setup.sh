@@ -12,6 +12,11 @@ if ! command -v gpg &> /dev/null; then
   exit 1
 fi
 
+if ! command -v openssl &> /dev/null; then
+  echo "Error: openssl is not installed. Please install OpenSSL to generate keys."
+  exit 1
+fi
+
 if [[ ! -d "$SECRET_DIR" ]]; then
   echo "Creating directory: $SECRET_DIR"
   mkdir -p "$SECRET_DIR"

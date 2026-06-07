@@ -47,7 +47,7 @@ PodName=omni
 ### Containers ###########################################################################
 ##########################################################################################
 ---
-# FileName=caas-authentik-server
+# FileName=caas-omni
 [Service]
 Restart=always
 
@@ -60,4 +60,37 @@ Requires=traefik-network.service
 Requires=internal-omni-network.service
 Description=Omni Kubernetes Orchestration
 ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/.env
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/config.yaml
 ConditionPathExists=/opt/workdir/caas/omni/secrets/omni.asc
+
+[Container]
+Pod=caas-omni.pod
+Image=caas-omni.image
+ContainerName=omni
+EnvironmentFile=/opt/workdir/kemo-labs/kubernetes-omni/.env
+Exec=--config-path=/omni-config.yaml
+
+
+---
+# FileName=caas-omni-image-factory
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=internal-omni-network.service
+Description=Omni Kubernetes Orchestration
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/.env
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/config.yaml
+ConditionPathExists=/opt/workdir/caas/omni/secrets/omni.asc
+
+[Container]
+Pod=caas-omni.pod
+Image=caas-omni-image-factory.image
+ContainerName=omni-image-factory
+EnvironmentFile=/opt/workdir/kemo-labs/kubernetes-omni/.env
+Exec=--config-path=/image-factory-config.yaml

@@ -1,0 +1,66 @@
+# Account identification.
+# Generate this UUID once and never change it after initial setup.
+# Do this with `uuidgen | tr '[:upper:]' '[:lower:]'`
+account:
+  id: some-uuid-here-dont-change-after
+
+# Authentication configuration.
+auth:
+  auth0:
+    enabled: false
+  oidc:
+    enabled: true
+    providerURL: https://auth.apps.lab.kemo.dev
+    clientID: omni
+    clientSecret: <oidc-client-secret>
+    scopes:
+      - openid
+      - profile
+      - email
+  initialUsers:
+    - admin@example.com
+    - operator@example.com
+  initialServiceAccount:
+    enabled: true
+
+# Service endpoints and TLS configuration.
+services:
+  api:
+    endpoint: 0.0.0.0:443
+    advertisedURL: https://omni.apps.lab.kemo.dev
+    certFile: /etc/omni/tls/tls.crt
+    keyFile: /etc/omni/tls/tls.key
+  kubernetesProxy:
+    endpoint: 0.0.0.0:8095
+    advertisedURL: https://omni-k8s.apps.lab.kemo.dev
+    certFile: /etc/omni/tls/tls.crt
+    keyFile: /etc/omni/tls/tls.key
+  machineAPI:
+    advertisedURL: grpc://omni-siderolink.apps.lab.kemo.dev:8090
+  siderolink:
+    joinTokensMode: strict
+    wireGuard:
+      advertisedEndpoint: 203.0.113.10:50180
+  workloadProxy:
+    enabled: true
+    subdomain: proxy
+    useOmniSubdomain: true
+
+# Storage backends.
+storage:
+  default:
+    kind: etcd
+    etcd:
+      embedded: true
+      embeddedDBPath: /omni-data/etcd/
+      privateKeySource: "vault://secret/omni-private-key"
+  sqlite:
+    path: /omni-data/db/sqlite.db
+
+# Etcd backup configuration with S3 storage.
+etcdBackup:
+  s3Enabled: false
+
+# Feature flags.
+features:
+  enableBreakGlassConfigs: true

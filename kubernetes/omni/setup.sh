@@ -3,6 +3,10 @@
 SECRET_DIR="/opt/workdir/caas/omni/secrets"
 ETCD_GPG_EMAIL="omni@internal.local"
 
+
+###########################################################################
+## General Preflight
+
 if ! command -v gpg &> /dev/null; then
   echo "Error: gpg is not installed. Please install GPG to generate keys."
   exit 1
@@ -12,6 +16,9 @@ if [[ ! -d "$SECRET_DIR" ]]; then
   echo "Creating directory: $SECRET_DIR"
   mkdir -p "$SECRET_DIR"
 fi
+
+###########################################################################
+## Omni Internal Etcd Signing Key
 
 if [[ -f "$SECRET_DIR/omni.asc" ]]; then
   echo "omni.asc already exists. Skipping key generation."
@@ -42,4 +49,13 @@ else
     gpg --export-secret-key --armor "$ETCD_GPG_EMAIL" > "$SECRET_DIR/omni.asc"
   fi
 
+fi
+
+###########################################################################
+## Omni Image Factory Signing Key
+if [[ -f "$SECRET_DIR/image-factory-signing.key" ]]; then
+  echo "Image Factory Signing Key exists..."
+else
+  echo "Generating Image Factory Signing Key..."
+  openssl ecparam -name prime256v1 -genkey -noout -out $SECRET_DIR/image-factory-signing.key
 fi

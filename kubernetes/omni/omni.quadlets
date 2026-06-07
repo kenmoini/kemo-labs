@@ -8,6 +8,20 @@ Image=ghcr.io/siderolabs/omni:v1.8.2
 AllTags=false
 Policy=newer
 
+---
+# FileName=caas-omni-image-factory
+[Image]
+Image=ghcr.io/siderolabs/image-factory:v1.3.3
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-omni-libvirtd-provider
+[Image]
+Image=ghcr.io/siderolabs/omni-infra-provider-libvirt:v0.1.0-3-g820f097
+AllTags=false
+Policy=newer
+
 ##########################################################################################
 ### Volumes ##############################################################################
 ##########################################################################################

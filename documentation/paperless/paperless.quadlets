@@ -77,7 +77,6 @@ WantedBy=multi-user.target
 
 [Unit]
 After=caas-pdns-auth.container
-Requires=traefik-network.service
 Requires=internal-paperless-network.service
 Description=Redis for Paperless NGX
 ConditionPathExists=/opt/workdir/kemo-labs/documentation/paperless/.env
@@ -89,3 +88,45 @@ ContainerName=paperless-redis
 
 Network=internal-paperless.network
 Volume=paperless-redis-data.volume:/data
+
+---
+# FileName=caas-paperless-tika
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=internal-paperless-network.service
+Description=Apache Tika for Paperless NGX
+ConditionPathExists=/opt/workdir/kemo-labs/documentation/paperless/.env
+
+[Container]
+Pod=caas-paperless.pod
+Image=caas-tika.image
+ContainerName=paperless-tika
+
+Network=internal-paperless.network
+
+---
+# FileName=caas-paperless-gotenberg
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=internal-paperless-network.service
+Description=Redis for Paperless NGX
+ConditionPathExists=/opt/workdir/kemo-labs/documentation/paperless/.env
+
+[Container]
+Pod=caas-paperless.pod
+Image=caas-gotenberg.image
+ContainerName=paperless-gotenberg
+
+Network=internal-paperless.network

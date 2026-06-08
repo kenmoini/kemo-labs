@@ -39,7 +39,7 @@ Policy=newer
 ---
 # FileName=caas-util-registry
 [Image]
-Image=docker.io/library/registry:2
+Image=docker.io/library/registry:3
 AllTags=false
 Policy=newer
 
@@ -72,6 +72,30 @@ PodName=omni
 ##########################################################################################
 ### Containers ###########################################################################
 ##########################################################################################
+---
+# FileName=caas-omni-registry
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=internal-omni-network.service
+Description=Docker Registry for Omni Kubernetes Orchestration
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/.env
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/config.yaml
+ConditionPathExists=/opt/workdir/caas/omni/secrets/omni.asc
+
+[Container]
+Pod=caas-omni.pod
+Image=caas-util-registry.image
+ContainerName=omni-registry
+EnvironmentFile=/opt/workdir/kemo-labs/kubernetes-omni/.env
+Exec=--config-path=/omni-config.yaml
+
 ---
 # FileName=caas-omni
 [Service]

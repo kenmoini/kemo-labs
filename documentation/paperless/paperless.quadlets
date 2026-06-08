@@ -76,7 +76,7 @@ WantedBy=multi-user.target
 
 [Unit]
 After=caas-pdns-auth.container
-Requires=internal-paperless-network.service
+Requires=paperless-network.service
 Description=Redis for Paperless NGX
 
 [Container]
@@ -98,7 +98,7 @@ WantedBy=multi-user.target
 
 [Unit]
 After=caas-pdns-auth.container
-Requires=internal-paperless-network.service
+Requires=paperless-network.service
 Description=Apache Tika for Paperless NGX
 
 [Container]
@@ -119,7 +119,7 @@ WantedBy=multi-user.target
 
 [Unit]
 After=caas-pdns-auth.container
-Requires=internal-paperless-network.service
+Requires=paperless-network.service
 Description=Document Converter for Paperless NGX
 
 [Container]
@@ -144,7 +144,7 @@ After=caas-pdns-auth.container
 After=caas-paperless-gotenberg.container
 After=caas-paperless-tika.container
 After=caas-paperless-redis.container
-Requires=internal-paperless-network.service
+Requires=paperless-network.service
 Requires=internal-db-network.service
 Requires=traefik-network.service
 Description=Paperless NGX Document Management

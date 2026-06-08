@@ -86,6 +86,7 @@ Pod=caas-paperless.pod
 Image=caas-util-redis.image
 ContainerName=paperless-redis
 
+EnvironmentFile=/opt/workdir/kemo-labs/documentation/paperless/.env
 Network=internal-paperless.network
 Volume=paperless-redis-data.volume:/data
 
@@ -101,13 +102,13 @@ WantedBy=multi-user.target
 After=caas-pdns-auth.container
 Requires=internal-paperless-network.service
 Description=Apache Tika for Paperless NGX
-ConditionPathExists=/opt/workdir/kemo-labs/documentation/paperless/.env
 
 [Container]
 Pod=caas-paperless.pod
 Image=caas-tika.image
 ContainerName=paperless-tika
 
+EnvironmentFile=/opt/workdir/kemo-labs/documentation/paperless/.env
 Network=internal-paperless.network
 
 ---
@@ -121,12 +122,13 @@ WantedBy=multi-user.target
 [Unit]
 After=caas-pdns-auth.container
 Requires=internal-paperless-network.service
-Description=Redis for Paperless NGX
-ConditionPathExists=/opt/workdir/kemo-labs/documentation/paperless/.env
+Description=Document Converter for Paperless NGX
 
 [Container]
 Pod=caas-paperless.pod
 Image=caas-gotenberg.image
 ContainerName=paperless-gotenberg
+Exec=gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///tmp/.*
 
+EnvironmentFile=/opt/workdir/kemo-labs/documentation/paperless/.env
 Network=internal-paperless.network

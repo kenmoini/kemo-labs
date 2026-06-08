@@ -2,11 +2,11 @@
 ### Networks #############################################################################
 ##########################################################################################
 
-# FileName=internal-paperless
+# FileName=paperless
 [Network]
-NetworkName=internal-paperless
-InterfaceName=internal-paperless
-Options=com.docker.network.bridge.name=internal-paperless
+NetworkName=paperless
+InterfaceName=paperless
+Options=com.docker.network.bridge.name=paperless
 Subnet=10.10.6.0/24
 Gateway=10.10.6.1
 Internal=false

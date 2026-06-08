@@ -79,7 +79,6 @@ WantedBy=multi-user.target
 After=caas-pdns-auth.container
 Requires=internal-paperless-network.service
 Description=Redis for Paperless NGX
-ConditionPathExists=/opt/workdir/kemo-labs/documentation/paperless/.env
 
 [Container]
 Pod=caas-paperless.pod
@@ -130,5 +129,41 @@ Image=caas-gotenberg.image
 ContainerName=paperless-gotenberg
 Exec=gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///tmp/.*
 
-EnvironmentFile=/opt/workdir/kemo-labs/documentation/paperless/.env
 Network=internal-paperless.network
+
+
+---
+# FileName=caas-paperless-server
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+After=caas-paperless-gotenberg.container
+After=caas-paperless-tika.container
+After=caas-paperless-redis.container
+Requires=internal-paperless-network.service
+Requires=internal-db-network.service
+Requires=traefik-network.service
+Description=Paperless NGX Document Management
+ConditionPathExists=/opt/workdir/kemo-labs/documentation/paperless/.env
+
+[Container]
+Pod=caas-paperless.pod
+Image=caas-paperless-ngx.image
+ContainerName=paperless-server
+Exec=gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///tmp/.*
+
+EnvironmentFile=/opt/workdir/kemo-labs/documentation/paperless/.env
+
+Network=traefik.network
+Network=internal-db.network
+Network=internal-paperless.network
+
+Volume=/opt/workdir/caas/paperless-ngx/data:/usr/src/paperless/data
+Volume=/opt/workdir/caas/paperless-ngx/media:/usr/src/paperless/media
+Volume=/opt/workdir/caas/paperless-ngx/export:/usr/src/paperless/export
+Volume=/opt/workdir/caas/dropbox/data/paperless-uploads:/usr/src/paperless/consume

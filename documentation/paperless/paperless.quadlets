@@ -22,7 +22,7 @@ Options=no_default_route=1
 ---
 # FileName=caas-paperless-ngx
 [Image]
-Image=ghcr.io/paperless-ngx/paperless-ngx:latest
+Image=ghcr.io/paperless-ngx/paperless-ngx:2.20.15
 AllTags=false
 Policy=newer
 
@@ -88,6 +88,18 @@ EnvironmentFile=/opt/workdir/kemo-labs/documentation/paperless/.env
 Network=paperless.network
 Volume=paperless-redis-data.volume:/data
 
+HealthCmd=redis-cli ping || exit 1
+HealthStartupCmd=redis-cli ping || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Label="homepage.group=Paperless"
+Label="homepage.name=Redis"
+Label="homepage.icon=redis.png"
+Label="homepage.description=Redis Cache for Paperless"
+
 ---
 # FileName=caas-paperless-tika
 [Service]
@@ -108,6 +120,18 @@ ContainerName=paperless-tika
 
 EnvironmentFile=/opt/workdir/kemo-labs/documentation/paperless/.env
 Network=paperless.network
+
+HealthCmd=wget --spider -q http://localhost:9998/tika || exit 1
+HealthStartupCmd=wget --spider -q http://localhost:9998/tika || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Label="homepage.group=Paperless"
+Label="homepage.name=Tika"
+Label="homepage.icon=tika.png"
+Label="homepage.description=Apache Tika for Paperless"
 
 ---
 # FileName=caas-paperless-gotenberg
@@ -130,6 +154,17 @@ Exec=gotenberg --chromium-disable-javascript=true --chromium-allow-list=file:///
 
 Network=paperless.network
 
+HealthCmd=curl --fail localhost:3000/health | grep '\"status\":\"up\",\"details\"'
+HealthStartupCmd=curl --fail localhost:3000/health | grep '\"status\":\"up\",\"details\"'
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Label="homepage.group=Paperless"
+Label="homepage.name=Gotenberg"
+Label="homepage.icon=gotenberg.png"
+Label="homepage.description=Gotenberg for Paperless"
 
 ---
 # FileName=caas-paperless-server
@@ -166,3 +201,17 @@ Volume=/opt/workdir/caas/paperless-ngx/data:/usr/src/paperless/data
 Volume=/opt/workdir/caas/paperless-ngx/media:/usr/src/paperless/media
 Volume=/opt/workdir/caas/paperless-ngx/export:/usr/src/paperless/export
 Volume=/opt/workdir/caas/dropbox/data/paperless-uploads:/usr/src/paperless/consume
+
+Label="homepage.group=Paperless"
+Label="homepage.name=Paperless NGX"
+Label="homepage.icon=paperless.png"
+Label="homepage.description=Document Management System"
+Label="homepage.href=https://paperless.apps.lab.kemo.dev"
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.paperless.rule=Host(`paperless.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.paperless.tls=true"
+Label="traefik.http.routers.paperless.tls.certresolver=stepca"
+Label="traefik.http.routers.paperless.service=paperless"
+Label="traefik.http.services.paperless.loadbalancer.server.port=8000"

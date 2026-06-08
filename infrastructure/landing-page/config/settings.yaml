@@ -45,6 +45,9 @@ layout:
   OOBM:
     style: row
     columns: 4
+  Paperless:
+    style: row
+    columns: 4
   Services:
     style: row
     columns: 4

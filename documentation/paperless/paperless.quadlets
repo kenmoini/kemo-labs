@@ -1,0 +1,91 @@
+##########################################################################################
+### Networks #############################################################################
+##########################################################################################
+
+---
+# FileName=internal-paperless
+[Network]
+NetworkName=internal-paperless
+InterfaceName=internal-paperless
+Options=com.docker.network.bridge.name=internal-paperless
+Subnet=10.10.6.0/24
+Gateway=10.10.6.1
+Internal=false
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false
+Options=no_default_route=1
+
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-paperless-ngx
+[Image]
+Image=ghcr.io/paperless-ngx/paperless-ngx:latest
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-gotenberg
+[Image]
+Image=docker.io/gotenberg/gotenberg:8.33.0
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-tika
+[Image]
+Image=docker.io/apache/tika:3.3.1.0-full
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-util-redis
+[Image]
+Image=docker.io/library/redis:8
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=paperless-redis-data
+[Volume]
+VolumeName=paperless-redis-data
+
+##########################################################################################
+### Pod ##################################################################################
+##########################################################################################
+---
+# FileName=caas-paperless
+[Pod]
+PodName=paperless
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-paperless-redis
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=internal-paperless-network.service
+Description=Redis for Paperless NGX
+ConditionPathExists=/opt/workdir/kemo-labs/documentation/paperless/.env
+
+[Container]
+Pod=caas-paperless.pod
+Image=caas-util-redis.image
+ContainerName=paperless-redis
+
+Network=internal-paperless.network
+Volume=paperless-redis-data.volume:/data

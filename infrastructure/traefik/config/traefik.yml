@@ -50,6 +50,18 @@ entryPoints:
         - "10.0.0.0/8"
         - "192.168.0.0/16"
         - "172.16.0.0/12"
+  ldap:
+    address: ":389"
+    observability:
+      accessLogs: true
+      metrics: true
+      tracing: true
+  ldaps:
+    address: ":636"
+    observability:
+      accessLogs: true
+      metrics: true
+      tracing: true
 
 providers:
   docker:

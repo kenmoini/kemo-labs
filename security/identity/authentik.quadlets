@@ -9,6 +9,24 @@ AllTags=false
 Policy=newer
 
 ##########################################################################################
+### Networks #############################################################################
+##########################################################################################
+---
+# FileName=authentik
+[Network]
+NetworkName=authentik
+InterfaceName=authentik
+Options=com.docker.network.bridge.name=authentik
+Subnet=10.10.7.0/24
+Gateway=10.10.7.1
+Internal=false
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false
+Options=no_default_route=1
+
+##########################################################################################
 ### Pod ##################################################################################
 ##########################################################################################
 ---
@@ -47,9 +65,9 @@ Sysctl=net.ipv4.ip_unprivileged_port_start=389
 ShmSize=1g
 
 Network=bridge42:ip=192.168.42.8
-Network=traefik
-Network=podman-proxy
-Network=internal-db
+Network=traefik.network
+Network=internal-db.network
+Network=authentik.network
 
 Label="homepage.group=Identity & Secrets"
 Label="homepage.name=Authentik"
@@ -101,11 +119,11 @@ Image=caas-authentik-server.image
 ContainerName=authentik-worker
 EnvironmentFile=/opt/workdir/kemo-labs/security/identity/.env
 Exec=worker
-
+GroupAdd=0
 ShmSize=1g
 
-Network=podman-proxy
-Network=internal-db
+Network=internal-db.network
+Network=authentik.network
 
 Label="homepage.group=Identity & Secrets"
 Label="homepage.name=Authentik Worker"

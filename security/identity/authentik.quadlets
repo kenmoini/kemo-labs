@@ -139,3 +139,4 @@ HealthStartPeriod=10s
 
 Volume=/opt/workdir/caas/authentik/data:/data:Z
 Volume=/opt/workdir/kemo-labs/security/identity/templates:/templates
+Volume=/var/run/podman/podman.sock:/var/run/docker.sock

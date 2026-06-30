@@ -93,7 +93,7 @@ ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/registry-conf.yaml
 Pod=caas-omni.pod
 Image=caas-util-registry.image
 ContainerName=omni-registry
-EnvironmentFile=/opt/workdir/kemo-labs/kubernetes-omni/.env
+EnvironmentFile=/opt/workdir/kemo-labs/kubernetes/omni/.env
 Exec=--config-path=/omni-config.yaml
 
 Network=internal-omni.network

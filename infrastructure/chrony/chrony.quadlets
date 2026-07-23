@@ -33,6 +33,7 @@ AddCapability=SYS_NICE
 AddCapability=SYS_RESOURCE
 AddCapability=SYS_TIME
 NoNewPrivileges=true
+Device=/dev/rtc0
 
 HealthCmd=chronyc tracking > /dev/null 2>&1 || exit 1
 HealthStartupCmd=chronyc tracking > /dev/null 2>&1 || exit 1

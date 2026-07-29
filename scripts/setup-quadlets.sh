@@ -12,6 +12,7 @@ fi
 
 # Networking
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/quadlets/networks.quadlets
+podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/quadlets/pods.quadlets
 
 # Services - No Requirements
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/infrastructure/chrony/chrony.quadlets

@@ -1,0 +1,61 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-node-red
+[Image]
+Image=docker.io/nodered/node-red:5.0.1
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-node-red
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Description=Node-RED Orchestration
+
+[Container]
+ContainerName=node-red
+Image=caas-node-red.image
+
+Environment=TZ=America/New_York
+
+HostName=node-red
+
+Network=traefik.network
+NoNewPrivileges=true
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.node-red.rule=Host(`node-red.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.node-red.entrypoints=websecure"
+Label="traefik.http.routers.node-red.tls=true"
+Label="traefik.http.routers.node-red.tls.certresolver=stepca"
+Label="traefik.http.routers.node-red.service=node-red"
+Label="traefik.http.services.node-red.loadbalancer.server.port=1880"
+
+Label=homepage.group=Home Automation
+Label=homepage.name=Node-RED
+Label=homepage.icon=si-nodered
+Label="homepage.description=Node-RED Orchestration"
+Label="homepage.href=https://node-red.apps.lab.kemo.dev/"
+
+Volume=node-red-data.volume:/data:Z
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=node-red-data
+[Volume]
+VolumeName=node-red-data

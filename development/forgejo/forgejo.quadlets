@@ -1,0 +1,62 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-forgejo
+[Image]
+Image=codeberg.org/forgejo/forgejo:15.0.2-rootless
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-forgejo
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-recursor.container
+Requires=traefik-network.service
+Description=Forgejo Git SCM
+
+[Container]
+Pod=caas-scm.pod
+Image=caas-forgejo.image
+ContainerName=forgejo
+
+User=1000
+Group=1000
+
+Environment=USER_UID=1000
+Environment=USER_GID=1000
+
+Network=traefik.network
+Network=bridge42:ip=192.168.42.40
+
+Label="traefik.enable=true"
+Label="traefik.http.routers.forgejo.rule=Host(`forgejo.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.forgejo.entrypoints=websecure"
+Label="traefik.http.routers.forgejo.tls=true"
+Label="traefik.http.routers.forgejo.tls.certresolver=stepca"
+Label="traefik.http.routers.forgejo.service=forgejo"
+Label="traefik.http.services.forgejo.loadbalancer.server.port=3000"
+Label="homepage.group=Development"
+Label="homepage.name=Forgejo"
+Label="homepage.icon=forgejo.png"
+Label="homepage.description=Forgejo Git SCM"
+Label="homepage.href=https://forgejo.apps.lab.kemo.dev"
+
+HealthCmd="curl -f http://127.0.0.1:3000/api/healthz"
+HealthStartupCmd="curl -f http://127.0.0.1:3000/api/healthz"
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=/etc/localtime:/etc/localtime:ro
+Volume=/opt/workdir/caas/forgejo/data:/data

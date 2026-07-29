@@ -146,3 +146,10 @@ mkdir -p ${CONTAINER_WORK_DIR}/paperless-ngx/{data,export,media}
 if [ -d "${CONTAINER_WORK_DIR}/paperless-ngx" ]; then
   chown -R 1000:1000 ${CONTAINER_WORK_DIR}/paperless-ngx
 fi
+
+# ==================================================================
+# Forgejo
+mkdir -p ${CONTAINER_WORK_DIR}/forgejo/data
+if [ -d "${CONTAINER_WORK_DIR}/forgejo/data" ]; then
+  chown -R 1000:1000 ${CONTAINER_WORK_DIR}/forgejo/data
+fi

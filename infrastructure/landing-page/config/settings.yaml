@@ -27,6 +27,9 @@ quicklaunch:
   provider: duckduckgo
 
 layout:
+  AI:
+    style: row
+    columns: 4
   Cockpit:
     style: row
     columns: 4
@@ -37,6 +40,9 @@ layout:
     style: row
     columns: 4
   Identity & Secrets:
+    style: row
+    columns: 4
+  Home Automation:
     style: row
     columns: 4
   Observability:

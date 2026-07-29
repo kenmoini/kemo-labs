@@ -1,12 +1,32 @@
+tls:
+  options:
+    default:
+      minVersion: VersionTLS13
+      sniStrict: true
+
 http:
+  middlewares:
+    secHeaders:
+      headers:
+        browserXssFilter: true
+        contentTypeNosniff: true
+        frameDeny: true
+        sslRedirect: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+        customFrameOptionsValue: SAMEORIGIN
+
   routers:
     home-assistant:
-      rule: "Host(`home-assistant.lab.kemo.dev`)"
+      rule: "Host(`home-assistant.apps.lab.kemo.dev`)"
       entryPoints:
         - websecure
       service: home-assistant
       tls:
         certResolver: stepca
+      middlewares:
+        - secHeaders
 
   services:
     home-assistant:

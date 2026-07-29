@@ -1,0 +1,16 @@
+http:
+  routers:
+    hermes:
+      rule: "Host(`hermes.apps.lab.kemo.dev`)"
+      entryPoints:
+        - web
+        - websecure
+      service: hermes
+      tls:
+        certResolver: stepca
+
+  services:
+    hermes:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.43.74:9119"

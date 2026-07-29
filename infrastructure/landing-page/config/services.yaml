@@ -1,6 +1,18 @@
+- AI:
+  - Hermes:
+      href: "https://hermes.apps.lab.kemo.dev/"
+      icon: "https://hermes-agent.nousresearch.com/docs/img/logo.png"
+      description: "Agentic Harness"
+
 - Cockpit:
   - Tardis:
       href: "https://tardis.lab.kemo.dev:9090/"
+
+- Home Automation:
+  - Home Assistant:
+      href: "https://home-assistant.apps.lab.kemo.dev/"
+      icon: "si-homeassistant"
+      description: "Smart Home Automation Engine"
 
 - OOBM:
   - Endurance:

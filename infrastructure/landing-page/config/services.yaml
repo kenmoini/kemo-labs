@@ -6,7 +6,11 @@
 
 - Cockpit:
   - Tardis:
-      href: "https://tardis.lab.kemo.dev:9090/"
+      href: "https://tardis.hosts.lab.kemo.dev:9090/"
+  - Galactica:
+      href: "https://galactica.moini.mannor:9090/"
+  - Normandy:
+      href: "https://normandy.hosts.lab.kemo.dev:9090/"
 
 - Home Automation:
   - Home Assistant:
@@ -21,3 +25,13 @@
       href: "https://raza.mgmt.kemo.labs/"
   - Suki:
       href: "https://suki.mgmt.kemo.labs/"
+
+- Services:
+  - ESXi:
+      href: "https://rocinante.lab.kemo.labs/"
+      description: "VMware ESXi Hypervisor"
+      icon: "si-vmware"
+  - vCenter:
+      href: "https://vcenter.lab.kemo.labs/"
+      description: "VMware vCenter Server"
+      icon: "si-vmware"

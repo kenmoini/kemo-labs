@@ -17,3 +17,25 @@ http:
           - X-authentik-meta-provider
           - X-authentik-meta-app
           - X-authentik-meta-version
+
+tcp:
+  routers:
+    ldap:
+      entryPoints:
+        - "ldap"
+      rule: "HostSNI(`*`)" # Must be a wildcard for unencrypted TCP
+      service: "ldap-backend"
+    ldaps:
+      entryPoints:
+        - "ldaps"
+      rule: "HostSNI(`*`)" # Must be a wildcard for unencrypted TCP
+      service: "ldaps-backend"
+  services:
+    ldap-backend:
+      loadBalancer:
+        servers:
+          - address: "192.168.42.101:3389" # Internal server IP and port
+    ldaps-backend:
+      loadBalancer:
+        servers:
+          - address: "192.168.42.101:6636" # Internal server IP and port

@@ -1,0 +1,7 @@
+artifacts:
+  schematic:
+    registry: $REGISTRY_ENDPOINT
+cache:
+  signingKeyPath: "/signing-key.key"
+http:
+  externalURL: $FACTORY_URL

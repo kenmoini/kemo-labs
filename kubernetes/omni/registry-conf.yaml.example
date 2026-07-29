@@ -1,0 +1,50 @@
+version: 0.1
+log:
+  accesslog:
+    disabled: false
+  level: debug
+  formatter: text
+  fields:
+    service: registry
+    environment: lab
+    stack: omni
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+    maxthreads: 100
+  tag:
+    concurrencylimit: 8
+  delete:
+    enabled: true
+  redirect:
+    disable: false
+  cache:
+    blobdescriptor: inmemory
+    blobdescriptorsize: 10000
+  maintenance:
+    readonly:
+      enabled: false
+    uploadpurging:
+      enabled: true
+      age: 360h
+      interval: 24h
+      dryrun: false
+tags:
+  maxtags: 1000
+http:
+  addr: 0.0.0.0:5000
+  host: https://omni-registry:5000
+  tls:
+    certificate: /secrets/x509/cert.pem
+    key: /secrets/x509/key.pem
+  debug:
+    addr: 0.0.0.0:5001
+    prometheus:
+      enabled: true
+      path: /metrics
+  headers:
+    X-Content-Type-Options: [nosniff]
+  http2:
+    disabled: false
+  h2c:
+    enabled: true

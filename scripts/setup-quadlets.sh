@@ -41,6 +41,7 @@ podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/dropbox
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/security/vault/vault.quadlets
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/s3/s3.quadlets
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/storage/container-registry/nexus.quadlets
+podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/documentation/paperless/paperless.quadlets
 
 # Services - Requires Podman Proxy, Traefik Proxy, and DNS
 podman quadlet install --replace --reload-systemd ${GIT_SRC_DIR}/utilities/auto-kuma/auto-kuma.quadlets

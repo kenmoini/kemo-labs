@@ -1,0 +1,151 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-omni
+[Image]
+Image=ghcr.io/siderolabs/omni:v1.8.2
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-omni-image-factory
+[Image]
+Image=ghcr.io/siderolabs/image-factory:v1.3.3
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-omni-baremetal-provider
+[Image]
+Image=ghcr.io/siderolabs/omni-infra-provider-bare-metal:v0.8.1
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-omni-libvirtd-provider
+[Image]
+Image=ghcr.io/siderolabs/omni-infra-provider-libvirt:v0.1.0-3-g820f097
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-omni-vsphere-provider
+[Image]
+Image=ghcr.io/siderolabs/omni-infra-provider-vsphere:v0.1.0-alpha.1-3-geb50433
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-util-registry
+[Image]
+Image=docker.io/library/registry:3
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=omni-sqlite-data
+[Volume]
+VolumeName=omni-sqlite-data
+
+---
+# FileName=omni-etcd-data
+[Volume]
+VolumeName=omni-etcd-data
+
+---
+# FileName=omni-registry-data
+[Volume]
+VolumeName=omni-registry-data
+
+##########################################################################################
+### Pod ##################################################################################
+##########################################################################################
+---
+# FileName=caas-omni
+[Pod]
+PodName=omni
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-omni-registry
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=internal-omni-network.service
+Description=Docker Registry for Omni Kubernetes Orchestration
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/.env
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/config.yaml
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/registry-conf.yaml
+
+[Container]
+Pod=caas-omni.pod
+Image=caas-util-registry.image
+ContainerName=omni-registry
+EnvironmentFile=/opt/workdir/kemo-labs/kubernetes/omni/.env
+Exec=--config-path=/omni-config.yaml
+
+Network=internal-omni.network
+
+Volume=omni-registry-data.volume:/var/lib/registry
+Volume=/opt/workdir/kemo-labs/kubernetes/omni/registry-conf.yaml:/etc/distribution/config.yml
+
+---
+# FileName=caas-omni
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=internal-omni-network.service
+Description=Omni Kubernetes Orchestration
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/.env
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/config.yaml
+ConditionPathExists=/opt/workdir/caas/omni/secrets/omni.asc
+
+[Container]
+Pod=caas-omni.pod
+Image=caas-omni.image
+ContainerName=omni
+EnvironmentFile=/opt/workdir/kemo-labs/kubernetes-omni/.env
+Exec=--config-path=/omni-config.yaml
+
+
+---
+# FileName=caas-omni-image-factory
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=internal-omni-network.service
+Description=Omni Kubernetes Orchestration
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/.env
+ConditionPathExists=/opt/workdir/kemo-labs/kubernetes/omni/config.yaml
+ConditionPathExists=/opt/workdir/caas/omni/secrets/omni.asc
+
+[Container]
+Pod=caas-omni.pod
+Image=caas-omni-image-factory.image
+ContainerName=omni-image-factory
+EnvironmentFile=/opt/workdir/kemo-labs/kubernetes-omni/.env
+Exec=--config-path=/image-factory-config.yaml

@@ -1,0 +1,127 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-patchmon
+[Image]
+Image=ghcr.io/patchmon/patchmon-server:2.0.2
+AllTags=false
+Policy=newer
+
+# FileName=caas-util-pgsql
+[Image]
+Image=docker.io/library/postgres:17-alpine
+AllTags=false
+Policy=newer
+
+# FileName=caas-util-redis
+[Image]
+Image=docker.io/library/redis:7-alpine
+AllTags=false
+Policy=newer
+
+# FileName=caas-util-guacd
+[Image]
+Image=docker.io/guacamole/guacd:1.6.0
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Networks #############################################################################
+##########################################################################################
+---
+# FileName=patchmon
+[Network]
+NetworkName=patchmon
+InterfaceName=patchmon
+Options=com.docker.network.bridge.name=patchmon
+Subnet=10.10.8.0/24
+Gateway=10.10.8.1
+Internal=false
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false
+Options=no_default_route=1
+
+##########################################################################################
+### Pod ##################################################################################
+##########################################################################################
+---
+# FileName=caas-patchmon
+[Pod]
+PodName=patchmon
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-patchmon-server
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=traefik-network.service
+Requires=patchmon-network.service
+Description=Patchmon system patching
+ConditionPathExists=/opt/workdir/kemo-labs/security/patchmon/.env
+
+[Container]
+Pod=caas-patchmon.pod
+Image=caas-patchmon.image
+ContainerName=patchmon-server
+EnvironmentFile=/opt/workdir/kemo-labs/security/patchmon/.env
+
+Network=patchmon.network
+Network=traefik.network
+
+Label="homepage.group=Patchmon"
+Label="homepage.name=Server"
+Label="homepage.icon=patchmon.png"
+Label="homepage.description=System patching and compliance"
+Label="homepage.href=https://patchmon.apps.lab.kemo.dev"
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.patchmon.rule=Host(`patchmon.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.patchmon.tls=true"
+Label="traefik.http.routers.patchmon.tls.certresolver=stepca"
+Label="traefik.http.routers.patchmon.service=patchmon"
+Label="traefik.http.services.patchmon.loadbalancer.server.port=3000"
+
+---
+# FileName=caas-patchmon-db
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=patchmon-network.service
+Description=Patchmon Database
+ConditionPathExists=/opt/workdir/kemo-labs/security/patchmon/.env
+
+[Container]
+Pod=caas-patchmon.pod
+Image=caas-util-pgsql.image
+ContainerName=patchmon-db
+EnvironmentFile=/opt/workdir/kemo-labs/security/patchmon/.env
+
+Network=patchmon.network
+
+Label="homepage.group=Patchmon"
+Label="homepage.name=Database"
+Label="homepage.icon=postgresql.png"
+Label="homepage.description=PGSQL DB for Patchmon"
+
+HealthCmd=["pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+HealthStartupCmd=["pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s

@@ -7,10 +7,16 @@
 - Cockpit:
   - Tardis:
       href: "https://tardis.hosts.lab.kemo.dev:9090/"
+      icon: "si-cockpit"
+      description: "Primary Lab Host"
   - Galactica:
       href: "https://galactica.moini.mannor:9090/"
+      icon: "si-cockpit"
+      description: "Primary Home Host"
   - Normandy:
       href: "https://normandy.hosts.lab.kemo.dev:9090/"
+      icon: "si-cockpit"
+      description: "Secondary Lab Host"
 
 - Home Automation:
   - Home Assistant:
@@ -21,10 +27,16 @@
 - OOBM:
   - Endurance:
       href: "https://endurance.mgmt.kemo.labs/"
+      icon: "si-supermicro"
+      description: "OOBM at 192.168.46.49"
   - Raza:
       href: "https://raza.mgmt.kemo.labs/"
+      icon: "si-supermicro"
+      description: "OOBM at 192.168.46.40"
   - Suki:
       href: "https://suki.mgmt.kemo.labs/"
+      icon: "si-supermicro"
+      description: "OOBM at 192.168.46.46"
 
 - Services:
   - ESXi:
@@ -35,3 +47,7 @@
       href: "https://vcenter.lab.kemo.labs/"
       description: "VMware vCenter Server"
       icon: "si-vmware"
+  - Deep Thought NAS:
+      href: "https://deep-thought.lab.kemo.labs/"
+      description: "Bulk NAS"
+      icon: "si-truenas"

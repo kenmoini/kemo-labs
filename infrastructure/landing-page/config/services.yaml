@@ -40,14 +40,14 @@
 
 - Services:
   - ESXi:
-      href: "https://rocinante.lab.kemo.labs/"
+      href: "https://rocinante.lab.kemo.dev/"
       description: "VMware ESXi Hypervisor"
       icon: "si-vmware"
   - vCenter:
-      href: "https://vcenter.lab.kemo.labs/"
+      href: "https://vcenter.lab.kemo.dev/"
       description: "VMware vCenter Server"
       icon: "si-vmware"
   - Deep Thought NAS:
-      href: "https://deep-thought.lab.kemo.labs/"
+      href: "https://deep-thought.lab.kemo.dev/"
       description: "Bulk NAS"
       icon: "si-truenas"

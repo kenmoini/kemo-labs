@@ -27,6 +27,7 @@ ConditionPathExists=/opt/workdir/caas/pika-pki/data/.pika-pki/roots/kemo-labs-ro
 [Container]
 ContainerName=squid
 Image=caas-squid.image
+AddCapabilities=CAP_NET_ADMIN
 
 Environment=TZ=America/New_York
 

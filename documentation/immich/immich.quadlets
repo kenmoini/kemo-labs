@@ -1,0 +1,169 @@
+
+##########################################################################################
+### Pod ##################################################################################
+##########################################################################################
+---
+# FileName=immich
+[Pod]
+PodName=immich
+
+##########################################################################################
+### Networks #############################################################################
+##########################################################################################
+
+# FileName=immich
+[Network]
+NetworkName=immich
+InterfaceName=immich
+Options=com.docker.network.bridge.name=immich
+Subnet=10.10.9.0/24
+Gateway=10.10.9.1
+Internal=false
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false
+Options=no_default_route=1
+
+---
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+# FileName=caas-immich-server
+[Image]
+Image=ghcr.io/immich-app/immich-server:v3.1.0
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-immich-machine-learning
+[Image]
+Image=ghcr.io/immich-app/immich-machine-learning:v3.1.0-openvino
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-immich-redis
+[Image]
+Image=docker.io/valkey/valkey:9@sha256:70739f85ad2ee01a726a965584a0f94895f01b0c60b3cc8b0aeef11eaa6888cf
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-immich-db
+[Image]
+Image=ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+AllTags=false
+Policy=newer
+
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=immich-redis-data
+[Volume]
+VolumeName=immich-redis-data
+
+---
+# FileName=immich-db-data
+[Volume]
+VolumeName=immich-db-data
+
+---
+# FileName=immich-ml-data
+[Volume]
+VolumeName=immich-ml-data
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-immich-redis
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=immich-network.service
+Description=Redis for Immich
+
+[Container]
+Pod=immich.pod
+Image=caas-immich-redis.image
+ContainerName=immich-redis
+
+NoNewPrivileges=true
+DropCapability=NET_RAW
+User=1000:1000
+
+EnvironmentFile=/opt/workdir/kemo-labs/documentation/immich/.env
+Network=immich.network
+Volume=immich-redis-data.volume:/data
+
+HealthCmd=redis-cli ping | grep -q PONG || exit 1
+HealthStartupCmd=redis-cli ping | grep -q PONG || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Label="homepage.group=Immich"
+Label="homepage.name=Redis"
+Label="homepage.icon=redis.png"
+Label="homepage.description=Redis Cache for Immich"
+
+---
+# FileName=caas-immich-db
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=immich-network.service
+Description=Postgres for Immich
+
+[Container]
+Pod=immich.pod
+Image=caas-immich-db.image
+ContainerName=immich-db
+
+NoNewPrivileges=true
+DropCapability=NET_RAW
+User=1000:1000
+ShmSize=128mb
+
+Environment=POSTGRES_INITDB_ARGS="--data-checksums"
+EnvironmentFile=/opt/workdir/kemo-labs/documentation/immich/.env
+Network=immich.network
+Volume=immich-db-data.volume:/var/lib/postgresql/data
+
+---
+# FileName=caas-immich-ml
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+Requires=immich-network.service
+Description=Machine Learning for Immich
+
+[Container]
+Pod=immich.pod
+Image=caas-immich-ml.image
+ContainerName=immich-ml
+
+EnvironmentFile=/opt/workdir/kemo-labs/documentation/immich/.env
+Volume=immich-ml-data.volume:/cache
+
+AddDevice=/dev/dri:/dev/dri
+PodmanArgs=device-cgroup-rule='c 189:* rmw'

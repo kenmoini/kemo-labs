@@ -69,13 +69,23 @@ Network=internal-dns
 
 Label="traefik.enable=true"
 Label="traefik.docker.network=traefik"
-Label="traefik.http.routers.pdns-auth.rule=Host(`pdns-auth.apps.lab.kemo.dev`)"
+Label="traefik.http.services.pdns-auth.loadbalancer.server.port=8081"
+
+Label="traefik.http.routers.pdns-auth.rule=Host(`pdns-auth.apps.lab.kemo.dev`) && !ClientIP(`192.168.60.0/23`)"
 Label="traefik.http.routers.pdns-auth.entrypoints=websecure"
+Label="traefik.http.routers.pdns-auth.priority=2000"
 Label="traefik.http.routers.pdns-auth.tls=true"
 Label="traefik.http.routers.pdns-auth.tls.certresolver=stepca"
 Label="traefik.http.routers.pdns-auth.service=pdns-auth"
-Label="traefik.http.services.pdns-auth.loadbalancer.server.port=8081"
 Label="traefik.http.routers.pdns-auth.middlewares=authentik-auth@file"
+
+Label="traefik.http.routers.pdns-auth-api-bypass.rule=Host(`pdns-auth.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.pdns-auth-api-bypass.entrypoints=websecure"
+Label="traefik.http.routers.pdns-auth-api-bypass.priority=1000"
+Label="traefik.http.routers.pdns-auth-api-bypass.tls=true"
+Label="traefik.http.routers.pdns-auth-api-bypass.tls.certresolver=stepca"
+Label="traefik.http.routers.pdns-auth-api-bypass.service=pdns-auth"
+
 Label="homepage.group=DNS"
 Label="homepage.name=PowerDNS Auth"
 Label="homepage.icon=powerdns.png"

@@ -71,7 +71,6 @@ ConditionPathExists=/opt/workdir/kemo-labs/ai/litellm/.env
 Pod=caas-litellm.pod
 Image=caas-litellm-db.image
 ContainerName=litellm-db
-HostName=litellm-db
 
 DropCapability=ALL
 NoNewPrivileges=true
@@ -125,7 +124,6 @@ Environment=LITELLM_ENABLE_MCP_STDIO="True"
 Environment=SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
 Environment=SSL_VERIFY="False"
 
-HostName=litellm
 Network=traefik.network
 Network=int-litellm.network
 

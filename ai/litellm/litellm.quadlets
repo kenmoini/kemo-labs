@@ -35,11 +35,11 @@ VolumeName=caas-litellm-db
 ### Networks #############################################################################
 ##########################################################################################
 ---
-# FileName=internal-litellm
+# FileName=int-litellm
 [Network]
-NetworkName=internal-litellm
-InterfaceName=internal-litellm
-Options=com.docker.network.bridge.name=internal-litellm
+NetworkName=int-litellm
+InterfaceName=int-litellm
+Options=com.docker.network.bridge.name=int-litellm
 Subnet=10.10.10.0/24
 Gateway=10.10.10.1
 Internal=false
@@ -62,7 +62,7 @@ WantedBy=multi-user.target
 
 [Unit]
 #After=caas-podman-proxy.container
-Requires=internal-litellm-network.service
+Requires=int-litellm-network.service
 #Requires=traefik-network.service
 Description=Database for LiteLLM
 ConditionPathExists=/opt/workdir/kemo-labs/ai/litellm/.env
@@ -82,7 +82,7 @@ Environment=OTEL_SERVICE_NAME=litellm-db
 Environment=POSTGRES_USER=litellm
 Environment=POSTGRES_DB=litellm
 
-Network=internal-litellm
+Network=int-litellm
 
 Label="homepage.group=LiteLLM"
 Label="homepage.name=Database"
@@ -110,7 +110,7 @@ WantedBy=multi-user.target
 After=caas-pdns-auth.container
 After=caas-litellm-db.container
 Requires=traefik-network.service
-Requires=internal-litellm-network.service
+Requires=int-litellm-network.service
 Description=LiteLLM AI Gateway
 ConditionPathExists=/opt/workdir/kemo-labs/ai/litellm/.env
 
@@ -126,7 +126,7 @@ Environment=SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
 Environment=SSL_VERIFY="False"
 
 Network=traefik.network
-Network=internal-litellm.network
+Network=int-litellm.network
 
 Label="homepage.group=LiteLLM"
 Label="homepage.name=LiteLLM"

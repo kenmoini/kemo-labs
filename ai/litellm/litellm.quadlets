@@ -110,7 +110,7 @@ WantedBy=multi-user.target
 After=caas-pdns-auth.container
 After=caas-litellm-db.container
 Requires=traefik-network.service
-Requires=internal-litellm.service
+Requires=internal-litellm-network.service
 Description=LiteLLM AI Gateway
 ConditionPathExists=/opt/workdir/kemo-labs/ai/litellm/.env
 

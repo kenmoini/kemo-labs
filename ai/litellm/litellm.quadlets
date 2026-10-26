@@ -1,0 +1,145 @@
+##########################################################################################
+### Pods #################################################################################
+##########################################################################################
+---
+# FileName=caas-litellm
+[Pod]
+PodName=litellm
+
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+---
+# FileName=caas-litellm
+[Image]
+Image=ghcr.io/berriai/litellm-non_root@sha256:ee5cb38e33c8be6d6774f7db922396b6b04d1cd962e77521b6c892b8f1c70fd8
+AllTags=false
+Policy=newer
+
+---
+# FileName=caas-litellm-db
+[Image]
+#Image=docker.io/library/postgres:17-alpine
+Image=docker.io/pgvector/pgvector:pg17
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=caas-litellm-db
+[Volume]
+VolumeName=caas-litellm-db
+
+##########################################################################################
+### Networks #############################################################################
+##########################################################################################
+---
+# FileName=internal-litellm
+[Network]
+NetworkName=internal-litellm
+InterfaceName=internal-litellm
+Options=com.docker.network.bridge.name=internal-litellm
+Subnet=10.10.10.0/24
+Gateway=10.10.10.1
+Internal=false
+IPv6=false
+DisableDNS=false
+NetworkDeleteOnStop=false
+Options=isolate=false
+Options=no_default_route=1
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-litellm-db
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+#After=caas-podman-proxy.container
+Requires=internal-litellm-network.service
+#Requires=traefik-network.service
+Description=Database for LiteLLM
+ConditionPathExists=/opt/workdir/kemo-labs/ai/litellm/.env
+
+[Container]
+Pod=caas-litellm.pod
+Image=caas-litellm-db.image
+ContainerName=litellm-db
+Hostname=litellm-db
+
+DropCapability=ALL
+NoNewPrivileges=true
+
+EnvironmentFile=/opt/workdir/kemo-labs/ai/litellm/.env
+Environment=TZ=America/New_York
+Environment=OTEL_SERVICE_NAME=litellm-db
+Environment=POSTGRES_USER=litellm
+Environment=POSTGRES_DB=litellm
+
+Network=internal-litellm
+
+Label="homepage.group=LiteLLM"
+Label="homepage.name=Database"
+Label="homepage.icon=postgres.png"
+Label="homepage.description=Database for LiteLLM"
+
+Volume=caas-litellm-db.volume:/var/lib/postgresql/data:Z
+
+HealthCmd=["pg_isready -U $${POSTGRES_USER:-postgres}"]
+HealthStartupCmd=["pg_isready -U $${POSTGRES_USER:-postgres}"]
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+---
+# FileName=caas-litellm
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-auth.container
+After=caas-litellm-db.container
+Requires=traefik-network.service
+Requires=internal-litellm.service
+Description=LiteLLM AI Gateway
+ConditionPathExists=/opt/workdir/kemo-labs/ai/litellm/.env
+
+[Container]
+Pod=caas-litellm.pod
+Image=caas-litellm.image
+ContainerName=litellm
+EnvironmentFile=/opt/workdir/kemo-labs/ai/litellm/.env
+Environment=DATABASE_URL="postgresql://litellm:${POSTGRES_PASSWORD:-litellm}@litellm-db:5432/litellm"
+Environment=STORE_MODEL_IN_DB="True"
+Environment=LITELLM_ENABLE_MCP_STDIO="True"
+Environment=SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
+Environment=SSL_VERIFY="False"
+
+Network=traefik.network
+Network=internal-litellm.network
+
+Label="homepage.group=LiteLLM"
+Label="homepage.name=LiteLLM"
+Label="homepage.icon=litellm.png"
+Label="homepage.description=AI Gateway, Model Proxy, MCP Hub"
+Label="homepage.href=https://litellm.apps.lab.kemo.dev"
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.litellm.rule=Host(`litellm.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.litellm.tls=true"
+Label="traefik.http.routers.litellm.tls.certresolver=stepca"
+Label="traefik.http.routers.litellm.service=litellm"
+Label="traefik.http.services.litellm.loadbalancer.server.port=4000"
+
+Volume=/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro

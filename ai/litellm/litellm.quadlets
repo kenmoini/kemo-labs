@@ -30,6 +30,8 @@ Policy=newer
 # FileName=caas-litellm-db
 [Volume]
 VolumeName=caas-litellm-db
+User=0
+Group=0
 
 ##########################################################################################
 ### Networks #############################################################################
@@ -47,7 +49,7 @@ IPv6=false
 DisableDNS=false
 NetworkDeleteOnStop=false
 Options=isolate=false
-Options=no_default_route=1
+#Options=no_default_route=1
 
 ##########################################################################################
 ### Containers ###########################################################################
@@ -72,7 +74,6 @@ Pod=caas-litellm.pod
 Image=caas-litellm-db.image
 ContainerName=litellm-db
 
-DropCapability=ALL
 NoNewPrivileges=true
 
 EnvironmentFile=/opt/workdir/kemo-labs/ai/litellm/.env
@@ -118,7 +119,7 @@ Pod=caas-litellm.pod
 Image=caas-litellm.image
 ContainerName=litellm
 EnvironmentFile=/opt/workdir/kemo-labs/ai/litellm/.env
-Environment=DATABASE_URL="postgresql://litellm:${POSTGRES_PASSWORD:-litellm}@litellm-db:5432/litellm"
+#Environment=DATABASE_URL=postgresql://litellm:${POSTGRES_PASSWORD:-litellm}@litellm-db:5432/litellm
 Environment=STORE_MODEL_IN_DB="True"
 Environment=LITELLM_ENABLE_MCP_STDIO="True"
 Environment=SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"

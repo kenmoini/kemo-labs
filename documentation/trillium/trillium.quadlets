@@ -1,0 +1,67 @@
+##########################################################################################
+### Images ###############################################################################
+##########################################################################################
+
+# FileName=caas-trilium
+[Image]
+Image=docker.io/triliumnext/trilium@sha256:739ba0f0488f506549f7c21dc9e792decd99382cc759f01d5ec1abba32e87da8
+AllTags=false
+Policy=newer
+
+##########################################################################################
+### Containers ###########################################################################
+##########################################################################################
+---
+# FileName=caas-trilium
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+After=caas-pdns-recursor.container
+Requires=traefik-network.service
+Requires=internal-db-network.service
+Requires=podman-proxy-network.service
+Description=Trilium - Self-hosted note-taking application
+#ConditionPathExists=/opt/workdir/kemo-labs/documentation/trillium/.env
+
+[Container]
+Image=caas-trilium.image
+ContainerName=trilium
+#EnvironmentFile=/opt/workdir/kemo-labs/documentation/trillium/.env
+
+Network=traefik
+
+Label="traefik.enable=true"
+Label="traefik.docker.network=traefik"
+Label="traefik.http.routers.trilium.rule=Host(`trilium.apps.lab.kemo.dev`)"
+Label="traefik.http.routers.trilium.entrypoints=websecure"
+Label="traefik.http.routers.trilium.tls=true"
+Label="traefik.http.routers.trilium.tls.certresolver=stepca"
+Label="traefik.http.services.trilium.loadbalancer.server.port=8080"
+Label="homepage.group=Documentation"
+Label="homepage.name=Trilium"
+Label="homepage.icon=trilium.png"
+Label="homepage.description=Self-hosted note-taking application"
+Label="homepage.href=https://trilium.apps.lab.kemo.dev"
+
+HealthCmd=/usr/src/app/docker_healthcheck.sh
+HealthStartupCmd=/usr/src/app/docker_healthcheck.sh
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=10s
+
+Volume=trilium-data.volume:/home/node/trilium-data:Z
+Volume=/etc/timezone:/etc/timezone:ro
+Volume=/etc/localtime:/etc/localtime:ro
+
+##########################################################################################
+### Volumes ##############################################################################
+##########################################################################################
+---
+# FileName=trilium-data
+[Volume]
+VolumeName=trilium-data

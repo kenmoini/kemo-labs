@@ -55,7 +55,7 @@ HealthRetries=3
 HealthStartPeriod=10s
 
 Volume=trilium-data.volume:/home/node/trilium-data:Z
-Volume=/etc/timezone:/etc/timezone:ro
+#Volume=/etc/timezone:/etc/timezone:ro
 Volume=/etc/localtime:/etc/localtime:ro
 
 ##########################################################################################
